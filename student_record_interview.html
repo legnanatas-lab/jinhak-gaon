@@ -228,6 +228,13 @@ window.GAONGIL_INTERVIEW_DATA={
 })();
 
 </script>
+  <script src="./assets/js/auth.js?v=20260710-access"></script>
+  <script>
+    (async () => {
+      await GaongilAuth.ensureSeedUsers();
+      GaongilAuth.requirePageAccess("./login.html");
+    })();
+  </script>
   <script src="./portal-menu.js?v=93"></script>
 </body>
 </html>

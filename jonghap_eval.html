@@ -909,11 +909,11 @@ window.JONGHAP_DOC_EVAL_DATA = {"meta":{"sourceYear":"2027","sourceLabel":"ì–´ë”
   </script>
   <script src="./portal-menu.js?v=93"></script>
 
-    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/auth.js?v=20260710-access"></script>
     <script>
       (async () => {
         await GaongilAuth.ensureSeedUsers();
-        GaongilAuth.requireLogin("login.html");
+        GaongilAuth.requirePageAccess("login.html");
         GaongilAuth.mountUserChip("userChip");
       })();
     </script>

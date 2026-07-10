@@ -2611,6 +2611,13 @@ document.querySelectorAll('.acc-trigger').forEach(btn => {
 updateProgress();
 updateActiveToc();
 </script>
+  <script src="./assets/js/auth.js?v=20260710-access"></script>
+  <script>
+    (async () => {
+      await GaongilAuth.ensureSeedUsers();
+      GaongilAuth.requirePageAccess("./login.html");
+    })();
+  </script>
 
   <script src="./portal-menu.js?v=93"></script>
 </body>

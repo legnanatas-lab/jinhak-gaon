@@ -1,5 +1,6 @@
 (function(){
-  const session=GaongilAuth.requireLogin(); if(!session) return;
+  const session=GaongilAuth.requirePageAccess(); if(session===false) return;
+  GaongilAuth.installAccessLinkGuards();
   const data=window.GAONGIL_SITE_DATA;
   const requestedPage=new URLSearchParams(location.search).get('page');
   const pageFile=requestedPage || document.documentElement.dataset.pageFile || 'index.html';
@@ -8,8 +9,8 @@
   const userName=document.querySelector('#userName');
   const adminLink=document.querySelector('#adminLink');
   const logoutBtn=document.querySelector('#logoutBtn');
-  if(userName) userName.textContent=(session.name||session.username||session.id)+'님';
-  if(adminLink) adminLink.style.display=session.role==='admin'?'inline-flex':'none';
+  if(userName) userName.textContent=session?(session.name||session.username||session.id)+'님':'방문자';
+  if(adminLink) adminLink.style.display=session&&session.role==='admin'?'inline-flex':'none';
   if(logoutBtn) logoutBtn.addEventListener('click', () => GaongilAuth.logout('login.html'));
   const topPages=(data.pages||[]).filter(p=>!p.hidden);
   if(nav){

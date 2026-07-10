@@ -346,6 +346,13 @@ function render(){
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
 render();
 </script>
+  <script src="./assets/js/auth.js?v=20260710-access"></script>
+  <script>
+    (async () => {
+      await GaongilAuth.ensureSeedUsers();
+      GaongilAuth.requirePageAccess("./login.html");
+    })();
+  </script>
   <script src="./portal-menu.js?v=93"></script>
 </body>
 </html>

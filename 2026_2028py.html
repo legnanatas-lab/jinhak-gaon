@@ -584,6 +584,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div style="text-align: center; padding: 40px 20px 20px; font-size: 13px; color: #888888;">
   Designed & Developed with 💻 by <strong>esteacher</strong>
 </div>
+  <script src="./assets/js/auth.js?v=20260710-access"></script>
+  <script>
+    (async () => {
+      await GaongilAuth.ensureSeedUsers();
+      GaongilAuth.requirePageAccess("./login.html");
+    })();
+  </script>
   <script src="./portal-menu.js?v=93"></script>
 </body>
 </html>

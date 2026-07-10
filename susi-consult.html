@@ -93,4 +93,12 @@ function wire(){renderFilters(); const today=new Date(); $('consultDate').value=
 wire();
 
 </script>
-</body></html>
+
+  <script src="./assets/js/auth.js?v=20260710-access"></script>
+  <script>
+    (async () => {
+      await GaongilAuth.ensureSeedUsers();
+      GaongilAuth.requirePageAccess("./login.html");
+    })();
+  </script>
+  </body></html>

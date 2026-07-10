@@ -1132,6 +1132,25 @@ a {
         margin-top: 18px; padding: 12px 14px; border-radius: 10px; background: rgba(214,173,99,.06);
         border: 1px dashed var(--line); font-size: .76rem; color: var(--muted); line-height: 1.6;
       }
+      .access-panel { margin-top: 20px; }
+      .access-toolbar { display: grid; grid-template-columns: minmax(220px, 1fr) auto; gap: 12px; align-items: end; margin-bottom: 18px; }
+      .access-list { display: grid; gap: 14px; }
+      .access-group { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: rgba(255,255,255,.025); }
+      .access-group-head, .access-item {
+        display: grid; grid-template-columns: 1fr 116px 116px; gap: 10px; align-items: center; padding: 12px 14px;
+      }
+      .access-group-head { background: rgba(214,173,99,.08); color: var(--text); font-weight: 800; }
+      .access-item { border-top: 1px solid rgba(92,119,154,.22); color: var(--soft); font-size: .84rem; }
+      .access-check { display: inline-flex; align-items: center; gap: 7px; justify-content: center; color: var(--muted); font-size: .78rem; }
+      .access-check input { width: 17px; height: 17px; accent-color: var(--gold); }
+      .table-input {
+        width: min(210px, 100%); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line);
+        background: rgba(255,255,255,.04); color: var(--text); font-size: .8rem;
+      }
+      @media (max-width: 760px) {
+        .access-toolbar, .access-group-head, .access-item { grid-template-columns: 1fr; }
+        .access-check { justify-content: flex-start; }
+      }
     </style>
     <style>
 @font-face {
@@ -1192,6 +1211,10 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
                 <input type="text" id="newName" placeholder="예: 관리자" />
               </div>
             </div>
+            <div class="field">
+              <label for="newEmail">비밀번호 찾기용 이메일</label>
+              <input type="email" id="newEmail" placeholder="teacher@example.com" />
+            </div>
             <div class="grid2">
               <div class="field">
                 <label for="newPw">임시 비밀번호</label>
@@ -1200,7 +1223,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
               <div class="field">
                 <label for="newRole">권한</label>
                 <select id="newRole">
-                  <option value="staff">일반 사용자</option>
+                  <option value="staff">등록 교사</option>
                   <option value="admin">관리자</option>
                 </select>
               </div>
@@ -1212,7 +1235,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
 
           <table class="table">
             <thead>
-              <tr><th>아이디</th><th>이름</th><th>권한</th><th></th></tr>
+              <tr><th>아이디</th><th>이름</th><th>이메일</th><th>권한</th><th></th></tr>
             </thead>
             <tbody id="userTableBody"></tbody>
           </table>
@@ -1247,6 +1270,24 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           </div>
         </section>
       </div>
+
+      <section class="panel-box access-panel">
+        <h2>게시판 공개/교사별 열람 설정</h2>
+        <p class="desc">공개를 체크한 자료는 로그인 없이 열리고, 교사 허용을 체크한 자료는 선택한 등록 교사에게만 열립니다.</p>
+        <div class="form-msg" id="accessMsg"></div>
+        <div class="access-toolbar">
+          <div class="field" style="margin-bottom:0;">
+            <label for="accessUserSelect">교사별 권한을 설정할 사용자</label>
+            <select id="accessUserSelect"></select>
+          </div>
+          <button class="btn-gold" id="saveAccessBtn" type="button" style="width:auto; min-width:150px;">설정 저장</button>
+        </div>
+        <div class="access-list" id="accessBoardList"></div>
+        <div class="demo-hint">
+          GitHub Pages 정적 호스팅에서는 이 설정이 현재 브라우저 저장소에 저장됩니다.
+          모든 방문자에게 같은 설정을 적용하려면 서버 저장소 또는 배포용 설정 파일 연동이 필요합니다.
+        </div>
+      </section>
     </main>
 
     <footer class="home-footer">
@@ -1257,7 +1298,8 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       </div>
     </footer>
 
-    <script src="./assets/js/auth.js"></script>
+    <script src="./assets/js/site-data.js?v=93"></script>
+    <script src="./assets/js/auth.js?v=20260710-access"></script>
     <script>
       let session;
       (async () => {
@@ -1265,11 +1307,32 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         session = GaongilAuth.requireAdmin("./login.html");
         if (session) {
           renderUsers();
+          renderAccessControls();
           GaongilAuth.mountUserChip("userChip");
         }
       })();
 
-      function roleLabel(r) { return r === "admin" ? "관리자" : "일반 사용자"; }
+      function esc(s) {
+        return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+      }
+
+      function roleLabel(r) { return r === "admin" ? "관리자" : "등록 교사"; }
+
+      function collectAccessCatalog() {
+        const seen = new Set();
+        const pages = (window.GAONGIL_SITE_DATA?.pages || []).filter((page) => page.file !== "index.html" && !page.hidden);
+        return pages.map((page) => {
+          const groupKey = GaongilAuth.normalizePageKey(page.file);
+          const entries = [{ key: groupKey, title: page.name, kind: "menu" }];
+          (page.items || []).forEach((item) => {
+            const key = GaongilAuth.normalizePageKey(item.url);
+            if (!key || seen.has(key)) return;
+            seen.add(key);
+            entries.push({ key, title: item.title || key, kind: "item" });
+          });
+          return { name: page.name, entries };
+        });
+      }
 
       function renderUsers() {
         const users = GaongilAuth.getUsers();
@@ -1280,11 +1343,13 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           if (u.role === "admin") admins++;
           const tr = document.createElement("tr");
           tr.innerHTML = `
-            <td>${u.id}</td>
-            <td>${u.name || "-"}</td>
+            <td>${esc(u.id)}</td>
+            <td>${esc(u.name || "-")}</td>
+            <td><input class="table-input" type="email" value="${esc(u.email || "")}" placeholder="email" data-email-input="${esc(u.id)}"></td>
             <td><span class="role-pill ${u.role}">${roleLabel(u.role)}</span></td>
             <td>
               <div class="row-actions">
+                <button class="icon-btn" data-email-save="${u.id}" title="이메일 저장">✓</button>
                 <button class="icon-btn" data-toggle="${u.id}" title="권한 전환">⇄</button>
                 <button class="icon-btn" data-del="${u.id}" title="삭제">✕</button>
               </div>
@@ -1294,7 +1359,20 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         document.getElementById("statTotal").textContent = users.length;
         document.getElementById("statAdmin").textContent = admins;
         document.getElementById("statStaff").textContent = users.length - admins;
+        renderAccessUserSelect();
 
+        body.querySelectorAll("[data-email-save]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-email-save");
+            const input = Array.from(body.querySelectorAll("[data-email-input]")).find((el) => el.getAttribute("data-email-input") === id);
+            try {
+              GaongilAuth.updateUserEmail(id, input.value);
+              alert("이메일을 저장했습니다.");
+            } catch (err) {
+              alert(err.message);
+            }
+          });
+        });
         body.querySelectorAll("[data-toggle]").forEach((btn) => {
           btn.addEventListener("click", () => {
             const id = btn.getAttribute("data-toggle");
@@ -1302,6 +1380,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
             const nextRole = u.role === "admin" ? "staff" : "admin";
             GaongilAuth.updateUserRole(id, nextRole);
             renderUsers();
+            renderAccessControls();
           });
         });
         body.querySelectorAll("[data-del]").forEach((btn) => {
@@ -1311,6 +1390,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
             try {
               GaongilAuth.removeUser(id);
               renderUsers();
+              renderAccessControls();
             } catch (err) {
               alert(err.message);
             }
@@ -1318,20 +1398,68 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         });
       }
 
+      function renderAccessUserSelect() {
+        const select = document.getElementById("accessUserSelect");
+        if (!select) return;
+        const current = select.value;
+        const users = GaongilAuth.getUsers().filter((u) => u.role !== "admin");
+        select.innerHTML = users.map((u) => `<option value="${esc(u.id)}">${esc(u.name || u.id)} (${esc(u.id)})</option>`).join("");
+        if (users.some((u) => u.id === current)) select.value = current;
+      }
+
+      function renderAccessControls() {
+        renderAccessUserSelect();
+        const wrap = document.getElementById("accessBoardList");
+        if (!wrap) return;
+        const selectedUser = document.getElementById("accessUserSelect").value;
+        const access = GaongilAuth.getAccessSettings();
+        const userPages = access.userPages?.[selectedUser] || [];
+        wrap.innerHTML = collectAccessCatalog().map((group) => {
+          const rows = group.entries.map((entry, index) => {
+            const checkedPublic = access.publicPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
+            const checkedUser = userPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
+            const cls = index === 0 ? "access-group-head" : "access-item";
+            return `<div class="${cls}">
+              <span>${esc(entry.title)}<small style="display:block;color:var(--muted);font-weight:500;">${esc(entry.key)}</small></span>
+              <label class="access-check"><input type="checkbox" data-public-page="${esc(entry.key)}"${checkedPublic}> 공개</label>
+              <label class="access-check"><input type="checkbox" data-user-page="${esc(entry.key)}"${checkedUser}> 교사 허용</label>
+            </div>`;
+          }).join("");
+          return `<section class="access-group">${rows}</section>`;
+        }).join("");
+      }
+
+      document.getElementById("accessUserSelect").addEventListener("change", renderAccessControls);
+      document.getElementById("saveAccessBtn").addEventListener("click", () => {
+        const msg = document.getElementById("accessMsg");
+        const selectedUser = document.getElementById("accessUserSelect").value;
+        const access = GaongilAuth.getAccessSettings();
+        const publicPages = Array.from(document.querySelectorAll("[data-public-page]:checked")).map((el) => el.getAttribute("data-public-page"));
+        const selectedUserPages = Array.from(document.querySelectorAll("[data-user-page]:checked")).map((el) => el.getAttribute("data-user-page"));
+        access.publicPages = publicPages;
+        access.userPages = access.userPages || {};
+        if (selectedUser) access.userPages[selectedUser] = selectedUserPages;
+        GaongilAuth.setAccessSettings(access);
+        msg.textContent = "게시판 공개/교사별 열람 설정을 저장했습니다.";
+        msg.className = "form-msg success show";
+      });
+
       document.getElementById("addUserForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         const msg = document.getElementById("userMsg");
         msg.className = "form-msg";
         const id = document.getElementById("newId").value.trim();
         const name = document.getElementById("newName").value.trim();
+        const email = document.getElementById("newEmail").value.trim();
         const password = document.getElementById("newPw").value;
         const role = document.getElementById("newRole").value;
         try {
-          await GaongilAuth.addUser({ id, name, role, password });
+          await GaongilAuth.addUser({ id, name, email, role, password });
           msg.textContent = id + " 계정을 추가했습니다.";
           msg.className = "form-msg success show";
           e.target.reset();
           renderUsers();
+          renderAccessControls();
         } catch (err) {
           msg.textContent = err.message;
           msg.className = "form-msg error show";

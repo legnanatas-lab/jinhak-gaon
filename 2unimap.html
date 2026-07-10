@@ -504,11 +504,11 @@ document.getElementById('locBtn').addEventListener('click',function(){
 document.getElementById('resetBtn').addEventListener('click',()=>{map.flyTo([36.3,127.8],7,{duration:.7});});
 </script>
 
-    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/auth.js?v=20260710-access"></script>
     <script>
       (async () => {
         await GaongilAuth.ensureSeedUsers();
-        GaongilAuth.requireLogin("login.html");
+        GaongilAuth.requirePageAccess("login.html");
       })();
     </script>
     <script src="./portal-menu.js?v=93"></script>

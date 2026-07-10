@@ -20,11 +20,11 @@
     <script src="./data/susi-2027-plan.js?v=1"></script>
     <script src="./app.js?v=32" defer></script>
   
-    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/auth.js?v=20260710-access"></script>
     <script>
       (async () => {
         await GaongilAuth.ensureSeedUsers();
-        GaongilAuth.requireLogin("login.html");
+        GaongilAuth.requirePageAccess("login.html");
         GaongilAuth.mountUserChip("userChip");
       })();
     </script>

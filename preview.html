@@ -486,11 +486,11 @@ transform: translateY(-3px);  /* 마우스 올리면 살짝 위로 */
   <a href="index.html" class="floating-home">🏠 메인 화면으로 돌아가기</a>
   <script src="./portal-menu.js?v=93"></script>
 
-    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/auth.js?v=20260710-access"></script>
     <script>
       (async () => {
         await GaongilAuth.ensureSeedUsers();
-        GaongilAuth.requireLogin("login.html");
+        GaongilAuth.requirePageAccess("login.html");
         GaongilAuth.mountUserChip("userChip");
       })();
     </script>
