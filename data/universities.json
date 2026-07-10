@@ -1,0 +1,3498 @@
+[
+  {
+    "name": "가톨릭대학교[제2캠퍼스]",
+    "baseName": "가톨릭대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.578816,
+    "lng": 126.967703,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "가톨릭대학교[제3캠퍼스]",
+    "baseName": "가톨릭대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.539871,
+    "lng": 126.966732,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제3캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "감리교신학대학교[본교]",
+    "baseName": "감리교신학대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.579685,
+    "lng": 126.979301,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%90%EB%A6%AC%EA%B5%90%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "강서대학교[본교]",
+    "baseName": "강서대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.594208,
+    "lng": 126.98136,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%95%EC%84%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "건국대학교[본교]",
+    "baseName": "건국대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.560012,
+    "lng": 126.960857,
+    "home": "https://search.naver.com/search.naver?query=%EA%B1%B4%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경기대학교[제2캠퍼스]",
+    "baseName": "경기대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.533627,
+    "lng": 126.984604,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EA%B8%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경희대학교[본교]",
+    "baseName": "경희대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.539079,
+    "lng": 126.949498,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%ED%9D%AC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "고려대학교[본교]",
+    "baseName": "고려대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.561654,
+    "lng": 126.938886,
+    "home": "https://search.naver.com/search.naver?query=%EA%B3%A0%EB%A0%A4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "광운대학교[본교]",
+    "baseName": "광운대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.559733,
+    "lng": 127.019899,
+    "home": "https://search.naver.com/search.naver?query=%EA%B4%91%EC%9A%B4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국민대학교[본교]",
+    "baseName": "국민대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.5544,
+    "lng": 126.916475,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%AF%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "덕성여자대학교[본교]",
+    "baseName": "덕성여자대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.596083,
+    "lng": 127.002312,
+    "home": "https://search.naver.com/search.naver?query=%EB%8D%95%EC%84%B1%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "동국대학교[본교]",
+    "baseName": "동국대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.58498,
+    "lng": 126.943591,
+    "home": "https://search.naver.com/search.naver?query=%EB%8F%99%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "동덕여자대학교[본교]",
+    "baseName": "동덕여자대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.603739,
+    "lng": 126.991096,
+    "home": "https://search.naver.com/search.naver?query=%EB%8F%99%EB%8D%95%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "명지대학교[제2캠퍼스]",
+    "baseName": "명지대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.571914,
+    "lng": 126.931342,
+    "home": "https://search.naver.com/search.naver?query=%EB%AA%85%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "삼육대학교[본교]",
+    "baseName": "삼육대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.564954,
+    "lng": 126.933408,
+    "home": "https://search.naver.com/search.naver?query=%EC%82%BC%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "상명대학교[본교]",
+    "baseName": "상명대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.574663,
+    "lng": 126.991166,
+    "home": "https://search.naver.com/search.naver?query=%EC%83%81%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서강대학교[본교]",
+    "baseName": "서강대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.533053,
+    "lng": 126.966828,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EA%B0%95%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서경대학교[본교]",
+    "baseName": "서경대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.547132,
+    "lng": 126.952341,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EA%B2%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서울과학기술대학교[본교]",
+    "baseName": "서울과학기술대학교",
+    "region": "서울",
+    "type": "국립",
+    "lat": 37.591899,
+    "lng": 126.949528,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EA%B3%BC%ED%95%99%EA%B8%B0%EC%88%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서울교육대학교[본교]",
+    "baseName": "서울교육대학교",
+    "region": "서울",
+    "type": "국립",
+    "lat": 37.556706,
+    "lng": 126.967184,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서울기독대학교[본교]",
+    "baseName": "서울기독대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.599015,
+    "lng": 126.970162,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EA%B8%B0%EB%8F%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서울대학교[본교]",
+    "baseName": "서울대학교",
+    "region": "서울",
+    "type": "국립",
+    "lat": 37.595995,
+    "lng": 126.936646,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서울시립대학교[본교]",
+    "baseName": "서울시립대학교",
+    "region": "서울",
+    "type": "공립",
+    "lat": 37.597241,
+    "lng": 126.979991,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서울여자대학교[본교]",
+    "baseName": "서울여자대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.533415,
+    "lng": 126.959313,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서울한영대학교[본교]",
+    "baseName": "서울한영대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.54598,
+    "lng": 126.922918,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%ED%95%9C%EC%98%81%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "성공회대학교[본교]",
+    "baseName": "성공회대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.58199,
+    "lng": 126.935075,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%B1%EA%B3%B5%ED%9A%8C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "성균관대학교[본교]",
+    "baseName": "성균관대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.558291,
+    "lng": 126.91828,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%B1%EA%B7%A0%EA%B4%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "성신여자대학교[본교]",
+    "baseName": "성신여자대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.591297,
+    "lng": 127.010156,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%B1%EC%8B%A0%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "세종대학교[본교]",
+    "baseName": "세종대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.590839,
+    "lng": 127.022684,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%B8%EC%A2%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "숙명여자대학교[본교]",
+    "baseName": "숙명여자대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.594172,
+    "lng": 126.93667,
+    "home": "https://search.naver.com/search.naver?query=%EC%88%99%EB%AA%85%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "숭실대학교[본교]",
+    "baseName": "숭실대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.579603,
+    "lng": 126.928927,
+    "home": "https://search.naver.com/search.naver?query=%EC%88%AD%EC%8B%A4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "연세대학교[본교]",
+    "baseName": "연세대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.530883,
+    "lng": 127.000167,
+    "home": "https://search.naver.com/search.naver?query=%EC%97%B0%EC%84%B8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "이화여자대학교[본교]",
+    "baseName": "이화여자대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.589908,
+    "lng": 127.025125,
+    "home": "https://search.naver.com/search.naver?query=%EC%9D%B4%ED%99%94%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "장로회신학대학교[본교]",
+    "baseName": "장로회신학대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.592441,
+    "lng": 127.016745,
+    "home": "https://search.naver.com/search.naver?query=%EC%9E%A5%EB%A1%9C%ED%9A%8C%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "중앙대학교[본교]",
+    "baseName": "중앙대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.589108,
+    "lng": 127.016831,
+    "home": "https://search.naver.com/search.naver?query=%EC%A4%91%EC%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "총신대학교[본교]",
+    "baseName": "총신대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.559677,
+    "lng": 127.036808,
+    "home": "https://search.naver.com/search.naver?query=%EC%B4%9D%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "추계예술대학교[본교]",
+    "baseName": "추계예술대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.598175,
+    "lng": 127.009799,
+    "home": "https://search.naver.com/search.naver?query=%EC%B6%94%EA%B3%84%EC%98%88%EC%88%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한국성서대학교[본교]",
+    "baseName": "한국성서대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.598698,
+    "lng": 126.945549,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EC%84%B1%EC%84%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한국외국어대학교[본교]",
+    "baseName": "한국외국어대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.585985,
+    "lng": 127.010093,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EC%99%B8%EA%B5%AD%EC%96%B4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한국체육대학교[본교]",
+    "baseName": "한국체육대학교",
+    "region": "서울",
+    "type": "국립",
+    "lat": 37.548047,
+    "lng": 126.925819,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EC%B2%B4%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한성대학교[본교]",
+    "baseName": "한성대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.564745,
+    "lng": 126.948605,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EC%84%B1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한양대학교[본교]",
+    "baseName": "한양대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.591106,
+    "lng": 126.963004,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "홍익대학교[본교]",
+    "baseName": "홍익대학교",
+    "region": "서울",
+    "type": "사립",
+    "lat": 37.594268,
+    "lng": 126.957589,
+    "home": "https://search.naver.com/search.naver?query=%ED%99%8D%EC%9D%B5%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경인교육대학교[본교]",
+    "baseName": "경인교육대학교",
+    "region": "인천",
+    "type": "국립",
+    "lat": 37.488046,
+    "lng": 126.681757,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EC%9D%B8%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "안양대학교[제2캠퍼스]",
+    "baseName": "안양대학교",
+    "region": "인천",
+    "type": "사립",
+    "lat": 37.484817,
+    "lng": 126.660783,
+    "home": "https://search.naver.com/search.naver?query=%EC%95%88%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "인천가톨릭대학교[제2캠퍼스]",
+    "baseName": "인천가톨릭대학교",
+    "region": "인천",
+    "type": "사립",
+    "lat": 37.484574,
+    "lng": 126.733806,
+    "home": "https://search.naver.com/search.naver?query=%EC%9D%B8%EC%B2%9C%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "인천대학교[본교]",
+    "baseName": "인천대학교",
+    "region": "인천",
+    "type": "공립",
+    "lat": 37.498234,
+    "lng": 126.712906,
+    "home": "https://search.naver.com/search.naver?query=%EC%9D%B8%EC%B2%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "인하대학교[본교]",
+    "baseName": "인하대학교",
+    "region": "인천",
+    "type": "사립",
+    "lat": 37.420822,
+    "lng": 126.680793,
+    "home": "https://search.naver.com/search.naver?query=%EC%9D%B8%ED%95%98%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "가천대학교[본교]",
+    "baseName": "가천대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.400501,
+    "lng": 126.710109,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%80%EC%B2%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "가톨릭대학교[본교]",
+    "baseName": "가톨릭대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.154716,
+    "lng": 127.148198,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "강남대학교[본교]",
+    "baseName": "강남대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.54853,
+    "lng": 127.13422,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%95%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경기대학교[본교]",
+    "baseName": "경기대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.455416,
+    "lng": 126.973266,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EA%B8%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경동대학교[제4캠퍼스]",
+    "baseName": "경동대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.33532,
+    "lng": 126.712876,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EB%8F%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제4캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "단국대학교[본교]",
+    "baseName": "단국대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.440401,
+    "lng": 127.382498,
+    "home": "https://search.naver.com/search.naver?query=%EB%8B%A8%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "대진대학교[본교]",
+    "baseName": "대진대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.112256,
+    "lng": 126.992936,
+    "home": "https://search.naver.com/search.naver?query=%EB%8C%80%EC%A7%84%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "명지대학교[본교]",
+    "baseName": "명지대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.578014,
+    "lng": 127.0225,
+    "home": "https://search.naver.com/search.naver?query=%EB%AA%85%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서울신학대학교[본교]",
+    "baseName": "서울신학대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.44145,
+    "lng": 126.943477,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서울장신대학교[본교]",
+    "baseName": "서울장신대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.330744,
+    "lng": 126.788835,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EC%9E%A5%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "성결대학교[본교]",
+    "baseName": "성결대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.120427,
+    "lng": 127.116814,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%B1%EA%B2%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "수원가톨릭대학교[본교]",
+    "baseName": "수원가톨릭대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.448126,
+    "lng": 126.932051,
+    "home": "https://search.naver.com/search.naver?query=%EC%88%98%EC%9B%90%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "수원대학교[본교]",
+    "baseName": "수원대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.440486,
+    "lng": 127.204487,
+    "home": "https://search.naver.com/search.naver?query=%EC%88%98%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "신한대학교[본교]",
+    "baseName": "신한대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.265031,
+    "lng": 126.775564,
+    "home": "https://search.naver.com/search.naver?query=%EC%8B%A0%ED%95%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "신한대학교[제2캠퍼스]",
+    "baseName": "신한대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.271155,
+    "lng": 126.759868,
+    "home": "https://search.naver.com/search.naver?query=%EC%8B%A0%ED%95%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "아주대학교[본교]",
+    "baseName": "아주대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.512202,
+    "lng": 127.34396,
+    "home": "https://search.naver.com/search.naver?query=%EC%95%84%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "안양대학교[본교]",
+    "baseName": "안양대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.552623,
+    "lng": 126.98938,
+    "home": "https://search.naver.com/search.naver?query=%EC%95%88%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "예원예술대학교[제2캠퍼스]",
+    "baseName": "예원예술대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.242907,
+    "lng": 127.12274,
+    "home": "https://search.naver.com/search.naver?query=%EC%98%88%EC%9B%90%EC%98%88%EC%88%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "을지대학교[제2캠퍼스]",
+    "baseName": "을지대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.271011,
+    "lng": 127.131057,
+    "home": "https://search.naver.com/search.naver?query=%EC%9D%84%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "을지대학교[제3캠퍼스]",
+    "baseName": "을지대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.178616,
+    "lng": 127.040235,
+    "home": "https://search.naver.com/search.naver?query=%EC%9D%84%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제3캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "중앙대학교[제2캠퍼스]",
+    "baseName": "중앙대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.164557,
+    "lng": 126.855189,
+    "home": "https://search.naver.com/search.naver?query=%EC%A4%91%EC%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "중앙승가대학교[본교]",
+    "baseName": "중앙승가대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.378174,
+    "lng": 126.872582,
+    "home": "https://search.naver.com/search.naver?query=%EC%A4%91%EC%95%99%EC%8A%B9%EA%B0%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "차의과학대학교[본교]",
+    "baseName": "차의과학대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.40152,
+    "lng": 127.435775,
+    "home": "https://search.naver.com/search.naver?query=%EC%B0%A8%EC%9D%98%EA%B3%BC%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "칼빈대학교[본교]",
+    "baseName": "칼빈대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.460746,
+    "lng": 127.110299,
+    "home": "https://search.naver.com/search.naver?query=%EC%B9%BC%EB%B9%88%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "평택대학교[본교]",
+    "baseName": "평택대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.458356,
+    "lng": 126.741673,
+    "home": "https://search.naver.com/search.naver?query=%ED%8F%89%ED%83%9D%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한국공학대학교[본교]",
+    "baseName": "한국공학대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.116959,
+    "lng": 126.961706,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EA%B3%B5%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한세대학교[본교]",
+    "baseName": "한세대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.41478,
+    "lng": 126.942142,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EC%84%B8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한신대학교[본교]",
+    "baseName": "한신대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.227259,
+    "lng": 127.346225,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한양대학교(ERICA)[분교]",
+    "baseName": "한양대학교(ERICA)",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.520376,
+    "lng": 127.372889,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%28ERICA%29%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "분교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "협성대학교[본교]",
+    "baseName": "협성대학교",
+    "region": "경기",
+    "type": "사립",
+    "lat": 37.165943,
+    "lng": 127.086,
+    "home": "https://search.naver.com/search.naver?query=%ED%98%91%EC%84%B1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "가톨릭관동대학교[본교]",
+    "baseName": "가톨릭관동대학교",
+    "region": "강원",
+    "type": "사립",
+    "lat": 37.693586,
+    "lng": 128.545944,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%80%ED%86%A8%EB%A6%AD%EA%B4%80%EB%8F%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "강원대학교[본교]",
+    "baseName": "강원대학교",
+    "region": "강원",
+    "type": "국립",
+    "lat": 37.549495,
+    "lng": 128.433545,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%95%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "강원대학교[제2캠퍼스]",
+    "baseName": "강원대학교",
+    "region": "강원",
+    "type": "국립",
+    "lat": 37.3484,
+    "lng": 128.564953,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%95%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "강원대학교[제3캠퍼스]",
+    "baseName": "강원대학교",
+    "region": "강원",
+    "type": "국립",
+    "lat": 37.578494,
+    "lng": 128.597205,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%95%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제3캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "강원대학교[제4캠퍼스]",
+    "baseName": "강원대학교",
+    "region": "강원",
+    "type": "국립",
+    "lat": 37.595217,
+    "lng": 127.886596,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%95%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제4캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경동대학교[제3캠퍼스]",
+    "baseName": "경동대학교",
+    "region": "강원",
+    "type": "사립",
+    "lat": 37.605709,
+    "lng": 127.904258,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EB%8F%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제3캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "상지대학교[본교]",
+    "baseName": "상지대학교",
+    "region": "강원",
+    "type": "사립",
+    "lat": 37.545136,
+    "lng": 128.649437,
+    "home": "https://search.naver.com/search.naver?query=%EC%83%81%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "연세대학교(미래)[분교]",
+    "baseName": "연세대학교(미래)",
+    "region": "강원",
+    "type": "사립",
+    "lat": 37.324536,
+    "lng": 128.327349,
+    "home": "https://search.naver.com/search.naver?query=%EC%97%B0%EC%84%B8%EB%8C%80%ED%95%99%EA%B5%90%28%EB%AF%B8%EB%9E%98%29%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "분교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한라대학교[본교]",
+    "baseName": "한라대학교",
+    "region": "강원",
+    "type": "사립",
+    "lat": 37.250399,
+    "lng": 128.351434,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EB%9D%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한림대학교[본교]",
+    "baseName": "한림대학교",
+    "region": "강원",
+    "type": "사립",
+    "lat": 37.301149,
+    "lng": 128.225956,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EB%A6%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "건양대학교[제2캠퍼스]",
+    "baseName": "건양대학교",
+    "region": "대전",
+    "type": "사립",
+    "lat": 36.343,
+    "lng": 127.403749,
+    "home": "https://search.naver.com/search.naver?query=%EA%B1%B4%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립한밭대학교[본교]",
+    "baseName": "국립한밭대학교",
+    "region": "대전",
+    "type": "국립",
+    "lat": 36.331099,
+    "lng": 127.399482,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%ED%95%9C%EB%B0%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "대전신학대학교[본교]",
+    "baseName": "대전신학대학교",
+    "region": "대전",
+    "type": "사립",
+    "lat": 36.381675,
+    "lng": 127.413623,
+    "home": "https://search.naver.com/search.naver?query=%EB%8C%80%EC%A0%84%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "목원대학교[본교]",
+    "baseName": "목원대학교",
+    "region": "대전",
+    "type": "사립",
+    "lat": 36.373547,
+    "lng": 127.350049,
+    "home": "https://search.naver.com/search.naver?query=%EB%AA%A9%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "배재대학교[본교]",
+    "baseName": "배재대학교",
+    "region": "대전",
+    "type": "사립",
+    "lat": 36.353883,
+    "lng": 127.423968,
+    "home": "https://search.naver.com/search.naver?query=%EB%B0%B0%EC%9E%AC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "우송대학교[본교]",
+    "baseName": "우송대학교",
+    "region": "대전",
+    "type": "사립",
+    "lat": 36.383294,
+    "lng": 127.373995,
+    "home": "https://search.naver.com/search.naver?query=%EC%9A%B0%EC%86%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "을지대학교[본교]",
+    "baseName": "을지대학교",
+    "region": "대전",
+    "type": "사립",
+    "lat": 36.358203,
+    "lng": 127.32955,
+    "home": "https://search.naver.com/search.naver?query=%EC%9D%84%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "충남대학교[본교]",
+    "baseName": "충남대학교",
+    "region": "대전",
+    "type": "국립",
+    "lat": 36.352337,
+    "lng": 127.349486,
+    "home": "https://search.naver.com/search.naver?query=%EC%B6%A9%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한남대학교[본교]",
+    "baseName": "한남대학교",
+    "region": "대전",
+    "type": "사립",
+    "lat": 36.359294,
+    "lng": 127.40828,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "고려대학교(세종)[분교]",
+    "baseName": "고려대학교(세종)",
+    "region": "세종",
+    "type": "사립",
+    "lat": 36.508418,
+    "lng": 127.28215,
+    "home": "https://search.naver.com/search.naver?query=%EA%B3%A0%EB%A0%A4%EB%8C%80%ED%95%99%EA%B5%90%28%EC%84%B8%EC%A2%85%29%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "분교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "대전가톨릭대학교[본교]",
+    "baseName": "대전가톨릭대학교",
+    "region": "세종",
+    "type": "사립",
+    "lat": 36.453464,
+    "lng": 127.282527,
+    "home": "https://search.naver.com/search.naver?query=%EB%8C%80%EC%A0%84%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "홍익대학교[제2캠퍼스]",
+    "baseName": "홍익대학교",
+    "region": "세종",
+    "type": "사립",
+    "lat": 36.498753,
+    "lng": 127.309096,
+    "home": "https://search.naver.com/search.naver?query=%ED%99%8D%EC%9D%B5%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "가톨릭꽃동네대학교[본교]",
+    "baseName": "가톨릭꽃동네대학교",
+    "region": "충북",
+    "type": "사립",
+    "lat": 36.894678,
+    "lng": 127.716374,
+    "home": "https://search.naver.com/search.naver?query=%EA%B0%80%ED%86%A8%EB%A6%AD%EA%BD%83%EB%8F%99%EB%84%A4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "건국대학교(글로컬)[분교]",
+    "baseName": "건국대학교(글로컬)",
+    "region": "충북",
+    "type": "사립",
+    "lat": 36.782809,
+    "lng": 127.829648,
+    "home": "https://search.naver.com/search.naver?query=%EA%B1%B4%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%28%EA%B8%80%EB%A1%9C%EC%BB%AC%29%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "분교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립한국교통대학교[본교]",
+    "baseName": "국립한국교통대학교",
+    "region": "충북",
+    "type": "국립",
+    "lat": 36.830488,
+    "lng": 127.932001,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%ED%95%9C%EA%B5%AD%EA%B5%90%ED%86%B5%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "극동대학교[본교]",
+    "baseName": "극동대학교",
+    "region": "충북",
+    "type": "사립",
+    "lat": 36.761124,
+    "lng": 127.456642,
+    "home": "https://search.naver.com/search.naver?query=%EA%B7%B9%EB%8F%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "서원대학교[본교]",
+    "baseName": "서원대학교",
+    "region": "충북",
+    "type": "사립",
+    "lat": 36.928517,
+    "lng": 127.668524,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%9C%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "세명대학교[본교]",
+    "baseName": "세명대학교",
+    "region": "충북",
+    "type": "사립",
+    "lat": 36.667815,
+    "lng": 127.643802,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%B8%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "유원대학교[본교]",
+    "baseName": "유원대학교",
+    "region": "충북",
+    "type": "사립",
+    "lat": 36.658983,
+    "lng": 127.89783,
+    "home": "https://search.naver.com/search.naver?query=%EC%9C%A0%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "청주교육대학교[본교]",
+    "baseName": "청주교육대학교",
+    "region": "충북",
+    "type": "국립",
+    "lat": 36.702059,
+    "lng": 128.025091,
+    "home": "https://search.naver.com/search.naver?query=%EC%B2%AD%EC%A3%BC%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "청주대학교[본교]",
+    "baseName": "청주대학교",
+    "region": "충북",
+    "type": "사립",
+    "lat": 36.707577,
+    "lng": 127.97521,
+    "home": "https://search.naver.com/search.naver?query=%EC%B2%AD%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "충북대학교[본교]",
+    "baseName": "충북대학교",
+    "region": "충북",
+    "type": "국립",
+    "lat": 36.614483,
+    "lng": 127.546887,
+    "home": "https://search.naver.com/search.naver?query=%EC%B6%A9%EB%B6%81%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한국교원대학교[본교]",
+    "baseName": "한국교원대학교",
+    "region": "충북",
+    "type": "국립",
+    "lat": 36.854921,
+    "lng": 127.729521,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EA%B5%90%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "건양대학교[본교]",
+    "baseName": "건양대학교",
+    "region": "충남",
+    "type": "사립",
+    "lat": 36.643351,
+    "lng": 126.727615,
+    "home": "https://search.naver.com/search.naver?query=%EA%B1%B4%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립공주대학교[본교]",
+    "baseName": "국립공주대학교",
+    "region": "충남",
+    "type": "국립",
+    "lat": 36.64257,
+    "lng": 127.248157,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EA%B3%B5%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "나사렛대학교[본교]",
+    "baseName": "나사렛대학교",
+    "region": "충남",
+    "type": "사립",
+    "lat": 36.512909,
+    "lng": 127.282492,
+    "home": "https://search.naver.com/search.naver?query=%EB%82%98%EC%82%AC%EB%A0%9B%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "남서울대학교[본교]",
+    "baseName": "남서울대학교",
+    "region": "충남",
+    "type": "국립",
+    "lat": 36.621786,
+    "lng": 126.821408,
+    "home": "https://search.naver.com/search.naver?query=%EB%82%A8%EC%84%9C%EC%9A%B8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "단국대학교[제2캠퍼스]",
+    "baseName": "단국대학교",
+    "region": "충남",
+    "type": "사립",
+    "lat": 36.67409,
+    "lng": 126.839514,
+    "home": "https://search.naver.com/search.naver?query=%EB%8B%A8%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "상명대학교[제2캠퍼스]",
+    "baseName": "상명대학교",
+    "region": "충남",
+    "type": "사립",
+    "lat": 36.581317,
+    "lng": 127.214786,
+    "home": "https://search.naver.com/search.naver?query=%EC%83%81%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "선문대학교[본교]",
+    "baseName": "선문대학교",
+    "region": "충남",
+    "type": "사립",
+    "lat": 36.49968,
+    "lng": 126.6339,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%A0%EB%AC%B8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "순천향대학교[본교]",
+    "baseName": "순천향대학교",
+    "region": "충남",
+    "type": "사립",
+    "lat": 36.468092,
+    "lng": 127.200568,
+    "home": "https://search.naver.com/search.naver?query=%EC%88%9C%EC%B2%9C%ED%96%A5%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "중부대학교[본교]",
+    "baseName": "중부대학교",
+    "region": "충남",
+    "type": "사립",
+    "lat": 36.428854,
+    "lng": 126.871055,
+    "home": "https://search.naver.com/search.naver?query=%EC%A4%91%EB%B6%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "청운대학교[본교]",
+    "baseName": "청운대학교",
+    "region": "충남",
+    "type": "사립",
+    "lat": 36.395759,
+    "lng": 126.950434,
+    "home": "https://search.naver.com/search.naver?query=%EC%B2%AD%EC%9A%B4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한국기술교육대학교[본교]",
+    "baseName": "한국기술교육대학교",
+    "region": "충남",
+    "type": "국립",
+    "lat": 36.46769,
+    "lng": 126.634183,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EA%B8%B0%EC%88%A0%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한서대학교[본교]",
+    "baseName": "한서대학교",
+    "region": "충남",
+    "type": "사립",
+    "lat": 36.40451,
+    "lng": 126.864126,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EC%84%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "호서대학교[본교]",
+    "baseName": "호서대학교",
+    "region": "충남",
+    "type": "사립",
+    "lat": 36.741366,
+    "lng": 126.965636,
+    "home": "https://search.naver.com/search.naver?query=%ED%98%B8%EC%84%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경북대학교[본교]",
+    "baseName": "경북대학교",
+    "region": "대구",
+    "type": "국립",
+    "lat": 35.897452,
+    "lng": 128.614891,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EB%B6%81%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "계명대학교[본교]",
+    "baseName": "계명대학교",
+    "region": "대구",
+    "type": "사립",
+    "lat": 35.889779,
+    "lng": 128.636355,
+    "home": "https://search.naver.com/search.naver?query=%EA%B3%84%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "대구교육대학교[본교]",
+    "baseName": "대구교육대학교",
+    "region": "대구",
+    "type": "국립",
+    "lat": 35.854846,
+    "lng": 128.619681,
+    "home": "https://search.naver.com/search.naver?query=%EB%8C%80%EA%B5%AC%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경운대학교[본교]",
+    "baseName": "경운대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.369902,
+    "lng": 128.669065,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EC%9A%B4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경일대학교[본교]",
+    "baseName": "경일대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.239955,
+    "lng": 129.315524,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EC%9D%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립경국대학교[본교]",
+    "baseName": "국립경국대학교",
+    "region": "경북",
+    "type": "국립",
+    "lat": 36.309419,
+    "lng": 128.976511,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EA%B2%BD%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "김천대학교[본교]",
+    "baseName": "김천대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.045839,
+    "lng": 128.835191,
+    "home": "https://search.naver.com/search.naver?query=%EA%B9%80%EC%B2%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "대구가톨릭대학교[본교]",
+    "baseName": "대구가톨릭대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.433741,
+    "lng": 129.061274,
+    "home": "https://search.naver.com/search.naver?query=%EB%8C%80%EA%B5%AC%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "대구대학교[본교]",
+    "baseName": "대구대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.199125,
+    "lng": 128.64304,
+    "home": "https://search.naver.com/search.naver?query=%EB%8C%80%EA%B5%AC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "대구예술대학교[본교]",
+    "baseName": "대구예술대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.360019,
+    "lng": 129.094162,
+    "home": "https://search.naver.com/search.naver?query=%EB%8C%80%EA%B5%AC%EC%98%88%EC%88%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "동국대학교(WISE)[분교]",
+    "baseName": "동국대학교(WISE)",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.220974,
+    "lng": 128.575906,
+    "home": "https://search.naver.com/search.naver?query=%EB%8F%99%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%28WISE%29%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "분교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "동양대학교[본교]",
+    "baseName": "동양대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.49144,
+    "lng": 129.100977,
+    "home": "https://search.naver.com/search.naver?query=%EB%8F%99%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "영남대학교[본교]",
+    "baseName": "영남대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.096563,
+    "lng": 129.059879,
+    "home": "https://search.naver.com/search.naver?query=%EC%98%81%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "영남신학대학교[본교]",
+    "baseName": "영남신학대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.411055,
+    "lng": 128.941042,
+    "home": "https://search.naver.com/search.naver?query=%EC%98%81%EB%82%A8%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "위덕대학교[본교]",
+    "baseName": "위덕대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 35.977337,
+    "lng": 128.796162,
+    "home": "https://search.naver.com/search.naver?query=%EC%9C%84%EB%8D%95%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "포항공과대학교[본교]",
+    "baseName": "포항공과대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.046655,
+    "lng": 128.70966,
+    "home": "https://search.naver.com/search.naver?query=%ED%8F%AC%ED%95%AD%EA%B3%B5%EA%B3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "한동대학교[본교]",
+    "baseName": "한동대학교",
+    "region": "경북",
+    "type": "사립",
+    "lat": 36.041336,
+    "lng": 129.146087,
+    "home": "https://search.naver.com/search.naver?query=%ED%95%9C%EB%8F%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경성대학교[본교]",
+    "baseName": "경성대학교",
+    "region": "부산",
+    "type": "사립",
+    "lat": 35.188208,
+    "lng": 129.074726,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EC%84%B1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립부경대학교[본교]",
+    "baseName": "국립부경대학교",
+    "region": "부산",
+    "type": "국립",
+    "lat": 35.211724,
+    "lng": 129.055294,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EB%B6%80%EA%B2%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립한국해양대학교[본교]",
+    "baseName": "국립한국해양대학교",
+    "region": "부산",
+    "type": "국립",
+    "lat": 35.165589,
+    "lng": 129.130701,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%ED%95%9C%EA%B5%AD%ED%95%B4%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "동명대학교[본교]",
+    "baseName": "동명대학교",
+    "region": "부산",
+    "type": "사립",
+    "lat": 35.184359,
+    "lng": 129.098146,
+    "home": "https://search.naver.com/search.naver?query=%EB%8F%99%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "동서대학교[본교]",
+    "baseName": "동서대학교",
+    "region": "부산",
+    "type": "사립",
+    "lat": 35.214037,
+    "lng": 129.073175,
+    "home": "https://search.naver.com/search.naver?query=%EB%8F%99%EC%84%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "동아대학교[본교]",
+    "baseName": "동아대학교",
+    "region": "부산",
+    "type": "사립",
+    "lat": 35.162913,
+    "lng": 129.095012,
+    "home": "https://search.naver.com/search.naver?query=%EB%8F%99%EC%95%84%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "동의대학교[본교]",
+    "baseName": "동의대학교",
+    "region": "부산",
+    "type": "사립",
+    "lat": 35.165321,
+    "lng": 129.130656,
+    "home": "https://search.naver.com/search.naver?query=%EB%8F%99%EC%9D%98%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "부산가톨릭대학교[본교]",
+    "baseName": "부산가톨릭대학교",
+    "region": "부산",
+    "type": "사립",
+    "lat": 35.180173,
+    "lng": 129.050389,
+    "home": "https://search.naver.com/search.naver?query=%EB%B6%80%EC%82%B0%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "부산교육대학교[본교]",
+    "baseName": "부산교육대학교",
+    "region": "부산",
+    "type": "국립",
+    "lat": 35.162298,
+    "lng": 129.079621,
+    "home": "https://search.naver.com/search.naver?query=%EB%B6%80%EC%82%B0%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "부산대학교[본교]",
+    "baseName": "부산대학교",
+    "region": "부산",
+    "type": "국립",
+    "lat": 35.166597,
+    "lng": 129.097547,
+    "home": "https://search.naver.com/search.naver?query=%EB%B6%80%EC%82%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "신라대학교[본교]",
+    "baseName": "신라대학교",
+    "region": "부산",
+    "type": "사립",
+    "lat": 35.178356,
+    "lng": 129.127847,
+    "home": "https://search.naver.com/search.naver?query=%EC%8B%A0%EB%9D%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "영산대학교[본교]",
+    "baseName": "영산대학교",
+    "region": "부산",
+    "type": "사립",
+    "lat": 35.206238,
+    "lng": 129.077025,
+    "home": "https://search.naver.com/search.naver?query=%EC%98%81%EC%82%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경남대학교[본교]",
+    "baseName": "경남대학교",
+    "region": "경남",
+    "type": "사립",
+    "lat": 35.084469,
+    "lng": 128.287639,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "경상국립대학교[본교]",
+    "baseName": "경상국립대학교",
+    "region": "경남",
+    "type": "국립",
+    "lat": 35.407261,
+    "lng": 128.126799,
+    "home": "https://search.naver.com/search.naver?query=%EA%B2%BD%EC%83%81%EA%B5%AD%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립창원대학교[본교]",
+    "baseName": "국립창원대학교",
+    "region": "경남",
+    "type": "국립",
+    "lat": 35.376908,
+    "lng": 128.011848,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EC%B0%BD%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립창원대학교[제3캠퍼스]",
+    "baseName": "국립창원대학교",
+    "region": "경남",
+    "type": "국립",
+    "lat": 35.507565,
+    "lng": 128.389254,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EC%B0%BD%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제3캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "영산대학교[제2캠퍼스]",
+    "baseName": "영산대학교",
+    "region": "경남",
+    "type": "사립",
+    "lat": 35.428791,
+    "lng": 128.190559,
+    "home": "https://search.naver.com/search.naver?query=%EC%98%81%EC%82%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "인제대학교[본교]",
+    "baseName": "인제대학교",
+    "region": "경남",
+    "type": "사립",
+    "lat": 35.482883,
+    "lng": 128.094119,
+    "home": "https://search.naver.com/search.naver?query=%EC%9D%B8%EC%A0%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "진주교육대학교[본교]",
+    "baseName": "진주교육대학교",
+    "region": "경남",
+    "type": "국립",
+    "lat": 35.103696,
+    "lng": 128.029652,
+    "home": "https://search.naver.com/search.naver?query=%EC%A7%84%EC%A3%BC%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "창신대학교[본교]",
+    "baseName": "창신대학교",
+    "region": "경남",
+    "type": "사립",
+    "lat": 35.440923,
+    "lng": 128.382574,
+    "home": "https://search.naver.com/search.naver?query=%EC%B0%BD%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "광신대학교[본교]",
+    "baseName": "광신대학교",
+    "region": "광주",
+    "type": "사립",
+    "lat": 35.144097,
+    "lng": 126.903762,
+    "home": "https://search.naver.com/search.naver?query=%EA%B4%91%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "광주교육대학교[본교]",
+    "baseName": "광주교육대학교",
+    "region": "광주",
+    "type": "국립",
+    "lat": 35.182837,
+    "lng": 126.841379,
+    "home": "https://search.naver.com/search.naver?query=%EA%B4%91%EC%A3%BC%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "광주대학교[본교]",
+    "baseName": "광주대학교",
+    "region": "광주",
+    "type": "사립",
+    "lat": 35.136842,
+    "lng": 126.873445,
+    "home": "https://search.naver.com/search.naver?query=%EA%B4%91%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "광주여자대학교[본교]",
+    "baseName": "광주여자대학교",
+    "region": "광주",
+    "type": "사립",
+    "lat": 35.191036,
+    "lng": 126.874296,
+    "home": "https://search.naver.com/search.naver?query=%EA%B4%91%EC%A3%BC%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "남부대학교[본교]",
+    "baseName": "남부대학교",
+    "region": "광주",
+    "type": "사립",
+    "lat": 35.133429,
+    "lng": 126.893635,
+    "home": "https://search.naver.com/search.naver?query=%EB%82%A8%EB%B6%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "송원대학교[본교]",
+    "baseName": "송원대학교",
+    "region": "광주",
+    "type": "사립",
+    "lat": 35.147885,
+    "lng": 126.797881,
+    "home": "https://search.naver.com/search.naver?query=%EC%86%A1%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "전남대학교[본교]",
+    "baseName": "전남대학교",
+    "region": "광주",
+    "type": "국립",
+    "lat": 35.131655,
+    "lng": 126.872128,
+    "home": "https://search.naver.com/search.naver?query=%EC%A0%84%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "호남신학대학교[본교]",
+    "baseName": "호남신학대학교",
+    "region": "광주",
+    "type": "사립",
+    "lat": 35.167633,
+    "lng": 126.893458,
+    "home": "https://search.naver.com/search.naver?query=%ED%98%B8%EB%82%A8%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "광주가톨릭대학교[본교]",
+    "baseName": "광주가톨릭대학교",
+    "region": "전남",
+    "type": "사립",
+    "lat": 35.009856,
+    "lng": 127.211683,
+    "home": "https://search.naver.com/search.naver?query=%EA%B4%91%EC%A3%BC%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립목포해양대학교[본교]",
+    "baseName": "국립목포해양대학교",
+    "region": "전남",
+    "type": "국립",
+    "lat": 34.66458,
+    "lng": 126.889239,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EB%AA%A9%ED%8F%AC%ED%95%B4%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립순천대학교[본교]",
+    "baseName": "국립순천대학교",
+    "region": "전남",
+    "type": "국립",
+    "lat": 35.047213,
+    "lng": 126.489902,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EC%88%9C%EC%B2%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "동신대학교[본교]",
+    "baseName": "동신대학교",
+    "region": "전남",
+    "type": "사립",
+    "lat": 34.99201,
+    "lng": 127.056525,
+    "home": "https://search.naver.com/search.naver?query=%EB%8F%99%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "세한대학교[본교]",
+    "baseName": "세한대학교",
+    "region": "전남",
+    "type": "사립",
+    "lat": 34.802779,
+    "lng": 126.894964,
+    "home": "https://search.naver.com/search.naver?query=%EC%84%B8%ED%95%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "영산선학대학교[본교]",
+    "baseName": "영산선학대학교",
+    "region": "전남",
+    "type": "사립",
+    "lat": 35.009014,
+    "lng": 126.996495,
+    "home": "https://search.naver.com/search.naver?query=%EC%98%81%EC%82%B0%EC%84%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "전남대학교[제2캠퍼스]",
+    "baseName": "전남대학교",
+    "region": "전남",
+    "type": "국립",
+    "lat": 34.826508,
+    "lng": 126.388334,
+    "home": "https://search.naver.com/search.naver?query=%EC%A0%84%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "제2캠퍼스",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "국립군산대학교[본교]",
+    "baseName": "국립군산대학교",
+    "region": "전북",
+    "type": "국립",
+    "lat": 35.682769,
+    "lng": 127.363532,
+    "home": "https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EA%B5%B0%EC%82%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "예원예술대학교[본교]",
+    "baseName": "예원예술대학교",
+    "region": "전북",
+    "type": "사립",
+    "lat": 35.646621,
+    "lng": 127.272631,
+    "home": "https://search.naver.com/search.naver?query=%EC%98%88%EC%9B%90%EC%98%88%EC%88%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "우석대학교[본교]",
+    "baseName": "우석대학교",
+    "region": "전북",
+    "type": "사립",
+    "lat": 35.575344,
+    "lng": 127.008052,
+    "home": "https://search.naver.com/search.naver?query=%EC%9A%B0%EC%84%9D%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "원광대학교[본교]",
+    "baseName": "원광대학교",
+    "region": "전북",
+    "type": "사립",
+    "lat": 35.6876,
+    "lng": 127.255484,
+    "home": "https://search.naver.com/search.naver?query=%EC%9B%90%EA%B4%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "전북대학교[본교]",
+    "baseName": "전북대학교",
+    "region": "전북",
+    "type": "국립",
+    "lat": 35.632214,
+    "lng": 126.944382,
+    "home": "https://search.naver.com/search.naver?query=%EC%A0%84%EB%B6%81%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "전주대학교[본교]",
+    "baseName": "전주대학교",
+    "region": "전북",
+    "type": "사립",
+    "lat": 35.876096,
+    "lng": 127.191229,
+    "home": "https://search.naver.com/search.naver?query=%EC%A0%84%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "호원대학교[본교]",
+    "baseName": "호원대학교",
+    "region": "전북",
+    "type": "사립",
+    "lat": 35.581156,
+    "lng": 126.97172,
+    "home": "https://search.naver.com/search.naver?query=%ED%98%B8%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  },
+  {
+    "name": "제주대학교[본교]",
+    "baseName": "제주대학교",
+    "region": "제주",
+    "type": "국립",
+    "lat": 33.428985,
+    "lng": 126.637409,
+    "home": "https://search.naver.com/search.naver?query=%EC%A0%9C%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98",
+    "campuses": [
+      {
+        "c": "본교",
+        "u": ""
+      }
+    ],
+    "admission": "",
+    "report": "",
+    "jonghap": "",
+    "added": false
+  }
+]

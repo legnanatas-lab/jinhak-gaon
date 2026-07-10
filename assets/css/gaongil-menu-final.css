@@ -1,0 +1,293 @@
+/* GAONGIL MENU FINAL OVERRIDE v91
+   목적: 상단 9개 메뉴의 선택/열림 상태를 한 곳에서 통제해
+   골드 배경이 타원 버튼 밖으로 새지 않도록 고정합니다. */
+:root{
+  --ga-menu-bg:#050b14;
+  --ga-menu-pill:#121f32;
+  --ga-menu-pill-2:#0b1b2d;
+  --ga-menu-text:#edf5ff;
+  --ga-menu-muted:#d7e2f1;
+  --ga-menu-gold:#d6ad63;
+  --ga-menu-gold-hi:#f0d99b;
+  --ga-menu-gold-low:#b98532;
+  --ga-menu-ink:#071221;
+  --ga-menu-line:rgba(142,163,190,.34);
+  --ga-menu-gold-line:rgba(240,217,155,.82);
+}
+
+/* 공통 상단바: 메뉴가 잘리지 않도록 overflow를 열어 둡니다. */
+.home-topbar,
+.site-header,
+.gaongil-portal-bar{
+  overflow:visible!important;
+}
+.home-topbar,
+.gaongil-portal-bar{
+  z-index:10000!important;
+  border-top:2px solid rgba(240,217,155,.82)!important;
+  border-bottom:1px solid rgba(214,173,99,.20)!important;
+  background:linear-gradient(90deg,rgba(214,173,99,.08),transparent 30%),rgba(5,11,20,.96)!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.34)!important;
+  backdrop-filter:blur(14px)!important;
+}
+.site-header{
+  z-index:10000!important;
+}
+
+/* 메뉴 줄 크기: 원래의 작은 pill 메뉴 크기로 통일 */
+.home-topbar-inner.menu-only,
+.gaongil-portal-inner.gaongil-menu-only{
+  width:min(1520px,calc(100% - 36px))!important;
+  min-height:72px!important;
+  margin:0 auto!important;
+  padding:10px 0!important;
+  overflow:visible!important;
+}
+.home-nav.top-tabs.dropdown-tabs,
+.nav,
+.gaongil-portal-actions{
+  position:relative!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  justify-content:center!important;
+  align-items:center!important;
+  gap:10px!important;
+  overflow:visible!important;
+}
+.nav{margin-top:16px!important;}
+.gaongil-portal-actions{width:100%!important;}
+
+/* details 자체에는 절대 색을 주지 않습니다. 배경은 summary 타원 안에만 적용됩니다. */
+.home-nav .nav-menu,
+.nav .nav-menu,
+.gaongil-resource-menu,
+.home-nav .nav-menu.active,
+.nav .nav-menu.active,
+.gaongil-resource-menu.active,
+.gaongil-resource-menu[data-menu-active="true"]{
+  position:relative!important;
+  display:inline-block!important;
+  z-index:10001!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  outline:0!important;
+  color:inherit!important;
+}
+
+/* 기본 메뉴 타원 */
+.home-nav .nav-menu>summary,
+.nav .nav-menu>summary,
+.gaongil-resource-menu>summary,
+.nav .nav-home-pill,
+.gaongil-main-button.gaongil-home-tab{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:10px!important;
+  min-height:46px!important;
+  border:1px solid var(--ga-menu-line)!important;
+  border-radius:999px!important;
+  padding:0 18px!important;
+  background:rgba(18,31,50,.86)!important;
+  color:var(--ga-menu-text)!important;
+  cursor:pointer!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  line-height:1.2!important;
+  letter-spacing:-.03em!important;
+  text-decoration:none!important;
+  white-space:nowrap!important;
+  list-style:none!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+.home-nav .nav-menu>summary::-webkit-details-marker,
+.nav .nav-menu>summary::-webkit-details-marker,
+.gaongil-resource-menu>summary::-webkit-details-marker{display:none!important;}
+
+/* 홈: 메인 index에서만 골드, 다른 페이지의 홈 버튼은 기본 어두운 버튼 */
+.home-nav .nav-pill.home-pill,
+.home-nav .nav-pill.active.home-pill,
+.nav .nav-home-pill[aria-current="page"]{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:46px!important;
+  min-width:54px!important;
+  border:1px solid var(--ga-menu-gold-line)!important;
+  border-radius:999px!important;
+  padding:0 17px!important;
+  background:linear-gradient(180deg,var(--ga-menu-gold-hi) 0%,var(--ga-menu-gold) 56%,var(--ga-menu-gold-low) 100%)!important;
+  color:var(--ga-menu-ink)!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  line-height:1.2!important;
+  text-decoration:none!important;
+  box-shadow:0 10px 24px rgba(214,173,99,.24),inset 0 1px 0 rgba(255,255,255,.44)!important;
+}
+.gaongil-main-button.gaongil-home-tab{
+  min-width:54px!important;
+}
+
+/* 화살표 */
+.home-nav .nav-menu>summary::after,
+.nav .nav-menu>summary::after,
+.gaongil-resource-menu>summary::after{
+  content:""!important;
+  display:block!important;
+  width:8px!important;
+  height:8px!important;
+  margin-left:2px!important;
+  border-right:2px solid var(--ga-menu-gold)!important;
+  border-bottom:2px solid var(--ga-menu-gold)!important;
+  transform:translateY(-2px) rotate(45deg)!important;
+  transition:transform .16s ease!important;
+}
+.home-nav .nav-menu[open]>summary::after,
+.nav .nav-menu[open]>summary::after,
+.gaongil-resource-menu[open]>summary::after{
+  transform:translateY(2px) rotate(225deg)!important;
+}
+
+/* 선택됨/열림 상태: 반드시 타원 summary 안에만 골드 적용 */
+.home-nav .nav-menu[open]>summary,
+.home-nav .nav-menu.active>summary,
+.home-nav .nav-menu[data-menu-active="true"]>summary,
+.nav .nav-menu[open]>summary,
+.nav .nav-menu.active>summary,
+.nav .nav-menu[data-menu-active="true"]>summary,
+.gaongil-resource-menu[open]>summary,
+.gaongil-resource-menu.active>summary,
+.gaongil-resource-menu[data-menu-active="true"]>summary{
+  border-color:var(--ga-menu-gold-line)!important;
+  border-radius:999px!important;
+  background:linear-gradient(180deg,var(--ga-menu-gold-hi) 0%,var(--ga-menu-gold) 56%,var(--ga-menu-gold-low) 100%)!important;
+  background-clip:padding-box!important;
+  color:var(--ga-menu-ink)!important;
+  box-shadow:0 10px 24px rgba(214,173,99,.24),inset 0 1px 0 rgba(255,255,255,.44)!important;
+}
+.home-nav .nav-menu[open]>summary *,
+.home-nav .nav-menu.active>summary *,
+.home-nav .nav-menu[data-menu-active="true"]>summary *,
+.nav .nav-menu[open]>summary *,
+.nav .nav-menu.active>summary *,
+.nav .nav-menu[data-menu-active="true"]>summary *,
+.gaongil-resource-menu[open]>summary *,
+.gaongil-resource-menu.active>summary *,
+.gaongil-resource-menu[data-menu-active="true"]>summary *{
+  color:var(--ga-menu-ink)!important;
+}
+.home-nav .nav-menu[open]>summary::after,
+.home-nav .nav-menu.active>summary::after,
+.home-nav .nav-menu[data-menu-active="true"]>summary::after,
+.nav .nav-menu[open]>summary::after,
+.nav .nav-menu.active>summary::after,
+.nav .nav-menu[data-menu-active="true"]>summary::after,
+.gaongil-resource-menu[open]>summary::after,
+.gaongil-resource-menu.active>summary::after,
+.gaongil-resource-menu[data-menu-active="true"]>summary::after{
+  border-right-color:var(--ga-menu-ink)!important;
+  border-bottom-color:var(--ga-menu-ink)!important;
+}
+
+/* 비선택 hover */
+.home-nav .nav-menu:not([open]):not(.active):not([data-menu-active="true"])>summary:hover,
+.home-nav .nav-menu:not([open]):not(.active):not([data-menu-active="true"])>summary:focus-visible,
+.nav .nav-menu:not([open]):not(.active):not([data-menu-active="true"])>summary:hover,
+.nav .nav-menu:not([open]):not(.active):not([data-menu-active="true"])>summary:focus-visible,
+.gaongil-resource-menu:not([open]):not(.active):not([data-menu-active="true"])>summary:hover,
+.gaongil-resource-menu:not([open]):not(.active):not([data-menu-active="true"])>summary:focus-visible,
+.nav .nav-home-pill:hover,
+.gaongil-main-button.gaongil-home-tab:hover,
+.gaongil-main-button.gaongil-home-tab:focus-visible{
+  border-color:rgba(240,217,155,.72)!important;
+  background:rgba(18,31,50,.94)!important;
+  color:#fff8e8!important;
+  outline:none!important;
+}
+
+/* 드롭다운 박스 */
+.home-nav .nav-menu-list,
+.nav .nav-menu-list,
+.gaongil-resource-list{
+  position:absolute!important;
+  top:calc(100% + 10px)!important;
+  left:auto!important;
+  right:0!important;
+  display:grid!important;
+  width:min(360px,calc(100vw - 32px))!important;
+  max-height:min(70vh,520px)!important;
+  overflow:auto!important;
+  border:1px solid rgba(214,173,99,.32)!important;
+  border-radius:10px!important;
+  padding:8px!important;
+  background:linear-gradient(180deg,rgba(214,173,99,.08),transparent 44%),rgba(7,15,26,.98)!important;
+  box-shadow:0 22px 58px rgba(0,0,0,.45)!important;
+}
+.home-nav .nav-menu:nth-child(-n+5) .nav-menu-list,
+.nav .nav-menu:nth-child(-n+5) .nav-menu-list,
+.gaongil-resource-menu:nth-child(-n+5) .gaongil-resource-list{
+  left:0!important;
+  right:auto!important;
+}
+.home-nav .nav-menu-list a,
+.nav .nav-menu-list a,
+.gaongil-resource-list a{
+  display:flex!important;
+  align-items:center!important;
+  min-height:40px!important;
+  border:0!important;
+  border-radius:7px!important;
+  padding:9px 11px!important;
+  background:transparent!important;
+  color:var(--ga-menu-muted)!important;
+  font-size:14px!important;
+  font-weight:850!important;
+  line-height:1.35!important;
+  letter-spacing:-.02em!important;
+  text-decoration:none!important;
+  white-space:normal!important;
+  box-shadow:none!important;
+}
+.home-nav .nav-menu-list a:hover,
+.home-nav .nav-menu-list a:focus-visible,
+.nav .nav-menu-list a:hover,
+.nav .nav-menu-list a:focus-visible,
+.gaongil-resource-list a:hover,
+.gaongil-resource-list a:focus-visible{
+  background:rgba(214,173,99,.15)!important;
+  color:#fff8e8!important;
+  outline:none!important;
+}
+.home-nav .nav-menu-list a.active,
+.nav .nav-menu-list a.active,
+.gaongil-resource-list a.active{
+  background:rgba(214,173,99,.18)!important;
+  color:#fff8e8!important;
+}
+
+@media(max-width:900px){
+  .home-topbar-inner.menu-only,
+  .gaongil-portal-inner.gaongil-menu-only{width:min(100% - 24px,1520px)!important;min-height:66px!important;}
+  .home-nav.top-tabs.dropdown-tabs,
+  .nav,
+  .gaongil-portal-actions{justify-content:flex-start!important;flex-wrap:nowrap!important;overflow-x:auto!important;overflow-y:visible!important;padding:6px 0 10px!important;}
+  .home-nav .nav-menu,
+  .nav .nav-menu,
+  .gaongil-resource-menu{position:static!important;}
+  .home-nav .nav-menu-list,
+  .nav .nav-menu-list,
+  .gaongil-resource-list{left:12px!important;right:12px!important;width:auto!important;}
+  .home-nav .nav-menu>summary,
+  .nav .nav-menu>summary,
+  .gaongil-resource-menu>summary,
+  .nav .nav-home-pill,
+  .gaongil-main-button.gaongil-home-tab{min-height:44px!important;font-size:14px!important;padding:0 15px!important;}
+  .home-nav .nav-menu-list a,
+  .nav .nav-menu-list a,
+  .gaongil-resource-list a{min-height:38px!important;padding:8px 10px!important;font-size:13px!important;}
+}

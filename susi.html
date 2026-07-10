@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>수시결과 | 가온길 에듀</title>
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <link rel="stylesheet" href="./styles.css?v=19" />
+    <link rel="stylesheet" href="./portal.css?v=91" />
+</head>
+  <body data-gaongil-page="susi">
+    <div id="app" class="app-shell">
+      <div class="boot-panel" role="status" aria-live="polite">
+        <div class="boot-spinner" aria-hidden="true"></div>
+        <strong>수시결과</strong>
+        <span>입결 데이터를 불러오는 중입니다...</span>
+      </div>
+    </div>
+    <script src="./data/admission-data.js?v=12"></script>
+    <script src="./data/susi-2027-plan.js?v=1"></script>
+    <script src="./app.js?v=32" defer></script>
+  
+    <script src="assets/js/auth.js"></script>
+    <script>
+      (async () => {
+        await GaongilAuth.ensureSeedUsers();
+        GaongilAuth.requireLogin("login.html");
+        GaongilAuth.mountUserChip("userChip");
+      })();
+    </script>
+    <script src="./portal-menu.js?v=93"></script>
+</body>
+</html>

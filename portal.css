@@ -1,0 +1,3314 @@
+:root {
+  --ga-bg: #060d18;
+  --ga-bg-2: #081321;
+  --ga-panel: rgba(13, 23, 38, 0.92);
+  --ga-line-blue: rgba(92, 119, 154, 0.36);
+  --ga-text: #edf5ff;
+  --ga-muted: #a9b7ca;
+  --ga-gold: #d6ad63;
+  --ga-gold-2: #f0d99b;
+  --ga-gold-dark: #8f672b;
+  --ga-shadow: 0 22px 62px rgba(0, 0, 0, 0.32);
+}
+
+html {
+  background: var(--ga-bg);
+}
+
+body.gaongil-linked-page {
+  color: var(--ga-text);
+  background:
+    linear-gradient(rgba(214, 173, 99, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(214, 173, 99, 0.04) 1px, transparent 1px),
+    linear-gradient(118deg, rgba(214, 173, 99, 0.1), transparent 28%),
+    linear-gradient(180deg, #050b14 0%, #081321 44%, #060d18 100%) !important;
+  background-size: 64px 64px, 64px 64px, auto, auto !important;
+}
+
+.gaongil-portal-bar,
+.gaongil-portal-bar * {
+  box-sizing: border-box;
+}
+
+.gaongil-portal-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  overflow: visible !important;
+  border-top: 2px solid rgba(240, 217, 155, 0.84);
+  border-bottom: 1px solid rgba(214, 173, 99, 0.2);
+  border-radius: 0 !important;
+  padding: 0 !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.08), transparent 26%),
+    rgba(5, 11, 20, 0.96) !important;
+  color: var(--ga-text);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(14px);
+}
+
+.gaongil-portal-inner {
+  display: grid;
+  grid-template-columns: minmax(220px, auto) minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  width: min(1760px, 100%);
+  min-height: 82px;
+  margin: 0 auto;
+  padding: 12px 20px;
+}
+
+.gaongil-brand {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 14px;
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.gaongil-brand strong,
+.gaongil-brand em,
+.gaongil-page-title strong,
+.gaongil-page-title span {
+  display: block;
+  font-style: normal;
+  line-height: 1.2;
+}
+
+.gaongil-brand-logo {
+  display: block;
+  width: min(230px, 34vw);
+  height: 58px;
+  object-fit: contain;
+  object-position: left center;
+  border-radius: 8px;
+  background: #050505;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.32);
+}
+
+.gaongil-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 10px 0 12px;
+  border-bottom: 1px solid rgba(214, 173, 99, 0.22);
+}
+
+.gaongil-footer-brand img {
+  display: block;
+  width: 170px;
+  height: 54px;
+  object-fit: contain;
+  object-position: left center;
+  border-radius: 6px;
+  background: #050505;
+}
+
+.gaongil-footer-brand span,
+.gaongil-footer-brand strong,
+.gaongil-footer-brand em {
+  display: block;
+  font-style: normal;
+}
+
+.gaongil-footer-brand strong {
+  color: #fff8e8 !important;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.gaongil-footer-brand em {
+  margin-top: 2px;
+  color: #f0d99b !important;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gaongil-brand strong {
+  color: #fff8e8;
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.gaongil-brand em,
+.gaongil-page-title span {
+  margin-top: 3px;
+  color: #b9c4d2;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.gaongil-page-title {
+  min-width: 0;
+}
+
+.gaongil-page-title strong,
+.gaongil-page-title span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gaongil-page-title strong {
+  color: #fff8e8;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.gaongil-portal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.gaongil-main-button {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(240, 217, 155, 0.48);
+  border-radius: 8px;
+  padding: 8px 13px;
+  background: rgba(18, 31, 50, 0.88);
+  color: #edf5ff !important;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-decoration: none !important;
+  white-space: nowrap;
+}
+
+.gaongil-main-button:hover,
+.gaongil-main-button:focus-visible {
+  border-color: rgba(240, 217, 155, 0.86);
+  background: linear-gradient(180deg, #f3d88f, #c8943d);
+  color: #07101d !important;
+  outline: none;
+}
+
+.gaongil-resource-menu {
+  position: relative;
+  z-index: 10001;
+}
+
+.gaongil-resource-menu summary {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(240, 217, 155, 0.48);
+  border-radius: 8px;
+  padding: 8px 13px;
+  background: rgba(18, 31, 50, 0.88);
+  color: #edf5ff !important;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-decoration: none !important;
+  white-space: nowrap;
+  list-style: none;
+}
+
+.gaongil-resource-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.gaongil-resource-menu summary::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.gaongil-resource-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: grid;
+  width: min(320px, calc(100vw - 32px));
+  max-height: min(72vh, 520px);
+  overflow: auto;
+  border: 1px solid rgba(214, 173, 99, 0.28);
+  border-radius: 10px;
+  padding: 8px;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.08), transparent 40%),
+    rgba(7, 15, 26, 0.98);
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.45);
+}
+
+.gaongil-resource-list a {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  border-radius: 7px;
+  padding: 9px 10px;
+  color: #d7e2f1 !important;
+  font-size: 13px;
+  font-weight: 850;
+  text-decoration: none !important;
+}
+
+.gaongil-resource-list a:hover,
+.gaongil-resource-list a:focus-visible {
+  background: rgba(214, 173, 99, 0.14) !important;
+  color: #fff8e8 !important;
+  outline: none;
+}
+
+.gaongil-resource-list a.active {
+  background: linear-gradient(180deg, #f0d99b, #c99743) !important;
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(.hero, .card, .panel, .box, .stat, .kpi, .filters, .filter, .toolbar, .table-wrap, .search, .notice, .summary, .result-card, .modal, .modal-card, .drawer, .detail, .detail-panel, .cmpbar, .compare-panel, nav.tabs, footer, .footer) {
+  border-color: var(--ga-line-blue) !important;
+  box-shadow: var(--ga-shadow);
+}
+
+body.gaongil-linked-page :where(.card, .panel, .box, .stat, .kpi, .filters, .filter, .toolbar, .table-wrap, .result-card, .modal-card, .drawer, .detail, .detail-panel, .compare-panel) {
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 42%),
+    var(--ga-panel) !important;
+}
+
+body.gaongil-linked-page :where(h1, h2, h3, h4, .title, .section-title, .section h2, .card h3, .brand strong) {
+  color: #fff8e8;
+}
+
+body.gaongil-linked-page :where(p, li, .desc, .lead, .muted, .sub, .hint, .cell-sub) {
+  color: var(--ga-muted);
+}
+
+body.gaongil-linked-page :where(input, select, textarea) {
+  border-color: rgba(92, 119, 154, 0.5) !important;
+  background: rgba(4, 10, 18, 0.78) !important;
+  color: var(--ga-text) !important;
+}
+
+body.gaongil-linked-page :where(input::placeholder, textarea::placeholder) {
+  color: rgba(169, 183, 202, 0.72) !important;
+}
+
+body.gaongil-linked-page :where(button, .btn, .chip, .tab, .pill, .tag) {
+  border-color: rgba(214, 173, 99, 0.28);
+}
+
+body.gaongil-linked-page :where(table) {
+  background: rgba(7, 18, 33, 0.72);
+}
+
+body.gaongil-linked-page :where(th) {
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.11), transparent),
+    #0d192a !important;
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page :where(td) {
+  border-color: rgba(92, 119, 154, 0.28) !important;
+}
+
+body.gaongil-linked-page :where(.table-wrap, table.data, .cmptable, .result-table) :where(td, td strong, td b, td span, td a, .cell-main, .cell-sub) {
+  color: #e8f1ff !important;
+}
+
+body.gaongil-linked-page :where(.table-wrap, table.data, .cmptable, .result-table) :where(.qcol, .ucol, .count, .num, .big, .office-bar-count) {
+  color: #f0d99b !important;
+  font-weight: 900 !important;
+}
+
+body.gaongil-linked-page table.data tbody tr:hover td {
+  background: rgba(214, 173, 99, 0.1) !important;
+}
+
+body.gaongil-linked-page :where(.search-panel, .notice-band, .insight-panel, .results-panel, .credit-panel, .hero-card, .checker-main, .checker-aside, .check-box, .filter-bar, .mobile-data-card, .alert, .result, .meter-card, .calc-result, .checkitem, details, .faq details, .detail-dialog, dialog, .modal, .modal-card) {
+  border-color: rgba(214, 173, 99, 0.26) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.07), transparent 46%),
+    rgba(13, 23, 38, 0.94) !important;
+  color: var(--ga-text) !important;
+  box-shadow: var(--ga-shadow);
+}
+
+body.gaongil-linked-page :where(.search-panel, .notice-band, .insight-panel, .results-panel, .credit-panel, .hero-card, .checker-main, .checker-aside, .check-box, .filter-bar, .mobile-data-card, .alert, .result, .meter-card, .calc-result, .checkitem, details, .faq details, .detail-dialog, dialog, .modal, .modal-card) :where(h1, h2, h3, h4, p, span, li, summary, b, strong, label, small, div, td, th, .eyebrow, .hero-note, .desc, .muted, .sub, .hint, .lbl, .cell-sub, .mobile-card-title, .mobile-card-sub, .result-item) {
+  color: var(--ga-text) !important;
+}
+
+body.gaongil-linked-page :where(.search-panel, .notice-band, .insight-panel, .results-panel, .credit-panel, .hero-card, .checker-main, .checker-aside, .check-box, .filter-bar, .mobile-data-card, .alert, .result, .meter-card, .calc-result, .checkitem, details, .faq details, .detail-dialog, dialog, .modal, .modal-card) :where(p, li, span, small, label, .desc, .muted, .sub, .hint, .lbl, .cell-sub, .mobile-card-sub, .result-item) {
+  color: var(--ga-muted) !important;
+}
+
+/* Unified premium skin for the linked 2027/2028 resource pages. */
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu > summary {
+  border-color: rgba(240, 217, 155, 0.58) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+    rgba(18, 31, 50, 0.94) !important;
+  color: #edf5ff !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu > summary * {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page :where(.topbar, .topbar-inner, .nav, .mobile-jump, .tabs, nav.tabs, .local-nav, .subnav, .sticky-nav) {
+  border-color: rgba(214, 173, 99, 0.22) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.08), transparent 30%),
+    rgba(5, 11, 20, 0.94) !important;
+  color: var(--ga-text) !important;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28) !important;
+}
+
+body.gaongil-linked-page > header:not(.gaongil-portal-bar),
+body.gaongil-linked-page header.hd,
+body.gaongil-linked-page header.site-header,
+body.gaongil-linked-page header.page-header {
+  border-color: rgba(214, 173, 99, 0.22) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.08), transparent 30%),
+    rgba(5, 11, 20, 0.94) !important;
+  color: var(--ga-text) !important;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28) !important;
+}
+
+body.gaongil-linked-page > header:not(.gaongil-portal-bar) :where(a, button, span, strong, b, div, p, h1, h2, h3),
+body.gaongil-linked-page header.hd :where(a, button, span, strong, b, div, p, h1, h2, h3),
+body.gaongil-linked-page header.site-header :where(a, button, span, strong, b, div, p, h1, h2, h3),
+body.gaongil-linked-page header.page-header :where(a, button, span, strong, b, div, p, h1, h2, h3) {
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page :where(.topbar, .topbar-inner, .nav, .mobile-jump, .tabs, nav.tabs, .local-nav, .subnav, .sticky-nav) :where(a, button, span, strong, b, div) {
+  color: #d7e2f1 !important;
+}
+
+body.gaongil-linked-page :where(.nav-links a, .mobile-jump a, .tabs a, .tabs button, nav.tabs a, nav.tabs button, .section-nav a, .anchor-nav a) {
+  border-color: rgba(214, 173, 99, 0.24) !important;
+  background: rgba(18, 31, 50, 0.72) !important;
+  color: #d7e2f1 !important;
+}
+
+body.gaongil-linked-page :where(.nav-links a:hover, .mobile-jump a:hover, .tabs a:hover, .tabs button:hover, nav.tabs a:hover, nav.tabs button:hover) {
+  border-color: rgba(240, 217, 155, 0.62) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(.hero, .hero-card, .workspace-hero, .search-panel, .notice-band, .insight-panel, .results-panel, .credit-panel, .checker-main, .checker-aside, .check-box, .filter-bar, .filters, .panel, .card, .box, .kpi, .stat, .summary, .result, .result-card, .mobile-data-card, .meter-card, .calc-result, .checkitem, .tablewrap, .table-wrap, .table-shell, .compare-panel, .cmpbar, .drawer, .detail, .detail-panel, .detail-dialog, .modal, .modal-card, details, .faq details) {
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.065), transparent 44%),
+    rgba(13, 23, 38, 0.94) !important;
+  color: var(--ga-text) !important;
+  box-shadow: var(--ga-shadow);
+}
+
+body.gaongil-linked-page :where(.hero, .hero-card, .workspace-hero, .search-panel, .notice-band, .insight-panel, .results-panel, .credit-panel, .checker-main, .checker-aside, .check-box, .filter-bar, .filters, .panel, .card, .box, .kpi, .stat, .summary, .result, .result-card, .mobile-data-card, .meter-card, .calc-result, .checkitem, .tablewrap, .table-wrap, .table-shell, .compare-panel, .cmpbar, .drawer, .detail, .detail-panel, .detail-dialog, .modal, .modal-card, details, .faq details) :where(h1, h2, h3, h4, h5, summary, b, strong, .title, .section-title, .card-title, .result-title, .mobile-card-title, .eyebrow, .kicker, .lab, .big) {
+  color: #fff8e8 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(.hero, .hero-card, .workspace-hero, .search-panel, .notice-band, .insight-panel, .results-panel, .credit-panel, .checker-main, .checker-aside, .check-box, .filter-bar, .filters, .panel, .card, .box, .kpi, .stat, .summary, .result, .result-card, .mobile-data-card, .meter-card, .calc-result, .checkitem, .tablewrap, .table-wrap, .table-shell, .compare-panel, .cmpbar, .drawer, .detail, .detail-panel, .detail-dialog, .modal, .modal-card, details, .faq details) :where(p, li, span, small, label, div, .desc, .lead, .muted, .sub, .hint, .lbl, .cell-sub, .mobile-card-sub, .note-text, .meta) {
+  color: var(--ga-muted) !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(.title, .section-title, .card-title, .result-title, .mobile-card-title, .office-bar-title, .item-title, .panel-title, .hero-title, .search-title, .table-title, .faq-title) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(.hero h1 em, .hero .accent, .num, .stat .num, .stat b, .count, .office-bar-count, .result-count, .summary-count, .big-number, .money) {
+  color: var(--ga-gold-2) !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(.btn, .button, .cta, .homebtn, .home-btn, .home-link, .home-fab, .nav-home, .main-link, .main-link-top, .table-actions button, .floating-tools button, .copy-btn, .print-btn, .download-btn, .mini-btn, .pill, .chip, .tag, .badge, .label-badge, .filter-chip, .gtab, .qnav-btn, .page-btn, .b, .seg button) {
+  border-color: rgba(214, 173, 99, 0.32) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+    rgba(18, 31, 50, 0.86) !important;
+  color: #edf5ff !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(.btn-primary, .primary, .cta, .homebtn, .home-btn, .nav-home, .main-link, .main-link-top, button.active, .chip.active, .chip.on, .tag.active, .pill.active, .tab.on, .gtab.on, .qnav-btn.active, .page-btn.active, .filter-chip.active, .seg button.active, .seg button.on, .segmented-button.is-active) {
+  border-color: rgba(240, 217, 155, 0.68) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(.btn-primary, .primary, .cta, .homebtn, .home-btn, .nav-home, .main-link, .main-link-top, button.active, .chip.active, .chip.on, .tag.active, .pill.active, .tab.on, .gtab.on, .qnav-btn.active, .page-btn.active, .filter-chip.active, .seg button.active, .seg button.on, .segmented-button.is-active) :where(span, b, strong) {
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(.badge, .tag, .pill, .chip, .label-badge, .filter-chip, .gtab, .b) {
+  min-height: 0;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page :where(.badge.blue, .tag.blue, .pill.blue, .chip.blue, .badge.green, .tag.green, .pill.green, .chip.green) {
+  background: rgba(214, 173, 99, 0.16) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(.badge.red, .tag.red, .pill.red, .chip.red, .warning) {
+  background: rgba(255, 107, 107, 0.14) !important;
+  color: #ffd6d6 !important;
+  border-color: rgba(255, 107, 107, 0.34) !important;
+}
+
+body.gaongil-linked-page :where(a) {
+  color: #f0d99b;
+}
+
+body.gaongil-linked-page :where(.tablewrap, .table-wrap, .table-shell, .result-table, .cmpscroll) {
+  overflow: auto;
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background: rgba(7, 18, 33, 0.84) !important;
+}
+
+body.gaongil-linked-page :where(table, table.data, table.ex, table.compare, .cmptable, .result-table) {
+  background: rgba(7, 18, 33, 0.84) !important;
+  color: var(--ga-text) !important;
+}
+
+body.gaongil-linked-page :where(table.data, table.ex, table.compare, .cmptable, .result-table) :where(th) {
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.12), transparent),
+    rgba(18, 31, 50, 0.98) !important;
+  color: var(--ga-gold-2) !important;
+}
+
+body.gaongil-linked-page :where(table.data, table.ex, table.compare, .cmptable, .result-table) :where(td) {
+  border-color: rgba(92, 119, 154, 0.28) !important;
+  background: rgba(9, 20, 35, 0.82) !important;
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page :where(table.data, table.ex, table.compare, .cmptable, .result-table) :where(tr:nth-child(even) td) {
+  background: rgba(12, 27, 46, 0.9) !important;
+}
+
+body.gaongil-linked-page :where(table.data, table.ex, table.compare, .cmptable, .result-table) :where(td strong, td b, td a, .cell-main) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(table.data, table.ex, table.compare, .cmptable, .result-table) :where(.field, .qcol, .ucol, .count, .num, .big) {
+  color: var(--ga-gold-2) !important;
+  font-weight: 900 !important;
+}
+
+body.gaongil-linked-page :where(.empty, .notice, .alert, .note, .success, .amber, .warning) {
+  border-color: rgba(214, 173, 99, 0.24) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.07), transparent 48%),
+    rgba(11, 24, 41, 0.92) !important;
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page :where(.empty, .notice, .alert, .note, .success, .amber, .warning) :where(h1, h2, h3, h4, b, strong) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(.empty, .notice, .alert, .note, .success, .amber, .warning) :where(p, span, small, li, div) {
+  color: var(--ga-muted) !important;
+}
+
+body.gaongil-linked-page :where(input, select, textarea, .searchbar input) {
+  border-color: rgba(92, 119, 154, 0.55) !important;
+  background: rgba(4, 10, 18, 0.86) !important;
+  color: var(--ga-text) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+}
+
+body.gaongil-linked-page :where(input[type="checkbox"], input[type="radio"]) {
+  background: #fff !important;
+  color: #0b1524 !important;
+  accent-color: var(--ga-gold);
+}
+
+body.gaongil-linked-page :where(.result-card .score, .score, .metric, .summary .box, .stat-card, .wide-stat, .hero-card .stat) {
+  border-color: rgba(214, 173, 99, 0.22) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+    rgba(18, 31, 50, 0.92) !important;
+  color: var(--ga-text) !important;
+}
+
+body.gaongil-linked-page :where(.result-card .score strong, .score strong, .metric b, .summary .box b, .stat-card b, .wide-stat b, .hero-card .stat .num) {
+  color: var(--ga-gold-2) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa70cut"] .app,
+body.gaongil-linked-page[data-gaongil-page="jeongsi"] .app-shell {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa70cut"] :where(.home-link, .home-fab),
+body.gaongil-linked-page[data-gaongil-page="jeongsi"] .home-link {
+  display: none !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] {
+  height: 100dvh !important;
+  overflow: hidden !important;
+  --accent: var(--ga-gold);
+  --accent-dark: var(--ga-gold-2);
+  --accent-soft: rgba(214, 173, 99, 0.14);
+  --accent-soft-2: rgba(214, 173, 99, 0.22);
+  --accent-border: rgba(214, 173, 99, 0.34);
+  --panel: rgba(13, 23, 38, 0.96);
+  --panel-2: rgba(18, 31, 50, 0.95);
+  --surface: #050b14;
+  --input-bg: rgba(4, 10, 18, 0.84);
+  --line: rgba(92, 119, 154, 0.38);
+  --line-soft: rgba(92, 119, 154, 0.22);
+  --ink: #edf5ff;
+  --muted: #aebbc9;
+  --faint: #8190a4;
+  --map-bg: #050b14;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .gaongil-portal-bar {
+  position: relative;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .app {
+  height: calc(100dvh - 84px) !important;
+  background: #050b14 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .home-link {
+  display: none !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] aside {
+  border-right-color: rgba(214, 173, 99, 0.24) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.06), transparent 42%),
+    rgba(9, 18, 32, 0.98) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] h1,
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] :where(.field-label, label, .credit-line strong, .metric strong, .school strong, .popup h2) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .credit-line,
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .metric,
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .seg,
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .legend,
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .leaflet-popup-content-wrapper,
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .leaflet-tooltip.school-tip {
+  border-color: rgba(214, 173, 99, 0.22) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent),
+    rgba(13, 23, 38, 0.94) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] :where(.credit-line, .metric span, .school span, .empty-state, .legend span) {
+  color: #aebbc9 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] :where(input, select) {
+  border-color: rgba(92, 119, 154, 0.52) !important;
+  background: rgba(4, 10, 18, 0.86) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] :where(input::placeholder) {
+  color: #8291a6 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] :where(.seg button, .quick-filter, .ghost-btn, .icon-btn) {
+  border-color: rgba(214, 173, 99, 0.32) !important;
+  background: rgba(214, 173, 99, 0.12) !important;
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] :where(.seg button[aria-pressed="true"], button:not(.seg button):not(.quick-filter):not(.school):not(.icon-btn)) {
+  background: linear-gradient(180deg, #f0d99b, #c99743) !important;
+  color: #081321 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .school {
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .school:hover,
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .school.active {
+  background: rgba(214, 173, 99, 0.12) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .school.active {
+  box-shadow: inset 3px 0 0 #d6ad63 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .school .students,
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .school .dist {
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .marker-cluster div,
+body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .school-marker .pin {
+  border-color: #050b14 !important;
+  box-shadow: 0 0 0 2px rgba(240, 217, 155, 0.38), 0 8px 18px rgba(0, 0, 0, 0.34) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] {
+  background:
+    linear-gradient(rgba(214, 173, 99, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(214, 173, 99, 0.04) 1px, transparent 1px),
+    linear-gradient(118deg, rgba(214, 173, 99, 0.1), transparent 28%),
+    linear-gradient(180deg, #050b14 0%, #081321 44%, #060d18 100%) !important;
+  background-size: 64px 64px, 64px 64px, auto, auto !important;
+  --brand: #d6ad63;
+  --brand-2: #f0d99b;
+  --brand-3: #c99743;
+  --brand-soft: rgba(214, 173, 99, 0.13);
+  --brand-tint: rgba(214, 173, 99, 0.28);
+  --gold: #d6ad63;
+  --gold-2: #f0d99b;
+  --gold-soft: rgba(214, 173, 99, 0.13);
+  --gold-tint: rgba(214, 173, 99, 0.36);
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(.floating-main, .topbar) {
+  display: none !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] .container {
+  width: min(1520px, calc(100% - 36px)) !important;
+  padding-top: 42px !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(.hero, .section, .controls, .chart-card, .calc-card, .compare-box, .table-area, footer, .notice) {
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 42%),
+    rgba(13, 23, 38, 0.92) !important;
+  color: #edf5ff !important;
+  box-shadow: 0 22px 62px rgba(0, 0, 0, 0.32) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(.section-head, .table-toolbar, thead th) {
+  border-color: rgba(214, 173, 99, 0.22) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.1), transparent),
+    rgba(18, 31, 50, 0.94) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(h1, h2, h3, h4, .section-title, .brand-title, .info-value, .kpi-value, .result-count, .school-name, .compare-name, th, strong, b) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] h1 .accent {
+  background: linear-gradient(90deg, #f0d99b, #d6ad63) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: #f0d99b !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(p, .section-subtitle, .hero-copy, .brand-subtitle, .info-label, .kpi-detail, .muted, .table-note, td, small) {
+  color: #b9c4d2 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(.info-card, .kpi-card, .guide-card, .summary-card, .compare-card, .mobile-card) {
+  border-color: rgba(92, 119, 154, 0.34) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent),
+    rgba(18, 31, 50, 0.9) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(.pill, .badge, .chip, .btn) {
+  border-color: rgba(214, 173, 99, 0.34) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(.btn-primary) {
+  background: linear-gradient(180deg, #f0d99b, #c99743) !important;
+  color: #081321 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(.btn-soft, .btn, .checkbox-pill) {
+  background: rgba(18, 31, 50, 0.86) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(.pill-blue, .pill-green, .pill-amber, .badge-public, .badge-private, .badge-cyber, .badge-polytech, .badge-low, .badge-high, .badge-zero) {
+  background: rgba(214, 173, 99, 0.14) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(.bar-label, .bar-value, .hist-label, .hist-value, .calc-label, .calc-value, .money-main, .money-sub) {
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(.bar-fill, .hist-fill) {
+  background: linear-gradient(90deg, #b78935, #f0d99b) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="unimo"] :where(tbody tr.chungnam-row, .mobile-card.chungnam-row) {
+  box-shadow: none !important;
+}
+
+/* Extra contrast pass for imported resource pages. */
+body.gaongil-linked-page {
+  --brand: var(--ga-gold);
+  --brand2: var(--ga-gold-2);
+  --brand-2: var(--ga-gold-2);
+  --accent: var(--ga-gold);
+  --accent2: var(--ga-gold-2);
+  --accent-2: var(--ga-gold-2);
+  --primary: var(--ga-gold);
+  --secondary: #b9c4d2;
+  --gold: var(--ga-gold);
+  --gold-2: var(--ga-gold-2);
+  --text: var(--ga-text);
+  --ink: var(--ga-text);
+  --fg: var(--ga-text);
+  --muted: #b9c4d2;
+  --sub: #a9b7ca;
+  --paper: rgba(13, 23, 38, 0.94);
+  --surface: rgba(13, 23, 38, 0.94);
+  --card: rgba(13, 23, 38, 0.94);
+  --panel: rgba(13, 23, 38, 0.94);
+  --line: rgba(92, 119, 154, 0.36);
+}
+
+body.gaongil-linked-page :where(
+  .wrap, .container, .page, .app, main, .content, .shell, .section, .block, .hero,
+  .overview, .summary-grid, .stat-grid, .stats, .stat-box, .stat-card, .metric-card, .metric-box,
+  .filters, .filterbar, .filter-bar, .fbar, .searchbar, .search-box, .toolbar,
+  .cards, .grid, .table-section, .results, .result-list, .result-panel,
+  .table-wrap, .tablewrap, .tbl-wrap, .data-wrap, .calendar, .detail-box, .detail-card,
+  .faq-item, .accordion, .qa, .note-box, .notice-box, .credit, .credit-box, .footer, footer
+) {
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 46%),
+    rgba(13, 23, 38, 0.94) !important;
+  color: var(--ga-text) !important;
+  box-shadow: 0 22px 62px rgba(0, 0, 0, 0.28);
+}
+
+body.gaongil-linked-page :where(
+  .visual-card, .hero-visual, .hero-panel, .overview-card, .card, .item, .row-card,
+  .school-card, .uni-card, .file-card, .program-card, .college-card, .result-card,
+  .eval-card, .interview-card, .download-card, .month-card, .event-card, .date-card
+) {
+  border-color: rgba(92, 119, 154, 0.34) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.06), transparent 44%),
+    rgba(11, 22, 38, 0.94) !important;
+  color: var(--ga-text) !important;
+  box-shadow: var(--ga-shadow);
+}
+
+body.gaongil-linked-page :where(
+  h1, h2, h3, h4, h5, h6, legend, summary,
+  .hero-title, .page-title, .title, .subtitle, .section-title, .section-head,
+  .card-title, .item-title, .uni-title, .uni-name, .major, .major-name, .college-name,
+  .file-title, .program-title, .result-title, .metric-title, .stat-title,
+  .label, .label-text, .credit-label, .pline, th
+) {
+  color: #fff8e8 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(
+  p, li, dd, dt, td, span, small, label, .desc, .description, .lead, .sub, .subtext,
+  .muted, .hint, .help, .meta, .caption, .note, .note-text, .count-text, .credit-main,
+  .credit-sub, .empty, .empty-text, .result-meta, .file-meta, .college-meta
+) {
+  color: #b9c4d2 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(
+  strong, b, em, .num, .number, .count, .total, .value, .score, .rank,
+  .stat strong, .stat b, .metric strong, .metric b, .badge strong
+) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(
+  .accent, .highlight, .point, .kicker, .eyebrow, .chip.on, .pill.on,
+  .active, .selected, .current, .nav-active, .tab.active, .tab.on
+) {
+  color: var(--ga-gold-2) !important;
+}
+
+body.gaongil-linked-page :where(
+  button, .btn, .button, .btnlike, .linkbtn, .smallbtn, .mainbtn, .home, .home-link,
+  .tabbtn, .tab, .tabs button, .chip, .pill, .badge, .filter-chip, .tag, .select-pill
+) {
+  border-color: rgba(214, 173, 99, 0.32) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent),
+    rgba(18, 31, 50, 0.9) !important;
+  color: #edf5ff !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(
+  button.primary, .btn.primary, .btn-primary, .primary, .tabbtn.active, .tabbtn.on,
+  .tab.active, .tab.on, .chip.active, .chip.on, .pill.active, .pill.on,
+  .badge.active, .filter-chip.active, .selected, [aria-selected="true"]
+) {
+  border-color: rgba(240, 217, 155, 0.7) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(
+  button.primary, .btn.primary, .btn-primary, .primary, .tabbtn.active, .tabbtn.on,
+  .tab.active, .tab.on, .chip.active, .chip.on, .pill.active, .pill.on,
+  .badge.active, .filter-chip.active, .selected, [aria-selected="true"]
+) :where(span, b, strong, em) {
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(input, select, textarea, .search-input, .select, .dropdown) {
+  border-color: rgba(92, 119, 154, 0.58) !important;
+  background: rgba(4, 10, 18, 0.9) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page :where(table, .table, .tbl, .data-table) {
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background: rgba(7, 18, 33, 0.88) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page :where(thead, thead tr, th) {
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.12), transparent),
+    rgba(18, 31, 50, 0.98) !important;
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page :where(td) {
+  border-color: rgba(92, 119, 154, 0.28) !important;
+  background: rgba(9, 20, 35, 0.82) !important;
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page :where(tbody tr:nth-child(even) td) {
+  background: rgba(12, 27, 46, 0.9) !important;
+}
+
+body.gaongil-linked-page :where(.white, .light, .paper, .cream, .ivory) {
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.065), transparent 44%),
+    rgba(13, 23, 38, 0.94) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page :where(.mainbtn[href="index.html"], .btn[href="index.html"], .home[href="index.html"]) {
+  display: none !important;
+}
+
+body.gaongil-linked-page :where(
+  .file-item, .ftype, .rbadge, .switch, .toggle, .uni-row, .ratio-card, .stack,
+  .fchip, .block-head, .ratio-bar, .fcard, .cat, .toast, .kicker
+) {
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.06), transparent 44%),
+    rgba(13, 23, 38, 0.94) !important;
+  color: #edf5ff !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(.uni-row.active, .file-item:hover, .ratio-card:hover, .fcard:hover) {
+  border-color: rgba(240, 217, 155, 0.64) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.18), transparent 56%),
+    rgba(18, 31, 50, 0.98) !important;
+}
+
+body.gaongil-linked-page :where(
+  .file-item *, .ftype, .rbadge, .switch *, .toggle *, .uni-row *, .ratio-card *,
+  .stack *, .fchip, .block-head *, .ratio-bar *, .fcard *, .cat, .toast *, .kicker *
+) {
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page :where(
+  .file-item strong, .file-item b, .uni-row strong, .uni-row b, .ratio-card strong,
+  .ratio-card b, .fcard strong, .fcard b, .block-head strong, .block-head b
+) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(.ftype, .rbadge, .fchip, .cat, .count, .kicker) {
+  border-color: rgba(214, 173, 99, 0.34) !important;
+  background: rgba(214, 173, 99, 0.14) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(.switch input, .toggle input) {
+  accent-color: var(--ga-gold) !important;
+}
+
+/* 2028 imported-page contrast pass. */
+body.gaongil-linked-page .gaongil-resource-list a.active {
+  background-color: #d6ad63 !important;
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(
+  .eyebrow, .hero-meta, .notice-inline, .notice-inline span, .mini-item, .mini-card, .intro-notice, .warnings, .top-warning,
+  .min-card, .compact-card, .compact-row, .candidate-card, .quick-card,
+  .point-card, .timeline-card, .change-list, .change-item, .suggest-item,
+  .slot, .active-chip, .preset-btn, .mode-btn, .type-tab, .nav-btn, .pgt-btn,
+  .seg, .seg-btn, .view-toggle, .view-switch, .head-top, .card-head,
+  .univ-title, .univ-meta, .campus, .type-pill, .req-pill, .req, .rq,
+  .criteria, .criteria-card, .condition-card, .lookup-card, .filter-row,
+  .filter-panel, .summary-box, .rank-card, .analysis-card, .entry-card,
+  .info-panel, .data-panel, .stat-panel, .univ-group, .univ-group-head,
+  .subject-row, .dept-card, .program-row, .popup, .sheet, .form-row,
+  .check-row, .option-row, .school-item, .university-card, .warning-box,
+  .notice-card, .hero-mini, .tile, .tile-card, .result-item, .result-row
+) {
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.065), transparent 44%),
+    rgba(13, 23, 38, 0.95) !important;
+  background-color: rgba(13, 23, 38, 0.95) !important;
+  color: #edf5ff !important;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.24) !important;
+}
+
+body.gaongil-linked-page :where(
+  .eyebrow, .hero-meta, .notice-inline, .notice-inline span, .mini-item, .mini-card, .intro-notice, .warnings, .top-warning,
+  .min-card, .compact-card, .compact-row, .candidate-card, .quick-card,
+  .point-card, .timeline-card, .change-list, .change-item, .suggest-item,
+  .slot, .active-chip, .preset-btn, .mode-btn, .type-tab, .nav-btn, .pgt-btn,
+  .seg, .seg-btn, .view-toggle, .view-switch, .head-top, .card-head,
+  .univ-title, .univ-meta, .campus, .type-pill, .req-pill, .req, .rq,
+  .criteria, .criteria-card, .condition-card, .lookup-card, .filter-row,
+  .filter-panel, .summary-box, .rank-card, .analysis-card, .entry-card,
+  .info-panel, .data-panel, .stat-panel, .univ-group, .univ-group-head,
+  .subject-row, .dept-card, .program-row, .popup, .sheet, .form-row,
+  .check-row, .option-row, .school-item, .university-card, .warning-box,
+  .notice-card, .hero-mini, .tile, .tile-card, .result-item, .result-row
+) :where(h1, h2, h3, h4, h5, h6, strong, b, em, .title, .name, .univ-title, .major, .score, .num, .value) {
+  color: #fff8e8 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(
+  .eyebrow, .hero-meta, .notice-inline, .notice-inline span, .mini-item, .mini-card, .intro-notice, .warnings, .top-warning,
+  .min-card, .compact-card, .compact-row, .candidate-card, .quick-card,
+  .point-card, .timeline-card, .change-list, .change-item, .suggest-item,
+  .slot, .active-chip, .preset-btn, .mode-btn, .type-tab, .nav-btn, .pgt-btn,
+  .seg, .seg-btn, .view-toggle, .view-switch, .head-top, .card-head,
+  .univ-title, .univ-meta, .campus, .type-pill, .req-pill, .req, .rq,
+  .criteria, .criteria-card, .condition-card, .lookup-card, .filter-row,
+  .filter-panel, .summary-box, .rank-card, .analysis-card, .entry-card,
+  .info-panel, .data-panel, .stat-panel, .univ-group, .univ-group-head,
+  .subject-row, .dept-card, .program-row, .popup, .sheet, .form-row,
+  .check-row, .option-row, .school-item, .university-card, .warning-box,
+  .notice-card, .hero-mini, .tile, .tile-card, .result-item, .result-row
+) :where(p, li, span, small, label, div, td, th, .meta, .sub, .muted, .hint, .desc) {
+  color: #b9c4d2 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(
+  .type-pill, .req-pill, .active-chip, .preset-btn.active, .mode-btn.active,
+  .type-tab.active, .nav-btn.active, .pgt-btn.active, .seg button.active,
+  .seg button.on, .seg-btn.active, .view-toggle .active, .chip.active,
+  .chip.on, .pill.active, .pill.on, .filter-chip.active
+) {
+  border-color: rgba(240, 217, 155, 0.64) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  background-color: #d6ad63 !important;
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(
+  .type-pill, .req-pill, .active-chip, .preset-btn.active, .mode-btn.active,
+  .type-tab.active, .nav-btn.active, .pgt-btn.active, .seg button.active,
+  .seg button.on, .seg-btn.active, .view-toggle .active, .chip.active,
+  .chip.on, .pill.active, .pill.on, .filter-chip.active
+) :where(span, b, strong, em) {
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(.btn-primary, .primary, .cta, button.active, .selected, [aria-selected="true"]) {
+  background-color: #d6ad63 !important;
+}
+
+body.gaongil-linked-page .nav-btn.active,
+body.gaongil-linked-page .type-tab.active,
+body.gaongil-linked-page .mode-btn.active,
+body.gaongil-linked-page .pgt-btn.active,
+body.gaongil-linked-page .tab.on,
+body.gaongil-linked-page .tab.active,
+body.gaongil-linked-page .chip.active,
+body.gaongil-linked-page .chip.on,
+body.gaongil-linked-page button.active,
+body.gaongil-linked-page [aria-selected="true"] {
+  border-color: rgba(240, 217, 155, 0.72) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  background-color: #d6ad63 !important;
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page .nav-btn.active *,
+body.gaongil-linked-page .type-tab.active *,
+body.gaongil-linked-page .mode-btn.active *,
+body.gaongil-linked-page .pgt-btn.active *,
+body.gaongil-linked-page .tab.on *,
+body.gaongil-linked-page .tab.active *,
+body.gaongil-linked-page .chip.active *,
+body.gaongil-linked-page .chip.on *,
+body.gaongil-linked-page button.active *,
+body.gaongil-linked-page [aria-selected="true"] * {
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(
+  a[href="index.html"], a[href="./index.html"], a[href="../index.html"]
+):not(.gaongil-brand):not(.gaongil-main-button):not(.gaongil-resource-list a) {
+  display: none !important;
+}
+
+/* Final contrast unification pass across imported tools and guide pages. */
+body.gaongil-linked-page {
+  scrollbar-color: rgba(128, 150, 180, 0.78) rgba(5, 11, 20, 0.88);
+}
+
+body.gaongil-linked-page ::selection {
+  background: rgba(214, 173, 99, 0.36);
+  color: #fff8e8;
+}
+
+body.gaongil-linked-page * {
+  scrollbar-color: rgba(128, 150, 180, 0.78) rgba(5, 11, 20, 0.88);
+}
+
+body.gaongil-linked-page *::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+body.gaongil-linked-page *::-webkit-scrollbar-track {
+  border: 1px solid rgba(92, 119, 154, 0.18);
+  border-radius: 999px;
+  background: rgba(5, 11, 20, 0.9);
+}
+
+body.gaongil-linked-page *::-webkit-scrollbar-thumb {
+  border: 3px solid rgba(5, 11, 20, 0.9);
+  border-radius: 999px;
+  background: rgba(128, 150, 180, 0.82);
+}
+
+body.gaongil-linked-page *::-webkit-scrollbar-corner {
+  background: rgba(5, 11, 20, 0.9);
+}
+
+body.gaongil-linked-page :where(
+  .flow, .flow-step, .form-card, .area-box, .quota-header, .quote,
+  .teacher-use, .source-map, .source-map .card, .guide-card, .guide-box,
+  .key-card, .key-box, .type-card, .type-box, .option-card, .option-box,
+  .condition-box, .condition-card, .eligibility-card, .requirement-card,
+  .procedure-card, .process-card, .flow-card, .step-card, .aid-step, .aid-card,
+  .tuition-step, .tuition-card, .timeline, .timeline-item, .timeline-box,
+  .faq, .faq-card, .qa, .qa-card, .accordion-item, .question-card,
+  .compare, .compare-card, .comparison-card, .checker-card, .checker-result,
+  .summary-card, .summary-box, .score-card, .score-box, .score-panel,
+  .metric-card, .metric-box, .stat-card, .stat-box, .kpi-card, .kpi-box,
+  .calendar-wrap, .calendar-panel, .calendar-grid, .calendar-card, .calendar-day,
+  .day, .day-card, .day-cell, .date-card, .date-box, .month-card, .month-body,
+  .event, .event-card, .event-item, .event-list, .schedule-card, .schedule-item,
+  .notice-card, .notice-box, .warning-card, .warning-box, .tip-card, .tip-box,
+  .info-card, .info-box, .search-card, .search-box, .result-box, .result-item,
+  .result-row, .results-panel, .list-card, .list-item, .content-card,
+  .download-card, .download-item, .univ-card, .college-card, .school-card,
+  .dept-card, .program-card, .popup, .sheet, .dialog, .modal, .modal-card,
+  .sticky-mini, .result-toolbar, .detail-item, .detail-grid, .source-box,
+  .interpret, .quality-note, .adm-body, .adm-row, .adm-card, .adm-field,
+  .field, .field-full, .tips, .tip, .quick, .quick-grid, .sort-tabs,
+  .list, .card-head, .subject-line, .detail-panel, .icon-btn
+) {
+  border-color: rgba(92, 119, 154, 0.38) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.065), transparent 46%),
+    rgba(13, 23, 38, 0.96) !important;
+  background-color: rgba(13, 23, 38, 0.96) !important;
+  color: #edf5ff !important;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.24) !important;
+}
+
+body.gaongil-linked-page :where(
+  [style*="background:#fff"], [style*="background: #fff"], [style*="background:white"], [style*="background: white"],
+  [style*="background-color:#fff"], [style*="background-color: #fff"], [style*="background-color:white"], [style*="background-color: white"],
+  [style*="background:#f"], [style*="background: #f"], [style*="background:#F"], [style*="background: #F"],
+  [style*="background-color:#f"], [style*="background-color: #f"], [style*="background-color:#F"], [style*="background-color: #F"],
+  [style*="rgba(255"], [style*="rgb(255"]
+) {
+  border-color: rgba(92, 119, 154, 0.38) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.06), transparent 44%),
+    rgba(13, 23, 38, 0.96) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page :where(
+  .flow, .flow-step, .form-card, .area-box, .quota-header, .quote,
+  .teacher-use, .source-map, .guide-card, .guide-box, .key-card, .key-box,
+  .type-card, .type-box, .option-card, .option-box, .condition-box,
+  .condition-card, .eligibility-card, .requirement-card, .procedure-card,
+  .process-card, .flow-card, .step-card, .aid-step, .aid-card, .tuition-step,
+  .tuition-card, .timeline, .timeline-item, .timeline-box, .faq, .faq-card,
+  .qa, .qa-card, .accordion-item, .question-card, .compare, .compare-card,
+  .comparison-card, .checker-card, .checker-result, .summary-card, .summary-box,
+  .score-card, .score-box, .score-panel, .metric-card, .metric-box, .stat-card,
+  .stat-box, .kpi-card, .kpi-box, .calendar-wrap, .calendar-panel,
+  .calendar-grid, .calendar-card, .calendar-day, .day, .day-card, .day-cell,
+  .date-card, .date-box, .month-card, .month-body, .event, .event-card,
+  .event-item, .event-list, .schedule-card, .schedule-item, .notice-card,
+  .notice-box, .warning-card, .warning-box, .tip-card, .tip-box, .info-card,
+  .info-box, .search-card, .search-box, .result-box, .result-item, .result-row,
+  .results-panel, .list-card, .list-item, .content-card, .download-card,
+  .download-item, .univ-card, .college-card, .school-card, .dept-card,
+  .program-card, .popup, .sheet, .dialog, .modal, .modal-card,
+  .sticky-mini, .result-toolbar, .detail-item, .detail-grid, .source-box,
+  .interpret, .quality-note, .adm-body, .adm-row, .adm-card, .adm-field,
+  .field, .field-full, .tips, .tip, .quick, .quick-grid, .sort-tabs,
+  .list, .card-head, .subject-line, .detail-panel, .icon-btn
+) :where(h1, h2, h3, h4, h5, h6, summary, legend, b, strong, em, .title, .name, .heading, .headline, .label, .lab, .big, .value, .num, .number, .count, .money) {
+  color: #fff8e8 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(
+  .flow, .flow-step, .form-card, .area-box, .quota-header, .quote,
+  .teacher-use, .source-map, .guide-card, .guide-box, .key-card, .key-box,
+  .type-card, .type-box, .option-card, .option-box, .condition-box,
+  .condition-card, .eligibility-card, .requirement-card, .procedure-card,
+  .process-card, .flow-card, .step-card, .aid-step, .aid-card, .tuition-step,
+  .tuition-card, .timeline, .timeline-item, .timeline-box, .faq, .faq-card,
+  .qa, .qa-card, .accordion-item, .question-card, .compare, .compare-card,
+  .comparison-card, .checker-card, .checker-result, .summary-card, .summary-box,
+  .score-card, .score-box, .score-panel, .metric-card, .metric-box, .stat-card,
+  .stat-box, .kpi-card, .kpi-box, .calendar-wrap, .calendar-panel,
+  .calendar-grid, .calendar-card, .calendar-day, .day, .day-card, .day-cell,
+  .date-card, .date-box, .month-card, .month-body, .event, .event-card,
+  .event-item, .event-list, .schedule-card, .schedule-item, .notice-card,
+  .notice-box, .warning-card, .warning-box, .tip-card, .tip-box, .info-card,
+  .info-box, .search-card, .search-box, .result-box, .result-item, .result-row,
+  .results-panel, .list-card, .list-item, .content-card, .download-card,
+  .download-item, .univ-card, .college-card, .school-card, .dept-card,
+  .program-card, .popup, .sheet, .dialog, .modal, .modal-card,
+  .sticky-mini, .result-toolbar, .detail-item, .detail-grid, .source-box,
+  .interpret, .quality-note, .adm-body, .adm-row, .adm-card, .adm-field,
+  .field, .field-full, .tips, .tip, .quick, .quick-grid, .sort-tabs,
+  .list, .card-head, .subject-line, .detail-panel, .icon-btn
+) :where(p, li, dd, dt, span, small, label, div, .desc, .description, .sub, .subtext, .muted, .hint, .help, .meta, .caption, .note-text) {
+  color: #b9c4d2 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(
+  .pill, .tag, .badge, .chip, .label-badge, .type-pill, .req-pill, .region-chip,
+  .count-badge, .day-badge, .date-badge, .status, .status-badge, .bdg, .cc,
+  .pin, .ribbon, .rbadge, .ftype, .b, .dpill, .gtab, .qnav-btn, .page-btn,
+  .filter-chip, .select-pill
+) {
+  border-color: rgba(214, 173, 99, 0.36) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+    rgba(214, 173, 99, 0.13) !important;
+  color: #fff8e8 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(
+  .pill, .tag, .badge, .chip, .label-badge, .type-pill, .req-pill, .region-chip,
+  .count-badge, .day-badge, .date-badge, .status, .status-badge, .bdg, .cc,
+  .pin, .ribbon, .rbadge, .ftype, .b, .dpill, .gtab, .qnav-btn, .page-btn,
+  .filter-chip, .select-pill
+) :where(span, b, strong, em, small) {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page :where(
+  .pill.active, .pill.on, .tag.active, .tag.on, .badge.active, .badge.on,
+  .chip.active, .chip.on, .tab.active, .tab.on, .gtab.on, .qnav-btn.active,
+  .page-btn.active, .filter-chip.active, .dpill.hit, .selected, .current,
+  [aria-selected="true"], [aria-pressed="true"]
+) {
+  border-color: rgba(240, 217, 155, 0.72) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(
+  .pill.active, .pill.on, .tag.active, .tag.on, .badge.active, .badge.on,
+  .chip.active, .chip.on, .tab.active, .tab.on, .gtab.on, .qnav-btn.active,
+  .page-btn.active, .filter-chip.active, .dpill.hit, .selected, .current,
+  [aria-selected="true"], [aria-pressed="true"]
+) :where(span, b, strong, em, small) {
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(
+  .score-card.primary, .score-card.main, .summary-card.primary, .stat-card.primary,
+  .score.primary, .score-box.primary, .metric-card.primary, .kpi-card.primary,
+  .gold-card, .gold, .accent-card
+) {
+  border-color: rgba(240, 217, 155, 0.72) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(
+  .score-card.primary, .score-card.main, .summary-card.primary, .stat-card.primary,
+  .score.primary, .score-box.primary, .metric-card.primary, .kpi-card.primary,
+  .gold-card, .gold, .accent-card
+) :where(h1, h2, h3, h4, p, span, small, b, strong, em, div, label) {
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page :where(
+  .badge-num, .step-num, .step-no, .circle-num, .num-badge, .qn, .fnum
+) {
+  border: 1px solid rgba(240, 217, 155, 0.68) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  color: #071221 !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page :where(
+  tr.highlight, tr.highlight-row, tr.row-highlight, tr.active, tr.selected,
+  tr[class*="highlight"], tr[class*="selected"], tr[class*="active"],
+  tr[style*="background"], tr[style*="rgba(255"], tr[style*="rgb(255"]
+) > :where(td, th) {
+  border-color: rgba(214, 173, 99, 0.28) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.15), transparent 62%),
+    rgba(18, 31, 50, 0.96) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page :where(
+  tr.highlight, tr.highlight-row, tr.row-highlight, tr.active, tr.selected,
+  tr[class*="highlight"], tr[class*="selected"], tr[class*="active"],
+  tr[style*="background"], tr[style*="rgba(255"], tr[style*="rgb(255"]
+) > :where(td, th) :where(span, b, strong, small, a, div) {
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page :where(mark, .highlight:not(tr):not(td):not(th)) {
+  border-radius: 6px;
+  background: rgba(214, 173, 99, 0.18) !important;
+  color: #fff8e8 !important;
+  box-decoration-break: clone;
+}
+
+body.gaongil-linked-page :where(.progress, .bar, .meter, .track) {
+  background: rgba(5, 11, 20, 0.82) !important;
+}
+
+body.gaongil-linked-page :where(.progress span, .bar span, .meter span, .fill, .bar-fill) {
+  background: linear-gradient(90deg, #b78935, #f0d99b) !important;
+}
+
+body.gaongil-linked-page :where(.alert, .warning, .warning-box, .danger, .danger-box) {
+  border-color: rgba(214, 173, 99, 0.34) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.08), transparent 48%),
+    rgba(13, 23, 38, 0.96) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page :where(.alert, .warning, .warning-box, .danger, .danger-box) :where(b, strong, h1, h2, h3, h4) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(.delta.up, .delta.down, .delta.zero, .diff-badge, .tag-new, .tag-change, .tag-del) {
+  border-color: rgba(214, 173, 99, 0.34) !important;
+  background: rgba(214, 173, 99, 0.13) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(.modal, .popup, .sheet, dialog)::backdrop {
+  background: rgba(0, 0, 0, 0.72) !important;
+}
+
+body.gaongil-linked-page :where(
+  .field-label, .tip-label, .quick .k, .detail-item b, .source-row b,
+  .adm-quota b, .adm-name, .adm-title, .result-toolbar h2, .sticky-mini b,
+  .sort-tabs button.active, .period-tag, .subject-line .label
+) {
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page :where(
+  .field-value, .tip-value, .quick .v, .adm-quota, .adm-body, .adm-body *,
+  .subject-line .value, .card-title .detail, .sticky-mini span,
+  .detail-item, .source-row, .quality-note, .interpret p
+) {
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page :where(
+  .adm-table td.adm-kind, .adm-table td.adm-name, .adm-table td.adm-n,
+  .adm-table tr.adm-note-row td, .adm-table tr.adm-note-row.plain td
+) {
+  border-color: rgba(92, 119, 154, 0.28) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.12), transparent 66%),
+    rgba(9, 20, 35, 0.9) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page :where(
+  .tot, .cell .tot, .count-pill, .calendar-count, .event-count
+) {
+  border: 1px solid rgba(240, 217, 155, 0.58) !important;
+  background: rgba(214, 173, 99, 0.16) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page :where(.quick .v.ok, .tip-fit .tip-label) {
+  color: #aee7c1 !important;
+}
+
+body.gaongil-linked-page :where(.quick .v.warn, .tip-prep .tip-label) {
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page :where(.dsub, .dmeta, .calendar-sub, .schedule-sub, .panel-sub) {
+  color: #dce7f6 !important;
+}
+
+/* White-surface cleanup pass: keep every imported page on the same navy/gold system. */
+body.gaongil-linked-page.gaongil-linked-page {
+  --bg: #060d18 !important;
+  --bg-elevated: #0d1726 !important;
+  --paper: rgba(13, 23, 38, 0.96) !important;
+  --surface: rgba(13, 23, 38, 0.96) !important;
+  --surface-2: rgba(18, 31, 50, 0.96) !important;
+  --soft: rgba(18, 31, 50, 0.92) !important;
+  --card: rgba(13, 23, 38, 0.96) !important;
+  --white: rgba(13, 23, 38, 0.96) !important;
+  --brandTint: rgba(214, 173, 99, 0.12) !important;
+  --brandSoft: rgba(214, 173, 99, 0.16) !important;
+  --accent-weak: rgba(214, 173, 99, 0.16) !important;
+  --ok-bg: rgba(76, 153, 111, 0.16) !important;
+  --greenSoft: rgba(76, 153, 111, 0.16) !important;
+  --lightgreen: rgba(76, 153, 111, 0.16) !important;
+  --warn-bg: rgba(214, 173, 99, 0.16) !important;
+  --amberSoft: rgba(214, 173, 99, 0.16) !important;
+  --amber-soft: rgba(214, 173, 99, 0.16) !important;
+  --roseSoft: rgba(214, 87, 87, 0.14) !important;
+  --rose-soft: rgba(214, 87, 87, 0.14) !important;
+  --redSoft: rgba(214, 87, 87, 0.14) !important;
+  --sky: rgba(92, 119, 154, 0.16) !important;
+  --sky-soft: rgba(92, 119, 154, 0.16) !important;
+  --neutral-soft: rgba(92, 119, 154, 0.16) !important;
+  --violetSoft: rgba(126, 96, 204, 0.16) !important;
+  --purpleSoft: rgba(126, 96, 204, 0.16) !important;
+  --tealSoft: rgba(68, 168, 154, 0.16) !important;
+  --line2: rgba(92, 119, 154, 0.48) !important;
+  --line-2: rgba(92, 119, 154, 0.48) !important;
+  --line3: rgba(92, 119, 154, 0.22) !important;
+  --line-soft: rgba(92, 119, 154, 0.22) !important;
+  --ink2: #dce7f6 !important;
+  --ink-soft: #dce7f6 !important;
+  --text: #edf5ff !important;
+  --hint: #a9b7ca !important;
+  --muted2: #94a3b8 !important;
+  --muted-2: #94a3b8 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  .search-bar, .searchbox, .search-field, .suggest, .filter-panel, .fp-body, .fp-foot,
+  .filters, .filter-row, .filter-grid, .metric, .metrics, .stat, .stat-card,
+  .summary, .summary-card, .summary-box, .quick, .quick-grid, .qbox, .gunpill,
+  .lk-pick, .toc, .intro, .intro-notice, .intro-legend, .uni, .uni-head,
+  .warnings, .adm, .adm-body, .field, .tips, .tip, .compare-wrap, .tablewrap,
+  .table-scroll, .minimum-box, .tag-group-card, .univ-group, .univ-group-head,
+  .group-body, .compact-row, .change-card, .guide-card, .notice, .note,
+  .warning, .success, .amber, .callout, .disc, .warnbox, .result, .result-item,
+  .result-table, .result-head, .result-row, .result-toolbar, .result-panel,
+  .results-panel, .insight-panel, .search-panel, .notice-band, .credit-panel,
+  .side-panel, .detail-panel, .detail-grid, .detail-body, .detail-dialog,
+  .dialog-head, .drawer, .drawer-head, .drawer-body, .modal, .modal-body,
+  .m-body, .sec, .kv > div, .c-method, .notebox, .cmpscroll, .cmptable,
+  .compare-table, .compare-grid > div, .empty, .empty-note, .table-card,
+  .mobile-card, .mobile-meta, .rate-box, .help-section, .qa, .fstep, .tnode,
+  .tkid, .j-method, .checklist li, .flow-step, .form-card, .area-box,
+  .calc-result, .checkitem, .quote, .source-map .card, .teacher-use .card,
+  .type-card, .type-line, .eligibility-card, .criteria-line, .require-card,
+  .path-card, .method-box, .school-box, .info-strip, .info-banner, .source-pill,
+  .credit-pill, .education-count, .office-bars, .office-bar, .load-row
+) {
+  border-color: rgba(92, 119, 154, 0.4) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 48%),
+    rgba(13, 23, 38, 0.96) !important;
+  background-color: rgba(13, 23, 38, 0.96) !important;
+  color: #edf5ff !important;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24) !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  .minimum-box, .method, .c-method, .j-method, .subject-line, .field,
+  .criteria, .criteria-line, .condition-line, .condition-card, .require-box,
+  .req-box, .scoreline, .score-line, .track-line, .pre, .quote, .notebox,
+  .empty-note, .detail-grid dt, .compare-table td:first-child,
+  .compare-grid .row-label, .result-item, .area-box, .calc-result,
+  .help-section, .qa summary, .step-card, .flow-step, .fstep, .change-row
+) {
+  border-color: rgba(214, 173, 99, 0.28) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.12), transparent 70%),
+    rgba(18, 31, 50, 0.96) !important;
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  .tag, .pill, .chip, .badge, .bdg, .type-tag, .type-pill, .typetag,
+  .region-tag, .period-tag, .quota-pill, .pattern-badge, .req-pill,
+  .pin, .ribbon, .rbadge, .dpill, .upill, .fchip, .uchip, .gunpill,
+  .rq, .filter-toggle, .preset-btn, .pgt-btn, .btn-plain, .icon-btn,
+  .toolbtn, .seg, .seg button, .source-pill, .credit-pill, .label-box,
+  .type-label, .badge-num, .step-num, .step-no, .circle-num, .num-badge,
+  .mini-item b, .guide-card h3 .num, .h2 .num, .fnum, .qn, .tot,
+  .calendar-count, .event-count, .count-badge, .day-badge, .date-badge
+) {
+  border-color: rgba(214, 173, 99, 0.34) !important;
+  background: rgba(214, 173, 99, 0.14) !important;
+  color: #fff8e8 !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  .active, .on, .is-active, .selected, .current,
+  .chip.active, .chip.on, .pill.active, .pill.on,
+  .tab.active, .tab.on, .seg button.active, .seg button.on, .type-tab.active,
+  .pgt-btn.active, .nav-btn.active, .qnav-btn.active, .page-btn.active,
+  .fchip.active, .uchip.on, .filter-toggle.open
+):not(tr):not(td):not(th):not(div):not(aside):not(article):not(dialog):not(header):not(footer):not(nav):not(ul):not(ol):not(form):not(details):not(.row):not(.result-row):not(.list-row):not(.view):not(section):not(main):not(.panel):not(.layout) {
+  border-color: rgba(240, 217, 155, 0.72) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  .active, .on, .is-active, .selected, .current,
+  .chip.active, .chip.on, .pill.active, .pill.on,
+  .tab.active, .tab.on, .seg button.active, .seg button.on, .type-tab.active,
+  .pgt-btn.active, .nav-btn.active, .qnav-btn.active, .page-btn.active,
+  .fchip.active, .uchip.on, .filter-toggle.open
+):not(tr):not(td):not(th):not(div):not(aside):not(article):not(dialog):not(header):not(footer):not(nav):not(ul):not(ol):not(form):not(details):not(.row):not(.result-row):not(.list-row):not(.view):not(section):not(main):not(.panel):not(.layout) :is(
+  span, b, strong, em, small, svg, i
+) {
+  color: #071221 !important;
+  stroke: currentColor !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  .navlist a.active, .navlist a:hover, .side-list .active, .side-list .selected,
+  .univ-list .active, .univ-list .selected, .list-row.active, .list-row.selected,
+  .result-row.active, .result-row.selected, .suggest-item.active,
+  .suggest-item:hover, .uni-row.active, .uni-row.selected, .school-item.active,
+  .school-item.selected, tbody tr.is-selected, tbody tr.is-compared,
+  tbody tr:hover, tbody tr:hover td, tbody tr.is-selected td, tbody tr.is-compared td
+) {
+  border-color: rgba(214, 173, 99, 0.42) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.18), transparent 64%),
+    rgba(20, 34, 54, 0.98) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  input, select, textarea, .select, .dropdown, .search-bar input,
+  .searchbox input, .search-field input, .search input
+) {
+  border-color: rgba(92, 119, 154, 0.64) !important;
+  background: rgba(4, 10, 18, 0.92) !important;
+  color: #edf5ff !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  input::placeholder, textarea::placeholder, .search-bar input::placeholder,
+  .searchbox input::placeholder, .search-field input::placeholder
+) {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(table, .fulltbl, .adm-table, .cmptable, .compare-table) {
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background: rgba(7, 18, 33, 0.92) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(th, thead th, .result-head, .compare-grid .head) {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.14), transparent 70%),
+    rgba(18, 31, 50, 0.98) !important;
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(td, tbody th, .result-row > span, .detail-grid dd) {
+  border-color: rgba(92, 119, 154, 0.28) !important;
+  background: rgba(9, 20, 35, 0.84) !important;
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  h1, h2, h3, h4, h5, h6, summary, .hero-title, .section-title, .title,
+  .card-title, .uni-name, .univ-title, .college-name, .major-name,
+  .result-title, .side-title, .block-title, .detail-section-title,
+  .adm-name, .c-name, .cu .n, .school-name
+) {
+  color: #fff8e8 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  p, li, span, small, label, div, dd, dt, .desc, .lead, .hero-copy,
+  .hero-note, .sub, .muted, .hint, .meta, .cell-sub, .field-value,
+  .tip-value, .detail, .value, .pre, .method, .empty-note
+) {
+  color: #d0d9e7 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  strong, b, em, .num, .number, .count, .cnt, .value, .v, .n28,
+  .quota, .score, .money, .decision, .big, .rank, .cell-main
+) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="medi"] .adm-table tr.ri-row td,
+body.gaongil-linked-page[data-gaongil-page="medi"] .adm-table tr.adm-note-row td,
+body.gaongil-linked-page[data-gaongil-page="medi"] .adm-table tr.adm-note-row.plain td,
+body.gaongil-linked-page[data-gaongil-page="specialized"] .result-head,
+body.gaongil-linked-page[data-gaongil-page="specialized"] .result-row,
+body.gaongil-linked-page[data-gaongil-page="specialized"] .detail-body,
+body.gaongil-linked-page[data-gaongil-page="specialized"] .detail-body *,
+body.gaongil-linked-page[data-gaongil-page="localmedi"] .drawer-body,
+body.gaongil-linked-page[data-gaongil-page="localmedi"] .modal-body,
+body.gaongil-linked-page[data-gaongil-page="localmedi"] .detail-grid,
+body.gaongil-linked-page[data-gaongil-page="localmedi"] .detail-grid dt,
+body.gaongil-linked-page[data-gaongil-page="localmedi"] .detail-grid dd,
+body.gaongil-linked-page[data-gaongil-page="chuchon"] .modal,
+body.gaongil-linked-page[data-gaongil-page="chuchon"] .m-body,
+body.gaongil-linked-page[data-gaongil-page="chuchon"] .cmptable td.field,
+body.gaongil-linked-page[data-gaongil-page="gyogwa2028"] .detail-panel,
+body.gaongil-linked-page[data-gaongil-page="gyogwa2028"] .compare-table td:first-child,
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .navlist a.active,
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .field,
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .tip,
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .col-name {
+  border-color: rgba(214, 173, 99, 0.28) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.14), transparent 68%),
+    rgba(18, 31, 50, 0.98) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page [style*="#fff"],
+body.gaongil-linked-page.gaongil-linked-page [style*="#FFF"],
+body.gaongil-linked-page.gaongil-linked-page [style*="background:white"],
+body.gaongil-linked-page.gaongil-linked-page [style*="background: white"],
+body.gaongil-linked-page.gaongil-linked-page [style*="background-color:white"],
+body.gaongil-linked-page.gaongil-linked-page [style*="background-color: white"],
+body.gaongil-linked-page.gaongil-linked-page [style*="rgba(255"],
+body.gaongil-linked-page.gaongil-linked-page [style*="rgb(255"] {
+  border-color: rgba(92, 119, 154, 0.4) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 48%),
+    rgba(13, 23, 38, 0.96) !important;
+  color: #edf5ff !important;
+}
+
+/* Deep contrast sweep for imported pages with their own light card systems. */
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  [class*="card"], [class*="box"], [class*="panel"], [class*="pane"],
+  [class*="surface"], [class*="paper"], [class*="white"], [class*="notice"],
+  [class*="summary"], [class*="stat"], [class*="metric"], [class*="quick"],
+  [class*="result"], [class*="detail"], [class*="drawer"], [class*="modal"],
+  [class*="dialog"], [class*="table"], [class*="tbl"], [class*="grid"],
+  [class*="list"], [class*="item"], [class*="tile"], [class*="block"],
+  [class*="section"], [class*="flow"], [class*="step"], [class*="check"],
+  [class*="field"], [class*="method"], [class*="condition"], [class*="criteria"],
+  [class*="require"], [class*="eligib"], [class*="guide"], [class*="tip"],
+  [class*="help"], [class*="qa"], [class*="faq"], [class*="source"],
+  [class*="credit"], [class*="search"], [class*="filter"], [class*="toolbar"],
+  [class*="bar"], [class*="head"], [class*="body"], [class*="foot"],
+  details
+):not(html):not(body):not(script):not(style):not(svg):not(path):not(input):not(select):not(textarea):not(option):not(.gaongil-portal-bar):not(.gaongil-portal-inner):not(.gaongil-portal-actions):not(.gaongil-resource-menu):not(.gaongil-resource-list):not(.gaongil-brand):not(.gaongil-page-title):not(.gaongil-brand-logo):not(.gaongil-footer-brand) {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background-color: rgba(13, 23, 38, 0.96) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  [class*="card"], [class*="box"], [class*="panel"], [class*="pane"],
+  [class*="notice"], [class*="summary"], [class*="stat"], [class*="metric"],
+  [class*="result"], [class*="detail"], [class*="drawer"], [class*="modal"],
+  [class*="dialog"], [class*="section"], [class*="flow"], [class*="step"],
+  [class*="guide"], [class*="tip"], [class*="help"], [class*="qa"],
+  [class*="faq"], details
+):not(.gaongil-resource-menu):not(.gaongil-resource-list):not(.gaongil-brand):not(.gaongil-page-title):not(.gaongil-brand-logo):not(.gaongil-footer-brand) {
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.06), transparent 46%),
+    rgba(13, 23, 38, 0.96) !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  [class*="pill"], [class*="chip"], [class*="tag"], [class*="badge"],
+  [class*="label"], [class*="token"], [class*="flag"], [class*="count"],
+  [class*="num"], [class*="rank"], [class*="type"], [class*="region"],
+  [class*="quota"], [class*="period"], [class*="gun"], [class*="req"]
+):not(input):not(select):not(textarea):not(option):not(.gaongil-page-title):not(.gaongil-brand-logo) {
+  border-color: rgba(214, 173, 99, 0.38) !important;
+  background: rgba(214, 173, 99, 0.14) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page:not([data-gaongil-page="gosa2027"]):not([data-gaongil-page="jonghap_eval"]) :is(
+  [class*="pill"], [class*="chip"], [class*="tag"], [class*="badge"],
+  [class*="label"], [class*="token"], [class*="flag"], [class*="count"],
+  [class*="num"], [class*="rank"], [class*="type"], [class*="region"],
+  [class*="quota"], [class*="period"], [class*="gun"], [class*="req"]
+):not(input):not(select):not(textarea):not(option):not(.gaongil-page-title) :is(span, b, strong, em, small) {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  [class*="row"], [class*="line"], [class*="cell"], [class*="col"],
+  [class*="data"], [class*="entry"], [class*="record"]
+):not(input):not(select):not(textarea):not(option) {
+  border-color: rgba(92, 119, 154, 0.34) !important;
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  [class*="title"], [class*="name"], [class*="heading"], [class*="headline"],
+  [class*="subject"], [class*="univ"], [class*="college"], [class*="major"]
+) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  [class*="sub"], [class*="desc"], [class*="memo"], [class*="note"],
+  [class*="caption"], [class*="hint"], [class*="meta"], [class*="small"],
+  [class*="muted"], [class*="label"], [class*="txt"], [class*="copy"]
+) {
+  color: #c8d4e5 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  .hero-panel, .hero-card, .mini-item, .stat-grid .stat, .stat-row .stat,
+  .sum-card, .key-box, .quick-card, .quick-box, .ucard, .ucard-quick,
+  .search-box, .search-card, .filterbar, .filter-card, .tabbar, .tabpanel,
+  .details-body, .mobile-data-card, .mobile-card-grid, .meter-card,
+  .office-card, .calendar-cell, .day-cell, .month-card, .procedure-card,
+  .support-card, .scholarship-card, .track-card, .compare-item, .interp,
+  .source-box, .credit-box, .home-btn, .tool-btn
+) {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 48%),
+    rgba(13, 23, 38, 0.96) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  .hero-panel *, .hero-card *, .mini-item *, .stat-grid .stat *, .stat-row .stat *,
+  .sum-card *, .key-box *, .quick-card *, .quick-box *, .ucard *, .ucard-quick *,
+  .search-box *, .search-card *, .filterbar *, .filter-card *, .tabpanel *,
+  .details-body *, .mobile-data-card *, .mobile-card-grid *, .meter-card *,
+  .office-card *, .calendar-cell *, .day-cell *, .month-card *,
+  .procedure-card *, .support-card *, .scholarship-card *, .track-card *,
+  .compare-item *, .interp *, .source-box *, .credit-box *
+) {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  table tr:nth-child(even) td, table tr:nth-child(odd) td,
+  .fulltbl tr:nth-child(even) td, .fulltbl tr:nth-child(odd) td,
+  .adm-table tr:nth-child(even) td, .adm-table tr:nth-child(odd) td,
+  .cmptable tr:nth-child(even) td, .cmptable tr:nth-child(odd) td,
+  .compare-table tr:nth-child(even) td, .compare-table tr:nth-child(odd) td
+) {
+  background: rgba(9, 20, 35, 0.84) !important;
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  table tr.is-selected td, table tr.is-compared td, table tr:hover td,
+  .result-row:hover, .result-row.active, .result-row.selected,
+  .mobile-data-card:hover, .mobile-card:hover, .result-card:hover
+) {
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.18), transparent 64%),
+    rgba(20, 34, 54, 0.98) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  .white, .light, .soft, .wash, .paper, .surface, .bg-white,
+  .alert.info, .alert.warn, .alert.success, .result.ok, .result.warn,
+  .result.info, .tip-prep, .sumrow, .empty-row, .adm-note-row,
+  .adm-note-row.plain, .compare-table td:first-child, .cmptable td.field,
+  .sticky-col
+) {
+  border-color: rgba(214, 173, 99, 0.28) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.12), transparent 70%),
+    rgba(18, 31, 50, 0.96) !important;
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  mark, kbd, code, .search-kbd, .shortcut, .kbd
+) {
+  border-color: rgba(214, 173, 99, 0.38) !important;
+  background: rgba(214, 173, 99, 0.16) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(
+  .skip, .skip-link, .tl-key, .confirm-row, .credit-panel span,
+  .source-pill span, .credit-pill span
+) {
+  border-color: rgba(214, 173, 99, 0.38) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.14), transparent 72%),
+    rgba(18, 31, 50, 0.98) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page :is(.tl-key, .confirm-row) * {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="jonghap_interview"] :is(li, .question-list li, .sample-list li),
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .compare-tray {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.06), transparent 46%),
+    rgba(13, 23, 38, 0.96) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="jonghap_interview"] :is(li, .question-list li, .sample-list li) *,
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .compare-tray * {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] :is(
+  .compare, .compare-wrap, .compare-tools, .tablewrap
+) {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.06), transparent 46%),
+    rgba(13, 23, 38, 0.98) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-tools {
+  box-shadow: inset 0 -1px 0 rgba(92, 119, 154, 0.34) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-tools .left {
+  color: #fff8e8 !important;
+  font-weight: 900 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap table {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background: rgba(7, 18, 33, 0.94) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap thead th {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.16), transparent 70%),
+    rgba(18, 31, 50, 0.98) !important;
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap :is(
+  tbody td, .cell-method, .cell-csat, .cell-int, .cell-eligibility, .cell-fit
+) {
+  border-color: rgba(92, 119, 154, 0.32) !important;
+  background: rgba(9, 20, 35, 0.88) !important;
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap tbody tr.uni-row td,
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap .col-name {
+  border-color: rgba(214, 173, 99, 0.28) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.14), transparent 68%),
+    rgba(18, 31, 50, 0.98) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap :is(
+  tbody td *, .cell-method *, .cell-csat *, .cell-int *, .cell-eligibility *, .cell-fit *
+) {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap .tag,
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap :is(.tag-no, .tag-yes, .tag-w) {
+  border-color: rgba(240, 217, 155, 0.72) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  color: #071221 !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap .tag * {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap .fchip {
+  border-color: rgba(214, 173, 99, 0.36) !important;
+  background: rgba(18, 31, 50, 0.92) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="hakjong2028"] .compare-wrap .fchip.active {
+  border-color: rgba(240, 217, 155, 0.72) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  color: #071221 !important;
+  font-weight: 900 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="uni15_2028"] > .app,
+body.gaongil-linked-page[data-gaongil-page="ist2028"] .univ-switcher,
+body.gaongil-linked-page[data-gaongil-page="edu2028"] .univ-switcher {
+  position: fixed !important;
+  top: 112px !important;
+  right: max(24px, calc((100vw - 1200px) / 2 + 40px)) !important;
+  left: auto !important;
+  z-index: 520 !important;
+  width: min(500px, calc(100vw - 48px)) !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  border: 1px solid rgba(214, 173, 99, 0.34) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.075), transparent 58%),
+    rgba(7, 18, 33, 0.94) !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.32) !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="ist2028"] > div[style*="margin-bottom"],
+body.gaongil-linked-page[data-gaongil-page="edu2028"] > div[style*="margin-bottom"],
+body.gaongil-linked-page[data-gaongil-page="uni15_2028"] > .app > a {
+  display: none !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="uni15_2028"] > .app > label,
+body.gaongil-linked-page[data-gaongil-page="ist2028"] .univ-switcher label,
+body.gaongil-linked-page[data-gaongil-page="edu2028"] .univ-switcher label {
+  flex: 0 0 auto !important;
+  color: #f0d99b !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="uni15_2028"] > .app .univ-select,
+body.gaongil-linked-page[data-gaongil-page="ist2028"] .univ-switcher .univ-select,
+body.gaongil-linked-page[data-gaongil-page="edu2028"] .univ-switcher .univ-select {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-height: 46px !important;
+  border: 1px solid rgba(92, 119, 154, 0.7) !important;
+  border-radius: 10px !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.08), transparent 70%),
+    rgba(4, 10, 18, 0.96) !important;
+  color: #fff8e8 !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.035) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="uni15_2028"] > .app .univ-select:hover,
+body.gaongil-linked-page[data-gaongil-page="uni15_2028"] > .app .univ-select:focus,
+body.gaongil-linked-page[data-gaongil-page="ist2028"] .univ-switcher .univ-select:hover,
+body.gaongil-linked-page[data-gaongil-page="ist2028"] .univ-switcher .univ-select:focus,
+body.gaongil-linked-page[data-gaongil-page="edu2028"] .univ-switcher .univ-select:hover,
+body.gaongil-linked-page[data-gaongil-page="edu2028"] .univ-switcher .univ-select:focus {
+  border-color: rgba(240, 217, 155, 0.78) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.13), transparent 72%),
+    rgba(7, 18, 33, 0.98) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="uni15_2028"] > .app .univ-select option,
+body.gaongil-linked-page[data-gaongil-page="ist2028"] .univ-switcher .univ-select option,
+body.gaongil-linked-page[data-gaongil-page="edu2028"] .univ-switcher .univ-select option {
+  background: #071221 !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="uni15_2028"] :is(
+  #page-snu, #page-uos, #page-korea, #page-dongguk, #page-ku, #page-khu,
+  #page-skku, #page-smu, #page-yonsei, #page-ewha, #page-cau, #page-hufs,
+  #page-hanyang, #page-hongik, #page-sogang
+) {
+  margin-top: 0 !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="uni15_2028"],
+  [data-gaongil-page="ist2028"],
+  [data-gaongil-page="edu2028"]
+) [id] {
+  scroll-margin-top: 190px !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) {
+  --bg: #060d18 !important;
+  --bg2: #081321 !important;
+  --paper: rgba(13, 23, 38, 0.96) !important;
+  --card: rgba(13, 23, 38, 0.96) !important;
+  --card2: rgba(18, 31, 50, 0.96) !important;
+  --surface: rgba(13, 23, 38, 0.96) !important;
+  --ink: #edf5ff !important;
+  --ink-2: #dce7f6 !important;
+  --text: #edf5ff !important;
+  --muted: #b9c4d2 !important;
+  --gray: #a9b7ca !important;
+  --gray-2: #94a3b8 !important;
+  --line: rgba(92, 119, 154, 0.42) !important;
+  --line-2: rgba(92, 119, 154, 0.26) !important;
+  --primary: #d6ad63 !important;
+  --accent: #f0d99b !important;
+  --blue: #d6ad63 !important;
+  --green: #73d6b0 !important;
+  --yellow: #f0d99b !important;
+  --shadow: 0 22px 62px rgba(0, 0, 0, 0.34) !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(.home-btn, .btn-home, .floating-home, .home-link, .home-fab, .main-link, .main-link-top) {
+  display: none !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(
+  .page, .nav:not(.gaongil-portal-bar), .nav-inner, .topbar, .site-header, .page-header, .progress-bar,
+  .hero, .hero-inner, .hero-card, .wrap, .container, .shell, .main, .content, .section, .section-card,
+  .card, .panel, .box, .stat, .kpi, .dash, .editwrap, .results, .preview, .finding, .ref, .help,
+  .guide-panel, .flow-panel, .flow-step, .test-card, .cycle, .step, .tip, .type-card, .rtype, .rdetail,
+  .table-card, .note-list .ni, .exam-item, .subj-col, .caution, .change-card, .grade-tabs, .tl, .acc-item,
+  .check-card, .check-item, .field, .adm, .term, .topic-card, .builder, .rubric, .prompt-formula,
+  .bad-prompt, .prompt-tools, .toc, .selector, .controls, .ref-item, .major-card, .detail-box,
+  .selected-item, .recommend-item, .interest-panel, .course-panel, .modal, .modal-card, dialog, details,
+  .calendar, .month, .guide, .subject-card, .unit-card, .course-card, .article-card, .tool-card,
+  .udb-card, .udb-panel, .udb-filter, .udb-toolbar, .udb-sbox, .udb-note, .udb-table-wrap, .udb-active,
+  .udb-kw-box, .udb-empty, .udb-result, .udb-modal, .udb-modal-sub
+) {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 48%),
+    rgba(13, 23, 38, 0.96) !important;
+  color: #edf5ff !important;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24) !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(
+  [style*="background:#fff"],
+  [style*="background: #fff"],
+  [style*="background:white"],
+  [style*="background: white"],
+  [style*="background-color:#fff"],
+  [style*="background-color: #fff"],
+  [style*="background-color:white"],
+  [style*="background-color: white"],
+  [style*="rgba(255"],
+  [style*="rgb(255"]
+):not(.gaongil-portal-bar):not(.gaongil-portal-bar *) {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 48%),
+    rgba(13, 23, 38, 0.98) !important;
+  color: #edf5ff !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(h1, h2, h3, h4, h5, h6, .title, .section-title, .card-title, .hero-title, .brand strong, .modal-title, summary) {
+  color: #fff8e8 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(p, li, span, small, label, dd, dt, .desc, .lead, .sub, .muted, .small, .hint, .note, .meta, .disc, .snip, .lim, .ref-note) {
+  color: #dce7f6 !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(strong, b, .num, .count, .big, .score, .money, .value, .k, .lbl, .eyebrow, .kicker) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(input, select, textarea, .search, .search-box, .searchbar, .search-input) {
+  border-color: rgba(92, 119, 154, 0.62) !important;
+  background: rgba(4, 10, 18, 0.92) !important;
+  color: #edf5ff !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.035) !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(input::placeholder, textarea::placeholder) {
+  color: #94a3b8 !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(
+  button, .btn, .button, .chip, .tab, .pill, .badge, .tag, .fchip, .interest, .course,
+  .mini-link, .nav-link, .udb-gchip, .udb-achip, .udb-preset, .udb-pg, .udb-ibtn, .udb-detail-btn
+) {
+  border-color: rgba(214, 173, 99, 0.38) !important;
+  background: rgba(18, 31, 50, 0.92) !important;
+  color: #edf5ff !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(
+  button.active, button.on, .btn-primary, .primary, .chip.active, .chip.on, .tab.active, .tab.on,
+  .pill.active, .badge.active, .tag.active, .fchip.active, .interest.active, .udb-gchip.on,
+  .udb-achip.clear, .udb-pg.on, [aria-selected="true"]
+) {
+  border-color: rgba(240, 217, 155, 0.72) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  color: #071221 !important;
+  font-weight: 900 !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(
+  button.active, button.on, .btn-primary, .primary, .chip.active, .chip.on, .tab.active, .tab.on,
+  .pill.active, .badge.active, .tag.active, .fchip.active, .interest.active, .udb-gchip.on,
+  .udb-achip.clear, .udb-pg.on, [aria-selected="true"]
+) * {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(table, .table, .tbl, .data-table, .udb-table) {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background: rgba(7, 18, 33, 0.94) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(thead, thead tr, th) {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.16), transparent 70%),
+    rgba(18, 31, 50, 0.98) !important;
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(td, tbody th) {
+  border-color: rgba(92, 119, 154, 0.3) !important;
+  background: rgba(9, 20, 35, 0.88) !important;
+  color: #dce7f6 !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(tr:nth-child(even) td, .row:nth-child(even), .item:nth-child(even)) {
+  background: rgba(13, 26, 45, 0.92) !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(.empty, .notice, .alert, .warn, .warning, .caution, .empty-ok, .ban-banner) {
+  border-color: rgba(214, 173, 99, 0.36) !important;
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.12), transparent 72%),
+    rgba(18, 31, 50, 0.96) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(mark, .hl, .highlight) {
+  border-radius: 4px !important;
+  background: rgba(240, 217, 155, 0.24) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(.bar, .progress, .meter) {
+  background: rgba(4, 10, 18, 0.9) !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(.bar i, .progress i, .meter i, .fill, .bar-fill) {
+  background: linear-gradient(90deg, #c99743, #f0d99b) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .ring::after {
+  background: #081321 !important;
+}
+
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) :where(.blob, .orb, .decor, .shape) {
+  opacity: 0.18 !important;
+  filter: saturate(0.7) brightness(0.8) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] :where(
+  .planner-output, .udb-controls, .udb-seg, .udb-toggle, .udb-viewseg, .lreg, .udb-loc,
+  .udb-kw-wrap, .udb-select, .udb-card-top, .udb-card-foot
+),
+body.gaongil-linked-page[data-gaongil-page="jinrodesign"] :where(.ic, .site, .url),
+body.gaongil-linked-page[data-gaongil-page="preview"] :where(summary),
+body.gaongil-linked-page[data-gaongil-page="csat2028"] :where(.fact, .selector-shell, .viewer),
+body.gaongil-linked-page[data-gaongil-page="sciencetam"] :where(main a, .example, .example.bad, .example.good),
+body.gaongil-linked-page[data-gaongil-page="ai_prompt"] :where(.icon) {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.075), transparent 54%),
+    rgba(13, 23, 38, 0.98) !important;
+  color: #edf5ff !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] :where(.planner-output, .udb-controls, .udb-seg, .udb-toggle, .udb-viewseg, .lreg, .udb-loc) *,
+body.gaongil-linked-page[data-gaongil-page="jinrodesign"] :where(.ic, .site, .url) *,
+body.gaongil-linked-page[data-gaongil-page="preview"] summary *,
+body.gaongil-linked-page[data-gaongil-page="csat2028"] :where(.fact, .selector-shell, .viewer) *,
+body.gaongil-linked-page[data-gaongil-page="sciencetam"] :where(main a, .example, .example.bad, .example.good) *,
+body.gaongil-linked-page[data-gaongil-page="ai_prompt"] :where(.icon) * {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] :where(.udb-toggle input, .udb-seg input, .udb-viewseg input) {
+  accent-color: #d6ad63 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="preview"] iframe,
+body.gaongil-linked-page[data-gaongil-page="csat2028"] iframe {
+  border-color: rgba(92, 119, 154, 0.36) !important;
+  background: rgba(7, 18, 33, 0.96) !important;
+}
+
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-main-button,
+body.gaongil-linked-page:is(
+  [data-gaongil-page="sub2"],
+  [data-gaongil-page="jinrodesign"],
+  [data-gaongil-page="preview"],
+  [data-gaongil-page="csat2028"],
+  [data-gaongil-page="sciencetam"],
+  [data-gaongil-page="socialtam"],
+  [data-gaongil-page="ai_prompt"],
+  [data-gaongil-page="aisc"],
+  [data-gaongil-page="saenggibu_check"]
+) .gaongil-portal-bar .gaongil-main-button {
+  display: inline-flex !important;
+  min-height: 40px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid rgba(240, 217, 155, 0.48) !important;
+  border-radius: 8px !important;
+  padding: 8px 13px !important;
+  background: rgba(18, 31, 50, 0.88) !important;
+  color: #edf5ff !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+}
+
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-main-button:hover,
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-main-button:focus-visible {
+  border-color: rgba(240, 217, 155, 0.86) !important;
+  background: linear-gradient(180deg, #f3d88f, #c8943d) !important;
+  color: #07101d !important;
+  outline: none !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa"] {
+  --paper: #071221 !important;
+  --paper-2: #0d1726 !important;
+  --ink-900: #fff8e8 !important;
+  --ink-800: #edf5ff !important;
+  --ink-700: #dce7f6 !important;
+  --ink-600: #b9c4d2 !important;
+  --ink-500: #94a3b8 !important;
+  --ink-400: #7f8da3 !important;
+  --ink-300: rgba(92, 119, 154, 0.48) !important;
+  --ink-200: rgba(92, 119, 154, 0.34) !important;
+  --ink-100: rgba(13, 23, 38, 0.96) !important;
+  --ink-50: rgba(18, 31, 50, 0.96) !important;
+  --line: rgba(92, 119, 154, 0.46) !important;
+  --line-2: rgba(92, 119, 154, 0.28) !important;
+  --brand: #d6ad63 !important;
+  --brand-2: #f0d99b !important;
+  --brand-soft: rgba(214, 173, 99, 0.15) !important;
+  --gold: #d6ad63 !important;
+  --gold-soft: rgba(214, 173, 99, 0.14) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa"] :where(
+  .masthead, .toolbar, .filters, .panel, .stats, .stat-card, .result-summary,
+  .uni-card, .uni-header, .adm-card, .adm-detail, .detail-block, .side .panel,
+  .side-head, .side-body, .donut-wrap, .top-item, .saved-tray, .drawer, .modal
+) {
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 50%),
+    rgba(13, 23, 38, 0.96) !important;
+  background-color: rgba(13, 23, 38, 0.96) !important;
+  color: #edf5ff !important;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa"] :where(
+  .side .panel, .result-summary, .uni-card, .adm-card, .adm-detail
+) {
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.045), transparent 46%),
+    rgba(7, 18, 33, 0.96) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa"] :where(
+  .bar-row.gold, .detail-block.gold, .badge.gold, .gold
+) {
+  border-color: rgba(214, 173, 99, 0.34) !important;
+  background: rgba(18, 31, 50, 0.96) !important;
+  color: #fff8e8 !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa"] :where(
+  .bar-row.gold *, .detail-block.gold *, .badge.gold *, .gold *
+) {
+  color: inherit !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa"] .bar-row.gold {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa"] .bar-row.gold .bar-fill {
+  background: linear-gradient(90deg, #d6ad63, #f0d99b) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa"] .badge.gold {
+  background: rgba(214, 173, 99, 0.16) !important;
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] :where(.badge.gold, .badge.gold *) {
+  color: #f0d99b !important;
+  text-shadow: none !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa"] :where(
+  .side-head h3, .panel-head h2, .uni-name, .adm-title, .top-item .name,
+  .result-summary b, .stat-card b, h1, h2, h3, h4, strong, b
+) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gyogwa"] :where(
+  .sub, .muted, .side-head .tag, .bar-value, .top-item .val, small, .meta
+) {
+  color: #b9c4d2 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] :is(
+  .side .panel, .side-head, .side-body, .result-summary, .uni-card,
+  .uni-header, .adm-list, .adm-card, .adm-row, .adm-detail, .detail-block,
+  .credit-card, .saved-pill, .top-item, .chart, .donut-wrap
+) {
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 48%),
+    rgba(7, 18, 33, 0.96) !important;
+  background-color: rgba(7, 18, 33, 0.96) !important;
+  border-color: rgba(92, 119, 154, 0.42) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] :is(
+  .badge, .tag, .chip, .saved-pill, .csat-tag, .top-item .rank,
+  .donut-legend .item, .donut-text, .bar-row .bar-label
+) {
+  background: rgba(18, 31, 50, 0.92) !important;
+  border-color: rgba(214, 173, 99, 0.32) !important;
+  color: #fff8e8 !important;
+  -webkit-text-fill-color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] :is(
+  .badge.brand, .badge.gold, .csat-tag.none, .csat-tag.has,
+  .csat-tag.unknown, .saved-pill .star
+) {
+  background: rgba(214, 173, 99, 0.15) !important;
+  border-color: rgba(214, 173, 99, 0.42) !important;
+  color: #f0d99b !important;
+  -webkit-text-fill-color: #f0d99b !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] :is(
+  .badge *, .tag *, .chip *, .saved-pill *, .csat-tag *,
+  .top-item .rank *, .donut-legend .item *, .donut-text *, .bar-row .bar-label *
+) {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] :is(
+  .bar-row .bar-track, .donut .donut-bg
+) {
+  background: rgba(5, 11, 20, 0.82) !important;
+  stroke: rgba(92, 119, 154, 0.38) !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] :is(
+  .uni-header.is-open, .uni-header:hover, .adm-card:hover, .top-item:hover,
+  table.data tbody tr:hover td
+) {
+  background:
+    linear-gradient(90deg, rgba(214, 173, 99, 0.16), transparent 66%),
+    rgba(20, 34, 54, 0.98) !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] .view.active {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  color: #edf5ff !important;
+}
+
+html body.gaongil-linked-page #view-search.view.active,
+html body.gaongil-linked-page section#view-search.view.active {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] .view.active :is(
+  span, b, strong, em, small, svg, i
+) {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+  stroke: currentColor !important;
+}
+
+html body.gaongil-linked-page #view-search.view.active :is(
+  span, b, strong, em, small, svg, i
+) {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+  stroke: currentColor !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] .view.active :is(
+  .badge, .tag, .chip, .saved-pill, .csat-tag, .top-item .rank
+) {
+  background: rgba(18, 31, 50, 0.92) !important;
+  border-color: rgba(214, 173, 99, 0.32) !important;
+  color: #fff8e8 !important;
+  -webkit-text-fill-color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] .view.active :is(
+  .badge.brand, .badge.gold, .csat-tag.none, .csat-tag.has, .csat-tag.unknown
+) {
+  background: rgba(214, 173, 99, 0.15) !important;
+  border-color: rgba(214, 173, 99, 0.42) !important;
+  color: #f0d99b !important;
+  -webkit-text-fill-color: #f0d99b !important;
+}
+
+@media (max-width: 980px) {
+  .gaongil-portal-inner {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    min-height: 0;
+    padding: 10px 14px 12px;
+  }
+
+  .gaongil-portal-actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .gaongil-resource-list {
+    right: auto;
+    left: 0;
+  }
+
+  .gaongil-brand-logo {
+    width: min(210px, 82vw);
+  }
+
+  body.gaongil-linked-page[data-gaongil-page="highschoolmap"] .app {
+    height: calc(100dvh - 148px) !important;
+  }
+
+  body.gaongil-linked-page[data-gaongil-page="uni15_2028"] > .app,
+  body.gaongil-linked-page[data-gaongil-page="ist2028"] .univ-switcher,
+  body.gaongil-linked-page[data-gaongil-page="edu2028"] .univ-switcher {
+    position: static !important;
+    width: calc(100% - 28px) !important;
+    margin: 14px auto 0 !important;
+    padding: 12px !important;
+    flex-wrap: wrap !important;
+  }
+
+  body.gaongil-linked-page[data-gaongil-page="uni15_2028"] > .app .univ-select,
+  body.gaongil-linked-page[data-gaongil-page="ist2028"] .univ-switcher .univ-select,
+  body.gaongil-linked-page[data-gaongil-page="edu2028"] .univ-switcher .univ-select {
+    width: 100% !important;
+  }
+}
+
+@media print {
+  body.gaongil-linked-page::before {
+    content: "";
+    position: fixed;
+    top: 30%;
+    right: 8%;
+    left: 8%;
+    z-index: 0;
+    height: 280px;
+    background: url("./assets/gaongil-logo.png") center / contain no-repeat;
+    opacity: 0.08;
+    pointer-events: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.gaongil-linked-page > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .gaongil-footer-brand {
+    break-inside: avoid;
+    border-bottom-color: #d7c08d;
+  }
+
+  .gaongil-footer-brand img {
+    filter: none;
+  }
+}
+
+
+/* ---- 9개 탭 상단 메뉴 보정 ---- */
+.gaongil-portal-inner.gaongil-menu-only{
+  display:flex;
+  justify-content:center;
+  width:min(1440px, calc(100% - 36px));
+  min-height:72px;
+  padding:10px 0;
+}
+.gaongil-portal-inner.gaongil-menu-only .gaongil-portal-actions{
+  width:100%;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.gaongil-main-button.gaongil-home-tab,
+.gaongil-resource-menu summary{
+  min-height:46px;
+  border-radius:999px;
+  border-color:rgba(142,163,190,.34);
+  padding:0 18px;
+  background:rgba(18,31,50,.86);
+  color:#edf5ff !important;
+  font-size:15px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.gaongil-main-button.gaongil-home-tab{
+  border-color:rgba(240,217,155,.82);
+  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
+  color:#071221 !important;
+}
+.gaongil-resource-menu.active summary,
+.gaongil-resource-menu[open] summary,
+.gaongil-resource-menu summary:hover,
+.gaongil-resource-menu summary:focus-visible{
+  border-color:rgba(240,217,155,.82);
+  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
+  color:#071221 !important;
+  outline:none;
+}
+.gaongil-resource-menu summary::after{display:none;}
+.gaongil-new-badge{
+  display:inline-flex;
+  margin-left:8px;
+  border-radius:999px;
+  padding:2px 6px;
+  background:rgba(142,163,190,.2);
+  color:#d7e2f1;
+  font-size:11px;
+  font-weight:900;
+}
+@media(max-width:900px){
+  .gaongil-portal-inner.gaongil-menu-only{width:min(100% - 24px,1440px)}
+  .gaongil-portal-inner.gaongil-menu-only .gaongil-portal-actions{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;}
+}
+
+
+/* ---- 선택 메뉴 드롭다운: 첨부 예시 스타일로 통일 ---- */
+.gaongil-portal-bar{overflow:visible!important;z-index:10000;}
+.gaongil-portal-inner.gaongil-menu-only{display:flex;justify-content:center;align-items:center;min-height:92px;padding:10px 20px;overflow:visible;}
+.gaongil-portal-actions{position:relative;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:18px;width:100%;overflow:visible;}
+.gaongil-main-button.gaongil-home-tab{min-height:56px;min-width:56px;border:2px solid rgba(240,217,155,.72);border-radius:999px;padding:0 18px;background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%)!important;color:#071221!important;font-size:16px;font-weight:950;box-shadow:0 10px 24px rgba(214,173,99,.24),inset 0 1px 0 rgba(255,255,255,.44);}
+.gaongil-resource-menu{position:relative;z-index:10001;}
+.gaongil-resource-menu summary{min-height:64px;border:2px solid rgba(240,217,155,.50);border-radius:16px;padding:0 clamp(20px,2.1vw,34px);background:linear-gradient(180deg,rgba(255,255,255,.035),transparent),#0b1b2d!important;color:#edf5ff!important;font-size:clamp(17px,1.25vw,23px);font-weight:950;letter-spacing:-.04em;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 28px rgba(0,0,0,.24);}
+.gaongil-resource-menu summary::after{width:14px;height:14px;border-right:4px solid var(--ga-gold);border-bottom:4px solid var(--ga-gold);transform:translateY(-3px) rotate(45deg);transition:transform .16s ease;}
+.gaongil-resource-menu[open] summary,.gaongil-resource-menu.active summary{border-color:rgba(240,217,155,.72);background:linear-gradient(180deg,rgba(255,255,255,.045),transparent),#102238!important;color:#fff8e8!important;}
+.gaongil-resource-menu[open] summary::after{transform:translateY(4px) rotate(225deg);}
+.gaongil-resource-list{top:calc(100% + 18px);left:0;right:auto;display:grid;width:min(600px,calc(100vw - 24px));max-height:min(72vh,680px);overflow:auto;border:2px solid rgba(214,173,99,.44);border-radius:18px;padding:18px 0;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0) 38%),#06111f;box-shadow:0 28px 70px rgba(0,0,0,.52);}
+.gaongil-resource-menu:nth-last-child(-n+3) .gaongil-resource-list{left:auto;right:0;}
+.gaongil-resource-list a{display:flex;align-items:center;min-height:74px;border-radius:0;padding:0 38px;background:transparent;color:#edf5ff!important;font-size:clamp(19px,1.45vw,28px);font-weight:950;line-height:1.28;letter-spacing:-.045em;text-decoration:none!important;white-space:normal;}
+.gaongil-resource-list a:hover,.gaongil-resource-list a:focus-visible{background:rgba(214,173,99,.12)!important;color:#fff8e8!important;outline:none;}
+.gaongil-resource-list a.active{background:rgba(214,173,99,.18)!important;color:#fff8e8!important;}
+@media(max-width:900px){.gaongil-portal-actions{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;overflow-y:visible;padding:8px 0 12px;}.gaongil-resource-menu{position:static;}.gaongil-resource-list{left:12px!important;right:12px!important;width:auto;}.gaongil-resource-menu summary{min-height:56px;font-size:16px;padding:0 18px;}.gaongil-resource-list a{min-height:58px;padding:0 24px;font-size:18px;}}
+
+/* ---- 2026-07-07 compact menu restore: match original small pill tab design ---- */
+.gaongil-portal-bar{
+  overflow:visible !important;
+  z-index:10000 !important;
+  border-top:2px solid rgba(240,217,155,.82) !important;
+  border-bottom:1px solid rgba(214,173,99,.2) !important;
+  background:linear-gradient(90deg, rgba(214,173,99,.08), transparent 30%), rgba(5,11,20,.96) !important;
+  box-shadow:0 18px 48px rgba(0,0,0,.34) !important;
+  backdrop-filter:blur(14px) !important;
+}
+.gaongil-portal-inner.gaongil-menu-only{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  width:min(1520px, calc(100% - 36px)) !important;
+  min-height:72px !important;
+  margin:0 auto !important;
+  padding:10px 0 !important;
+  overflow:visible !important;
+}
+.gaongil-portal-inner.gaongil-menu-only .gaongil-portal-actions,
+.gaongil-portal-actions{
+  position:relative !important;
+  display:flex !important;
+  flex-wrap:wrap !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:10px !important;
+  width:100% !important;
+  overflow:visible !important;
+}
+.gaongil-main-button.gaongil-home-tab{
+  min-height:46px !important;
+  min-width:54px !important;
+  border:1px solid rgba(240,217,155,.82) !important;
+  border-radius:999px !important;
+  padding:0 17px !important;
+  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
+  color:#071221 !important;
+  font-size:15px !important;
+  font-weight:900 !important;
+  line-height:1.2 !important;
+  text-decoration:none !important;
+  box-shadow:0 10px 24px rgba(214,173,99,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
+}
+.gaongil-resource-menu{
+  position:relative !important;
+  z-index:10001 !important;
+}
+.gaongil-resource-menu summary{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:10px !important;
+  min-height:46px !important;
+  border:1px solid rgba(142,163,190,.34) !important;
+  border-radius:999px !important;
+  padding:0 18px !important;
+  background:rgba(18,31,50,.86) !important;
+  color:#edf5ff !important;
+  cursor:pointer !important;
+  font-size:15px !important;
+  font-weight:900 !important;
+  line-height:1.2 !important;
+  letter-spacing:-.03em !important;
+  text-decoration:none !important;
+  white-space:nowrap !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+.gaongil-resource-menu summary::after{
+  display:block !important;
+  content:"" !important;
+  width:8px !important;
+  height:8px !important;
+  border-right:2px solid var(--ga-gold) !important;
+  border-bottom:2px solid var(--ga-gold) !important;
+  transform:translateY(-2px) rotate(45deg) !important;
+  transition:transform .16s ease !important;
+}
+.gaongil-resource-menu.active summary{
+  border-color:rgba(240,217,155,.82) !important;
+  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
+  color:#071221 !important;
+  box-shadow:0 10px 24px rgba(214,173,99,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
+}
+.gaongil-resource-menu.active summary::after{
+  border-right-color:#071221 !important;
+  border-bottom-color:#071221 !important;
+}
+.gaongil-resource-menu:not(.active)[open] summary,
+.gaongil-resource-menu:not(.active) summary:hover,
+.gaongil-resource-menu:not(.active) summary:focus-visible{
+  border-color:rgba(240,217,155,.72) !important;
+  background:rgba(18,31,50,.94) !important;
+  color:#fff8e8 !important;
+  outline:none !important;
+}
+.gaongil-resource-menu[open] summary::after{
+  transform:translateY(2px) rotate(225deg) !important;
+}
+.gaongil-resource-list{
+  position:absolute !important;
+  top:calc(100% + 10px) !important;
+  left:auto !important;
+  right:0 !important;
+  display:grid !important;
+  width:min(360px, calc(100vw - 32px)) !important;
+  max-height:min(70vh, 520px) !important;
+  overflow:auto !important;
+  border:1px solid rgba(214,173,99,.32) !important;
+  border-radius:10px !important;
+  padding:8px !important;
+  background:linear-gradient(180deg, rgba(214,173,99,.08), transparent 44%), rgba(7,15,26,.98) !important;
+  box-shadow:0 22px 58px rgba(0,0,0,.45) !important;
+}
+.gaongil-resource-menu:nth-child(-n+5) .gaongil-resource-list{
+  left:0 !important;
+  right:auto !important;
+}
+.gaongil-resource-list a{
+  display:flex !important;
+  align-items:center !important;
+  min-height:40px !important;
+  border-radius:7px !important;
+  padding:9px 11px !important;
+  background:transparent !important;
+  color:#d7e2f1 !important;
+  font-size:14px !important;
+  font-weight:850 !important;
+  line-height:1.35 !important;
+  letter-spacing:-.02em !important;
+  text-decoration:none !important;
+  white-space:normal !important;
+}
+.gaongil-resource-list a:hover,
+.gaongil-resource-list a:focus-visible{
+  background:rgba(214,173,99,.15) !important;
+  color:#fff8e8 !important;
+  outline:none !important;
+}
+.gaongil-resource-list a.active{
+  background:linear-gradient(180deg,#f0d99b,#c99743) !important;
+  color:#071221 !important;
+}
+@media(max-width:900px){
+  .gaongil-portal-inner.gaongil-menu-only{width:min(100% - 24px,1520px) !important;min-height:66px !important;}
+  .gaongil-portal-inner.gaongil-menu-only .gaongil-portal-actions,
+  .gaongil-portal-actions{justify-content:flex-start !important;flex-wrap:nowrap !important;overflow-x:auto !important;overflow-y:visible !important;padding:6px 0 10px !important;}
+  .gaongil-resource-menu{position:static !important;}
+  .gaongil-resource-list{left:12px !important;right:12px !important;width:auto !important;}
+  .gaongil-resource-menu summary{min-height:44px !important;font-size:14px !important;padding:0 15px !important;}
+  .gaongil-resource-list a{min-height:38px !important;padding:8px 10px !important;font-size:13px !important;}
+}
+
+/* ---- 2026-07-07 active menu pill hotfix ----
+   Keep the gold active background INSIDE the rounded pill only.
+   The <details> wrapper may also have .active, but it must stay transparent. */
+.home-nav .nav-menu,
+.home-nav .nav-menu.active,
+.nav .nav-menu,
+.nav .nav-menu.active,
+.gaongil-resource-menu,
+.gaongil-resource-menu.active{
+  display:inline-block !important;
+  background:transparent !important;
+  background-image:none !important;
+  border:0 !important;
+  outline:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  color:inherit !important;
+}
+.home-nav .nav-menu.active > summary,
+.nav .nav-menu.active > summary,
+.gaongil-resource-menu.active > summary{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:46px !important;
+  border:1px solid rgba(240,217,155,.82) !important;
+  border-radius:999px !important;
+  padding:0 18px !important;
+  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
+  background-clip:padding-box !important;
+  color:#071221 !important;
+  box-shadow:0 10px 24px rgba(214,173,99,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
+}
+.home-nav .nav-menu.active > summary *,
+.nav .nav-menu.active > summary *,
+.gaongil-resource-menu.active > summary *{
+  color:#071221 !important;
+}
+.home-nav .nav-menu.active > summary::after,
+.nav .nav-menu.active > summary::after,
+.gaongil-resource-menu.active > summary::after{
+  border-right-color:#071221 !important;
+  border-bottom-color:#071221 !important;
+}
+
+/* ---- 2026-07-07 open menu selected-state fix ----
+   When a dropdown is selected/opened, make ONLY the rounded summary pill gold,
+   matching the active 2028 tab reference. */
+.home-nav .nav-menu[open] > summary,
+.home-nav .nav-menu.active > summary,
+.nav .nav-menu[open] > summary,
+.nav .nav-menu.active > summary,
+.gaongil-resource-menu[open] > summary,
+.gaongil-resource-menu.active > summary{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:46px !important;
+  border:1px solid rgba(240,217,155,.82) !important;
+  border-radius:999px !important;
+  padding:0 18px !important;
+  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
+  background-clip:padding-box !important;
+  color:#071221 !important;
+  box-shadow:0 10px 24px rgba(214,173,99,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
+}
+.home-nav .nav-menu[open] > summary *,
+.home-nav .nav-menu.active > summary *,
+.nav .nav-menu[open] > summary *,
+.nav .nav-menu.active > summary *,
+.gaongil-resource-menu[open] > summary *,
+.gaongil-resource-menu.active > summary *{
+  color:#071221 !important;
+}
+.home-nav .nav-menu[open] > summary::after,
+.home-nav .nav-menu.active > summary::after,
+.nav .nav-menu[open] > summary::after,
+.nav .nav-menu.active > summary::after,
+.gaongil-resource-menu[open] > summary::after,
+.gaongil-resource-menu.active > summary::after{
+  border-right-color:#071221 !important;
+  border-bottom-color:#071221 !important;
+}
+
+/* ---- 2026-07-07 selected menu after navigation fix ----
+   The selected top menu uses data-menu-active instead of .active,
+   so no gold rectangle can leak outside the rounded pill. */
+html body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu,
+html body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[data-menu-active="true"]{
+  display:inline-block !important;
+  background:transparent !important;
+  background-image:none !important;
+  border:0 !important;
+  outline:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+}
+html body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[open] > summary,
+html body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[data-menu-active="true"] > summary{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:46px !important;
+  border:1px solid rgba(240,217,155,.82) !important;
+  border-radius:999px !important;
+  padding:0 18px !important;
+  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
+  background-clip:padding-box !important;
+  color:#071221 !important;
+  box-shadow:0 10px 24px rgba(214,173,99,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
+}
+html body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[open] > summary *,
+html body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[data-menu-active="true"] > summary *{
+  color:#071221 !important;
+}
+html body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[open] > summary::after,
+html body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[data-menu-active="true"] > summary::after{
+  border-right-color:#071221 !important;
+  border-bottom-color:#071221 !important;
+}
+html body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu:not([open]):not([data-menu-active="true"]) > summary:hover,
+html body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu:not([open]):not([data-menu-active="true"]) > summary:focus-visible{
+  border-color:rgba(240,217,155,.72) !important;
+  background:rgba(18,31,50,.94) !important;
+  color:#fff8e8 !important;
+  outline:none !important;
+}
+
+/* GAONGIL FINAL ACTIVE MENU OVERRIDE v91
+   선택된 상단 메뉴와 열려 있는 메뉴는 반드시 타원(summary) 내부만 골드로 표시합니다.
+   기존 개별 페이지 스킨의 details/header 스타일보다 뒤에서 적용되어 충돌을 막습니다. */
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu,
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu.active,
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[data-menu-active="true"]{
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[open] > summary,
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu.active > summary,
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[data-menu-active="true"] > summary{
+  border-color:rgba(240,217,155,.88)!important;
+  border-radius:999px!important;
+  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%)!important;
+  background-clip:padding-box!important;
+  color:#071221!important;
+  box-shadow:0 10px 24px rgba(214,173,99,.24),inset 0 1px 0 rgba(255,255,255,.44)!important;
+}
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[open] > summary *,
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu.active > summary *,
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[data-menu-active="true"] > summary *{
+  color:#071221!important;
+}
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[open] > summary::after,
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu.active > summary::after,
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-menu[data-menu-active="true"] > summary::after{
+  border-right-color:#071221!important;
+  border-bottom-color:#071221!important;
+}
+body.gaongil-linked-page .gaongil-portal-bar .gaongil-resource-list a.active{
+  background:rgba(214,173,99,.18)!important;
+  color:#fff8e8!important;
+}
+
+/* 2026-07-10 page-specific colour recovery: calendar and document-evaluation views */
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] {
+  --bg: #071221 !important;
+  --card: #0d1b2d !important;
+  --line: #29425f !important;
+  --line2: #3b5879 !important;
+  --tx: #edf5ff !important;
+  --tx2: #c3d0e0 !important;
+  --tx3: #99abc1 !important;
+  --t0: #ef6245 !important;
+  --t0bg: rgba(239,98,69,.18) !important;
+  --t0tx: #ffd7cd !important;
+  --t1: #8579ff !important;
+  --t1bg: rgba(133,121,255,.19) !important;
+  --t1tx: #e1ddff !important;
+  --t2: #24b48a !important;
+  --t2bg: rgba(36,180,138,.18) !important;
+  --t2tx: #c8f8e8 !important;
+  --acc: #74a7ef !important;
+  --accbg: rgba(116,167,239,.16) !important;
+  --red: #ff8171 !important;
+  --redbg: rgba(255,129,113,.15) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] :where(.chip.t0.on, .chip.t1.on, .chip.t2.on) {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .chip.t0.on { background: var(--t0bg) !important; border-color: var(--t0) !important; color: var(--t0tx) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .chip.t1.on { background: var(--t1bg) !important; border-color: var(--t1) !important; color: var(--t1tx) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .chip.t2.on { background: var(--t2bg) !important; border-color: var(--t2) !important; color: var(--t2tx) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .chip.t0.on .dot { background: var(--t0) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .chip.t1.on .dot { background: var(--t1) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .chip.t2.on .dot { background: var(--t2) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] :where(.chip.t0.on *, .b-t0, .cell .tys .c0, .legend [style*="--t0"]) { color: var(--t0tx) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] :where(.chip.t1.on *, .b-t1, .cell .tys .c1, .legend [style*="--t1"]) { color: var(--t1tx) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] :where(.chip.t2.on *, .b-t2, .cell .tys .c2, .legend [style*="--t2"]) { color: var(--t2tx) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .b-t0 { background: var(--t0bg) !important; border: 1px solid rgba(239,98,69,.42) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .b-t1 { background: var(--t1bg) !important; border: 1px solid rgba(133,121,255,.42) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .b-t2 { background: var(--t2bg) !important; border: 1px solid rgba(36,180,138,.42) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .legend .sw { background-color: currentColor !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .cell .tys .c0 { color: var(--t0) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .cell .tys .c1 { color: var(--t1) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] .cell .tys .c2 { color: var(--t2) !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] #v-list .tbl { margin: 0 !important; border-collapse: separate !important; border-spacing: 0 !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] #v-list .tbl thead { display: table-header-group !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] #v-list .tbl th { top: 0 !important; background: #12233c !important; color: #f0d99b !important; }
+body.gaongil-linked-page[data-gaongil-page="gosa2027"] #v-list .tbl tbody tr:first-child td { padding-top: 7px !important; }
+
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] {
+  --bg: #071221 !important;
+  --surface: #0d1b2d !important;
+  --ink: #fff8e8 !important;
+  --ink-soft: #dce7f6 !important;
+  --muted: #b5c5d9 !important;
+  --faint: #94a8c0 !important;
+  --line: #29425f !important;
+  --line-soft: #20364f !important;
+  --brand: #8678ff !important;
+  --brand-soft: rgba(134,120,255,.15) !important;
+  --brand-ink: #dfdbff !important;
+  --f-acad: #7466ff !important;
+  --f-career: #22b58b !important;
+  --f-character: #f08a34 !important;
+  --f-comm: #bf7bff !important;
+  --f-etc: #7ea0c8 !important;
+}
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] :where(.panel, .list-pane, .detail, .compare, .ratio-card, .compare-card, .table-wrap, .text-box, .ogroup, details.source, .outline-intro) {
+  border-color: var(--line) !important;
+  background: #0d1b2d !important;
+  color: var(--ink-soft) !important;
+  box-shadow: none !important;
+}
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .uni-row { border-color: var(--line) !important; background: #102138 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .uni-row:hover { border-color: #5f83ad !important; background: #152a45 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .uni-row.active { border-color: #8678ff !important; background: rgba(134,120,255,.18) !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] :where(.uni-name, .ratio-title b, .detail-head h2, .block-title h3, .compare-card h3) { color: #fff8e8 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] :where(.uni-meta, .detail-sub, .hint, .legend-item, .text-box, .source-text, .odesc, .obul, td, .note) { color: #d3dfef !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] :where(.badge, .pill, .count, .fchip) { background: rgba(126,160,200,.16) !important; border: 1px solid rgba(126,160,200,.32) !important; color: #e2ebf7 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .badge.career { background: rgba(34,181,139,.17) !important; border-color: rgba(34,181,139,.38) !important; color: #c8fae8 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .badge.ok { background: rgba(34,181,139,.17) !important; border-color: rgba(34,181,139,.38) !important; color: #c8fae8 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .ratio-card.special { background: rgba(240,138,52,.09) !important; border-color: rgba(240,138,52,.42) !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .stack { border-color: #29425f !important; background: #071221 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .stack .seg { color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,.6) !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .stack .seg[style*="--f-acad"], body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .swatch[style*="--f-acad"] { background: #7466ff !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .stack .seg[style*="--f-career"], body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .swatch[style*="--f-career"] { background: #22b58b !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .stack .seg[style*="--f-character"], body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .swatch[style*="--f-character"] { background: #f08a34 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .stack .seg[style*="--f-comm"], body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .swatch[style*="--f-comm"] { background: #bf7bff !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .stack .seg[style*="--f-etc"], body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] .swatch[style*="--f-etc"] { background: #7ea0c8 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] :where(.table-wrap, .text-box, .source-text, .ogroup, .outline-intro, details.source) { background: #0a1728 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] :where(th, td, td.cat-cell) { border-color: #29425f !important; background: #102138 !important; color: #dce7f6 !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] th { background: #162a45 !important; color: #f0d99b !important; }
+body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] :where(.ocat, .tab.active) { background: rgba(134,120,255,.2) !important; color: #f1efff !important; }
+
+/* Site-wide type and control normalization */
+@font-face {
+  font-family: "Gaongil Sans";
+  src: url("./assets/fonts/PretendardVariable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 45 920;
+  font-display: swap;
+}
+body.gaongil-linked-page { font-family: "Gaongil Sans", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif !important; }
+body.gaongil-linked-page.gaongil-linked-page input[type="checkbox"] {
+  appearance:none !important; -webkit-appearance:none !important;
+  width:20px !important; min-width:20px !important; height:20px !important; min-height:20px !important;
+  margin:0 7px 0 0 !important; border:1.5px solid rgba(174,192,215,.78) !important;
+  border-radius:5px !important; background:#071221 !important; color:#071221 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04) !important; cursor:pointer; vertical-align:-4px;
+}
+body.gaongil-linked-page.gaongil-linked-page input[type="checkbox"]:checked {
+  border-color:#f0d99b !important; background:linear-gradient(180deg,#f0d99b,#c99743) !important;
+  box-shadow:0 0 0 3px rgba(214,173,99,.14) !important;
+}
+body.gaongil-linked-page.gaongil-linked-page input[type="checkbox"]:checked::after {
+  display:block; width:5px; height:10px; margin:1px auto 0; border-right:2px solid #071221; border-bottom:2px solid #071221; content:""; transform:rotate(45deg);
+}
+body.gaongil-linked-page.gaongil-linked-page input[type="checkbox"]:focus-visible { outline:3px solid rgba(240,217,155,.32) !important; outline-offset:2px !important; }
+
+/* 2027 학교장추천전형: 상세창과 비교 체크 UI를 다크 시스템으로 유지 */
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] .overlay,
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] .overlay.on { background:rgba(2,7,14,.78)!important; backdrop-filter:blur(5px); }
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] .overlay.on { display:flex!important; }
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] .modal { border:1px solid rgba(214,173,99,.32)!important; border-radius:14px!important; background:#091426!important; color:#edf5ff!important; box-shadow:0 28px 84px rgba(0,0,0,.58)!important; }
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] .m-head { background:linear-gradient(120deg,rgba(214,173,99,.12),transparent 52%),linear-gradient(135deg,#0d223d,#173d6c)!important; border-bottom:1px solid rgba(214,173,99,.28)!important; }
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] .m-head :where(h2,.sub) { color:#fff8e8!important;opacity:1!important; }
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] .m-head .sub { color:#d5e1f1!important; }
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] :where(.m-body,.sec,.kv>div,.notebox,.c-method,.cmpscroll) { border-color:rgba(92,119,154,.38)!important;background:#091426!important;color:#edf5ff!important; }
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] :where(.sec h3,.kv .v,.low-list li) { color:#edf5ff!important; }
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] .kv .k { color:#b8c7db!important; }
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] .card .chk { width:22px!important;height:22px!important;border:1.5px solid rgba(174,192,215,.78)!important;border-radius:6px!important;background:#071221!important;color:transparent!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important; }
+body.gaongil-linked-page[data-gaongil-page="chuchon2027"] .card.cmp .chk { border-color:#f0d99b!important;background:linear-gradient(#f0d99b,#c99743)!important;color:#071221!important;box-shadow:0 0 0 3px rgba(214,173,99,.14)!important; }
+
+/* GitHub Pages-safe interview filter checkbox treatment. */
+body.gaongil-linked-page[data-gaongil-page="jonghap_interview"] .toggle input[type="checkbox"]:checked {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  border: 2px solid #f7dea0 !important;
+  background-color: #d6ad63 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.2 8 14l8-8.3' fill='none' stroke='%23071221' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: 15px 15px !important;
+  box-shadow: 0 0 0 4px rgba(214,173,99,.2) !important;
+}
+
+/* Subject-workbook concept maps: keep the three-card summary readable in
+   the dark portal theme.  These pages originally supplied a light, translucent
+   node background while the shared portal stylesheet forces light text. */
+body.gaongil-linked-page :is(.calc-map, .stat-map, .lang-map) .node {
+  min-height: 126px;
+  padding: 1.15rem 1.2rem !important;
+  border: 1px solid rgba(240, 217, 155, .36) !important;
+  border-radius: 12px !important;
+  background:
+    linear-gradient(135deg, rgba(214, 173, 99, .14), rgba(214, 173, 99, 0) 58%),
+    #102238 !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 26px rgba(0,0,0,.2) !important;
+}
+body.gaongil-linked-page :is(.calc-map, .stat-map, .lang-map) .node b {
+  color: #fff8e8 !important;
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -.02em;
+}
+body.gaongil-linked-page :is(.calc-map, .stat-map, .lang-map) .node span {
+  color: #d3dfec !important;
+  font-size: .94rem !important;
+  font-weight: 500;
+  line-height: 1.65 !important;
+}

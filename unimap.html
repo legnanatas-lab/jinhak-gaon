@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+      <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0VB6E0J6MB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0VB6E0J6MB');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2028 전국 4년제 대학 입학 안내 — 지도·목록</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<style>
+:root{
+  --bg:#eef1f4; --panel:#ffffff; --ink:#1a1f29; --ink-2:#4a5160; --muted:#8b93a3;
+  --line:#e4e8ee; --line-2:#eef1f5;
+  --nat:#1f6fd6; --pub:#0ca678; --pri:#ef6c2e; --gold:#caa53d;
+  --nat-soft:#e8f1fd; --pub-soft:#e1f5ef; --pri-soft:#fdeee5;
+  --shadow-sm:0 1px 3px rgba(20,30,50,.08),0 1px 2px rgba(20,30,50,.05);
+  --shadow-md:0 6px 22px rgba(20,30,50,.13);
+  --shadow-lg:0 14px 44px rgba(20,30,50,.20);
+  --font:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;
+  --mono:'Pretendard',ui-monospace,monospace;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;overflow:clip;overscroll-behavior:none;}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);
+  -webkit-font-smoothing:antialiased;word-break:keep-all;overflow:hidden;}
+
+.app{display:flex;flex-direction:column;height:100vh;height:100dvh;}
+
+/* ===== Top bar + tabs ===== */
+.topbar{display:flex;align-items:center;gap:14px;padding:11px 22px;
+  background:linear-gradient(180deg,#fff,#fafbfc);border-bottom:1px solid var(--line);z-index:1200;flex-shrink:0;}
+.btn-home{display:inline-flex;align-items:center;gap:5px;background:var(--nat-soft);color:var(--nat);
+  border:none;font-family:var(--font);font-size:12.8px;font-weight:800;padding:7px 13px;border-radius:9px;
+  cursor:pointer;text-decoration:none;transition:background .12s,transform .08s;white-space:nowrap;line-height:1;}
+.btn-home:hover{background:#dce8fa;}
+.btn-home:active{transform:translateY(1px);}
+.brand{display:flex;align-items:baseline;gap:11px;min-width:0;}
+.brand .mark{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--nat);
+  background:var(--nat-soft);padding:5px 9px;border-radius:6px;white-space:nowrap;}
+.brand h1{font-size:18px;font-weight:800;letter-spacing:-.03em;margin:0;white-space:nowrap;}
+.tabs{display:flex;gap:4px;background:var(--line-2);padding:4px;border-radius:11px;}
+.tab{border:none;background:transparent;font-family:var(--font);font-size:13.5px;font-weight:700;
+  color:var(--ink-2);padding:7px 20px;border-radius:8px;cursor:pointer;transition:all .14s;}
+.tab.on{background:#fff;color:var(--nat);box-shadow:var(--shadow-sm);}
+.legend{display:flex;align-items:center;gap:14px;margin-left:auto;flex-wrap:wrap;}
+.lg{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-2);font-weight:600;}
+.lg .dot{width:11px;height:11px;border-radius:50%;box-shadow:0 0 0 2px #fff,0 1px 2px rgba(0,0,0,.25);}
+.lg .ring{box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--gold);}
+
+/* ===== Notice ===== */
+.notice{display:flex;align-items:center;gap:9px;padding:9px 22px;background:#fbf3e0;
+  color:#7a5d18;border-bottom:1px solid #f0e4c5;font-size:12.8px;font-weight:600;flex-shrink:0;}
+.notice svg{flex-shrink:0;color:#caa53d;}
+.notice b{font-weight:800;color:#5e4710;}
+.notice .credit{margin-left:auto;font-size:11.5px;color:#8e7a3a;font-weight:600;white-space:nowrap;flex-shrink:0;}
+
+/* ===== Views ===== */
+.views{flex:1;min-height:0;position:relative;}
+.view{position:absolute;inset:0;display:flex;flex-direction:column;}
+.view[hidden]{display:none;}
+
+/* ===== MAP VIEW: panel + map ===== */
+.split{display:flex;flex:1;min-height:0;}
+.panel{width:368px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;z-index:1100;}
+.controls{padding:16px 18px 13px;border-bottom:1px solid var(--line-2);}
+.search{position:relative;margin-bottom:12px;}
+.search input{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:11px 13px 11px 38px;
+  font-family:var(--font);font-size:14px;background:#fbfcfd;transition:border-color .15s,background .15s;}
+.search input:focus{outline:none;border-color:var(--nat);background:#fff;}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);}
+.filters{display:flex;gap:7px;margin-bottom:11px;}
+.chip{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:8px 4px;
+  font-family:var(--font);font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:all .14s;text-align:center;}
+.chip:hover{border-color:#cfd6e0;}
+.chip.on{color:#fff;border-color:transparent;}
+.chip[data-type="전체"].on{background:var(--ink);}
+.chip[data-type="국립"].on{background:var(--nat);}
+.chip[data-type="공립"].on{background:var(--pub);}
+.chip[data-type="사립"].on{background:var(--pri);}
+.regionsel{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:9px 11px;
+  font-family:var(--font);font-size:13.5px;font-weight:600;color:var(--ink-2);background:#fff;cursor:pointer;}
+.regionsel:focus{outline:none;border-color:var(--nat);}
+.count{display:flex;align-items:baseline;gap:6px;padding:11px 18px 6px;border-bottom:1px solid var(--line-2);}
+.count b{font-family:var(--mono);font-size:18px;font-weight:800;color:var(--nat);font-variant-numeric:tabular-nums;}
+.count span{font-size:12.5px;color:var(--muted);font-weight:600;}
+.list{flex:1;overflow-y:auto;padding:6px 8px 18px;}
+.list::-webkit-scrollbar{width:9px;}
+.list::-webkit-scrollbar-thumb{background:#d3dae3;border-radius:9px;border:2px solid #fff;}
+.item{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:10px;cursor:pointer;transition:background .12s;}
+.item:hover{background:var(--line-2);}
+.item.active{background:var(--nat-soft);}
+.item.active .badge.국립{background:#fff;box-shadow:inset 0 0 0 1px rgba(31,111,214,.45);}
+.pin{width:13px;height:13px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 2px #fff,0 1px 2px rgba(0,0,0,.2);}
+.pin.국립{background:var(--nat);} .pin.공립{background:var(--pub);} .pin.사립{background:var(--pri);}
+.pin.added{box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--gold);}
+.item .nm{font-size:13.8px;font-weight:700;color:var(--ink);line-height:1.3;flex:1;min-width:0;}
+.item .nm small{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:1px;}
+.item .badge{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:6px;flex-shrink:0;letter-spacing:.02em;}
+.badge.국립{background:var(--nat-soft);color:var(--nat);}
+.badge.공립{background:var(--pub-soft);color:var(--pub);}
+.badge.사립{background:var(--pri-soft);color:var(--pri);}
+.empty{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;}
+
+/* ===== University emblems ===== */
+.em{display:block;background:#fff;border:1px solid var(--line);object-fit:contain;flex-shrink:0;}
+.em.em-sm{width:26px;height:26px;border-radius:6px;padding:2px;}
+.em.em-md{width:38px;height:38px;border-radius:8px;padding:3px;}
+.em.em-lg{width:48px;height:48px;border-radius:10px;padding:4px;}
+.em-fb{display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);font-weight:800;letter-spacing:-.02em;flex-shrink:0;
+  font-family:var(--font);}
+.em-fb.em-sm{width:26px;height:26px;font-size:10.5px;border-radius:6px;}
+.em-fb.em-md{width:38px;height:38px;font-size:13.5px;border-radius:8px;}
+.em-fb.em-lg{width:48px;height:48px;font-size:16px;border-radius:10px;}
+.em-fb.국립{background:var(--nat-soft);color:var(--nat);}
+.em-fb.공립{background:var(--pub-soft);color:var(--pub);}
+.em-fb.사립{background:var(--pri-soft);color:var(--pri);}
+.grp-hd{position:sticky;top:0;background:linear-gradient(180deg,#fff 72%,rgba(255,255,255,0));
+  padding:12px 11px 6px;font-size:11.5px;font-weight:800;letter-spacing:.05em;color:var(--ink-2);
+  display:flex;align-items:center;gap:8px;z-index:2;}
+.grp-hd .gc{font-family:var(--mono);color:var(--muted);background:var(--line-2);padding:1px 7px;border-radius:6px;font-size:11px;font-weight:700;}
+
+.mapwrap{flex:1;position:relative;min-width:0;}
+#map{position:absolute;inset:0;background:#dde3ea;}
+.leaflet-container{font-family:var(--font);}
+.uni-mk{position:relative;cursor:pointer;}
+.uni-mk .core{width:24px;height:24px;border-radius:50%;border:3.5px solid #fff;
+  box-shadow:0 2px 6px rgba(20,30,50,.45);transition:transform .14s,box-shadow .14s;}
+.uni-mk:hover .core{transform:scale(1.3);}
+.uni-mk.sel .core{transform:scale(1.45);box-shadow:0 4px 14px rgba(20,30,50,.5);}
+.uni-mk.국립 .core{background:var(--nat);}
+.uni-mk.공립 .core{background:var(--pub);}
+.uni-mk.사립 .core{background:var(--pri);}
+.uni-mk.added .core{box-shadow:0 0 0 3.5px var(--gold),0 2px 6px rgba(20,30,50,.45);}
+.uni-mk.added.sel .core{box-shadow:0 0 0 3.5px var(--gold),0 4px 14px rgba(20,30,50,.5);}
+.uni-mk .lbl{position:absolute;left:50%;top:calc(100% + 3px);transform:translateX(-50%);
+  white-space:nowrap;font-size:11px;font-weight:700;line-height:1.25;letter-spacing:-.02em;color:var(--ink);
+  text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff,0 0 3px #fff,0 1px 1px rgba(255,255,255,.95);
+  pointer-events:none;opacity:0;transition:opacity .14s;}
+.uni-mk.show-lbl .lbl{opacity:1;}
+.uni-mk.sel .lbl{font-weight:800;}
+.marker-cluster{background:rgba(31,111,214,.18);border-radius:50%;}
+.marker-cluster div{background:var(--nat);color:#fff;font-family:var(--mono);font-weight:800;font-size:12.5px;
+  width:34px;height:34px;margin:3px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(31,111,214,.45);border:2px solid #fff;}
+.leaflet-tooltip.uni-tip{background:#fff;border:none;border-radius:9px;box-shadow:var(--shadow-md);padding:0;opacity:1;font-family:var(--font);}
+.leaflet-tooltip.uni-tip::before{display:none;}
+.tip-slim{display:flex;align-items:center;gap:7px;padding:7px 12px;font-size:13px;font-weight:700;white-space:nowrap;letter-spacing:-.01em;}
+.tdot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.tdot.국립{background:var(--nat);} .tdot.공립{background:var(--pub);} .tdot.사립{background:var(--pri);}
+.tdot.added{box-shadow:0 0 0 2px var(--gold);}
+.leaflet-popup.uni-pop .leaflet-popup-content-wrapper{border-radius:14px;box-shadow:var(--shadow-lg);padding:0;overflow:hidden;}
+.leaflet-popup.uni-pop .leaflet-popup-content{margin:0;width:240px!important;}
+.pop-in{font-family:var(--font);}
+.pop-hd{padding:14px 15px 12px;display:flex;gap:11px;align-items:flex-start;}
+.pop-hd .p-hd-txt{flex:1;min-width:0;}
+.pop-hd .p-nm{font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.25;margin-bottom:7px;}
+.pop-hd .p-meta{display:flex;gap:7px;align-items:center;}
+.p-badge{font-size:11px;font-weight:800;padding:3px 8px;border-radius:6px;}
+.p-reg{font-size:12.5px;color:var(--muted);font-weight:700;}
+.pop-bd{padding:0 15px 14px;}
+.p-go{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:var(--nat);color:#fff;
+  font-weight:800;font-size:13.5px;padding:11px;border-radius:10px;text-decoration:none;transition:filter .12s;}
+.p-go:hover{filter:brightness(1.08);}
+.uni-pop .p-go{color:#fff;}
+.uni-pop .p-pdf{color:var(--ink-2);}
+.p-lbl{margin:12px 0 6px;font-size:11px;font-weight:800;letter-spacing:.03em;color:var(--muted);}
+.p-pdfs{display:flex;flex-direction:column;gap:5px;}
+.p-pdf{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--ink-2);
+  text-decoration:none;padding:7px 9px;background:var(--line-2);border-radius:8px;transition:background .12s;}
+.p-pdf:hover{background:#e2e7ee;}
+.p-pdf svg{color:var(--pri);flex-shrink:0;}
+.p-note{margin-top:8px;font-size:11px;color:var(--muted);line-height:1.4;}
+
+/* ===== LIST VIEW ===== */
+.lcontrols{padding:14px 22px;border-bottom:1px solid var(--line-2);background:#fff;display:flex;flex-direction:column;gap:11px;flex-shrink:0;}
+.lrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.lsearch{position:relative;flex:1;min-width:220px;max-width:440px;}
+.lsearch input{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:11px 13px 11px 38px;font-family:var(--font);font-size:14px;background:#fbfcfd;}
+.lsearch input:focus{outline:none;border-color:var(--nat);background:#fff;}
+.lsearch svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);}
+.lfilters{display:flex;gap:7px;}
+.lchip{border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:8px 16px;font-family:var(--font);font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:all .14s;}
+.lchip:hover{border-color:#cfd6e0;}
+.lchip.on{color:#fff;border-color:transparent;}
+.lchip[data-type="전체"].on{background:var(--ink);}
+.lchip[data-type="국립"].on{background:var(--nat);}
+.lchip[data-type="공립"].on{background:var(--pub);}
+.lchip[data-type="사립"].on{background:var(--pri);}
+.lnav{display:flex;gap:6px;flex-wrap:wrap;}
+.lnav button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-family:var(--font);font-size:12px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:all .12s;}
+.lnav button:hover{border-color:var(--nat);color:var(--nat);background:var(--nat-soft);}
+.list-scroll{flex:1;overflow-y:auto;padding:4px 22px 44px;}
+.list-scroll::-webkit-scrollbar{width:11px;}
+.list-scroll::-webkit-scrollbar-thumb{background:#d3dae3;border-radius:9px;border:3px solid var(--bg);}
+.lcount{padding:12px 2px 2px;font-size:12.5px;color:var(--muted);font-weight:600;}
+.lcount b{font-family:var(--mono);color:var(--nat);font-weight:800;}
+.lsec{margin-top:8px;}
+.lsec-hd{position:sticky;top:0;background:linear-gradient(180deg,var(--bg) 72%,rgba(238,241,244,0));
+  padding:14px 2px 10px;font-size:15px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;z-index:3;}
+.lsec-hd .lc{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:1px 8px;border-radius:7px;}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:11px;}
+.ucard{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 15px;transition:box-shadow .14s,transform .14s,border-color .14s;}
+.ucard:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:#d6deea;}
+.ucard.added{border-color:#e7d49b;}
+.ucard-head{display:flex;gap:11px;align-items:flex-start;margin-bottom:12px;}
+.ucard-head-txt{flex:1;min-width:0;}
+.ucard-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
+.ucard-top .badge{font-size:11px;font-weight:800;padding:3px 8px;border-radius:6px;}
+.ucard-reg{font-size:11.5px;color:var(--muted);font-weight:600;}
+.ucard-nm{font-size:15.5px;font-weight:800;letter-spacing:-.02em;line-height:1.3;}
+.ucard-acts{display:flex;flex-wrap:wrap;gap:7px;}
+.ua-home,.ua-pdf,.ua-report,.ua-guide,.ua-jonghap{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:9px;text-decoration:none;transition:filter .12s,background .12s;}
+.ua-home{color:#fff;}
+.ua-home:hover{filter:brightness(1.08);}
+.ua-pdf{background:var(--line-2);color:var(--ink-2);}
+.ua-pdf:hover{background:#e2e7ee;}
+.ua-pdf svg{color:var(--pri);}
+.ua-guide{background:#eef2fe;color:#2f49b8;}
+.ua-guide:hover{background:#e1e7fc;}
+.ua-guide svg{color:#3a57d6;}
+.ua-report{background:#e8f5ee;color:#1b7a46;}
+.ua-report:hover{background:#d6ecdf;}
+.ua-report svg{color:#1b9c57;}
+.ua-jonghap{background:#f5ecfb;color:#7b3aa6;}
+.ua-jonghap:hover{background:#eedcf6;}
+.ua-jonghap svg{color:#9647c9;}
+.ua-soon{display:inline-flex;align-items:center;font-size:12px;font-weight:700;color:var(--muted);background:var(--line-2);padding:8px 12px;border-radius:9px;}
+
+/* mobile */
+.panel-toggle{display:none;}
+@media(max-width:860px){
+  .legend{display:none;}
+  .search input,.lsearch input,.regionsel{font-size:16px;}  /* iOS 포커스 시 자동 확대 방지 */
+  .topbar{padding:10px 14px;gap:8px;}
+  .btn-home{font-size:11.5px;padding:6px 10px;flex-shrink:0;}
+  .brand{flex:1 1 auto;min-width:0;overflow:hidden;gap:8px;}
+  .brand h1{font-size:15px;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+  .tabs{flex-shrink:0;}
+  .tab{padding:7px 15px;}
+  .notice{padding:8px 14px;font-size:11.5px;}
+  .notice .credit{font-size:10.5px;}
+  .lcontrols{padding:12px 14px;}
+  .list-scroll{padding:4px 14px 44px;}
+  .split{position:relative;overflow:hidden;overflow:clip;}
+  .panel{position:absolute;inset:auto 0 0 0;width:100%;height:62%;border-right:none;
+    border-top:1px solid var(--line);border-radius:18px 18px 0 0;box-shadow:0 -8px 30px rgba(20,30,50,.16);
+    transform:translateY(calc(100% - 56px));transition:transform .28s cubic-bezier(.4,0,.2,1);}
+  .panel.open{transform:translateY(0);}
+  .panel-toggle{display:flex;align-items:center;justify-content:center;gap:8px;height:56px;cursor:pointer;
+    font-weight:800;font-size:14px;color:var(--ink);border-bottom:1px solid var(--line-2);position:relative;
+    touch-action:none;user-select:none;-webkit-user-select:none;}
+  .panel-toggle .grip{width:38px;height:4px;border-radius:4px;background:#cfd6e0;position:absolute;top:9px;left:50%;transform:translateX(-50%);}
+}
+@media(max-width:520px){
+  .notice .credit{display:none;}
+  .brand .mark{display:none;}
+  .brand h1{font-size:14px;}
+}
+
+
+/* ===== Gaongil dark-map patch: aligned with highschool map theme ===== */
+:root{
+  --bg:#0b111b; --panel:#111a29; --ink:#f3f6fb; --ink-2:#c8d2df; --muted:#93a2b5;
+  --line:#28364a; --line-2:#182435;
+  --nat:#3b82f6; --pub:#14b8a6; --pri:#f97316; --gold:#e7bd59;
+  --nat-soft:#122849; --pub-soft:#0f302d; --pri-soft:#3a2115;
+  --shadow-sm:0 1px 4px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.04);
+  --shadow-md:0 10px 28px rgba(0,0,0,.38);
+  --shadow-lg:0 18px 54px rgba(0,0,0,.48);
+}
+html,body{background:var(--bg)!important;color:var(--ink)!important;}
+.app{background:linear-gradient(180deg,#0a111c 0%,#0b111b 100%)!important;}
+.topbar{background:linear-gradient(180deg,#111b2b 0%,#0c1421 100%)!important;border-bottom:1px solid var(--line)!important;}
+.btn-home,.home-btn,.tab.on,.mc-btn,.modal-x{background:#18263a!important;color:#f3f6fb!important;border-color:#34445b!important;box-shadow:var(--shadow-sm)!important;}
+.btn-home:hover,.home-btn:hover,.mc-btn:hover{background:#223249!important;color:var(--gold)!important;border-color:var(--gold)!important;}
+.brand .mark{background:rgba(231,189,89,.16)!important;color:var(--gold)!important;border:1px solid rgba(231,189,89,.34)!important;}
+.brand h1,.item .nm,.ucard-nm,.pop-hd .p-nm,.modal-t,.rc-t{color:var(--ink)!important;}
+.tabs{background:#0f1928!important;border:1px solid var(--line)!important;}
+.tab{color:var(--ink-2)!important;}.tab.on{color:var(--gold)!important;}
+.legend span,.legend .lg{color:var(--ink-2)!important;}.lg .dot,.legend i{box-shadow:0 0 0 2px #0c1421,0 1px 2px rgba(0,0,0,.45)!important;}
+.notice{background:#101926!important;color:#d6caa5!important;border-bottom:1px solid var(--line)!important;}.notice b{color:#ffe7a3!important;}.notice .credit{color:#c8d2df!important;}
+.panel,.lcontrols{background:rgba(17,26,41,.98)!important;border-color:var(--line)!important;box-shadow:var(--shadow-sm)!important;}
+.controls,.count,.panel-foot,.modal-hd,.modal-ft{border-color:var(--line)!important;background:#111a29!important;}
+.search input,.lsearch input,.regionsel,select{background:#07101b!important;color:var(--ink)!important;border-color:#314258!important;}
+.search input::placeholder,.lsearch input::placeholder{color:#7d8b9e!important;}.search input:focus,.lsearch input:focus,.regionsel:focus{background:#0b1522!important;border-color:var(--gold)!important;}
+.chip,.lchip{background:#121d2d!important;color:var(--ink-2)!important;border-color:#314258!important;}.chip:hover,.lchip:hover{border-color:var(--gold)!important;color:var(--gold)!important;}.chip.on,.lchip.on{background:linear-gradient(180deg,#e7bd59,#c99836)!important;color:#111827!important;border-color:transparent!important;}
+.count b,.lcount b{color:var(--gold)!important;}.count span,.lcount,.empty,.item .nm small,.ucard-reg,.p-reg,.p-note,.modal-s,.panel-foot,.rc-d{color:var(--muted)!important;}
+.list,.list-scroll,.modal-bd{background:#0d1724!important;}.list::-webkit-scrollbar-thumb,.list-scroll::-webkit-scrollbar-thumb,.modal-bd::-webkit-scrollbar-thumb{background:#314258!important;border-color:#0d1724!important;}
+.item{background:#101a29!important;border:1px solid transparent!important;}.item:hover{background:#17243a!important;border-color:#2f4056!important;}.item.active{background:#1b2b45!important;border-color:var(--gold)!important;}
+.grp-hd,.lsec-hd{background:linear-gradient(180deg,#0d1724 72%,rgba(13,23,36,0))!important;color:#d8e0ec!important;}.grp-hd .gc,.lsec-hd .lc{background:#17243a!important;border-color:#2f4056!important;color:#b9c6d7!important;}
+.em,.plogo,.pop-hd .hlogo{background:#f8fafc!important;border-color:#d4dce8!important;}
+.mapwrap,#map{background:#0b111b!important;}
+.leaflet-container{background:#0b111b!important;}
+.leaflet-control-zoom a,.leaflet-bar a{background:#111a29!important;color:#e5edf7!important;border-color:#34445b!important;}.leaflet-control-zoom a:hover,.leaflet-bar a:hover{background:#1b2a42!important;color:var(--gold)!important;}
+.leaflet-tooltip.uni-tip,.leaflet-popup.uni-pop .leaflet-popup-content-wrapper,.modal{background:#111a29!important;color:var(--ink)!important;border:1px solid var(--line)!important;box-shadow:var(--shadow-lg)!important;}
+.leaflet-popup-tip{background:#111a29!important;}.tip-slim{color:var(--ink)!important;}.pop-bd{background:#111a29!important;}
+.p-pdf,.ua-pdf,.ua-soon,.res-card{background:#17243a!important;color:var(--ink-2)!important;border-color:#2f4056!important;}.p-pdf:hover,.ua-pdf:hover,.res-card:hover{background:#1f3049!important;border-color:var(--gold)!important;}
+.ucard{background:#111a29!important;border-color:#28364a!important;}.ucard:hover{border-color:var(--gold)!important;box-shadow:var(--shadow-md)!important;}
+.uni-mk .core{border-color:#f8fafc!important;box-shadow:0 2px 9px rgba(0,0,0,.65)!important;}.uni-mk .lbl{color:#f8fafc!important;text-shadow:0 0 3px #020617,0 0 4px #020617,0 1px 2px #020617!important;}
+.marker-cluster{background:rgba(231,189,89,.18)!important;}.marker-cluster div{background:linear-gradient(180deg,#e7bd59,#c99836)!important;color:#111827!important;border-color:#fff!important;box-shadow:0 2px 12px rgba(231,189,89,.38)!important;}
+.pin,.uni-mk .core{box-shadow:0 0 0 2px #101a29,0 2px 6px rgba(0,0,0,.45)!important;}.panel-toggle{background:#111a29!important;color:var(--ink)!important;border-color:var(--line)!important;}.panel-toggle .grip{background:#526176!important;}
+.toast{background:rgba(15,23,42,.96)!important;color:#fff!important;border:1px solid rgba(255,255,255,.12)!important;}
+
+
+</style>
+  <link rel="stylesheet" href="./portal.css?v=91" />
+
+<style id="gaongil-map-dark-late-overrides">
+/* ===== Gaongil dark-map patch: aligned with highschool map theme ===== */
+:root{
+  --bg:#0b111b; --panel:#111a29; --ink:#f3f6fb; --ink-2:#c8d2df; --muted:#93a2b5;
+  --line:#28364a; --line-2:#182435;
+  --nat:#3b82f6; --pub:#14b8a6; --pri:#f97316; --gold:#e7bd59;
+  --nat-soft:#122849; --pub-soft:#0f302d; --pri-soft:#3a2115;
+  --shadow-sm:0 1px 4px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.04);
+  --shadow-md:0 10px 28px rgba(0,0,0,.38);
+  --shadow-lg:0 18px 54px rgba(0,0,0,.48);
+}
+html,body{background:var(--bg)!important;color:var(--ink)!important;}
+.app{background:linear-gradient(180deg,#0a111c 0%,#0b111b 100%)!important;}
+.topbar{background:linear-gradient(180deg,#111b2b 0%,#0c1421 100%)!important;border-bottom:1px solid var(--line)!important;}
+.btn-home,.home-btn,.tab.on,.mc-btn,.modal-x{background:#18263a!important;color:#f3f6fb!important;border-color:#34445b!important;box-shadow:var(--shadow-sm)!important;}
+.btn-home:hover,.home-btn:hover,.mc-btn:hover{background:#223249!important;color:var(--gold)!important;border-color:var(--gold)!important;}
+.brand .mark{background:rgba(231,189,89,.16)!important;color:var(--gold)!important;border:1px solid rgba(231,189,89,.34)!important;}
+.brand h1,.item .nm,.ucard-nm,.pop-hd .p-nm,.modal-t,.rc-t{color:var(--ink)!important;}
+.tabs{background:#0f1928!important;border:1px solid var(--line)!important;}
+.tab{color:var(--ink-2)!important;}.tab.on{color:var(--gold)!important;}
+.legend span,.legend .lg{color:var(--ink-2)!important;}.lg .dot,.legend i{box-shadow:0 0 0 2px #0c1421,0 1px 2px rgba(0,0,0,.45)!important;}
+.notice{background:#101926!important;color:#d6caa5!important;border-bottom:1px solid var(--line)!important;}.notice b{color:#ffe7a3!important;}.notice .credit{color:#c8d2df!important;}
+.panel,.lcontrols{background:rgba(17,26,41,.98)!important;border-color:var(--line)!important;box-shadow:var(--shadow-sm)!important;}
+.controls,.count,.panel-foot,.modal-hd,.modal-ft{border-color:var(--line)!important;background:#111a29!important;}
+.search input,.lsearch input,.regionsel,select{background:#07101b!important;color:var(--ink)!important;border-color:#314258!important;}
+.search input::placeholder,.lsearch input::placeholder{color:#7d8b9e!important;}.search input:focus,.lsearch input:focus,.regionsel:focus{background:#0b1522!important;border-color:var(--gold)!important;}
+.chip,.lchip{background:#121d2d!important;color:var(--ink-2)!important;border-color:#314258!important;}.chip:hover,.lchip:hover{border-color:var(--gold)!important;color:var(--gold)!important;}.chip.on,.lchip.on{background:linear-gradient(180deg,#e7bd59,#c99836)!important;color:#111827!important;border-color:transparent!important;}
+.count b,.lcount b{color:var(--gold)!important;}.count span,.lcount,.empty,.item .nm small,.ucard-reg,.p-reg,.p-note,.modal-s,.panel-foot,.rc-d{color:var(--muted)!important;}
+.list,.list-scroll,.modal-bd{background:#0d1724!important;}.list::-webkit-scrollbar-thumb,.list-scroll::-webkit-scrollbar-thumb,.modal-bd::-webkit-scrollbar-thumb{background:#314258!important;border-color:#0d1724!important;}
+.item{background:#101a29!important;border:1px solid transparent!important;}.item:hover{background:#17243a!important;border-color:#2f4056!important;}.item.active{background:#1b2b45!important;border-color:var(--gold)!important;}
+.grp-hd,.lsec-hd{background:linear-gradient(180deg,#0d1724 72%,rgba(13,23,36,0))!important;color:#d8e0ec!important;}.grp-hd .gc,.lsec-hd .lc{background:#17243a!important;border-color:#2f4056!important;color:#b9c6d7!important;}
+.em,.plogo,.pop-hd .hlogo{background:#f8fafc!important;border-color:#d4dce8!important;}
+.mapwrap,#map{background:#0b111b!important;}
+.leaflet-container{background:#0b111b!important;}
+.leaflet-control-zoom a,.leaflet-bar a{background:#111a29!important;color:#e5edf7!important;border-color:#34445b!important;}.leaflet-control-zoom a:hover,.leaflet-bar a:hover{background:#1b2a42!important;color:var(--gold)!important;}
+.leaflet-tooltip.uni-tip,.leaflet-popup.uni-pop .leaflet-popup-content-wrapper,.modal{background:#111a29!important;color:var(--ink)!important;border:1px solid var(--line)!important;box-shadow:var(--shadow-lg)!important;}
+.leaflet-popup-tip{background:#111a29!important;}.tip-slim{color:var(--ink)!important;}.pop-bd{background:#111a29!important;}
+.p-pdf,.ua-pdf,.ua-soon,.res-card{background:#17243a!important;color:var(--ink-2)!important;border-color:#2f4056!important;}.p-pdf:hover,.ua-pdf:hover,.res-card:hover{background:#1f3049!important;border-color:var(--gold)!important;}
+.ucard{background:#111a29!important;border-color:#28364a!important;}.ucard:hover{border-color:var(--gold)!important;box-shadow:var(--shadow-md)!important;}
+.uni-mk .core{border-color:#f8fafc!important;box-shadow:0 2px 9px rgba(0,0,0,.65)!important;}.uni-mk .lbl{color:#f8fafc!important;text-shadow:0 0 3px #020617,0 0 4px #020617,0 1px 2px #020617!important;}
+.marker-cluster{background:rgba(231,189,89,.18)!important;}.marker-cluster div{background:linear-gradient(180deg,#e7bd59,#c99836)!important;color:#111827!important;border-color:#fff!important;box-shadow:0 2px 12px rgba(231,189,89,.38)!important;}
+.pin,.uni-mk .core{box-shadow:0 0 0 2px #101a29,0 2px 6px rgba(0,0,0,.45)!important;}.panel-toggle{background:#111a29!important;color:var(--ink)!important;border-color:var(--line)!important;}.panel-toggle .grip{background:#526176!important;}
+.toast{background:rgba(15,23,42,.96)!important;color:#fff!important;border:1px solid rgba(255,255,255,.12)!important;}
+</style>
+
+<style id="gaongil-map-cluster-contrast-fix">
+  /* cluster number visibility fix */
+  .marker-cluster{
+    background:rgba(255,255,255,.14)!important;
+    border-radius:50%!important;
+    box-shadow:0 0 0 3px rgba(255,255,255,.06), 0 0 20px rgba(231,189,89,.18)!important;
+  }
+  .marker-cluster div{
+    width:40px!important;
+    height:40px!important;
+    margin:3px!important;
+    border-radius:50%!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    background:linear-gradient(180deg,#f0d486 0%,#d5a743 100%)!important;
+    color:#0f172a!important;
+    border:3px solid #ffffff!important;
+    font-family:var(--mono)!important;
+    font-weight:900!important;
+    font-size:16px!important;
+    line-height:1!important;
+    letter-spacing:-.02em!important;
+    text-shadow:0 1px 0 rgba(255,255,255,.50)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.48), 0 4px 16px rgba(213,167,67,.36), 0 0 0 1px rgba(15,23,42,.10)!important;
+  }
+  .marker-cluster div span{
+    display:block!important;
+    transform:translateY(-.5px)!important;
+    font-variant-numeric:tabular-nums!important;
+  }
+  .marker-cluster-small div{font-size:16px!important;}
+  .marker-cluster-medium div{font-size:16px!important;}
+  .marker-cluster-large div{font-size:15px!important;}
+</style>
+
+
+<style id="gaongil-map-cluster-number-darkfix-v2">
+  /* stronger cluster digit contrast override */
+  .marker-cluster div,
+  .marker-cluster div span,
+  .marker-cluster div b,
+  .marker-cluster div strong{
+    color:#172033 !important;
+    -webkit-text-fill-color:#172033 !important;
+    text-shadow:none !important;
+    opacity:1 !important;
+  }
+  .marker-cluster div span{
+    font-weight:900 !important;
+    letter-spacing:-0.03em !important;
+  }
+</style>
+
+</head>
+<body data-gaongil-page="unimap">
+<div class="app">
+  <header class="topbar">
+    <a class="btn-home" href="index.html" aria-label="메인으로">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span>메인</span>
+    </a>
+    <div class="brand">
+      <span class="mark">진로진학</span>
+      <h1>전국 4년제 대학 입학 안내</h1>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button class="tab on" data-view="map">🗺 지도</button>
+      <button class="tab" data-view="list">☰ 목록</button>
+    </nav>
+    <div class="legend">
+      <span class="lg"><span class="dot" style="background:var(--nat)"></span>국립</span>
+      <span class="lg"><span class="dot" style="background:var(--pub)"></span>공립</span>
+      <span class="lg"><span class="dot" style="background:var(--pri)"></span>사립</span>
+      <span class="lg"><span class="dot ring" style="background:var(--ink)"></span>추가 수록</span>
+    </div>
+  </header>
+
+  <div class="notice">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg>
+    <span>현재는 <b>2028학년도 대학입학전형 시행계획</b> 기준입니다. 추후 <b>수시모집요강</b>이 공개되면 자료를 업데이트할 예정입니다.</span>
+    <span class="credit">제작 : 가온길 입시전략 연구소</span>
+  </div>
+
+  <div class="views">
+    <!-- ===== MAP VIEW ===== -->
+    <section class="view" id="view-map">
+      <div class="split">
+        <aside class="panel" id="panel">
+          <div class="panel-toggle" id="ptoggle"><span class="grip"></span>대학 목록 · 검색</div>
+          <div class="controls">
+            <div class="search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+              <input id="q" type="text" placeholder="대학명 검색 (예: 충남, 공주, 한국교원)" autocomplete="off">
+            </div>
+            <div class="filters" id="typeFilter">
+              <button class="chip on" data-type="전체">전체</button>
+              <button class="chip" data-type="국립">국립</button>
+              <button class="chip" data-type="공립">공립</button>
+              <button class="chip" data-type="사립">사립</button>
+            </div>
+            <select class="regionsel" id="region"><option value="">전체 지역 (시·도)</option></select>
+          </div>
+          <div class="count"><b id="cnt">0</b><span>개 캠퍼스 표시 중</span></div>
+          <div class="list" id="list"></div>
+        </aside>
+        <div class="mapwrap"><div id="map"></div></div>
+      </div>
+    </section>
+
+    <!-- ===== LIST VIEW ===== -->
+    <section class="view" id="view-list" hidden>
+      <div class="lcontrols">
+        <div class="lrow">
+          <div class="lsearch">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input id="lq" type="text" placeholder="대학명·지역 검색 (예: 한밭, 공주교대, 충남)" autocomplete="off">
+          </div>
+          <div class="lfilters" id="ltypeFilter">
+            <button class="lchip on" data-type="전체">전체</button>
+            <button class="lchip" data-type="국립">국립</button>
+            <button class="lchip" data-type="공립">공립</button>
+            <button class="lchip" data-type="사립">사립</button>
+          </div>
+        </div>
+        <div class="lnav" id="lnav"></div>
+      </div>
+      <div class="list-scroll" id="listScroll">
+        <div class="lcount"><b id="listCount">0</b>개 대학 · 시·도순</div>
+        <div id="lsections"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script id="embedded-universities-data" type="application/json">[{"name":"가톨릭대학교[제2캠퍼스]","baseName":"가톨릭대학교","region":"서울","type":"사립","lat":37.578816,"lng":126.967703,"home":"https://search.naver.com/search.naver?query=%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"가톨릭대학교[제3캠퍼스]","baseName":"가톨릭대학교","region":"서울","type":"사립","lat":37.539871,"lng":126.966732,"home":"https://search.naver.com/search.naver?query=%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제3캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"감리교신학대학교[본교]","baseName":"감리교신학대학교","region":"서울","type":"사립","lat":37.579685,"lng":126.979301,"home":"https://search.naver.com/search.naver?query=%EA%B0%90%EB%A6%AC%EA%B5%90%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"강서대학교[본교]","baseName":"강서대학교","region":"서울","type":"사립","lat":37.594208,"lng":126.98136,"home":"https://search.naver.com/search.naver?query=%EA%B0%95%EC%84%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"건국대학교[본교]","baseName":"건국대학교","region":"서울","type":"사립","lat":37.560012,"lng":126.960857,"home":"https://search.naver.com/search.naver?query=%EA%B1%B4%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경기대학교[제2캠퍼스]","baseName":"경기대학교","region":"서울","type":"사립","lat":37.533627,"lng":126.984604,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EA%B8%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경희대학교[본교]","baseName":"경희대학교","region":"서울","type":"사립","lat":37.539079,"lng":126.949498,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%ED%9D%AC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"고려대학교[본교]","baseName":"고려대학교","region":"서울","type":"사립","lat":37.561654,"lng":126.938886,"home":"https://search.naver.com/search.naver?query=%EA%B3%A0%EB%A0%A4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"광운대학교[본교]","baseName":"광운대학교","region":"서울","type":"사립","lat":37.559733,"lng":127.019899,"home":"https://search.naver.com/search.naver?query=%EA%B4%91%EC%9A%B4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국민대학교[본교]","baseName":"국민대학교","region":"서울","type":"사립","lat":37.5544,"lng":126.916475,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%AF%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"덕성여자대학교[본교]","baseName":"덕성여자대학교","region":"서울","type":"사립","lat":37.596083,"lng":127.002312,"home":"https://search.naver.com/search.naver?query=%EB%8D%95%EC%84%B1%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"동국대학교[본교]","baseName":"동국대학교","region":"서울","type":"사립","lat":37.58498,"lng":126.943591,"home":"https://search.naver.com/search.naver?query=%EB%8F%99%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"동덕여자대학교[본교]","baseName":"동덕여자대학교","region":"서울","type":"사립","lat":37.603739,"lng":126.991096,"home":"https://search.naver.com/search.naver?query=%EB%8F%99%EB%8D%95%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"명지대학교[제2캠퍼스]","baseName":"명지대학교","region":"서울","type":"사립","lat":37.571914,"lng":126.931342,"home":"https://search.naver.com/search.naver?query=%EB%AA%85%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"삼육대학교[본교]","baseName":"삼육대학교","region":"서울","type":"사립","lat":37.564954,"lng":126.933408,"home":"https://search.naver.com/search.naver?query=%EC%82%BC%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"상명대학교[본교]","baseName":"상명대학교","region":"서울","type":"사립","lat":37.574663,"lng":126.991166,"home":"https://search.naver.com/search.naver?query=%EC%83%81%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서강대학교[본교]","baseName":"서강대학교","region":"서울","type":"사립","lat":37.533053,"lng":126.966828,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EA%B0%95%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서경대학교[본교]","baseName":"서경대학교","region":"서울","type":"사립","lat":37.547132,"lng":126.952341,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EA%B2%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서울과학기술대학교[본교]","baseName":"서울과학기술대학교","region":"서울","type":"국립","lat":37.591899,"lng":126.949528,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EA%B3%BC%ED%95%99%EA%B8%B0%EC%88%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서울교육대학교[본교]","baseName":"서울교육대학교","region":"서울","type":"국립","lat":37.556706,"lng":126.967184,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서울기독대학교[본교]","baseName":"서울기독대학교","region":"서울","type":"사립","lat":37.599015,"lng":126.970162,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EA%B8%B0%EB%8F%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서울대학교[본교]","baseName":"서울대학교","region":"서울","type":"국립","lat":37.595995,"lng":126.936646,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서울시립대학교[본교]","baseName":"서울시립대학교","region":"서울","type":"공립","lat":37.597241,"lng":126.979991,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서울여자대학교[본교]","baseName":"서울여자대학교","region":"서울","type":"사립","lat":37.533415,"lng":126.959313,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서울한영대학교[본교]","baseName":"서울한영대학교","region":"서울","type":"사립","lat":37.54598,"lng":126.922918,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%ED%95%9C%EC%98%81%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"성공회대학교[본교]","baseName":"성공회대학교","region":"서울","type":"사립","lat":37.58199,"lng":126.935075,"home":"https://search.naver.com/search.naver?query=%EC%84%B1%EA%B3%B5%ED%9A%8C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"성균관대학교[본교]","baseName":"성균관대학교","region":"서울","type":"사립","lat":37.558291,"lng":126.91828,"home":"https://search.naver.com/search.naver?query=%EC%84%B1%EA%B7%A0%EA%B4%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"성신여자대학교[본교]","baseName":"성신여자대학교","region":"서울","type":"사립","lat":37.591297,"lng":127.010156,"home":"https://search.naver.com/search.naver?query=%EC%84%B1%EC%8B%A0%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"세종대학교[본교]","baseName":"세종대학교","region":"서울","type":"사립","lat":37.590839,"lng":127.022684,"home":"https://search.naver.com/search.naver?query=%EC%84%B8%EC%A2%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"숙명여자대학교[본교]","baseName":"숙명여자대학교","region":"서울","type":"사립","lat":37.594172,"lng":126.93667,"home":"https://search.naver.com/search.naver?query=%EC%88%99%EB%AA%85%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"숭실대학교[본교]","baseName":"숭실대학교","region":"서울","type":"사립","lat":37.579603,"lng":126.928927,"home":"https://search.naver.com/search.naver?query=%EC%88%AD%EC%8B%A4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"연세대학교[본교]","baseName":"연세대학교","region":"서울","type":"사립","lat":37.530883,"lng":127.000167,"home":"https://search.naver.com/search.naver?query=%EC%97%B0%EC%84%B8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"이화여자대학교[본교]","baseName":"이화여자대학교","region":"서울","type":"사립","lat":37.589908,"lng":127.025125,"home":"https://search.naver.com/search.naver?query=%EC%9D%B4%ED%99%94%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"장로회신학대학교[본교]","baseName":"장로회신학대학교","region":"서울","type":"사립","lat":37.592441,"lng":127.016745,"home":"https://search.naver.com/search.naver?query=%EC%9E%A5%EB%A1%9C%ED%9A%8C%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"중앙대학교[본교]","baseName":"중앙대학교","region":"서울","type":"사립","lat":37.589108,"lng":127.016831,"home":"https://search.naver.com/search.naver?query=%EC%A4%91%EC%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"총신대학교[본교]","baseName":"총신대학교","region":"서울","type":"사립","lat":37.559677,"lng":127.036808,"home":"https://search.naver.com/search.naver?query=%EC%B4%9D%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"추계예술대학교[본교]","baseName":"추계예술대학교","region":"서울","type":"사립","lat":37.598175,"lng":127.009799,"home":"https://search.naver.com/search.naver?query=%EC%B6%94%EA%B3%84%EC%98%88%EC%88%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한국성서대학교[본교]","baseName":"한국성서대학교","region":"서울","type":"사립","lat":37.598698,"lng":126.945549,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EC%84%B1%EC%84%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한국외국어대학교[본교]","baseName":"한국외국어대학교","region":"서울","type":"사립","lat":37.585985,"lng":127.010093,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EC%99%B8%EA%B5%AD%EC%96%B4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한국체육대학교[본교]","baseName":"한국체육대학교","region":"서울","type":"국립","lat":37.548047,"lng":126.925819,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EC%B2%B4%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한성대학교[본교]","baseName":"한성대학교","region":"서울","type":"사립","lat":37.564745,"lng":126.948605,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EC%84%B1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한양대학교[본교]","baseName":"한양대학교","region":"서울","type":"사립","lat":37.591106,"lng":126.963004,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"홍익대학교[본교]","baseName":"홍익대학교","region":"서울","type":"사립","lat":37.594268,"lng":126.957589,"home":"https://search.naver.com/search.naver?query=%ED%99%8D%EC%9D%B5%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경인교육대학교[본교]","baseName":"경인교육대학교","region":"인천","type":"국립","lat":37.488046,"lng":126.681757,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EC%9D%B8%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"안양대학교[제2캠퍼스]","baseName":"안양대학교","region":"인천","type":"사립","lat":37.484817,"lng":126.660783,"home":"https://search.naver.com/search.naver?query=%EC%95%88%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"인천가톨릭대학교[제2캠퍼스]","baseName":"인천가톨릭대학교","region":"인천","type":"사립","lat":37.484574,"lng":126.733806,"home":"https://search.naver.com/search.naver?query=%EC%9D%B8%EC%B2%9C%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"인천대학교[본교]","baseName":"인천대학교","region":"인천","type":"공립","lat":37.498234,"lng":126.712906,"home":"https://search.naver.com/search.naver?query=%EC%9D%B8%EC%B2%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"인하대학교[본교]","baseName":"인하대학교","region":"인천","type":"사립","lat":37.420822,"lng":126.680793,"home":"https://search.naver.com/search.naver?query=%EC%9D%B8%ED%95%98%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"가천대학교[본교]","baseName":"가천대학교","region":"경기","type":"사립","lat":37.400501,"lng":126.710109,"home":"https://search.naver.com/search.naver?query=%EA%B0%80%EC%B2%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"가톨릭대학교[본교]","baseName":"가톨릭대학교","region":"경기","type":"사립","lat":37.154716,"lng":127.148198,"home":"https://search.naver.com/search.naver?query=%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"강남대학교[본교]","baseName":"강남대학교","region":"경기","type":"사립","lat":37.54853,"lng":127.13422,"home":"https://search.naver.com/search.naver?query=%EA%B0%95%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경기대학교[본교]","baseName":"경기대학교","region":"경기","type":"사립","lat":37.455416,"lng":126.973266,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EA%B8%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경동대학교[제4캠퍼스]","baseName":"경동대학교","region":"경기","type":"사립","lat":37.33532,"lng":126.712876,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EB%8F%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제4캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"단국대학교[본교]","baseName":"단국대학교","region":"경기","type":"사립","lat":37.440401,"lng":127.382498,"home":"https://search.naver.com/search.naver?query=%EB%8B%A8%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"대진대학교[본교]","baseName":"대진대학교","region":"경기","type":"사립","lat":37.112256,"lng":126.992936,"home":"https://search.naver.com/search.naver?query=%EB%8C%80%EC%A7%84%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"명지대학교[본교]","baseName":"명지대학교","region":"경기","type":"사립","lat":37.578014,"lng":127.0225,"home":"https://search.naver.com/search.naver?query=%EB%AA%85%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서울신학대학교[본교]","baseName":"서울신학대학교","region":"경기","type":"사립","lat":37.44145,"lng":126.943477,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서울장신대학교[본교]","baseName":"서울장신대학교","region":"경기","type":"사립","lat":37.330744,"lng":126.788835,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%EC%9E%A5%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"성결대학교[본교]","baseName":"성결대학교","region":"경기","type":"사립","lat":37.120427,"lng":127.116814,"home":"https://search.naver.com/search.naver?query=%EC%84%B1%EA%B2%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"수원가톨릭대학교[본교]","baseName":"수원가톨릭대학교","region":"경기","type":"사립","lat":37.448126,"lng":126.932051,"home":"https://search.naver.com/search.naver?query=%EC%88%98%EC%9B%90%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"수원대학교[본교]","baseName":"수원대학교","region":"경기","type":"사립","lat":37.440486,"lng":127.204487,"home":"https://search.naver.com/search.naver?query=%EC%88%98%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"신한대학교[본교]","baseName":"신한대학교","region":"경기","type":"사립","lat":37.265031,"lng":126.775564,"home":"https://search.naver.com/search.naver?query=%EC%8B%A0%ED%95%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"신한대학교[제2캠퍼스]","baseName":"신한대학교","region":"경기","type":"사립","lat":37.271155,"lng":126.759868,"home":"https://search.naver.com/search.naver?query=%EC%8B%A0%ED%95%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"아주대학교[본교]","baseName":"아주대학교","region":"경기","type":"사립","lat":37.512202,"lng":127.34396,"home":"https://search.naver.com/search.naver?query=%EC%95%84%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"안양대학교[본교]","baseName":"안양대학교","region":"경기","type":"사립","lat":37.552623,"lng":126.98938,"home":"https://search.naver.com/search.naver?query=%EC%95%88%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"예원예술대학교[제2캠퍼스]","baseName":"예원예술대학교","region":"경기","type":"사립","lat":37.242907,"lng":127.12274,"home":"https://search.naver.com/search.naver?query=%EC%98%88%EC%9B%90%EC%98%88%EC%88%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"을지대학교[제2캠퍼스]","baseName":"을지대학교","region":"경기","type":"사립","lat":37.271011,"lng":127.131057,"home":"https://search.naver.com/search.naver?query=%EC%9D%84%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"을지대학교[제3캠퍼스]","baseName":"을지대학교","region":"경기","type":"사립","lat":37.178616,"lng":127.040235,"home":"https://search.naver.com/search.naver?query=%EC%9D%84%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제3캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"중앙대학교[제2캠퍼스]","baseName":"중앙대학교","region":"경기","type":"사립","lat":37.164557,"lng":126.855189,"home":"https://search.naver.com/search.naver?query=%EC%A4%91%EC%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"중앙승가대학교[본교]","baseName":"중앙승가대학교","region":"경기","type":"사립","lat":37.378174,"lng":126.872582,"home":"https://search.naver.com/search.naver?query=%EC%A4%91%EC%95%99%EC%8A%B9%EA%B0%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"차의과학대학교[본교]","baseName":"차의과학대학교","region":"경기","type":"사립","lat":37.40152,"lng":127.435775,"home":"https://search.naver.com/search.naver?query=%EC%B0%A8%EC%9D%98%EA%B3%BC%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"칼빈대학교[본교]","baseName":"칼빈대학교","region":"경기","type":"사립","lat":37.460746,"lng":127.110299,"home":"https://search.naver.com/search.naver?query=%EC%B9%BC%EB%B9%88%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"평택대학교[본교]","baseName":"평택대학교","region":"경기","type":"사립","lat":37.458356,"lng":126.741673,"home":"https://search.naver.com/search.naver?query=%ED%8F%89%ED%83%9D%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한국공학대학교[본교]","baseName":"한국공학대학교","region":"경기","type":"사립","lat":37.116959,"lng":126.961706,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EA%B3%B5%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한세대학교[본교]","baseName":"한세대학교","region":"경기","type":"사립","lat":37.41478,"lng":126.942142,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EC%84%B8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한신대학교[본교]","baseName":"한신대학교","region":"경기","type":"사립","lat":37.227259,"lng":127.346225,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한양대학교(ERICA)[분교]","baseName":"한양대학교(ERICA)","region":"경기","type":"사립","lat":37.520376,"lng":127.372889,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%28ERICA%29%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"분교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"협성대학교[본교]","baseName":"협성대학교","region":"경기","type":"사립","lat":37.165943,"lng":127.086,"home":"https://search.naver.com/search.naver?query=%ED%98%91%EC%84%B1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"가톨릭관동대학교[본교]","baseName":"가톨릭관동대학교","region":"강원","type":"사립","lat":37.693586,"lng":128.545944,"home":"https://search.naver.com/search.naver?query=%EA%B0%80%ED%86%A8%EB%A6%AD%EA%B4%80%EB%8F%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"강원대학교[본교]","baseName":"강원대학교","region":"강원","type":"국립","lat":37.549495,"lng":128.433545,"home":"https://search.naver.com/search.naver?query=%EA%B0%95%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"강원대학교[제2캠퍼스]","baseName":"강원대학교","region":"강원","type":"국립","lat":37.3484,"lng":128.564953,"home":"https://search.naver.com/search.naver?query=%EA%B0%95%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"강원대학교[제3캠퍼스]","baseName":"강원대학교","region":"강원","type":"국립","lat":37.578494,"lng":128.597205,"home":"https://search.naver.com/search.naver?query=%EA%B0%95%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제3캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"강원대학교[제4캠퍼스]","baseName":"강원대학교","region":"강원","type":"국립","lat":37.595217,"lng":127.886596,"home":"https://search.naver.com/search.naver?query=%EA%B0%95%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제4캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경동대학교[제3캠퍼스]","baseName":"경동대학교","region":"강원","type":"사립","lat":37.605709,"lng":127.904258,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EB%8F%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제3캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"상지대학교[본교]","baseName":"상지대학교","region":"강원","type":"사립","lat":37.545136,"lng":128.649437,"home":"https://search.naver.com/search.naver?query=%EC%83%81%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"연세대학교(미래)[분교]","baseName":"연세대학교(미래)","region":"강원","type":"사립","lat":37.324536,"lng":128.327349,"home":"https://search.naver.com/search.naver?query=%EC%97%B0%EC%84%B8%EB%8C%80%ED%95%99%EA%B5%90%28%EB%AF%B8%EB%9E%98%29%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"분교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한라대학교[본교]","baseName":"한라대학교","region":"강원","type":"사립","lat":37.250399,"lng":128.351434,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EB%9D%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한림대학교[본교]","baseName":"한림대학교","region":"강원","type":"사립","lat":37.301149,"lng":128.225956,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EB%A6%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"건양대학교[제2캠퍼스]","baseName":"건양대학교","region":"대전","type":"사립","lat":36.343,"lng":127.403749,"home":"https://search.naver.com/search.naver?query=%EA%B1%B4%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립한밭대학교[본교]","baseName":"국립한밭대학교","region":"대전","type":"국립","lat":36.331099,"lng":127.399482,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%ED%95%9C%EB%B0%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"대전신학대학교[본교]","baseName":"대전신학대학교","region":"대전","type":"사립","lat":36.381675,"lng":127.413623,"home":"https://search.naver.com/search.naver?query=%EB%8C%80%EC%A0%84%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"목원대학교[본교]","baseName":"목원대학교","region":"대전","type":"사립","lat":36.373547,"lng":127.350049,"home":"https://search.naver.com/search.naver?query=%EB%AA%A9%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"배재대학교[본교]","baseName":"배재대학교","region":"대전","type":"사립","lat":36.353883,"lng":127.423968,"home":"https://search.naver.com/search.naver?query=%EB%B0%B0%EC%9E%AC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"우송대학교[본교]","baseName":"우송대학교","region":"대전","type":"사립","lat":36.383294,"lng":127.373995,"home":"https://search.naver.com/search.naver?query=%EC%9A%B0%EC%86%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"을지대학교[본교]","baseName":"을지대학교","region":"대전","type":"사립","lat":36.358203,"lng":127.32955,"home":"https://search.naver.com/search.naver?query=%EC%9D%84%EC%A7%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"충남대학교[본교]","baseName":"충남대학교","region":"대전","type":"국립","lat":36.352337,"lng":127.349486,"home":"https://search.naver.com/search.naver?query=%EC%B6%A9%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한남대학교[본교]","baseName":"한남대학교","region":"대전","type":"사립","lat":36.359294,"lng":127.40828,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"고려대학교(세종)[분교]","baseName":"고려대학교(세종)","region":"세종","type":"사립","lat":36.508418,"lng":127.28215,"home":"https://search.naver.com/search.naver?query=%EA%B3%A0%EB%A0%A4%EB%8C%80%ED%95%99%EA%B5%90%28%EC%84%B8%EC%A2%85%29%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"분교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"대전가톨릭대학교[본교]","baseName":"대전가톨릭대학교","region":"세종","type":"사립","lat":36.453464,"lng":127.282527,"home":"https://search.naver.com/search.naver?query=%EB%8C%80%EC%A0%84%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"홍익대학교[제2캠퍼스]","baseName":"홍익대학교","region":"세종","type":"사립","lat":36.498753,"lng":127.309096,"home":"https://search.naver.com/search.naver?query=%ED%99%8D%EC%9D%B5%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"가톨릭꽃동네대학교[본교]","baseName":"가톨릭꽃동네대학교","region":"충북","type":"사립","lat":36.894678,"lng":127.716374,"home":"https://search.naver.com/search.naver?query=%EA%B0%80%ED%86%A8%EB%A6%AD%EA%BD%83%EB%8F%99%EB%84%A4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"건국대학교(글로컬)[분교]","baseName":"건국대학교(글로컬)","region":"충북","type":"사립","lat":36.782809,"lng":127.829648,"home":"https://search.naver.com/search.naver?query=%EA%B1%B4%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%28%EA%B8%80%EB%A1%9C%EC%BB%AC%29%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"분교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립한국교통대학교[본교]","baseName":"국립한국교통대학교","region":"충북","type":"국립","lat":36.830488,"lng":127.932001,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%ED%95%9C%EA%B5%AD%EA%B5%90%ED%86%B5%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"극동대학교[본교]","baseName":"극동대학교","region":"충북","type":"사립","lat":36.761124,"lng":127.456642,"home":"https://search.naver.com/search.naver?query=%EA%B7%B9%EB%8F%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"서원대학교[본교]","baseName":"서원대학교","region":"충북","type":"사립","lat":36.928517,"lng":127.668524,"home":"https://search.naver.com/search.naver?query=%EC%84%9C%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"세명대학교[본교]","baseName":"세명대학교","region":"충북","type":"사립","lat":36.667815,"lng":127.643802,"home":"https://search.naver.com/search.naver?query=%EC%84%B8%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"유원대학교[본교]","baseName":"유원대학교","region":"충북","type":"사립","lat":36.658983,"lng":127.89783,"home":"https://search.naver.com/search.naver?query=%EC%9C%A0%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"청주교육대학교[본교]","baseName":"청주교육대학교","region":"충북","type":"국립","lat":36.702059,"lng":128.025091,"home":"https://search.naver.com/search.naver?query=%EC%B2%AD%EC%A3%BC%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"청주대학교[본교]","baseName":"청주대학교","region":"충북","type":"사립","lat":36.707577,"lng":127.97521,"home":"https://search.naver.com/search.naver?query=%EC%B2%AD%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"충북대학교[본교]","baseName":"충북대학교","region":"충북","type":"국립","lat":36.614483,"lng":127.546887,"home":"https://search.naver.com/search.naver?query=%EC%B6%A9%EB%B6%81%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한국교원대학교[본교]","baseName":"한국교원대학교","region":"충북","type":"국립","lat":36.854921,"lng":127.729521,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EA%B5%90%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"건양대학교[본교]","baseName":"건양대학교","region":"충남","type":"사립","lat":36.643351,"lng":126.727615,"home":"https://search.naver.com/search.naver?query=%EA%B1%B4%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립공주대학교[본교]","baseName":"국립공주대학교","region":"충남","type":"국립","lat":36.64257,"lng":127.248157,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EA%B3%B5%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"나사렛대학교[본교]","baseName":"나사렛대학교","region":"충남","type":"사립","lat":36.512909,"lng":127.282492,"home":"https://search.naver.com/search.naver?query=%EB%82%98%EC%82%AC%EB%A0%9B%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"남서울대학교[본교]","baseName":"남서울대학교","region":"충남","type":"국립","lat":36.621786,"lng":126.821408,"home":"https://search.naver.com/search.naver?query=%EB%82%A8%EC%84%9C%EC%9A%B8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"단국대학교[제2캠퍼스]","baseName":"단국대학교","region":"충남","type":"사립","lat":36.67409,"lng":126.839514,"home":"https://search.naver.com/search.naver?query=%EB%8B%A8%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"상명대학교[제2캠퍼스]","baseName":"상명대학교","region":"충남","type":"사립","lat":36.581317,"lng":127.214786,"home":"https://search.naver.com/search.naver?query=%EC%83%81%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"선문대학교[본교]","baseName":"선문대학교","region":"충남","type":"사립","lat":36.49968,"lng":126.6339,"home":"https://search.naver.com/search.naver?query=%EC%84%A0%EB%AC%B8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"순천향대학교[본교]","baseName":"순천향대학교","region":"충남","type":"사립","lat":36.468092,"lng":127.200568,"home":"https://search.naver.com/search.naver?query=%EC%88%9C%EC%B2%9C%ED%96%A5%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"중부대학교[본교]","baseName":"중부대학교","region":"충남","type":"사립","lat":36.428854,"lng":126.871055,"home":"https://search.naver.com/search.naver?query=%EC%A4%91%EB%B6%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"청운대학교[본교]","baseName":"청운대학교","region":"충남","type":"사립","lat":36.395759,"lng":126.950434,"home":"https://search.naver.com/search.naver?query=%EC%B2%AD%EC%9A%B4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한국기술교육대학교[본교]","baseName":"한국기술교육대학교","region":"충남","type":"국립","lat":36.46769,"lng":126.634183,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EA%B5%AD%EA%B8%B0%EC%88%A0%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한서대학교[본교]","baseName":"한서대학교","region":"충남","type":"사립","lat":36.40451,"lng":126.864126,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EC%84%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"호서대학교[본교]","baseName":"호서대학교","region":"충남","type":"사립","lat":36.741366,"lng":126.965636,"home":"https://search.naver.com/search.naver?query=%ED%98%B8%EC%84%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경북대학교[본교]","baseName":"경북대학교","region":"대구","type":"국립","lat":35.897452,"lng":128.614891,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EB%B6%81%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"계명대학교[본교]","baseName":"계명대학교","region":"대구","type":"사립","lat":35.889779,"lng":128.636355,"home":"https://search.naver.com/search.naver?query=%EA%B3%84%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"대구교육대학교[본교]","baseName":"대구교육대학교","region":"대구","type":"국립","lat":35.854846,"lng":128.619681,"home":"https://search.naver.com/search.naver?query=%EB%8C%80%EA%B5%AC%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경운대학교[본교]","baseName":"경운대학교","region":"경북","type":"사립","lat":36.369902,"lng":128.669065,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EC%9A%B4%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경일대학교[본교]","baseName":"경일대학교","region":"경북","type":"사립","lat":36.239955,"lng":129.315524,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EC%9D%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립경국대학교[본교]","baseName":"국립경국대학교","region":"경북","type":"국립","lat":36.309419,"lng":128.976511,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EA%B2%BD%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"김천대학교[본교]","baseName":"김천대학교","region":"경북","type":"사립","lat":36.045839,"lng":128.835191,"home":"https://search.naver.com/search.naver?query=%EA%B9%80%EC%B2%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"대구가톨릭대학교[본교]","baseName":"대구가톨릭대학교","region":"경북","type":"사립","lat":36.433741,"lng":129.061274,"home":"https://search.naver.com/search.naver?query=%EB%8C%80%EA%B5%AC%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"대구대학교[본교]","baseName":"대구대학교","region":"경북","type":"사립","lat":36.199125,"lng":128.64304,"home":"https://search.naver.com/search.naver?query=%EB%8C%80%EA%B5%AC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"대구예술대학교[본교]","baseName":"대구예술대학교","region":"경북","type":"사립","lat":36.360019,"lng":129.094162,"home":"https://search.naver.com/search.naver?query=%EB%8C%80%EA%B5%AC%EC%98%88%EC%88%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"동국대학교(WISE)[분교]","baseName":"동국대학교(WISE)","region":"경북","type":"사립","lat":36.220974,"lng":128.575906,"home":"https://search.naver.com/search.naver?query=%EB%8F%99%EA%B5%AD%EB%8C%80%ED%95%99%EA%B5%90%28WISE%29%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"분교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"동양대학교[본교]","baseName":"동양대학교","region":"경북","type":"사립","lat":36.49144,"lng":129.100977,"home":"https://search.naver.com/search.naver?query=%EB%8F%99%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"영남대학교[본교]","baseName":"영남대학교","region":"경북","type":"사립","lat":36.096563,"lng":129.059879,"home":"https://search.naver.com/search.naver?query=%EC%98%81%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"영남신학대학교[본교]","baseName":"영남신학대학교","region":"경북","type":"사립","lat":36.411055,"lng":128.941042,"home":"https://search.naver.com/search.naver?query=%EC%98%81%EB%82%A8%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"위덕대학교[본교]","baseName":"위덕대학교","region":"경북","type":"사립","lat":35.977337,"lng":128.796162,"home":"https://search.naver.com/search.naver?query=%EC%9C%84%EB%8D%95%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"포항공과대학교[본교]","baseName":"포항공과대학교","region":"경북","type":"사립","lat":36.046655,"lng":128.70966,"home":"https://search.naver.com/search.naver?query=%ED%8F%AC%ED%95%AD%EA%B3%B5%EA%B3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"한동대학교[본교]","baseName":"한동대학교","region":"경북","type":"사립","lat":36.041336,"lng":129.146087,"home":"https://search.naver.com/search.naver?query=%ED%95%9C%EB%8F%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경성대학교[본교]","baseName":"경성대학교","region":"부산","type":"사립","lat":35.188208,"lng":129.074726,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EC%84%B1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립부경대학교[본교]","baseName":"국립부경대학교","region":"부산","type":"국립","lat":35.211724,"lng":129.055294,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EB%B6%80%EA%B2%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립한국해양대학교[본교]","baseName":"국립한국해양대학교","region":"부산","type":"국립","lat":35.165589,"lng":129.130701,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%ED%95%9C%EA%B5%AD%ED%95%B4%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"동명대학교[본교]","baseName":"동명대학교","region":"부산","type":"사립","lat":35.184359,"lng":129.098146,"home":"https://search.naver.com/search.naver?query=%EB%8F%99%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"동서대학교[본교]","baseName":"동서대학교","region":"부산","type":"사립","lat":35.214037,"lng":129.073175,"home":"https://search.naver.com/search.naver?query=%EB%8F%99%EC%84%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"동아대학교[본교]","baseName":"동아대학교","region":"부산","type":"사립","lat":35.162913,"lng":129.095012,"home":"https://search.naver.com/search.naver?query=%EB%8F%99%EC%95%84%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"동의대학교[본교]","baseName":"동의대학교","region":"부산","type":"사립","lat":35.165321,"lng":129.130656,"home":"https://search.naver.com/search.naver?query=%EB%8F%99%EC%9D%98%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"부산가톨릭대학교[본교]","baseName":"부산가톨릭대학교","region":"부산","type":"사립","lat":35.180173,"lng":129.050389,"home":"https://search.naver.com/search.naver?query=%EB%B6%80%EC%82%B0%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"부산교육대학교[본교]","baseName":"부산교육대학교","region":"부산","type":"국립","lat":35.162298,"lng":129.079621,"home":"https://search.naver.com/search.naver?query=%EB%B6%80%EC%82%B0%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"부산대학교[본교]","baseName":"부산대학교","region":"부산","type":"국립","lat":35.166597,"lng":129.097547,"home":"https://search.naver.com/search.naver?query=%EB%B6%80%EC%82%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"신라대학교[본교]","baseName":"신라대학교","region":"부산","type":"사립","lat":35.178356,"lng":129.127847,"home":"https://search.naver.com/search.naver?query=%EC%8B%A0%EB%9D%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"영산대학교[본교]","baseName":"영산대학교","region":"부산","type":"사립","lat":35.206238,"lng":129.077025,"home":"https://search.naver.com/search.naver?query=%EC%98%81%EC%82%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경남대학교[본교]","baseName":"경남대학교","region":"경남","type":"사립","lat":35.084469,"lng":128.287639,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"경상국립대학교[본교]","baseName":"경상국립대학교","region":"경남","type":"국립","lat":35.407261,"lng":128.126799,"home":"https://search.naver.com/search.naver?query=%EA%B2%BD%EC%83%81%EA%B5%AD%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립창원대학교[본교]","baseName":"국립창원대학교","region":"경남","type":"국립","lat":35.376908,"lng":128.011848,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EC%B0%BD%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립창원대학교[제3캠퍼스]","baseName":"국립창원대학교","region":"경남","type":"국립","lat":35.507565,"lng":128.389254,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EC%B0%BD%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제3캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"영산대학교[제2캠퍼스]","baseName":"영산대학교","region":"경남","type":"사립","lat":35.428791,"lng":128.190559,"home":"https://search.naver.com/search.naver?query=%EC%98%81%EC%82%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"인제대학교[본교]","baseName":"인제대학교","region":"경남","type":"사립","lat":35.482883,"lng":128.094119,"home":"https://search.naver.com/search.naver?query=%EC%9D%B8%EC%A0%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"진주교육대학교[본교]","baseName":"진주교육대학교","region":"경남","type":"국립","lat":35.103696,"lng":128.029652,"home":"https://search.naver.com/search.naver?query=%EC%A7%84%EC%A3%BC%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"창신대학교[본교]","baseName":"창신대학교","region":"경남","type":"사립","lat":35.440923,"lng":128.382574,"home":"https://search.naver.com/search.naver?query=%EC%B0%BD%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"광신대학교[본교]","baseName":"광신대학교","region":"광주","type":"사립","lat":35.144097,"lng":126.903762,"home":"https://search.naver.com/search.naver?query=%EA%B4%91%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"광주교육대학교[본교]","baseName":"광주교육대학교","region":"광주","type":"국립","lat":35.182837,"lng":126.841379,"home":"https://search.naver.com/search.naver?query=%EA%B4%91%EC%A3%BC%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"광주대학교[본교]","baseName":"광주대학교","region":"광주","type":"사립","lat":35.136842,"lng":126.873445,"home":"https://search.naver.com/search.naver?query=%EA%B4%91%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"광주여자대학교[본교]","baseName":"광주여자대학교","region":"광주","type":"사립","lat":35.191036,"lng":126.874296,"home":"https://search.naver.com/search.naver?query=%EA%B4%91%EC%A3%BC%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"남부대학교[본교]","baseName":"남부대학교","region":"광주","type":"사립","lat":35.133429,"lng":126.893635,"home":"https://search.naver.com/search.naver?query=%EB%82%A8%EB%B6%80%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"송원대학교[본교]","baseName":"송원대학교","region":"광주","type":"사립","lat":35.147885,"lng":126.797881,"home":"https://search.naver.com/search.naver?query=%EC%86%A1%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"전남대학교[본교]","baseName":"전남대학교","region":"광주","type":"국립","lat":35.131655,"lng":126.872128,"home":"https://search.naver.com/search.naver?query=%EC%A0%84%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"호남신학대학교[본교]","baseName":"호남신학대학교","region":"광주","type":"사립","lat":35.167633,"lng":126.893458,"home":"https://search.naver.com/search.naver?query=%ED%98%B8%EB%82%A8%EC%8B%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"광주가톨릭대학교[본교]","baseName":"광주가톨릭대학교","region":"전남","type":"사립","lat":35.009856,"lng":127.211683,"home":"https://search.naver.com/search.naver?query=%EA%B4%91%EC%A3%BC%EA%B0%80%ED%86%A8%EB%A6%AD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립목포해양대학교[본교]","baseName":"국립목포해양대학교","region":"전남","type":"국립","lat":34.66458,"lng":126.889239,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EB%AA%A9%ED%8F%AC%ED%95%B4%EC%96%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립순천대학교[본교]","baseName":"국립순천대학교","region":"전남","type":"국립","lat":35.047213,"lng":126.489902,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EC%88%9C%EC%B2%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"동신대학교[본교]","baseName":"동신대학교","region":"전남","type":"사립","lat":34.99201,"lng":127.056525,"home":"https://search.naver.com/search.naver?query=%EB%8F%99%EC%8B%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"세한대학교[본교]","baseName":"세한대학교","region":"전남","type":"사립","lat":34.802779,"lng":126.894964,"home":"https://search.naver.com/search.naver?query=%EC%84%B8%ED%95%9C%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"영산선학대학교[본교]","baseName":"영산선학대학교","region":"전남","type":"사립","lat":35.009014,"lng":126.996495,"home":"https://search.naver.com/search.naver?query=%EC%98%81%EC%82%B0%EC%84%A0%ED%95%99%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"전남대학교[제2캠퍼스]","baseName":"전남대학교","region":"전남","type":"국립","lat":34.826508,"lng":126.388334,"home":"https://search.naver.com/search.naver?query=%EC%A0%84%EB%82%A8%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"제2캠퍼스","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"국립군산대학교[본교]","baseName":"국립군산대학교","region":"전북","type":"국립","lat":35.682769,"lng":127.363532,"home":"https://search.naver.com/search.naver?query=%EA%B5%AD%EB%A6%BD%EA%B5%B0%EC%82%B0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"예원예술대학교[본교]","baseName":"예원예술대학교","region":"전북","type":"사립","lat":35.646621,"lng":127.272631,"home":"https://search.naver.com/search.naver?query=%EC%98%88%EC%9B%90%EC%98%88%EC%88%A0%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"우석대학교[본교]","baseName":"우석대학교","region":"전북","type":"사립","lat":35.575344,"lng":127.008052,"home":"https://search.naver.com/search.naver?query=%EC%9A%B0%EC%84%9D%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"원광대학교[본교]","baseName":"원광대학교","region":"전북","type":"사립","lat":35.6876,"lng":127.255484,"home":"https://search.naver.com/search.naver?query=%EC%9B%90%EA%B4%91%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"전북대학교[본교]","baseName":"전북대학교","region":"전북","type":"국립","lat":35.632214,"lng":126.944382,"home":"https://search.naver.com/search.naver?query=%EC%A0%84%EB%B6%81%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"전주대학교[본교]","baseName":"전주대학교","region":"전북","type":"사립","lat":35.876096,"lng":127.191229,"home":"https://search.naver.com/search.naver?query=%EC%A0%84%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"호원대학교[본교]","baseName":"호원대학교","region":"전북","type":"사립","lat":35.581156,"lng":126.97172,"home":"https://search.naver.com/search.naver?query=%ED%98%B8%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false},{"name":"제주대학교[본교]","baseName":"제주대학교","region":"제주","type":"국립","lat":33.428985,"lng":126.637409,"home":"https://search.naver.com/search.naver?query=%EC%A0%9C%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%9E%85%ED%95%99%EC%B2%98","campuses":[{"c":"본교","u":""}],"admission":"","report":"","jonghap":"","added":false}]</script>
+<script id="embedded-emblems-data" type="application/json">{}</script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script>
+(async () => {
+let DATA = [], EMBLEMS = {};
+function readEmbeddedJson(id, fallback){
+  const el = document.getElementById(id);
+  if(!el) return fallback;
+  try { return JSON.parse(el.textContent || ''); }
+  catch(e) { console.warn(id + ' JSON parse failed', e); return fallback; }
+}
+DATA = readEmbeddedJson('embedded-universities-data', []);
+EMBLEMS = readEmbeddedJson('embedded-emblems-data', {});
+// 로컬 파일(file://)에서도 바로 열리도록 대학 데이터는 HTML 내부에 내장했습니다.
+// 내장 데이터가 비어 있을 때만 서버 환경에서 외부 JSON을 보조로 불러옵니다.
+if(!Array.isArray(DATA) || DATA.length === 0){
+  try {
+    DATA = await fetch('data/universities.json',{cache:'no-cache'}).then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); });
+  } catch(err) {
+    document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#c00">데이터 로드 실패: '+err.message+'<br><small>로컬 실행을 위해 대학 데이터를 unimap.html 내부에 내장했지만, 데이터 파싱에 실패했습니다.</small></div>';
+    throw err;
+  }
+}
+function emblemEl(d, size){
+  const f = EMBLEMS[d.name];
+  if(f) return `<img class="em em-${size}" src="emblems/${encodeURIComponent(f)}" alt="${esc(d.name)} 엠블럼" loading="lazy">`;
+  return `<span class="em-fb em-${size} ${d.type}">${esc(d.name.slice(0,2))}</span>`;
+}
+const REGION_VIEW = {"서울": [37.566, 126.978, 11], "부산": [35.18, 129.07, 11], "대구": [35.87, 128.6, 11], "인천": [37.45, 126.7, 10], "광주": [35.16, 126.85, 11], "대전": [36.35, 127.38, 11], "울산": [35.54, 129.2, 10], "세종": [36.58, 127.28, 11], "경기": [37.41, 127.2, 9], "강원": [37.8, 128.2, 8], "충북": [36.8, 127.7, 9], "충남": [36.55, 126.95, 9], "전북": [35.72, 127.1, 9], "전남": [34.86, 126.9, 8], "경북": [36.25, 128.8, 8], "경남": [35.26, 128.3, 9], "제주": [33.43, 126.56, 10]};
+const REGIONS = ["서울","인천","경기","강원","대전","세종","충북","충남","대구","경북","부산","울산","경남","광주","전남","전북","제주"];
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function colorVar(t){return t==='국립'?'nat':t==='공립'?'pub':'pri';}
+function fileIcon(size){
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>`;
+}
+function docItems(value, label){
+  if(!value)return [];
+  return (Array.isArray(value)?value:[value]).map(item=>{
+    if(typeof item==='string')return {href:item,label};
+    return {href:item.href||item.url||item.u||'',label:item.label||label};
+  }).filter(item=>item.href);
+}
+function popupDocLinks(value, label){
+  return docItems(value,label).map(item=>
+    `<a class="p-pdf" href="${esc(item.href)}" target="_blank" rel="noopener">
+       ${fileIcon(14)}
+       ${esc(item.label)}</a>`).join('');
+}
+function cardDocLinks(value, cls, label){
+  return docItems(value,label).map(item=>
+    `<a class="${cls}" href="${esc(item.href)}" target="_blank" rel="noopener">${fileIcon(13)}${esc(item.label)}</a>`).join('');
+}
+
+/* ========== MAP VIEW ========== */
+const KOREA_BOUNDS = L.latLngBounds([32.9,124.4],[38.8,131.3]);
+const map = L.map('map',{zoomControl:true,scrollWheelZoom:true,minZoom:7,maxBounds:KOREA_BOUNDS,maxBoundsViscosity:1.0}).setView([36.4,127.8],7);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+  attribution:'&copy; OpenStreetMap &copy; CARTO',subdomains:'abcd',maxZoom:19,bounds:KOREA_BOUNDS,noWrap:true
+}).addTo(map);
+
+const regSel=document.getElementById('region');
+REGIONS.forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;regSel.appendChild(o);});
+
+const cluster=L.markerClusterGroup({maxClusterRadius:46,spiderfyOnMaxZoom:true,showCoverageOnHover:false,disableClusteringAtZoom:12});
+map.addLayer(cluster);
+
+function popHTML(d){
+  const cv=colorVar(d.type);
+  const pdfs=d.campuses.filter(c=>c.u).map(c=>
+    `<a class="p-pdf" href="${esc(c.u)}" target="_blank" rel="noopener">
+       ${fileIcon(14)}
+       ${esc(c.c)} 시행계획 PDF</a>`).join('');
+  const admission=popupDocLinks(d.admission,'2027 수시모집요강');
+  const report=popupDocLinks(d.report,'선행학습 영향평가 보고서');
+  const jonghap=popupDocLinks(d.jonghap,'학생부종합전형 가이드북');
+  return `<div class="pop-in">
+    <div class="pop-hd">${emblemEl(d,'lg')}<div class="p-hd-txt"><div class="p-nm">${esc(d.name)}</div>
+      <div class="p-meta"><span class="p-badge" style="background:var(--${cv}-soft);color:var(--${cv})">${d.type}</span><span class="p-reg">${esc(d.region)}</span></div></div></div>
+    <div class="pop-bd">
+      <a class="p-go" href="${esc(d.home)}" target="_blank" rel="noopener" style="background:var(--${cv})">입학처 검색/홈페이지
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      ${admission?`<div class="p-lbl">2027 수시모집요강</div><div class="p-pdfs">${admission}</div>`:''}
+      ${pdfs?`<div class="p-lbl">대학입학전형 시행계획</div><div class="p-pdfs">${pdfs}</div>`:''}
+      ${report?`<div class="p-lbl">2026 선행학습 영향평가</div><div class="p-pdfs">${report}</div>`:''}
+      ${jonghap?`<div class="p-lbl">2027 학생부종합전형 가이드북</div><div class="p-pdfs">${jonghap}</div>`:''}
+      ${d.added?`<div class="p-note">※ 원본 자료에 없어 추가 수록한 대학입니다. 입학처 주소를 한 번 더 확인해 주세요.</div>`:''}
+    </div></div>`;
+}
+
+const records=DATA.map((d,idx)=>{
+  const icon=L.divIcon({className:'',html:`<div class="uni-mk ${d.type} ${d.added?'added':''}"><div class="core"></div><span class="lbl">${esc(d.name)}</span></div>`,iconSize:[24,24],iconAnchor:[12,12]});
+  const mk=L.marker([d.lat,d.lng],{icon});
+  mk.bindTooltip(`<div class="tip-slim"><span class="tdot ${d.type} ${d.added?'added':''}"></span>${esc(d.name)}</div>`,{className:'uni-tip',direction:'top',offset:[0,-15]});
+  mk.bindPopup(popHTML(d),{className:'uni-pop',offset:[0,-13],minWidth:240,maxWidth:240,autoPanPadding:[28,28]});
+  const rec={d,mk,idx,el:null};
+  mk.on('popupopen',()=>{setSel(mk,true);activateListItem(rec);scheduleRelabel();});
+  mk.on('popupclose',()=>setSel(mk,false));
+  return rec;
+});
+function setSel(mk,on){const el=mk._icon&&mk._icon.querySelector('.uni-mk');if(el)el.classList.toggle('sel',on);}
+function activateListItem(rec){document.querySelectorAll('.item.active').forEach(x=>x.classList.remove('active'));if(rec.el){rec.el.classList.add('active');rec.el.scrollIntoView({block:'nearest'});}}
+
+/* ===== 지도 라벨: 확대 시 겹치지 않는 대학명을 지도에 직접 표시 ===== */
+const MIN_LABEL_ZOOM = 8;                 // 이 줌 미만에서는 라벨 숨김 (전국 보기에서는 점만)
+const _labelCtx = document.createElement('canvas').getContext('2d');
+function measureLabel(name){
+  _labelCtx.font = '700 11px Pretendard, -apple-system, BlinkMacSystemFont, sans-serif';
+  return _labelCtx.measureText(name).width;
+}
+function boxesOverlap(a,b){ return a.l < b.r && a.r > b.l && a.t < b.b && a.b > b.t; }
+function labelPrio(d){ return d.added ? 0 : (d.type==='국립'||d.type==='공립') ? 1 : 2; }
+let _relabelRAF=null;
+function scheduleRelabel(){ if(_relabelRAF) cancelAnimationFrame(_relabelRAF); _relabelRAF=requestAnimationFrame(relabelLabels); }
+function relabelLabels(){
+  _relabelRAF=null;
+  const z=map.getZoom();
+  const cands=[];
+  records.forEach(r=>{
+    const icon=r.mk._icon; if(!icon) return;                 // 클러스터에 묶였거나 화면 밖이면 _icon 없음
+    const el=icon.querySelector('.uni-mk'); if(!el) return;
+    if(z<MIN_LABEL_ZOOM){ el.classList.remove('show-lbl'); return; }
+    if(r._lw==null) r._lw=measureLabel(r.d.name);
+    cands.push({r,el,p:map.latLngToContainerPoint(r.mk.getLatLng()),w:r._lw});
+  });
+  if(z<MIN_LABEL_ZOOM) return;
+  const size=map.getSize(), DOT_R=12, GAP=3, LH=15, PAD=3;
+  const dotBoxes=cands.map(c=>({l:c.p.x-DOT_R,r:c.p.x+DOT_R,t:c.p.y-DOT_R,b:c.p.y+DOT_R,c}));
+  // 우선순위: 선택된 마커 → 추가수록/국공립 → 위쪽(북쪽)부터
+  const order=cands.slice().sort((a,b)=>{
+    const sa=a.el.classList.contains('sel')?0:1, sb=b.el.classList.contains('sel')?0:1;
+    if(sa!==sb) return sa-sb;
+    const pa=labelPrio(a.r.d), pb=labelPrio(b.r.d);
+    if(pa!==pb) return pa-pb;
+    return a.p.y-b.p.y;
+  });
+  const placed=[], win=new Set();
+  for(const c of order){
+    const half=(c.w+PAD*2)/2;
+    const box={l:c.p.x-half, r:c.p.x+half, t:c.p.y+DOT_R+GAP, b:c.p.y+DOT_R+GAP+LH};
+    if(box.l<2||box.r>size.x-2||box.t<2||box.b>size.y-2) continue;          // 화면 밖이면 제외
+    let ok=true;
+    for(let i=0;i<placed.length;i++){ if(boxesOverlap(box,placed[i])){ ok=false; break; } }   // 다른 라벨과 충돌
+    if(ok) for(let i=0;i<dotBoxes.length;i++){ const db=dotBoxes[i]; if(db.c===c) continue; if(boxesOverlap(box,db)){ ok=false; break; } }  // 다른 대학 점과 충돌
+    if(ok){ win.add(c); placed.push(box); }
+  }
+  for(const c of cands) c.el.classList.toggle('show-lbl', win.has(c));
+}
+map.on('zoomend moveend resize', scheduleRelabel);
+cluster.on('animationend', scheduleRelabel);
+if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(()=>{ records.forEach(r=>r._lw=null); scheduleRelabel(); }); }
+
+const listEl=document.getElementById('list'),cntEl=document.getElementById('cnt');
+let fType='전체',fRegion='',fQ='';
+function visible(d){if(fType!=='전체'&&d.type!==fType)return false;if(fRegion&&d.region!==fRegion)return false;if(fQ&&!d.name.toLowerCase().includes(fQ))return false;return true;}
+function render(){
+  cluster.clearLayers();listEl.innerHTML='';records.forEach(r=>r.el=null);
+  const shown=records.filter(r=>visible(r.d));
+  shown.forEach(r=>cluster.addLayer(r.mk));cntEl.textContent=shown.length;
+  if(!shown.length){listEl.innerHTML='<div class="empty">조건에 맞는 대학이 없습니다.</div>';return;}
+  const groups={};shown.forEach(r=>{(groups[r.d.region]=groups[r.d.region]||[]).push(r);});
+  const frag=document.createDocumentFragment();
+  REGIONS.filter(rg=>groups[rg]).forEach(rg=>{
+    const arr=groups[rg].sort((a,b)=>a.d.name.localeCompare(b.d.name,'ko'));
+    const hd=document.createElement('div');hd.className='grp-hd';hd.innerHTML=`${esc(rg)} <span class="gc">${arr.length}</span>`;frag.appendChild(hd);
+    arr.forEach(r=>{const d=r.d,el=document.createElement('div');el.className='item';
+      el.innerHTML=`${emblemEl(d,'sm')}<span class="nm">${esc(d.name)}<small>${d.campuses.map(c=>esc(c.c)).join(', ')}</small></span><span class="badge ${d.type}">${d.type}</span>`;
+      el.addEventListener('click',()=>{map.flyTo([d.lat,d.lng],Math.max(map.getZoom(),13),{duration:.6});setTimeout(()=>r.mk.openPopup(),650);if(window.innerWidth<=860)document.getElementById('panel').classList.remove('open');});
+      r.el=el;frag.appendChild(el);});
+  });
+  listEl.appendChild(frag);
+  scheduleRelabel();
+}
+document.getElementById('typeFilter').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;document.querySelectorAll('#typeFilter .chip').forEach(c=>c.classList.remove('on'));b.classList.add('on');fType=b.dataset.type;render();});
+regSel.addEventListener('change',e=>{fRegion=e.target.value;render();if(fRegion&&REGION_VIEW[fRegion]){const v=REGION_VIEW[fRegion];map.flyTo([v[0],v[1]],v[2],{duration:.7});}else map.flyTo([36.4,127.8],7,{duration:.7});});
+let qt;document.getElementById('q').addEventListener('input',e=>{clearTimeout(qt);const v=e.target.value.trim().toLowerCase();qt=setTimeout(()=>{fQ=v;render();},140);});
+/* ===== Draggable bottom sheet (mobile): 위로 끌면 열림 / 아래로 끌면 닫힘 ===== */
+(function(){
+  const sheet=document.getElementById('panel'), grip=document.getElementById('ptoggle');
+  if(!sheet||!grip) return;
+  const isMobile=()=>window.innerWidth<=860;
+  const peek=()=>Math.max(0, sheet.getBoundingClientRect().height-56);
+  let drag=false, moved=false, startY=0, base=0, ty=0, lastY=0, lastT=0, vel=0, fromList=false, touchedAt=0;
+  const setTy=v=>{ty=v;sheet.style.transform='translateY('+v+'px)';};
+  function begin(y){drag=true;moved=false;sheet.style.transition='none';startY=lastY=y;lastT=performance.now();vel=0;base=sheet.classList.contains('open')?0:peek();ty=base;}
+  function move(y){const dy=y-startY;if(Math.abs(dy)>4)moved=true;setTy(Math.max(0,Math.min(peek(),base+dy)));const n=performance.now();vel=(y-lastY)/((n-lastT)||1);lastY=y;lastT=n;}
+  function snap(){drag=false;sheet.style.transition='';sheet.style.transform='';const open=Math.abs(vel)>0.4?(vel<0):(ty<peek()*0.5);sheet.classList.toggle('open',open);}
+  // 핸들(그립) 드래그 + 탭
+  grip.addEventListener('touchstart',e=>{if(!isMobile())return;begin(e.touches[0].clientY);},{passive:true});
+  grip.addEventListener('touchmove',e=>{if(!drag)return;move(e.touches[0].clientY);if(e.cancelable)e.preventDefault();},{passive:false});
+  grip.addEventListener('touchend',()=>{touchedAt=performance.now();if(!drag)return;sheet.style.transition='';if(!moved){sheet.style.transform='';sheet.classList.toggle('open');drag=false;return;}snap();});
+  grip.addEventListener('click',()=>{if(performance.now()-touchedAt<600)return;sheet.classList.toggle('open');});
+  // 목록 최상단에서 아래로 당기면 닫힘 (pull-to-dismiss)
+  listEl.addEventListener('touchstart',e=>{fromList=false;if(!isMobile()||!sheet.classList.contains('open'))return;if(listEl.scrollTop<=0){fromList=true;startY=lastY=e.touches[0].clientY;lastT=performance.now();drag=false;}},{passive:true});
+  listEl.addEventListener('touchmove',e=>{if(!fromList||!isMobile())return;const y=e.touches[0].clientY,dy=y-startY;if(listEl.scrollTop<=0&&dy>0){if(!drag)begin(startY);move(y);if(e.cancelable)e.preventDefault();}},{passive:false});
+  listEl.addEventListener('touchend',()=>{touchedAt=performance.now();if(fromList&&drag)snap();fromList=false;});
+})();
+render();
+
+/* ========== LIST VIEW ========== */
+function cardHTML(d){
+  const cv=colorVar(d.type);
+  const multiC=d.campuses.filter(c=>c.u).length>1;
+  const pdfs=d.campuses.filter(c=>c.u).map(c=>
+    `<a class="ua-pdf" href="${esc(c.u)}" target="_blank" rel="noopener">${fileIcon(13)}${multiC?esc(c.c)+' ':''}2028 시행계획</a>`).join('');
+  const soon=d.campuses.some(c=>!c.u)?`<span class="ua-soon">시행계획 준비중</span>`:'';
+  const admission=cardDocLinks(d.admission,'ua-guide','수시모집요강');
+  const report=cardDocLinks(d.report,'ua-report','선행학습 보고서');
+  const jonghap=cardDocLinks(d.jonghap,'ua-jonghap','학종 가이드북');
+  return `<div class="ucard ${d.added?'added':''}">
+    <div class="ucard-head">${emblemEl(d,'md')}<div class="ucard-head-txt">
+      <div class="ucard-top"><span class="badge ${d.type}">${d.type}</span><span class="ucard-reg">${esc(d.region)} · ${d.campuses.map(c=>esc(c.c)).join(', ')}</span></div>
+      <div class="ucard-nm">${esc(d.name)}</div>
+    </div></div>
+    <div class="ucard-acts">
+      <a class="ua-home" style="background:var(--${cv})" href="${esc(d.home)}" target="_blank" rel="noopener">입학처 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      ${admission}${pdfs}${pdfs?'':soon}${report}${jonghap}
+    </div></div>`;
+}
+let lType='전체',lQ='';
+function lVisible(d){if(lType!=='전체'&&d.type!==lType)return false;if(lQ&&!(d.name.toLowerCase().includes(lQ)||d.region.includes(lQ)))return false;return true;}
+function renderList(){
+  const sec=document.getElementById('lsections');sec.innerHTML='';
+  const shown=DATA.filter(lVisible);
+  document.getElementById('listCount').textContent=shown.length;
+  const nav=document.getElementById('lnav');nav.innerHTML='';
+  if(!shown.length){sec.innerHTML='<div class="empty">검색 결과가 없습니다.</div>';return;}
+  const groups={};shown.forEach(d=>{(groups[d.region]=groups[d.region]||[]).push(d);});
+  const present=REGIONS.filter(r=>groups[r]);
+  present.forEach(r=>{const b=document.createElement('button');b.textContent=r;b.addEventListener('click',()=>{const t=document.getElementById('lsec-'+r);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});nav.appendChild(b);});
+  const frag=document.createDocumentFragment();
+  present.forEach(r=>{
+    const arr=groups[r].sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+    const s=document.createElement('section');s.className='lsec';s.id='lsec-'+r;
+    s.innerHTML=`<div class="lsec-hd">${esc(r)}<span class="lc">${arr.length}</span></div>`;
+    const grid=document.createElement('div');grid.className='lgrid';
+    arr.forEach(d=>grid.insertAdjacentHTML('beforeend',cardHTML(d)));
+    s.appendChild(grid);frag.appendChild(s);
+  });
+  sec.appendChild(frag);
+}
+document.getElementById('ltypeFilter').addEventListener('click',e=>{const b=e.target.closest('.lchip');if(!b)return;document.querySelectorAll('#ltypeFilter .lchip').forEach(c=>c.classList.remove('on'));b.classList.add('on');lType=b.dataset.type;renderList();});
+let lqt;document.getElementById('lq').addEventListener('input',e=>{clearTimeout(lqt);const v=e.target.value.trim().toLowerCase();lqt=setTimeout(()=>{lQ=v;renderList();},140);});
+
+/* ========== TABS ========== */
+let listBuilt=false;
+document.getElementById('tabs').addEventListener('click',e=>{
+  const t=e.target.closest('.tab');if(!t)return;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');
+  const v=t.dataset.view;
+  document.getElementById('view-map').hidden=(v!=='map');
+  document.getElementById('view-list').hidden=(v!=='list');
+  if(v==='map'){setTimeout(()=>map.invalidateSize(),60);}
+  if(v==='list'&&!listBuilt){renderList();listBuilt=true;}
+});
+})();
+</script>
+
+    <script src="assets/js/auth.js"></script>
+    <script>
+      (async () => {
+        await GaongilAuth.ensureSeedUsers();
+        GaongilAuth.requireLogin("login.html");
+      })();
+    </script>
+    <script src="./portal-menu.js?v=93"></script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+/*
+ * GAONGIL original-document pages
+ * Shared visual layer for the 2026 results, 2027 guidebook and 2028 plan pages.
+ */
+
+body.gaongil-download-page {
+  --bg: #050b14;
+  --paper: #0d1726;
+  --paper-2: #101d2f;
+  --ink: #fff8e8;
+  --text: #d7e2f1;
+  --muted: #9fb0c5;
+  --line: rgba(92, 119, 154, 0.5);
+  --line-soft: rgba(92, 119, 154, 0.25);
+  --navy: #d6ad63;
+  --navy-2: #b98532;
+  --blue-soft: rgba(92, 119, 154, 0.22);
+  --green: #f0d99b;
+  --green-soft: rgba(214, 173, 99, 0.13);
+  --amber: #f0d99b;
+  --amber-soft: rgba(214, 173, 99, 0.16);
+  --red: #ffb4a8;
+  --red-soft: rgba(180, 35, 24, 0.2);
+  --violet: #d7c3ff;
+  --violet-soft: rgba(91, 59, 179, 0.22);
+  --burgundy: #d6ad63;
+  --burgundy-2: #f0d99b;
+  --rose-soft: rgba(214, 173, 99, 0.13);
+  color-scheme: dark;
+  background:
+    linear-gradient(rgba(214, 173, 99, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(214, 173, 99, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 8% 12%, rgba(214, 173, 99, 0.12), transparent 30rem),
+    linear-gradient(180deg, #050b14 0%, #081321 48%, #050b14 100%) !important;
+  background-size: 64px 64px, 64px 64px, auto, auto !important;
+  color: var(--text) !important;
+  font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+}
+
+body.gaongil-download-page > .topline {
+  display: none;
+}
+
+body.gaongil-download-page > .topbar {
+  display: none !important;
+}
+
+body.gaongil-download-page > .topbar .topbar-inner {
+  width: min(1280px, calc(100% - 36px));
+  max-width: none;
+  min-height: 64px;
+  margin: 0 auto;
+  padding: 10px 0;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-download-page > .topbar .brand-mark {
+  border: 1px solid rgba(240, 217, 155, 0.8);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f0d99b 0%, #d6ad63 58%, #b98532 100%) !important;
+  color: #071221 !important;
+  box-shadow: 0 8px 22px rgba(214, 173, 99, 0.18);
+}
+
+body.gaongil-download-page > .topbar .brand-title {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-download-page > .topbar .brand-sub {
+  color: #9fb0c5 !important;
+}
+
+body.gaongil-download-page > .topbar .btn {
+  border-color: rgba(214, 173, 99, 0.36) !important;
+  background: rgba(18, 31, 50, 0.84) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-download-page > .topbar .btn:hover,
+body.gaongil-download-page > .topbar .btn:focus-visible {
+  border-color: rgba(240, 217, 155, 0.78) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-download-page .wrap {
+  width: min(1280px, calc(100% - 36px));
+  max-width: none;
+  margin-inline: auto;
+  padding: 28px 0 76px;
+}
+
+body.gaongil-download-page .hero {
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid rgba(92, 119, 154, 0.42) !important;
+  border-radius: 12px !important;
+  padding: clamp(26px, 4vw, 46px) !important;
+  background:
+    linear-gradient(126deg, rgba(13, 23, 38, 0.98) 0%, rgba(13, 23, 38, 0.94) 56%, rgba(72, 81, 88, 0.5) 100%),
+    radial-gradient(circle at 84% 70%, rgba(214, 173, 99, 0.2), transparent 24rem) !important;
+  color: var(--text) !important;
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.36) !important;
+}
+
+body.gaongil-download-page .hero h1 {
+  margin-bottom: 12px;
+  color: #fff8e8 !important;
+  font-size: clamp(32px, 4.1vw, 58px);
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+}
+
+body.gaongil-download-page .hero .eyebrow {
+  color: #f0d99b !important;
+  letter-spacing: 0.02em;
+}
+
+body.gaongil-download-page .hero .eyebrow::before {
+  background: linear-gradient(90deg, #d6ad63, transparent) !important;
+}
+
+body.gaongil-download-page .hero .lead {
+  color: #b9c4d2 !important;
+  font-size: clamp(15px, 1.45vw, 18px);
+  line-height: 1.72;
+}
+
+body.gaongil-download-page .stats {
+  gap: 10px;
+}
+
+body.gaongil-download-page .stat {
+  border: 1px solid rgba(214, 173, 99, 0.24) !important;
+  border-radius: 9px !important;
+  background: rgba(5, 11, 20, 0.52) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+}
+
+body.gaongil-download-page .stat strong {
+  color: #f0d99b !important;
+}
+
+body.gaongil-download-page .stat span {
+  color: #9fb0c5 !important;
+}
+
+body.gaongil-download-page .filterbar {
+  position: relative !important;
+  top: auto !important;
+  z-index: 2 !important;
+  margin-top: 18px !important;
+  border: 1px solid rgba(92, 119, 154, 0.46) !important;
+  border-radius: 12px !important;
+  padding: 18px !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 42%),
+    rgba(13, 23, 38, 0.96) !important;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28) !important;
+}
+
+body.gaongil-download-page .search,
+body.gaongil-download-page .search > * {
+  box-shadow: none;
+}
+
+body.gaongil-download-page .search input,
+body.gaongil-download-page .select-wrap select {
+  border: 1px solid rgba(92, 119, 154, 0.58) !important;
+  border-radius: 9px !important;
+  background: #07111e !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-download-page .search input::placeholder {
+  color: #8192a8 !important;
+}
+
+body.gaongil-download-page .search .ico {
+  color: #d6ad63 !important;
+}
+
+body.gaongil-download-page .search .clear {
+  background: rgba(92, 119, 154, 0.2) !important;
+  color: #d7e2f1 !important;
+}
+
+body.gaongil-download-page :is(.label, .region-label) {
+  display: block !important;
+  width: auto !important;
+  margin: 0 0 7px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #b9c4d2 !important;
+  box-shadow: none !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+}
+
+body.gaongil-download-page :is(.chip, .rchip) {
+  border: 1px solid rgba(92, 119, 154, 0.52) !important;
+  background: rgba(18, 31, 50, 0.9) !important;
+  color: #d7e2f1 !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-download-page :is(.chip, .rchip):hover,
+body.gaongil-download-page :is(.chip, .rchip):focus-visible {
+  border-color: rgba(240, 217, 155, 0.72) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-download-page :is(.chip, .rchip)[aria-pressed="true"] {
+  border-color: rgba(240, 217, 155, 0.9) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #d6ad63 58%, #b98532 100%) !important;
+  color: #071221 !important;
+  box-shadow: 0 8px 20px rgba(214, 173, 99, 0.18) !important;
+}
+
+body.gaongil-download-page .toggle {
+  border-color: rgba(92, 119, 154, 0.52) !important;
+  background: #07111e !important;
+  color: #d7e2f1 !important;
+}
+
+body.gaongil-download-page .toggle input {
+  accent-color: #d6ad63 !important;
+}
+
+body.gaongil-download-page .resultbar {
+  color: #9fb0c5 !important;
+}
+
+body.gaongil-download-page .linkbtn {
+  color: #f0d99b !important;
+}
+
+body.gaongil-download-page .results {
+  gap: 14px;
+}
+
+body.gaongil-download-page .uni-card {
+  border: 1px solid rgba(92, 119, 154, 0.42) !important;
+  border-radius: 10px !important;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 99, 0.045), transparent 44%),
+    rgba(13, 23, 38, 0.95) !important;
+  color: #d7e2f1 !important;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.24) !important;
+}
+
+body.gaongil-download-page .uni-name,
+body.gaongil-download-page .file-title {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-download-page :is(.file-list, .file-row, .file-item) {
+  border-color: rgba(92, 119, 154, 0.24) !important;
+}
+
+body.gaongil-download-page :is(.badge, .meta, .cat) {
+  border: 1px solid rgba(214, 173, 99, 0.18) !important;
+  background: rgba(214, 173, 99, 0.11) !important;
+  color: #f0d99b !important;
+}
+
+body.gaongil-download-page :is(.filetype, .file-icon) {
+  border: 1px solid rgba(92, 119, 154, 0.34) !important;
+  background: rgba(92, 119, 154, 0.16) !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-download-page .btn {
+  border: 1px solid rgba(214, 173, 99, 0.36) !important;
+  border-radius: 8px !important;
+  background: rgba(18, 31, 50, 0.9) !important;
+  color: #edf5ff !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-download-page .btn:hover,
+body.gaongil-download-page .btn:focus-visible {
+  border-color: rgba(240, 217, 155, 0.8) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-download-page .btn.primary {
+  border-color: rgba(240, 217, 155, 0.9) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #d6ad63 58%, #b98532 100%) !important;
+  color: #071221 !important;
+}
+
+body.gaongil-download-page .empty {
+  border: 1px dashed rgba(92, 119, 154, 0.5) !important;
+  border-radius: 12px !important;
+  background: rgba(13, 23, 38, 0.82) !important;
+  color: #b9c4d2 !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-download-page .empty :is(h2, h3, strong) {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-download-page mark {
+  background: #d6ad63 !important;
+  color: #071221 !important;
+}
+
+body.gaongil-download-page .note {
+  border: 1px solid rgba(214, 173, 99, 0.18) !important;
+  border-radius: 9px;
+  padding: 14px 16px;
+  background: rgba(214, 173, 99, 0.07) !important;
+  color: #b9c4d2 !important;
+}
+
+body.gaongil-download-page footer {
+  border-top: 1px solid rgba(214, 173, 99, 0.22) !important;
+  background: transparent !important;
+  color: #9fb0c5 !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-download-page footer strong {
+  color: #fff8e8 !important;
+}
+
+body.gaongil-download-page .totop {
+  border-color: rgba(240, 217, 155, 0.56) !important;
+  background: rgba(13, 23, 38, 0.96) !important;
+  color: #f0d99b !important;
+}
+
+/* portal.css contains intentionally broad legacy-page rules. These scoped
+   selectors keep the download filters visually quiet and readable. */
+body.gaongil-linked-page.gaongil-download-page #filters :is(
+  .label,
+  .region-label,
+  .region-row,
+  .chip-row
+) {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page.gaongil-download-page #filters :is(
+  .label,
+  .region-label
+) {
+  color: #b9c4d2 !important;
+}
+
+@media (max-width: 900px) {
+  body.gaongil-download-page .wrap,
+  body.gaongil-download-page > .topbar .topbar-inner {
+    width: min(100% - 24px, 1280px);
+  }
+
+  body.gaongil-download-page .hero {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 560px) {
+  body.gaongil-download-page .wrap {
+    padding-top: 18px;
+  }
+
+  body.gaongil-download-page .hero,
+  body.gaongil-download-page .filterbar {
+    padding: 18px !important;
+  }
+
+  body.gaongil-download-page .hero h1 {
+    font-size: clamp(29px, 9vw, 38px);
+  }
+}
