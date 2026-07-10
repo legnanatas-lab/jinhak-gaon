@@ -1540,6 +1540,9 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     <script src="assets/js/auth.js?v=20260710-access"></script>
     <script>
       (async () => {
+        if (new URLSearchParams(location.search).has("cb")) {
+          history.replaceState(null, document.title, "./");
+        }
         await GaongilAuth.ensureSeedUsers();
         GaongilAuth.installAccessLinkGuards({ login: "login.html" });
         GaongilAuth.mountUserChip("userChip");
