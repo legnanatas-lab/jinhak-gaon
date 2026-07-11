@@ -87,6 +87,10 @@
       const page = new URLSearchParams(query).get("page");
       if (page) key = normalizePageKey(page);
     }
+    if (key === "placeholder.html") {
+      const item = new URLSearchParams(query).get("item");
+      if (item) key += "?item=" + encodeURIComponent(item);
+    }
     return key || "index.html";
   }
 
@@ -178,7 +182,10 @@
 
   function pageListIncludes(list, pageKey) {
     const key = normalizePageKey(pageKey);
-    return (list || []).map(normalizePageKey).includes(key);
+    const normalized = (list || []).map(normalizePageKey);
+    if (normalized.includes(key)) return true;
+    if (key.startsWith("placeholder.html?item=") && normalized.includes("placeholder.html")) return true;
+    return false;
   }
 
   function isPagePublic(pageKey) {
