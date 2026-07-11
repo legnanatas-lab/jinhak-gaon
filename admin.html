@@ -1286,7 +1286,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
 
       <section class="panel-box access-panel">
         <h2>게시판 공개/교사별 열람 설정</h2>
-        <p class="desc">공개를 체크한 자료는 로그인 없이 열리고, 교사 허용을 체크한 자료는 선택한 등록 교사에게만 열립니다.</p>
+        <p class="desc">공개를 체크한 자료는 로그인 없이 열리고, 교사 허용을 체크한 자료는 선택한 등록 교사에게만 열립니다. 게시판 제목 줄의 체크박스를 누르면 하위 메뉴가 한 번에 선택됩니다.</p>
         <div class="form-msg" id="accessMsg"></div>
         <div class="access-toolbar">
           <div class="field" style="margin-bottom:0;">
@@ -1478,19 +1478,56 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         const selectedUser = document.getElementById("accessUserSelect").value;
         const access = GaongilAuth.getAccessSettings();
         const userPages = access.userPages?.[selectedUser] || [];
-        wrap.innerHTML = collectAccessCatalog().map((group) => {
+        wrap.innerHTML = collectAccessCatalog().map((group, groupIndex) => {
           const rows = group.entries.map((entry, index) => {
             const checkedPublic = access.publicPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
             const checkedUser = userPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
             const cls = index === 0 ? "access-group-head" : "access-item";
+            const parentAttr = index === 0 ? ' data-access-parent="true"' : "";
             return `<div class="${cls}">
               <span>${esc(entry.title)}<small style="display:block;color:var(--muted);font-weight:500;">${esc(entry.key)}</small></span>
-              <label class="access-check"><input type="checkbox" data-public-page="${esc(entry.key)}"${checkedPublic}> 공개</label>
-              <label class="access-check"><input type="checkbox" data-user-page="${esc(entry.key)}"${checkedUser}> 교사 허용</label>
+              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="public"${parentAttr} data-public-page="${esc(entry.key)}"${checkedPublic}> 공개</label>
+              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="user"${parentAttr} data-user-page="${esc(entry.key)}"${checkedUser}> 교사 허용</label>
             </div>`;
           }).join("");
-          return `<section class="access-group">${rows}</section>`;
+          return `<section class="access-group" data-access-group-section="${groupIndex}">${rows}</section>`;
         }).join("");
+        installAccessGroupBulkControls(wrap);
+      }
+
+      function updateAccessGroupState(groupEl, kind) {
+        const inputs = Array.from(groupEl.querySelectorAll(`input[data-access-kind="${kind}"]`));
+        const parent = inputs.find((input) => input.dataset.accessParent === "true");
+        const children = inputs.filter((input) => input !== parent);
+        if (!parent || !children.length) return;
+        const checkedChildren = children.filter((input) => input.checked).length;
+        parent.checked = checkedChildren > 0;
+        parent.indeterminate = checkedChildren > 0 && checkedChildren < children.length;
+      }
+
+      function installAccessGroupBulkControls(wrap) {
+        wrap.querySelectorAll(".access-group").forEach((groupEl) => {
+          updateAccessGroupState(groupEl, "public");
+          updateAccessGroupState(groupEl, "user");
+        });
+        if (wrap.dataset.accessBulkReady === "true") return;
+        wrap.dataset.accessBulkReady = "true";
+        wrap.addEventListener("change", (event) => {
+          const input = event.target.closest("input[data-access-kind]");
+          if (!input) return;
+          const groupEl = input.closest(".access-group");
+          const kind = input.dataset.accessKind;
+          if (!groupEl || !kind) return;
+          const groupInputs = Array.from(groupEl.querySelectorAll(`input[data-access-kind="${kind}"]`));
+          if (input.dataset.accessParent === "true") {
+            groupInputs.forEach((groupInput) => {
+              groupInput.checked = input.checked;
+              groupInput.indeterminate = false;
+            });
+            return;
+          }
+          updateAccessGroupState(groupEl, kind);
+        });
       }
 
       function setFormMsg(el, text, ok = true) {
