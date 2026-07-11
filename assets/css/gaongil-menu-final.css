@@ -291,3 +291,56 @@
   .nav .nav-menu-list a,
   .gaongil-resource-list a{min-height:38px!important;padding:8px 10px!important;font-size:13px!important;}
 }
+
+/* Mobile dropdown visibility fix for pages using the shared final menu CSS. */
+:root{
+  --ga-mobile-menu-top:78px;
+  --home-mobile-menu-top:78px;
+}
+
+@media(max-width:900px){
+  .home-topbar,
+  .home-topbar-inner.menu-only,
+  .site-header,
+  .gaongil-portal-bar,
+  .gaongil-portal-inner.gaongil-menu-only{overflow:visible!important;}
+
+  .home-nav.top-tabs.dropdown-tabs,
+  .nav,
+  .gaongil-portal-actions{
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    -webkit-overflow-scrolling:touch!important;
+    overscroll-behavior-x:contain!important;
+  }
+
+  .home-nav .nav-menu,
+  .nav .nav-menu,
+  .gaongil-resource-menu{position:static!important;}
+
+  .home-nav .nav-menu[open] .nav-menu-list,
+  .nav .nav-menu[open] .nav-menu-list,
+  .gaongil-resource-menu[open] .gaongil-resource-list{
+    position:fixed!important;
+    top:calc(var(--home-mobile-menu-top, var(--ga-mobile-menu-top, 78px)) + env(safe-area-inset-top, 0px))!important;
+    left:max(12px, env(safe-area-inset-left, 0px))!important;
+    right:max(12px, env(safe-area-inset-right, 0px))!important;
+    width:auto!important;
+    max-width:none!important;
+    max-height:calc(100dvh - var(--home-mobile-menu-top, var(--ga-mobile-menu-top, 78px)) - 24px - env(safe-area-inset-bottom, 0px))!important;
+    z-index:12000!important;
+    overflow:auto!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+}
+
+@supports not (height:100dvh){
+  @media(max-width:900px){
+    .home-nav .nav-menu[open] .nav-menu-list,
+    .nav .nav-menu[open] .nav-menu-list,
+    .gaongil-resource-menu[open] .gaongil-resource-list{
+      max-height:calc(100vh - var(--home-mobile-menu-top, var(--ga-mobile-menu-top, 78px)) - 24px - env(safe-area-inset-bottom, 0px))!important;
+    }
+  }
+}

@@ -1076,6 +1076,54 @@ a {
   border-bottom-color:#071221 !important;
 }
 
+:root {
+  --home-mobile-menu-top: 78px;
+}
+
+@media (max-width: 900px) {
+  .home-topbar,
+  .home-topbar-inner.menu-only {
+    overflow: visible !important;
+  }
+
+  .home-nav.top-tabs.dropdown-tabs {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+  }
+
+  .home-nav .nav-menu {
+    position: static !important;
+  }
+
+  .home-nav .nav-menu[open] {
+    z-index: 12000 !important;
+  }
+
+  .home-nav .nav-menu[open] .nav-menu-list {
+    position: fixed !important;
+    top: calc(var(--home-mobile-menu-top) + env(safe-area-inset-top, 0px)) !important;
+    left: max(12px, env(safe-area-inset-left, 0px)) !important;
+    right: max(12px, env(safe-area-inset-right, 0px)) !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: calc(100dvh - var(--home-mobile-menu-top) - 24px - env(safe-area-inset-bottom, 0px)) !important;
+    z-index: 12000 !important;
+    overflow: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+@supports not (height: 100dvh) {
+  @media (max-width: 900px) {
+    .home-nav .nav-menu[open] .nav-menu-list {
+      max-height: calc(100vh - var(--home-mobile-menu-top) - 24px - env(safe-area-inset-bottom, 0px)) !important;
+    }
+  }
+}
+
 </style>
     <style>
 @font-face {
@@ -1523,19 +1571,36 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     </footer>
 
     <script>
-      document.addEventListener("click", (event) => {
-        document.querySelectorAll(".nav-menu").forEach((menu) => {
-          if (menu.open && !menu.contains(event.target)) menu.open = false;
-        });
-      });
-      document.querySelectorAll(".nav-menu").forEach((menu) => {
-        menu.addEventListener("toggle", () => {
-          if (!menu.open) return;
-          document.querySelectorAll(".nav-menu").forEach((other) => {
-            if (other !== menu) other.open = false;
+      (() => {
+        const menus = () => Array.from(document.querySelectorAll(".home-nav .nav-menu"));
+        const syncHomeMenuPanelTop = () => {
+          const bar = document.querySelector(".home-topbar");
+          if (!bar) return;
+          const bottom = Math.ceil(bar.getBoundingClientRect().bottom + 8);
+          document.documentElement.style.setProperty("--home-mobile-menu-top", `${Math.max(64, bottom)}px`);
+        };
+
+        document.addEventListener("click", (event) => {
+          menus().forEach((menu) => {
+            if (menu.open && !menu.contains(event.target)) menu.open = false;
           });
         });
-      });
+
+        menus().forEach((menu) => {
+          menu.addEventListener("toggle", () => {
+            if (!menu.open) return;
+            syncHomeMenuPanelTop();
+            menus().forEach((other) => {
+              if (other !== menu) other.open = false;
+            });
+          });
+        });
+
+        syncHomeMenuPanelTop();
+        window.addEventListener("resize", syncHomeMenuPanelTop, { passive: true });
+        window.addEventListener("orientationchange", syncHomeMenuPanelTop);
+        window.addEventListener("scroll", syncHomeMenuPanelTop, { passive: true });
+      })();
     </script>
   
     <script src="assets/js/site-data.js?v=20260711-config"></script>

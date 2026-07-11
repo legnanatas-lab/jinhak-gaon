@@ -1258,6 +1258,13 @@
     return (primaryGroup || matchedGroups[0]).key;
   }
 
+  function syncMobileMenuPanelTop() {
+    const bar = document.querySelector(".gaongil-portal-bar");
+    if (!bar) return;
+    const bottom = Math.ceil(bar.getBoundingClientRect().bottom + 8);
+    document.documentElement.style.setProperty("--ga-mobile-menu-top", `${Math.max(64, bottom)}px`);
+  }
+
   function init() {
     const current = currentKey();
     const currentGroupKey = resolveCurrentGroupKey(current);
@@ -1292,6 +1299,7 @@
       window.GaongilAuth.mountLoginMenu("gaongilPortalLogin");
     }
     decorateFooters(logoSrc);
+    syncMobileMenuPanelTop();
 
     document.addEventListener("click", (event) => {
       document.querySelectorAll(".gaongil-resource-menu").forEach((menu) => {
@@ -1302,11 +1310,16 @@
     document.querySelectorAll(".gaongil-resource-menu").forEach((menu) => {
       menu.addEventListener("toggle", () => {
         if (!menu.open) return;
+        syncMobileMenuPanelTop();
         document.querySelectorAll(".gaongil-resource-menu").forEach((other) => {
           if (other !== menu) other.open = false;
         });
       });
     });
+
+    window.addEventListener("resize", syncMobileMenuPanelTop, { passive: true });
+    window.addEventListener("orientationchange", syncMobileMenuPanelTop);
+    window.addEventListener("scroll", syncMobileMenuPanelTop, { passive: true });
   }
 
   function decorateFooters(logoSrc) {

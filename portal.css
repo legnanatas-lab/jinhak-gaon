@@ -3592,3 +3592,54 @@ body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="susi"][data-gaon
   color: #071221 !important;
   box-shadow: 0 0 0 4px rgba(214, 173, 99, .2), inset 0 1px 0 rgba(255,255,255,.3) !important;
 }
+
+/* Mobile dropdown visibility fix.
+   On phones the top menu scrolls horizontally; the dropdown list must escape
+   that scroll row or it gets clipped below the header. */
+:root {
+  --ga-mobile-menu-top: 78px;
+}
+
+@media (max-width: 900px) {
+  body.gaongil-linked-page .gaongil-portal-bar,
+  body.gaongil-linked-page .gaongil-portal-inner.gaongil-menu-only {
+    overflow: visible !important;
+  }
+
+  body.gaongil-linked-page .gaongil-portal-actions {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+  }
+
+  body.gaongil-linked-page .gaongil-resource-menu {
+    position: static !important;
+  }
+
+  body.gaongil-linked-page .gaongil-resource-menu[open] {
+    z-index: 12000 !important;
+  }
+
+  body.gaongil-linked-page .gaongil-resource-menu[open] .gaongil-resource-list {
+    position: fixed !important;
+    top: calc(var(--ga-mobile-menu-top) + env(safe-area-inset-top, 0px)) !important;
+    left: max(12px, env(safe-area-inset-left, 0px)) !important;
+    right: max(12px, env(safe-area-inset-right, 0px)) !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: calc(100dvh - var(--ga-mobile-menu-top) - 24px - env(safe-area-inset-bottom, 0px)) !important;
+    z-index: 12000 !important;
+    overflow: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+@supports not (height: 100dvh) {
+  @media (max-width: 900px) {
+    body.gaongil-linked-page .gaongil-resource-menu[open] .gaongil-resource-list {
+      max-height: calc(100vh - var(--ga-mobile-menu-top) - 24px - env(safe-area-inset-bottom, 0px)) !important;
+    }
+  }
+}
