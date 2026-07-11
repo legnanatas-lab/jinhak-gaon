@@ -3312,3 +3312,283 @@ body.gaongil-linked-page :is(.calc-map, .stat-map, .lang-map) .node span {
   font-weight: 500;
   line-height: 1.65 !important;
 }
+
+/* =========================================================
+   2026-07-12 readability sweep
+   - Safari/GitHub Pages safe checkbox fill
+   - highlighted text contrast
+   - sub2 subject-planner cards, compare basket and modal contrast
+========================================================= */
+body.gaongil-linked-page.gaongil-linked-page input[type="checkbox"],
+body[data-gaongil-page="susi"] .save-check {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  box-sizing: border-box !important;
+  display: inline-block !important;
+  width: 22px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  border: 2px solid rgba(125, 154, 192, .88) !important;
+  border-radius: 7px !important;
+  background: #071221 !important;
+  background-image: none !important;
+  color: transparent !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06) !important;
+  cursor: pointer !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page input[type="checkbox"]::after,
+body[data-gaongil-page="susi"] .save-check::after {
+  content: none !important;
+  display: none !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page input[type="checkbox"]:checked,
+body[data-gaongil-page="susi"] .save-check:checked,
+body[data-gaongil-page="susi"] tbody tr.selected .save-check {
+  border-color: #f7dea0 !important;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.2 10.4 8 14l8-8.4' fill='none' stroke='%23071221' stroke-width='2.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat,
+    linear-gradient(180deg, #f4d889 0%, #d6ad63 54%, #bd8731 100%) !important;
+  color: #071221 !important;
+  box-shadow: 0 0 0 4px rgba(214, 173, 99, .18), inset 0 1px 0 rgba(255,255,255,.28) !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page input[type="checkbox"]:focus-visible,
+body[data-gaongil-page="susi"] .save-check:focus-visible {
+  outline: 3px solid rgba(240, 217, 155, .36) !important;
+  outline-offset: 3px !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] mark.hl,
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] .finding .snip b {
+  font-weight: 950 !important;
+  text-shadow: none !important;
+  box-decoration-break: clone;
+}
+
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] mark.hl.ban,
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] .tag.ban {
+  background: #ffd8d3 !important;
+  border-color: #d56b61 !important;
+  color: #6b1712 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] mark.hl.err,
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] .tag.err {
+  background: #ffdddd !important;
+  border-color: #df7777 !important;
+  color: #741d1d !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] mark.hl.warn,
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] .tag.warn {
+  background: #ffe8ad !important;
+  border-color: #dda23a !important;
+  color: #704400 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] mark.hl.info,
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] .tag.info {
+  background: #d8ebff !important;
+  border-color: #72a5d9 !important;
+  color: #123e66 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] .finding .snip b {
+  background: #fff1a8 !important;
+  color: #071221 !important;
+  padding: 1px 4px !important;
+  border-radius: 5px !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] .finding:hover {
+  background: rgba(214, 173, 99, .09) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] .finding .msg,
+body.gaongil-linked-page[data-gaongil-page="saenggibu_check"] .finding .snip {
+  color: #dbe7f5 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] {
+  --sub2-card: #0d1b2d;
+  --sub2-card-2: #102238;
+  --sub2-line: rgba(92, 119, 154, .54);
+  --sub2-text: #edf5ff;
+  --sub2-muted: #c7d4e6;
+  --sub2-gold: #d6ad63;
+  --sub2-gold-2: #f0d99b;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .hero-actions .btn.btn-primary,
+body.gaongil-linked-page[data-gaongil-page="sub2"] .hero-actions .btn.btn-primary ~ .btn-primary {
+  border: 1px solid rgba(240, 217, 155, .72) !important;
+  background: linear-gradient(180deg, #f4dfa2 0%, #d6ad63 100%) !important;
+  color: #071221 !important;
+  text-shadow: none !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.32) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .hero-actions .btn.btn-primary:hover {
+  background: linear-gradient(180deg, #fff0bd 0%, #dfb969 100%) !important;
+  color: #071221 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] :where(
+  .major-card, .priority-box, .selected-item, .recommend-item, .modal,
+  .detail-box, .road, .planner-output, .udb-card, .udb-controls,
+  .udb-preset, .udb-kw-wrap, .udb-loc, .udb-select, .udb-sbox,
+  #compare .card, #compareOutput .detail-box
+) {
+  border-color: var(--sub2-line) !important;
+  background:
+    linear-gradient(180deg, rgba(214,173,99,.07), transparent 48%),
+    var(--sub2-card) !important;
+  color: var(--sub2-text) !important;
+  box-shadow: 0 16px 38px rgba(0,0,0,.25) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] :where(.major-card h3, .detail-box h4, .road b, .selected-item strong, .recommend-item strong, #compare h3) {
+  color: #fff8e8 !important;
+  -webkit-text-fill-color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] :where(.major-card p, .detail-box p, .detail-box li, .road span, .selected-item span, .recommend-item span, .small, #compareOutput, #compareOutput td) {
+  color: var(--sub2-muted) !important;
+  -webkit-text-fill-color: var(--sub2-muted) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] :where(.badge, .chip, .course, .udb-gchip, .udb-kw-chip, .udb-chip) {
+  border: 1px solid rgba(214,173,99,.32) !important;
+  background: rgba(214,173,99,.13) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .badge.green,
+body.gaongil-linked-page[data-gaongil-page="sub2"] .major-card .btn-compare.added {
+  border-color: rgba(34, 181, 139, .42) !important;
+  background: rgba(34, 181, 139, .18) !important;
+  color: #c8fae8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .badge.purple {
+  border-color: rgba(191, 123, 255, .42) !important;
+  background: rgba(191, 123, 255, .18) !important;
+  color: #f2e5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .level,
+body.gaongil-linked-page[data-gaongil-page="sub2"] .udb-sbox-l {
+  color: #f0d99b !important;
+  font-weight: 900 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .bar {
+  background: rgba(5, 11, 20, .82) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .bar i {
+  background: linear-gradient(90deg, #b78935, #f0d99b) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .card-actions .btn,
+body.gaongil-linked-page[data-gaongil-page="sub2"] .detail-box .btn {
+  min-height: 52px !important;
+  border-radius: 999px !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+  line-height: 1.25 !important;
+  font-weight: 950 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .btn-dark {
+  border: 1px solid rgba(92,119,154,.48) !important;
+  background: #102238 !important;
+  color: #edf5ff !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .btn-soft,
+body.gaongil-linked-page[data-gaongil-page="sub2"] .btn-outline {
+  border: 1px solid rgba(240,217,155,.48) !important;
+  background: rgba(214,173,99,.13) !important;
+  color: #fff8e8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .btn-green {
+  border: 1px solid rgba(34,181,139,.46) !important;
+  background: rgba(34,181,139,.22) !important;
+  color: #c8fae8 !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .table,
+body.gaongil-linked-page[data-gaongil-page="sub2"] .table :where(th, td) {
+  border-color: var(--sub2-line) !important;
+  background: #0b1828 !important;
+  color: var(--sub2-text) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .table th {
+  background: #172a45 !important;
+  color: #f0d99b !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .roadmap {
+  gap: 14px !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .road {
+  min-height: 128px !important;
+  padding: 18px 20px !important;
+  border-radius: 18px !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .modal-head {
+  border-color: var(--sub2-line) !important;
+}
+
+body.gaongil-linked-page[data-gaongil-page="sub2"] .close {
+  border: 1px solid rgba(240,217,155,.42) !important;
+  background: rgba(214,173,99,.14) !important;
+  color: #fff8e8 !important;
+}
+
+/* Last-mile cascade guard: several legacy pages apply a very specific
+   "all inputs are dark" rule. Keep checked checkboxes gold even under those
+   stronger input rules, including Safari on GitHub Pages. */
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page][data-gaongil-page] input[type="checkbox"],
+body[data-gaongil-page="susi"][data-gaongil-page="susi"] .save-check,
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="susi"][data-gaongil-page="susi"] .save-check {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  box-sizing: border-box !important;
+  display: inline-block !important;
+  width: 22px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  border: 2px solid rgba(125, 154, 192, .88) !important;
+  border-radius: 7px !important;
+  background-color: #071221 !important;
+  background-image: none !important;
+  color: transparent !important;
+  vertical-align: -4px !important;
+}
+
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page][data-gaongil-page] input[type="checkbox"]:checked,
+body[data-gaongil-page="susi"][data-gaongil-page="susi"] .save-check:checked,
+body[data-gaongil-page="susi"][data-gaongil-page="susi"] tbody tr.selected .save-check,
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="susi"][data-gaongil-page="susi"] .save-check:checked,
+body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="susi"][data-gaongil-page="susi"] tbody tr.selected .save-check {
+  border-color: #f7dea0 !important;
+  background-color: #d6ad63 !important;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.2 10.4 8 14l8-8.4' fill='none' stroke='%23071221' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #f4d889 0%, #d6ad63 54%, #bd8731 100%) !important;
+  background-position: center, center !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-size: 16px 16px, 100% 100% !important;
+  color: #071221 !important;
+  box-shadow: 0 0 0 4px rgba(214, 173, 99, .2), inset 0 1px 0 rgba(255,255,255,.3) !important;
+}
