@@ -1221,6 +1221,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
               <a href="./2unimap.html">전국 전문대학 입학 안내 지도</a>
             </div>
           </details>
+          <a class="nav-pill login-pill" id="loginMenuLink" href="./login.html" data-login-href="./login.html" data-admin-href="./admin.html">로그인</a>
         </nav>
       </div>
     </header>
@@ -1537,7 +1538,8 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       });
     </script>
   
-    <script src="assets/js/auth.js?v=20260710-9980b"></script>
+    <script src="assets/js/site-data.js?v=20260711-config"></script>
+    <script src="assets/js/auth.js?v=20260711-admin"></script>
     <script>
       (async () => {
         if (new URLSearchParams(location.search).has("cb")) {
@@ -1546,6 +1548,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         await GaongilAuth.ensureSeedUsers();
         GaongilAuth.installAccessLinkGuards({ login: "login.html" });
         GaongilAuth.mountUserChip("userChip");
+        GaongilAuth.mountLoginMenu("loginMenuLink");
       })();
     </script>
   </body>

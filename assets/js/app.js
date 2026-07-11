@@ -24,8 +24,9 @@
       const active = p.file === pageFile ? ' active' : '';
       const wide = items.length >= 6 ? ' wide' : '';
       return `<details class="nav-menu${active}"><summary>${esc(p.name)}</summary><div class="nav-menu-list${wide}" role="menu" aria-label="${esc(p.name)} 메뉴">${itemLinks}</div></details>`;
-    }).join('');
+    }).join('') + '<a class="nav-home-pill" id="loginMenuLink" href="login.html" data-login-href="login.html" data-admin-href="admin.html">로그인</a>';
     nav.innerHTML = navHtml;
+    GaongilAuth.mountLoginMenu('loginMenuLink');
     document.addEventListener('click', (event) => {
       document.querySelectorAll('.nav-menu').forEach((menu) => {
         if (menu.open && !menu.contains(event.target)) menu.open = false;

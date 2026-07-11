@@ -2204,3 +2204,17 @@ window.GAONGIL_SITE_DATA = {
     }
   ]
 };
+
+window.GAONGIL_SITE_CONFIG = {
+  "access": {
+    "publicPages": [
+      "index.html"
+    ],
+    "userPages": {}
+  },
+  "notices": {
+    "enabled": false,
+    "items": [],
+    "updatedAt": 0
+  }
+};

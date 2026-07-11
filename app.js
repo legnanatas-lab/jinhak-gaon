@@ -1190,13 +1190,35 @@ function baseUniName(value) {
 }
 
 function majorKey(value) {
-  return normalize(String(value || '')
+  let text = String(value || '');
+  const aliases = [
+    [/첨단모빌리티자율전공/g, 'X-모빌리티융합학부'],
+    [/의생명융합공학부/g, '바이오메디컬공학과'],
+    [/정보컴퓨터공학부\s*컴퓨터공학전공/g, 'AI컴퓨터공학부 컴퓨터공학전공'],
+    [/정보컴퓨터공학부\s*인공지능전공/g, 'AI컴퓨터공학부 인공지능전공'],
+    [/정보컴퓨터공학부\(디자인테크놀로지전공\)/g, 'AI컴퓨터공학부 인터랙티브컴퓨팅전공'],
+    [/첨단IT자율전공/g, 'AI컴퓨팅자율전공'],
+    [/산업공학과/g, '산업공학부'],
+    [/첨단융합학부\s*스마트시티전공/g, 'AX융합학부 스마트시티전공'],
+    [/학석사통합과정\(한의학과\)/g, '한의학전문대학원 학석사통합과정']
+  ];
+  for (const [pattern, replacement] of aliases) text = text.replace(pattern, replacement);
+  return normalize(text
     .replace(/학부|학과|전공|계열|과\(의예과\)|\(의예과\)|\(.*?\)/g, '')
     .replace(/의학/g, '의예')
     .replace(/치의학/g, '치의예')
     .replace(/한의학/g, '한의예')
     .replace(/약학/g, '약학')
     .replace(/수의학/g, '수의예'));
+}
+
+function isUniversityWidePlan(planOrMajor) {
+  const value = typeof planOrMajor === 'object' && planOrMajor !== null
+    ? planOrMajor.m
+    : planOrMajor;
+  const key = normalize(String(value || ''));
+  return /^(전|전체)(모집단위|학과|전공|계열)$/.test(key)
+    || /모든모집단위|모집단위전체/.test(key);
 }
 
 function buildPlanIndex() {
@@ -1234,6 +1256,16 @@ function programSimilarity(record, plan) {
   return score;
 }
 
+function universityWideMajorMentionScore(record, plan) {
+  if (!isUniversityWidePlan(plan)) return 0;
+  const mk = majorKey(record.major);
+  if (!mk || mk.length < 2) return 0;
+  const detailKey = majorKey([
+    plan.p, plan.method, plan.min, plan.subj, plan.doc, plan.iv, plan.note
+  ].filter(Boolean).join(' '));
+  return detailKey.includes(mk) ? 4 : 0;
+}
+
 function findPlansForRecord(record) {
   if (!record) return [];
   buildPlanIndex();
@@ -1247,6 +1279,12 @@ function findPlansForRecord(record) {
       return pm && (pm.includes(mk) || mk.includes(pm));
     });
   }
+  if (!candidates.length && uk) {
+    // 일부 대학은 2027 원자료가 학과별이 아니라 "전 모집단위"로만 정리되어 있다.
+    // 이 경우 대학 전체 전형자료를 해당 학과의 보조 정보로 연결하되,
+    // 아래 표에서 모집인원이 전형 전체 합계임을 명확히 표시한다.
+    candidates = (PLAN2027_UNI_INDEX.get(uk) || []).filter(isUniversityWidePlan);
+  }
   const seen = new Set();
   const unique = [];
   for (const plan of candidates) {
@@ -1257,8 +1295,8 @@ function findPlansForRecord(record) {
   }
   return unique
     .sort((a, b) => {
-      const sa = (typeMatchesPlan(record, a) ? 20 : 0) + programSimilarity(record, a);
-      const sb = (typeMatchesPlan(record, b) ? 20 : 0) + programSimilarity(record, b);
+      const sa = (typeMatchesPlan(record, a) ? 20 : 0) + programSimilarity(record, a) + universityWideMajorMentionScore(record, a);
+      const sb = (typeMatchesPlan(record, b) ? 20 : 0) + programSimilarity(record, b) + universityWideMajorMentionScore(record, b);
       return sb - sa || String(a.t || '').localeCompare(String(b.t || ''), 'ko') || String(a.p || '').localeCompare(String(b.p || ''), 'ko');
     })
     .slice(0, 18);
@@ -1280,8 +1318,12 @@ function renderPlanTable(record, options = {}) {
   }
   const limit = options.limit || plans.length;
   const list = plans.slice(0, limit);
+  const usesUniversityWideData = list.some(isUniversityWidePlan);
+  const scopeNote = usesUniversityWideData
+    ? ' · 원자료가 전 모집단위 기준이며 모집인원은 학과 인원이 아닌 전형 전체 합계'
+    : '';
   return `
-    <div class="plan-count">연결된 2027 모집정보 <b>${formatNumber(plans.length, 0)}</b>건${plans.length > limit ? ` · 상위 ${limit}건 표시` : ''}</div>
+    <div class="plan-count">연결된 2027 모집정보 <b>${formatNumber(plans.length, 0)}</b>건${plans.length > limit ? ` · 상위 ${limit}건 표시` : ''}${scopeNote}</div>
     <div class="table-shell plan-table-shell">
       <table class="plan-table">
         <colgroup>

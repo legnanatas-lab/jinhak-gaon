@@ -1282,10 +1282,14 @@
       }).join("");
       return `<details class="gaongil-resource-menu"${groupActive}><summary><span>${escapeHtml(group.label)}</span></summary><div class="gaongil-resource-list" role="menu" aria-label="${escapeHtml(group.label)} 메뉴">${itemHtml}</div></details>`;
     }).join("");
+    menuHtml += `<a class="gaongil-main-button gaongil-login-tab" id="gaongilPortalLogin" href="${base}login.html" data-login-href="${base}login.html" data-admin-href="${base}admin.html">로그인</a>`;
 
     bar.innerHTML = `<div class="gaongil-portal-inner gaongil-menu-only"><nav class="gaongil-portal-actions" aria-label="가온길 에듀 상단 메뉴">${menuHtml}</nav></div>`;
     if (!fallbackBar) {
       document.body.insertBefore(bar, document.body.firstChild);
+    }
+    if (window.GaongilAuth && typeof window.GaongilAuth.mountLoginMenu === "function") {
+      window.GaongilAuth.mountLoginMenu("gaongilPortalLogin");
     }
     decorateFooters(logoSrc);
 

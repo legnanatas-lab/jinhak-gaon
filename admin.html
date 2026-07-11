@@ -1143,12 +1143,25 @@ a {
       .access-item { border-top: 1px solid rgba(92,119,154,.22); color: var(--soft); font-size: .84rem; }
       .access-check { display: inline-flex; align-items: center; gap: 7px; justify-content: center; color: var(--muted); font-size: .78rem; }
       .access-check input { width: 17px; height: 17px; accent-color: var(--gold); }
+      .notice-toolbar, .sync-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: end; margin-bottom: 16px; }
+      .notice-list { display: grid; gap: 14px; }
+      .notice-card { border: 1px solid var(--line); border-radius: 14px; padding: 14px; background: rgba(255,255,255,.025); }
+      .notice-card-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; color: var(--text); font-weight: 850; }
+      .notice-card textarea {
+        width: 100%; min-height: 92px; resize: vertical; border: 1px solid var(--line); border-radius: 10px;
+        background: rgba(255,255,255,.04); color: var(--text); padding: 10px 12px; line-height: 1.6;
+      }
+      .notice-card .image-preview { margin-top: 8px; color: var(--muted); font-size: .78rem; }
+      .notice-card .image-preview img { display: block; max-width: min(260px, 100%); max-height: 150px; object-fit: contain; margin-top: 8px; border-radius: 10px; border: 1px solid rgba(92,119,154,.3); }
+      .sync-hint { color: var(--muted); font-size: .78rem; line-height: 1.65; margin-top: 10px; }
+      .inline-check { display: inline-flex; align-items: center; gap: 8px; color: var(--soft); font-size: .86rem; }
+      .inline-check input { width: 18px; height: 18px; accent-color: var(--gold); }
       .table-input {
         width: min(210px, 100%); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line);
         background: rgba(255,255,255,.04); color: var(--text); font-size: .8rem;
       }
       @media (max-width: 760px) {
-        .access-toolbar, .access-group-head, .access-item { grid-template-columns: 1fr; }
+        .access-toolbar, .access-group-head, .access-item, .notice-toolbar, .sync-grid { grid-template-columns: 1fr; }
         .access-check { justify-content: flex-start; }
       }
     </style>
@@ -1288,6 +1301,56 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           모든 방문자에게 같은 설정을 적용하려면 서버 저장소 또는 배포용 설정 파일 연동이 필요합니다.
         </div>
       </section>
+
+      <section class="panel-box access-panel">
+        <h2>공지사항 팝업 설정</h2>
+        <p class="desc">메인·자료 페이지에 띄울 공지 팝업을 설정합니다. 이미지가 있으면 이미지 크기에 맞춰 팝업 폭을 자동 조절합니다.</p>
+        <div class="form-msg" id="noticeMsg"></div>
+        <div class="notice-toolbar">
+          <div class="field" style="margin-bottom:0;">
+            <label for="noticeCount">공지사항 갯수</label>
+            <select id="noticeCount">
+              <option value="0">0개</option>
+              <option value="1">1개</option>
+              <option value="2">2개</option>
+              <option value="3">3개</option>
+              <option value="4">4개</option>
+              <option value="5">5개</option>
+            </select>
+          </div>
+          <button class="btn-gold" id="previewNoticeBtn" type="button" style="width:auto;">미리보기</button>
+          <button class="btn-gold" id="saveNoticeBtn" type="button" style="width:auto;">공지 저장</button>
+        </div>
+        <div class="notice-list" id="noticeEditorList"></div>
+      </section>
+
+      <section class="panel-box access-panel">
+        <h2>GitHub Pages 자동 반영</h2>
+        <p class="desc">체크하면 게시판 공개 설정과 공지 설정을 GitHub 저장소의 <code>assets/js/site-data.js</code>에 커밋합니다.</p>
+        <div class="form-msg" id="githubSyncMsg"></div>
+        <div class="sync-grid">
+          <div class="field" style="margin-bottom:0;">
+            <label for="githubRepo">저장소</label>
+            <input type="text" id="githubRepo" value="legnanatas-lab/jinhak-gaon" />
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label for="githubBranch">브랜치</label>
+            <input type="text" id="githubBranch" value="main" />
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label for="githubToken">GitHub 토큰</label>
+            <input type="password" id="githubToken" placeholder="fine-grained token, contents:write" autocomplete="off" />
+          </div>
+        </div>
+        <label class="inline-check">
+          <input type="checkbox" id="githubSyncEnabled" />
+          설정 저장 시 GitHub에도 바로 저장
+        </label>
+        <div class="sync-hint">
+          보안을 위해 토큰은 저장하지 않습니다. GitHub 토큰은 <b>Contents: Read and write</b> 권한만 있는 Fine-grained token을 권장합니다.
+          토큰을 입력하지 않으면 설정은 현재 브라우저에만 저장됩니다.
+        </div>
+      </section>
     </main>
 
     <footer class="home-footer">
@@ -1298,8 +1361,8 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       </div>
     </footer>
 
-    <script src="./assets/js/site-data.js?v=93"></script>
-    <script src="./assets/js/auth.js?v=20260710-9980b"></script>
+    <script src="./assets/js/site-data.js?v=20260711-config"></script>
+    <script src="./assets/js/auth.js?v=20260711-admin"></script>
     <script>
       let session;
       (async () => {
@@ -1308,6 +1371,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         if (session) {
           renderUsers();
           renderAccessControls();
+          renderNoticeEditors();
           GaongilAuth.mountUserChip("userChip");
         }
       })();
@@ -1429,8 +1493,179 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         }).join("");
       }
 
+      function setFormMsg(el, text, ok = true) {
+        if (!el) return;
+        el.textContent = text;
+        el.className = "form-msg " + (ok ? "success" : "error") + " show";
+      }
+
+      function renderNoticeEditors() {
+        const settings = GaongilAuth.getNoticeSettings();
+        const countSelect = document.getElementById("noticeCount");
+        const wrap = document.getElementById("noticeEditorList");
+        if (!countSelect || !wrap) return;
+        const currentCount = Math.max(Number(countSelect.value || settings.items.length || 0), settings.items.length || 0);
+        const count = Math.min(Math.max(currentCount, 0), 5);
+        countSelect.value = String(count);
+        const items = settings.items || [];
+        wrap.innerHTML = Array.from({ length: count }).map((_, i) => {
+          const item = items[i] || { enabled: true, title: "", text: "", image: "", position: "center", width: "" };
+          return `<section class="notice-card" data-notice-index="${i}">
+            <div class="notice-card-head">
+              <span>공지 ${i + 1}</span>
+              <label class="inline-check"><input type="checkbox" data-notice-enabled ${item.enabled !== false ? "checked" : ""}> 사용</label>
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <label>제목</label>
+                <input type="text" data-notice-title value="${esc(item.title || "")}" placeholder="예: 설명회 안내" />
+              </div>
+              <div class="field">
+                <label>위치</label>
+                <select data-notice-position>
+                  ${["center|가운데", "top-left|왼쪽 위", "top-right|오른쪽 위", "bottom-left|왼쪽 아래", "bottom-right|오른쪽 아래"].map((opt) => {
+                    const [value, label] = opt.split("|");
+                    return `<option value="${value}" ${item.position === value ? "selected" : ""}>${label}</option>`;
+                  }).join("")}
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>내용</label>
+              <textarea data-notice-text placeholder="공지 내용을 입력하세요.">${esc(item.text || "")}</textarea>
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <label>그림파일</label>
+                <input type="file" accept="image/*" data-notice-image-file />
+                <input type="hidden" data-notice-image value="${esc(item.image || "")}" />
+                <div class="image-preview" data-image-preview>
+                  ${item.image ? `이미지 등록됨<img src="${esc(item.image)}" alt="">` : "이미지 없음"}
+                </div>
+              </div>
+              <div class="field">
+                <label>팝업 폭(px, 비우면 이미지 자동)</label>
+                <input type="number" min="260" max="900" data-notice-width value="${esc(item.width || "")}" placeholder="자동" />
+              </div>
+            </div>
+          </section>`;
+        }).join("");
+        wrap.querySelectorAll("[data-notice-image-file]").forEach((input) => {
+          input.addEventListener("change", async () => {
+            const card = input.closest(".notice-card");
+            const hidden = card.querySelector("[data-notice-image]");
+            const preview = card.querySelector("[data-image-preview]");
+            const file = input.files && input.files[0];
+            if (!file) return;
+            if (file.size > 900 * 1024) {
+              alert("이미지는 900KB 이하 권장입니다. 큰 이미지는 GitHub 설정 파일이 커져 반영이 느려질 수 있습니다.");
+            }
+            const dataUrl = await readFileAsDataURL(file);
+            hidden.value = dataUrl;
+            preview.innerHTML = `이미지 등록됨<img src="${esc(dataUrl)}" alt="">`;
+          });
+        });
+      }
+
+      function readFileAsDataURL(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result || ""));
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function collectNoticeSettingsFromForm() {
+        const cards = Array.from(document.querySelectorAll("[data-notice-index]"));
+        return {
+          enabled: true,
+          items: cards.map((card) => ({
+            enabled: card.querySelector("[data-notice-enabled]").checked,
+            title: card.querySelector("[data-notice-title]").value.trim(),
+            text: card.querySelector("[data-notice-text]").value.trim(),
+            image: card.querySelector("[data-notice-image]").value,
+            position: card.querySelector("[data-notice-position]").value,
+            width: card.querySelector("[data-notice-width]").value.trim(),
+          })),
+          updatedAt: Date.now(),
+        };
+      }
+
+      function currentSiteConfig() {
+        return {
+          access: GaongilAuth.getAccessSettings(),
+          notices: GaongilAuth.getNoticeSettings(),
+        };
+      }
+
+      function decodeBase64Utf8(content) {
+        const binary = atob(String(content || "").replace(/\s/g, ""));
+        const bytes = Uint8Array.from(binary, (ch) => ch.charCodeAt(0));
+        return new TextDecoder().decode(bytes);
+      }
+
+      function encodeBase64Utf8(text) {
+        const bytes = new TextEncoder().encode(text);
+        let binary = "";
+        const chunk = 0x8000;
+        for (let i = 0; i < bytes.length; i += chunk) {
+          binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+        }
+        return btoa(binary);
+      }
+
+      function injectSiteConfig(source, config) {
+        const block = "window.GAONGIL_SITE_CONFIG = " + JSON.stringify(config, null, 2) + ";";
+        if (/window\.GAONGIL_SITE_CONFIG\s*=/.test(source)) {
+          return source.replace(/\n*window\.GAONGIL_SITE_CONFIG\s*=\s*[\s\S]*?;\s*$/, "\n\n" + block + "\n");
+        }
+        return source.replace(/\s*$/, "\n\n" + block + "\n");
+      }
+
+      async function syncConfigToGitHub(config) {
+        const syncEnabled = document.getElementById("githubSyncEnabled").checked;
+        const syncMsg = document.getElementById("githubSyncMsg");
+        if (!syncEnabled) return false;
+        const token = document.getElementById("githubToken").value.trim();
+        const repoFull = document.getElementById("githubRepo").value.trim();
+        const branch = document.getElementById("githubBranch").value.trim() || "main";
+        const [owner, repo] = repoFull.split("/");
+        if (!token) throw new Error("GitHub 자동 반영을 사용하려면 GitHub 토큰을 입력해 주세요.");
+        if (!owner || !repo) throw new Error("저장소 형식은 owner/repo 입니다.");
+        setFormMsg(syncMsg, "GitHub에 설정 파일을 저장하는 중입니다...", true);
+        const path = "assets/js/site-data.js";
+        const api = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${encodeURIComponent(branch)}`;
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28",
+        };
+        const current = await fetch(api, { headers });
+        if (!current.ok) throw new Error("GitHub 설정 파일을 읽지 못했습니다. 토큰 권한과 저장소명을 확인해 주세요.");
+        const currentJson = await current.json();
+        const source = decodeBase64Utf8(currentJson.content);
+        const updated = injectSiteConfig(source, config);
+        const put = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+          method: "PUT",
+          headers: { ...headers, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: "Update site access and notice settings",
+            content: encodeBase64Utf8(updated),
+            sha: currentJson.sha,
+            branch,
+          }),
+        });
+        if (!put.ok) {
+          const err = await put.json().catch(() => ({}));
+          throw new Error(err.message || "GitHub 저장에 실패했습니다.");
+        }
+        setFormMsg(syncMsg, "GitHub에 설정을 저장했습니다. Pages 반영까지 잠시 걸릴 수 있습니다.", true);
+        return true;
+      }
+
       document.getElementById("accessUserSelect").addEventListener("change", renderAccessControls);
-      document.getElementById("saveAccessBtn").addEventListener("click", () => {
+      document.getElementById("saveAccessBtn").addEventListener("click", async () => {
         const msg = document.getElementById("accessMsg");
         const selectedUser = document.getElementById("accessUserSelect").value;
         const access = GaongilAuth.getAccessSettings();
@@ -1442,6 +1677,38 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         GaongilAuth.setAccessSettings(access);
         msg.textContent = "게시판 공개/교사별 열람 설정을 저장했습니다.";
         msg.className = "form-msg success show";
+        try {
+          await syncConfigToGitHub(currentSiteConfig());
+        } catch (err) {
+          setFormMsg(document.getElementById("githubSyncMsg"), err.message, false);
+        }
+      });
+
+      document.getElementById("noticeCount").addEventListener("change", () => {
+        const current = collectNoticeSettingsFromForm();
+        const count = Number(document.getElementById("noticeCount").value || 0);
+        current.items = current.items.slice(0, count);
+        while (current.items.length < count) current.items.push({ enabled: true, title: "", text: "", image: "", position: "center", width: "" });
+        GaongilAuth.setNoticeSettings(current);
+        renderNoticeEditors();
+      });
+
+      document.getElementById("previewNoticeBtn").addEventListener("click", () => {
+        const settings = collectNoticeSettingsFromForm();
+        GaongilAuth.setNoticeSettings(settings);
+        GaongilAuth.renderNotices({ force: true });
+      });
+
+      document.getElementById("saveNoticeBtn").addEventListener("click", async () => {
+        const msg = document.getElementById("noticeMsg");
+        try {
+          const settings = collectNoticeSettingsFromForm();
+          GaongilAuth.setNoticeSettings(settings);
+          setFormMsg(msg, "공지사항 설정을 저장했습니다.", true);
+          await syncConfigToGitHub(currentSiteConfig());
+        } catch (err) {
+          setFormMsg(msg, err.message, false);
+        }
       });
 
       document.getElementById("addUserForm").addEventListener("submit", async (e) => {

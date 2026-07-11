@@ -12,6 +12,7 @@
   const USERS_KEY = "gaongil_users_v2";
   const SESSION_KEY = "gaongil_session_v1";
   const ACCESS_KEY = "gaongil_access_v1";
+  const NOTICE_KEY = "gaongil_notice_settings_v1";
   const DEFAULT_ADMIN_ID = "admin";
   const DEFAULT_ADMIN_PASSWORD = "9980";
   const LEGACY_ADMIN_PASSWORD = "0000";
@@ -93,8 +94,55 @@
     return normalizePageKey(location.pathname + location.search) || "index.html";
   }
 
+  function clonePlain(value, fallback) {
+    try {
+      return value == null ? fallback : JSON.parse(JSON.stringify(value));
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  let attemptedPublishedConfigLoad = false;
+
+  function loadPublishedSiteConfigOnce() {
+    if (global.GAONGIL_SITE_CONFIG || attemptedPublishedConfigLoad) return;
+    attemptedPublishedConfigLoad = true;
+    if (typeof XMLHttpRequest === "undefined" || !document) return;
+    try {
+      const currentScript = document.currentScript || Array.from(document.getElementsByTagName("script") || [])
+        .reverse()
+        .find((script) => /assets\/js\/auth\.js/i.test(script.getAttribute("src") || script.src || ""));
+      const baseUrl = currentScript && currentScript.src
+        ? currentScript.src
+        : new URL("assets/js/auth.js", location.href).href;
+      const url = new URL("site-data.js?v=20260711-config", baseUrl).href;
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url, false);
+      xhr.send(null);
+      if ((xhr.status >= 200 && xhr.status < 300) || (xhr.status === 0 && xhr.responseText)) {
+        new Function("window", xhr.responseText)(global);
+      }
+    } catch (e) {}
+  }
+
+  function siteConfig() {
+    loadPublishedSiteConfigOnce();
+    return global.GAONGIL_SITE_CONFIG && typeof global.GAONGIL_SITE_CONFIG === "object"
+      ? global.GAONGIL_SITE_CONFIG
+      : {};
+  }
+
   function defaultAccess() {
-    return { publicPages: ["index.html"], userPages: {} };
+    const published = siteConfig().access || {};
+    const publicPages = Array.isArray(published.publicPages) ? published.publicPages : [];
+    const userPages = {};
+    Object.entries(published.userPages || {}).forEach(([id, pages]) => {
+      if (Array.isArray(pages)) userPages[normalizeId(id)] = pages.map(normalizePageKey).filter(Boolean);
+    });
+    return {
+      publicPages: Array.from(new Set(["index.html", ...publicPages.map(normalizePageKey).filter(Boolean)])),
+      userPages,
+    };
   }
 
   function loadAccess() {
@@ -104,7 +152,7 @@
       const base = defaultAccess();
       if (!parsed || typeof parsed !== "object") return base;
       const publicPages = Array.isArray(parsed.publicPages) ? parsed.publicPages.map(normalizePageKey).filter(Boolean) : [];
-      const userPages = {};
+      const userPages = clonePlain(base.userPages, {});
       Object.entries(parsed.userPages || {}).forEach(([id, pages]) => {
         if (Array.isArray(pages)) userPages[normalizeId(id)] = pages.map(normalizePageKey).filter(Boolean);
       });
@@ -148,12 +196,151 @@
 
   function denyAccess(redirectTo, hasSession) {
     alert(hasSession ? "관리자의 승인이 필요한 자료입니다." : "관리자의 승인이 필요합니다. 로그인 후 이용해 주세요.");
-    if (hasSession) {
-      location.href = (redirectTo || "").startsWith("../") ? "../index.html" : "index.html";
-      return;
+    return false;
+  }
+
+  function defaultNoticeSettings() {
+    const published = siteConfig().notices || {};
+    const items = Array.isArray(published.items) ? published.items : [];
+    return {
+      enabled: published.enabled !== false,
+      items: items.map(normalizeNotice).filter((item) => item.enabled !== false),
+      updatedAt: Number(published.updatedAt || 0),
+    };
+  }
+
+  function normalizeNotice(item) {
+    const raw = item && typeof item === "object" ? item : {};
+    const position = ["center", "top-left", "top-right", "bottom-left", "bottom-right"].includes(raw.position)
+      ? raw.position
+      : "center";
+    return {
+      enabled: raw.enabled !== false,
+      title: String(raw.title || "").trim(),
+      text: String(raw.text || "").trim(),
+      image: String(raw.image || ""),
+      position,
+      width: String(raw.width || "").trim(),
+    };
+  }
+
+  function loadNoticeSettings() {
+    const base = defaultNoticeSettings();
+    try {
+      const raw = localStorage.getItem(NOTICE_KEY);
+      const parsed = raw ? JSON.parse(raw) : null;
+      if (!parsed || typeof parsed !== "object") return base;
+      return {
+        enabled: parsed.enabled !== false,
+        items: Array.isArray(parsed.items) ? parsed.items.map(normalizeNotice) : [],
+        updatedAt: Number(parsed.updatedAt || Date.now()),
+      };
+    } catch (e) {
+      return base;
     }
-    const here = encodeURIComponent(buildReturnPath(redirectTo));
-    location.href = (redirectTo || "login.html") + "?redirect=" + here;
+  }
+
+  function saveNoticeSettings(settings) {
+    const items = Array.isArray(settings?.items) ? settings.items.map(normalizeNotice) : [];
+    localStorage.setItem(NOTICE_KEY, JSON.stringify({
+      enabled: settings?.enabled !== false,
+      items,
+      updatedAt: Date.now(),
+    }));
+  }
+
+  function noticePositionStyle(position, index) {
+    const offset = 24 + index * 18;
+    const map = {
+      "top-left": `top:${offset}px;left:24px;`,
+      "top-right": `top:${offset}px;right:24px;`,
+      "bottom-left": `bottom:${offset}px;left:24px;`,
+      "bottom-right": `bottom:${offset}px;right:24px;`,
+      center: `top:50%;left:50%;transform:translate(-50%, calc(-50% + ${index * 18}px));`,
+    };
+    return map[position] || map.center;
+  }
+
+  function injectNoticeStyle() {
+    if (document.getElementById("gaongilNoticeStyle")) return;
+    const style = document.createElement("style");
+    style.id = "gaongilNoticeStyle";
+    style.textContent = `
+      .gaongil-notice-backdrop{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.34);backdrop-filter:blur(2px);}
+      .gaongil-notice-modal{position:fixed;z-index:2147483001;max-width:min(92vw,860px);max-height:86vh;overflow:auto;border:1px solid rgba(214,173,99,.45);border-radius:18px;background:#0e1d31;color:#f7fbff;box-shadow:0 28px 90px rgba(0,0,0,.56);font-family:var(--gaongil-font,system-ui,sans-serif);}
+      .gaongil-notice-modal header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid rgba(92,119,154,.25);}
+      .gaongil-notice-modal h2{margin:0;font-size:18px;letter-spacing:-.03em;}
+      .gaongil-notice-close{border:1px solid rgba(214,173,99,.45);border-radius:999px;background:rgba(214,173,99,.12);color:#f3d88d;font-weight:900;padding:7px 12px;cursor:pointer;}
+      .gaongil-notice-body{padding:18px;line-height:1.7;color:#d8e5f6;white-space:pre-wrap;}
+      .gaongil-notice-body img{display:block;max-width:100%;height:auto;margin:0 auto 14px;border-radius:12px;}
+      .gaongil-notice-body p{margin:0;}
+      @media(max-width:700px){.gaongil-notice-modal{left:16px!important;right:16px!important;width:auto!important;transform:none!important}.gaongil-notice-modal[style*="top:50%"]{top:50%!important;transform:translateY(-50%)!important}}
+    `;
+    document.head.appendChild(style);
+  }
+
+  function closeNoticeLayer() {
+    document.querySelectorAll(".gaongil-notice-backdrop,.gaongil-notice-modal").forEach((el) => el.remove());
+  }
+
+  function renderNotices(options = {}) {
+    if (!document.body) return;
+    if (!options.force && document.documentElement.dataset.gaongilNoticesMounted === "on") return;
+    document.documentElement.dataset.gaongilNoticesMounted = "on";
+    closeNoticeLayer();
+    const page = currentPageKey();
+    if (!options.force && (page === "login.html" || page === "admin.html")) return;
+    const settings = loadNoticeSettings();
+    if (settings.enabled === false) return;
+    const items = (settings.items || []).filter((item) => item.enabled !== false && (item.title || item.text || item.image)).slice(0, 5);
+    if (!items.length) return;
+    injectNoticeStyle();
+    const backdrop = document.createElement("div");
+    backdrop.className = "gaongil-notice-backdrop";
+    document.body.appendChild(backdrop);
+    items.forEach((item, index) => {
+      const modal = document.createElement("section");
+      modal.className = "gaongil-notice-modal";
+      modal.setAttribute("role", "dialog");
+      modal.setAttribute("aria-modal", "true");
+      modal.style.cssText = noticePositionStyle(item.position, index);
+      if (item.width && /^\d{2,4}$/.test(item.width)) modal.style.width = Math.min(Number(item.width), window.innerWidth - 32) + "px";
+      modal.innerHTML = `
+        <header>
+          <h2>${escapeHtml(item.title || "공지사항")}</h2>
+          <button class="gaongil-notice-close" type="button">닫기</button>
+        </header>
+        <div class="gaongil-notice-body">
+          ${item.image ? `<img src="${escapeAttr(item.image)}" alt="">` : ""}
+          ${item.text ? `<p>${escapeHtml(item.text)}</p>` : ""}
+        </div>`;
+      const img = modal.querySelector("img");
+      if (img && !item.width) {
+        img.addEventListener("load", () => {
+          const target = Math.min(Math.max(img.naturalWidth || 420, 320), window.innerWidth - 32, 860);
+          modal.style.width = target + "px";
+        });
+      }
+      modal.querySelector(".gaongil-notice-close").addEventListener("click", () => {
+        modal.remove();
+        if (!document.querySelector(".gaongil-notice-modal")) backdrop.remove();
+      });
+      document.body.appendChild(modal);
+    });
+    backdrop.addEventListener("click", closeNoticeLayer);
+  }
+
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function escapeAttr(value) {
+    return escapeHtml(value).replace(/`/g, "&#096;");
   }
 
   async function ensureSeedUsers() {
@@ -353,6 +540,29 @@
     }
   }
 
+  function mountLoginMenu(elId) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    const session = getSession();
+    if (!session) {
+      el.textContent = "로그인";
+      el.setAttribute("href", el.getAttribute("data-login-href") || "login.html");
+      return;
+    }
+    if (session.role === "admin") {
+      el.textContent = "관리자";
+      el.setAttribute("href", el.getAttribute("data-admin-href") || "admin.html");
+      return;
+    }
+    el.textContent = "로그아웃";
+    el.setAttribute("href", "#");
+    el.addEventListener("click", (event) => {
+      event.preventDefault();
+      logout();
+      location.reload();
+    }, { once: true });
+  }
+
   global.GaongilAuth = {
     ensureSeedUsers,
     getUsers,
@@ -369,10 +579,29 @@
     requireAdmin,
     requirePageAccess,
     mountUserChip,
+    mountLoginMenu,
     getAccessSettings: loadAccess,
     setAccessSettings: saveAccess,
+    getNoticeSettings: loadNoticeSettings,
+    setNoticeSettings: saveNoticeSettings,
+    renderNotices,
     normalizePageKey,
     canAccessPage,
     installAccessLinkGuards,
   };
+
+  function mountGlobalLoginMenus() {
+    mountLoginMenu("loginMenuLink");
+    mountLoginMenu("gaongilPortalLogin");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      mountGlobalLoginMenus();
+      renderNotices();
+    });
+  } else {
+    mountGlobalLoginMenus();
+    renderNotices();
+  }
 })(window);
