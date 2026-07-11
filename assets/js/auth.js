@@ -13,6 +13,7 @@
   const SESSION_KEY = "gaongil_session_v1";
   const ACCESS_KEY = "gaongil_access_v1";
   const NOTICE_KEY = "gaongil_notice_settings_v1";
+  const NOTICE_DISMISS_KEY = "gaongil_notice_dismiss_v1";
   const DEFAULT_ADMIN_ID = "admin";
   const DEFAULT_ADMIN_PASSWORD = "9980";
   const LEGACY_ADMIN_PASSWORD = "0000";
@@ -119,7 +120,7 @@
       const baseUrl = currentScript && currentScript.src
         ? currentScript.src
         : new URL("assets/js/auth.js", location.href).href;
-      const url = new URL("site-data.js?v=20260711-config", baseUrl).href;
+      const url = new URL("site-data.js?v=20260711-config&cb=" + Date.now(), baseUrl).href;
       const xhr = new XMLHttpRequest();
       xhr.open("GET", url, false);
       xhr.send(null);
@@ -211,7 +212,7 @@
     const items = Array.isArray(published.items) ? published.items : [];
     return {
       enabled: published.enabled !== false,
-      items: items.map(normalizeNotice).filter((item) => item.enabled !== false),
+      items: items.map(normalizeNotice),
       updatedAt: Number(published.updatedAt || 0),
     };
   }
@@ -228,7 +229,17 @@
       image: String(raw.image || ""),
       position,
       width: String(raw.width || "").trim(),
+      linkText: String(raw.linkText || "").trim(),
+      linkUrl: safeNoticeUrl(raw.linkUrl),
+      showTodayClose: raw.showTodayClose !== false,
+      showNeverClose: raw.showNeverClose !== false,
     };
+  }
+
+  function safeNoticeUrl(value) {
+    const raw = String(value || "").trim();
+    if (!raw || /^(javascript:|vbscript:|data:)/i.test(raw)) return "";
+    return raw;
   }
 
   function loadNoticeSettings() {
@@ -268,6 +279,57 @@
     return map[position] || map.center;
   }
 
+  function noticeTodayKey() {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  function noticeDismissId(item, index) {
+    return simpleHash([
+      index,
+      item.title || "",
+      item.text || "",
+      item.image || "",
+      item.linkUrl || "",
+    ].join("|"));
+  }
+
+  function loadNoticeDismissals() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(NOTICE_DISMISS_KEY) || "{}");
+      return parsed && typeof parsed === "object" ? parsed : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveNoticeDismissals(data) {
+    try {
+      localStorage.setItem(NOTICE_DISMISS_KEY, JSON.stringify(data || {}));
+    } catch (e) {}
+  }
+
+  function isNoticeDismissed(item, index) {
+    const record = loadNoticeDismissals()[noticeDismissId(item, index)];
+    if (!record || typeof record !== "object") return false;
+    if (record.never === true) return true;
+    return record.today === noticeTodayKey();
+  }
+
+  function rememberNoticeDismissal(item, index, mode) {
+    const data = loadNoticeDismissals();
+    const id = noticeDismissId(item, index);
+    const record = data[id] && typeof data[id] === "object" ? data[id] : {};
+    if (mode === "today") record.today = noticeTodayKey();
+    if (mode === "never") record.never = true;
+    record.updatedAt = Date.now();
+    data[id] = record;
+    saveNoticeDismissals(data);
+  }
+
   function injectNoticeStyle() {
     if (document.getElementById("gaongilNoticeStyle")) return;
     const style = document.createElement("style");
@@ -281,6 +343,11 @@
       .gaongil-notice-body{padding:18px;line-height:1.7;color:#d8e5f6;white-space:pre-wrap;}
       .gaongil-notice-body img{display:block;max-width:100%;height:auto;margin:0 auto 14px;border-radius:12px;}
       .gaongil-notice-body p{margin:0;}
+      .gaongil-notice-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;padding:12px 18px 16px;border-top:1px solid rgba(92,119,154,.25);}
+      .gaongil-notice-action,.gaongil-notice-link{border:1px solid rgba(92,119,154,.45);border-radius:999px;background:rgba(255,255,255,.04);color:#d8e5f6;font-weight:850;padding:8px 13px;cursor:pointer;text-decoration:none;font-size:14px;}
+      .gaongil-notice-action:hover,.gaongil-notice-link:hover{border-color:rgba(214,173,99,.75);color:#f3d88d;}
+      .gaongil-notice-action.primary{border-color:rgba(214,173,99,.75);background:linear-gradient(135deg,#f7df98,#d6ad63);color:#06111f;}
+      .gaongil-notice-link{margin-right:auto;}
       @media(max-width:700px){.gaongil-notice-modal{left:16px!important;right:16px!important;width:auto!important;transform:none!important}.gaongil-notice-modal[style*="top:50%"]{top:50%!important;transform:translateY(-50%)!important}}
     `;
     document.head.appendChild(style);
@@ -299,13 +366,16 @@
     if (!options.force && (page === "login.html" || page === "admin.html")) return;
     const settings = loadNoticeSettings();
     if (settings.enabled === false) return;
-    const items = (settings.items || []).filter((item) => item.enabled !== false && (item.title || item.text || item.image)).slice(0, 5);
+    const items = (settings.items || [])
+      .map((item, originalIndex) => ({ item, originalIndex }))
+      .filter(({ item, originalIndex }) => item.enabled !== false && (item.title || item.text || item.image) && (options.force || !isNoticeDismissed(item, originalIndex)))
+      .slice(0, 5);
     if (!items.length) return;
     injectNoticeStyle();
     const backdrop = document.createElement("div");
     backdrop.className = "gaongil-notice-backdrop";
     document.body.appendChild(backdrop);
-    items.forEach((item, index) => {
+    items.forEach(({ item, originalIndex }, index) => {
       const modal = document.createElement("section");
       modal.className = "gaongil-notice-modal";
       modal.setAttribute("role", "dialog");
@@ -320,7 +390,13 @@
         <div class="gaongil-notice-body">
           ${item.image ? `<img src="${escapeAttr(item.image)}" alt="">` : ""}
           ${item.text ? `<p>${escapeHtml(item.text)}</p>` : ""}
-        </div>`;
+        </div>
+        <footer class="gaongil-notice-actions">
+          ${item.linkUrl ? `<a class="gaongil-notice-link" href="${escapeAttr(item.linkUrl)}" target="_blank" rel="noopener">${escapeHtml(item.linkText || "자세히 보기")}</a>` : ""}
+          ${item.showTodayClose !== false ? `<button class="gaongil-notice-action" type="button" data-notice-dismiss="today">오늘 하루 열지 않기</button>` : ""}
+          ${item.showNeverClose !== false ? `<button class="gaongil-notice-action" type="button" data-notice-dismiss="never">다시 보지 않기</button>` : ""}
+          <button class="gaongil-notice-action primary" type="button" data-notice-dismiss="close">닫기</button>
+        </footer>`;
       const img = modal.querySelector("img");
       if (img && !item.width) {
         img.addEventListener("load", () => {
@@ -328,9 +404,19 @@
           modal.style.width = target + "px";
         });
       }
-      modal.querySelector(".gaongil-notice-close").addEventListener("click", () => {
+      const removeModal = () => {
         modal.remove();
         if (!document.querySelector(".gaongil-notice-modal")) backdrop.remove();
+      };
+      modal.querySelector(".gaongil-notice-close").addEventListener("click", removeModal);
+      modal.querySelectorAll("[data-notice-dismiss]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const mode = button.getAttribute("data-notice-dismiss");
+          if (!options.force && (mode === "today" || mode === "never")) {
+            rememberNoticeDismissal(item, originalIndex, mode);
+          }
+          removeModal();
+        });
       });
       document.body.appendChild(modal);
     });
