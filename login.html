@@ -1252,6 +1252,19 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       }
 
       const redirect = getSafeRedirect(params.get("redirect"));
+      function formatLoginError(err, fallback) {
+        const raw = String(err?.message || err || "");
+        if (/api-key-not-valid|api key not valid|API_KEY_INVALID/i.test(raw)) {
+          return "Firebase API key가 Google 인증 API에서 거절되었습니다. Firebase 콘솔의 웹 앱 설정값을 다시 복사하거나, Google Cloud API 키 제한에서 Identity Toolkit API와 legnanatas-lab.github.io 도메인을 허용해 주세요.";
+        }
+        if (/unauthorized-domain|auth\/unauthorized-domain/i.test(raw)) {
+          return "Firebase Auth 승인 도메인에 legnanatas-lab.github.io가 등록되어 있지 않습니다. Firebase Authentication 설정의 승인된 도메인을 확인해 주세요.";
+        }
+        if (/popup|closed/i.test(raw)) {
+          return "Google 로그인 창이 닫혔습니다. 팝업 차단을 해제한 뒤 다시 시도해 주세요.";
+        }
+        return raw || fallback;
+      }
 
       (async () => {
         await GaongilAuth.ensureSeedUsers();
@@ -1282,7 +1295,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           await GaongilAuth.login(id, pw);
           location.href = redirect;
         } catch (err) {
-          msg.textContent = err.message || "로그인에 실패했습니다.";
+          msg.textContent = formatLoginError(err, "로그인에 실패했습니다.");
           msg.classList.add("show");
         }
       });
@@ -1293,7 +1306,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           await GaongilAuth.loginWithGoogle();
           location.href = redirect;
         } catch (err) {
-          msg.textContent = err.message || "Google 로그인에 실패했습니다.";
+          msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
           msg.classList.add("show");
         }
       });
@@ -1317,7 +1330,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           resetMsg.className = "form-msg show";
           e.target.reset();
         } catch (err) {
-          resetMsg.textContent = err.message || "비밀번호 재설정에 실패했습니다.";
+          resetMsg.textContent = formatLoginError(err, "비밀번호 재설정에 실패했습니다.");
           resetMsg.className = "form-msg show";
         }
       });
