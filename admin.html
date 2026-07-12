@@ -1156,6 +1156,15 @@ a {
       .notice-options { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 4px 0 14px; }
       .notice-help { margin-top: 6px; color: var(--muted); font-size: .76rem; line-height: 1.55; }
       .sync-hint { color: var(--muted); font-size: .78rem; line-height: 1.65; margin-top: 10px; }
+      .firebase-status {
+        display: grid; gap: 10px; margin: 12px 0 4px; padding: 14px;
+        border: 1px solid rgba(92,119,154,.32); border-radius: 12px;
+        background: rgba(255,255,255,.035); color: var(--soft); line-height: 1.65;
+      }
+      .firebase-status strong { color: var(--gold-bright); }
+      .firebase-status .ok { color: #6fe5bf; font-weight: 900; }
+      .firebase-status .wait { color: #f1c36e; font-weight: 900; }
+      .firebase-status code { color: #f4dfac; }
       .inline-check { display: inline-flex; align-items: center; gap: 8px; color: var(--soft); font-size: .86rem; }
       .inline-check input { width: 18px; height: 18px; accent-color: var(--gold); }
       .table-input {
@@ -1279,9 +1288,8 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           </form>
 
           <div class="demo-hint">
-            이 관리자 도구는 정적 호스팅 환경을 위한 브라우저 저장(localStorage) 방식입니다.
-            계정 정보는 이 브라우저·기기에만 저장되며, 여러 관리자가 다른 기기에서 같은 계정
-            목록을 함께 쓰려면 서버(DB) 기반 로그인으로 전환이 필요합니다.
+            Firebase를 켜기 전에는 정적 호스팅용 브라우저 저장(localStorage) 방식으로 동작합니다.
+            Firebase를 켠 뒤 비밀번호 변경은 Firebase Authentication 콘솔의 사용자 관리 또는 비밀번호 재설정 메일 기능을 사용해 주세요.
           </div>
         </section>
       </div>
@@ -1299,9 +1307,8 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         </div>
         <div class="access-list" id="accessBoardList"></div>
         <div class="demo-hint">
-          기본 저장은 현재 브라우저에 적용됩니다. 모든 방문자에게 같은 설정을 적용하려면 아래
-          <b>GitHub Pages 자동 반영</b>에서 토큰을 입력하고 “GitHub에도 바로 저장”을 체크한 뒤 저장해 주세요.
-          Firebase 같은 별도 서버는 선택사항입니다.
+          Firebase가 연결되면 저장한 공개/교사별 권한 설정이 Firestore에 저장되어 모든 방문자에게 같은 기준으로 적용됩니다.
+          Firebase를 아직 켜지 않은 동안에는 현재 브라우저 또는 GitHub Pages 자동 반영 방식으로 동작합니다.
         </div>
       </section>
 
@@ -1328,8 +1335,19 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       </section>
 
       <section class="panel-box access-panel">
+        <h2>Firebase Auth · Firestore · Storage 운영 구조</h2>
+        <p class="desc">로그인은 Firebase Auth, 게시판 권한/공지 설정은 Firestore, 공지 이미지는 Storage에 저장하는 운영형 구조입니다.</p>
+        <div class="firebase-status" id="firebaseStatus">Firebase 연결 상태를 확인하는 중입니다.</div>
+        <div class="sync-hint">
+          <code>assets/js/firebase-config.js</code>에 Firebase Web App 설정값을 넣고 <code>enabled: true</code>로 바꾼 뒤,
+          <code>firebase/firestore.rules</code>와 <code>firebase/storage.rules</code>를 Firebase 콘솔에 배포하면 활성화됩니다.
+          Firebase가 활성화되면 이 화면의 “설정 저장”, “공지 저장”은 Firestore/Storage에 바로 반영됩니다.
+        </div>
+      </section>
+
+      <section class="panel-box access-panel">
         <h2>GitHub Pages 자동 반영</h2>
-        <p class="desc">체크하면 게시판 공개 설정과 공지 설정을 GitHub 저장소의 <code>assets/js/site-data.js</code>에 커밋합니다.</p>
+        <p class="desc">Firebase를 쓰지 않는 경우의 예비 방식입니다. 체크하면 게시판 공개 설정과 공지 설정을 GitHub 저장소의 <code>assets/js/site-data.js</code>에 커밋합니다.</p>
         <div class="form-msg" id="githubSyncMsg"></div>
         <div class="sync-grid">
           <div class="field" style="margin-bottom:0;">
@@ -1365,7 +1383,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     </footer>
 
     <script src="./assets/js/site-data.js?v=20260711-config"></script>
-    <script src="./assets/js/auth.js?v=20260711-admin"></script>
+    <script src="./assets/js/auth.js?v=20260713-firebase-google"></script>
     <script>
       let session;
       (async () => {
@@ -1375,6 +1393,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           renderUsers();
           renderAccessControls();
           renderNoticeEditors();
+          renderFirebaseStatus();
           GaongilAuth.mountUserChip("userChip");
         }
       })();
@@ -1430,11 +1449,11 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         renderAccessUserSelect();
 
         body.querySelectorAll("[data-email-save]").forEach((btn) => {
-          btn.addEventListener("click", () => {
+          btn.addEventListener("click", async () => {
             const id = btn.getAttribute("data-email-save");
             const input = Array.from(body.querySelectorAll("[data-email-input]")).find((el) => el.getAttribute("data-email-input") === id);
             try {
-              GaongilAuth.updateUserEmail(id, input.value);
+              await GaongilAuth.updateUserEmail(id, input.value);
               alert("이메일을 저장했습니다.");
             } catch (err) {
               alert(err.message);
@@ -1442,21 +1461,25 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           });
         });
         body.querySelectorAll("[data-toggle]").forEach((btn) => {
-          btn.addEventListener("click", () => {
+          btn.addEventListener("click", async () => {
             const id = btn.getAttribute("data-toggle");
-            const u = GaongilAuth.getUsers().find((x) => x.id === id);
-            const nextRole = u.role === "admin" ? "staff" : "admin";
-            GaongilAuth.updateUserRole(id, nextRole);
-            renderUsers();
-            renderAccessControls();
+            try {
+              const u = GaongilAuth.getUsers().find((x) => x.id === id);
+              const nextRole = u.role === "admin" ? "staff" : "admin";
+              await GaongilAuth.updateUserRole(id, nextRole);
+              renderUsers();
+              renderAccessControls();
+            } catch (err) {
+              alert(err.message || "권한을 변경하지 못했습니다.");
+            }
           });
         });
         body.querySelectorAll("[data-del]").forEach((btn) => {
-          btn.addEventListener("click", () => {
+          btn.addEventListener("click", async () => {
             const id = btn.getAttribute("data-del");
             if (!confirm(id + " 계정을 삭제할까요?")) return;
             try {
-              GaongilAuth.removeUser(id);
+              await GaongilAuth.removeUser(id);
               renderUsers();
               renderAccessControls();
             } catch (err) {
@@ -1614,11 +1637,21 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
             const file = input.files && input.files[0];
             if (!file) return;
             if (file.size > 900 * 1024) {
-              alert("이미지는 900KB 이하 권장입니다. 큰 이미지는 GitHub 설정 파일이 커져 반영이 느려질 수 있습니다.");
+              alert(GaongilAuth.isFirebaseEnabled?.()
+                ? "큰 이미지는 Storage 업로드 시간이 길어질 수 있습니다. 가능하면 5MB 이하를 권장합니다."
+                : "이미지는 900KB 이하 권장입니다. 큰 이미지는 GitHub 설정 파일이 커져 반영이 느려질 수 있습니다.");
             }
-            const dataUrl = await readFileAsDataURL(file);
-            hidden.value = dataUrl;
-            preview.innerHTML = `이미지 등록됨<img src="${esc(dataUrl)}" alt="">`;
+            try {
+              preview.textContent = GaongilAuth.isFirebaseEnabled?.() ? "Firebase Storage에 업로드 중입니다..." : "이미지를 읽는 중입니다...";
+              const imageUrl = GaongilAuth.isFirebaseEnabled?.()
+                ? await GaongilAuth.uploadNoticeImage(file)
+                : await readFileAsDataURL(file);
+              hidden.value = imageUrl;
+              preview.innerHTML = `이미지 등록됨<img src="${esc(imageUrl)}" alt="">`;
+            } catch (err) {
+              preview.textContent = "이미지 등록 실패";
+              alert(err.message || "이미지를 등록하지 못했습니다.");
+            }
           });
         });
       }
@@ -1657,6 +1690,23 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           access: GaongilAuth.getAccessSettings(),
           notices: GaongilAuth.getNoticeSettings(),
         };
+      }
+
+      function renderFirebaseStatus() {
+        const el = document.getElementById("firebaseStatus");
+        if (!el || !window.GaongilAuth?.getFirebaseStatus) return;
+        const status = GaongilAuth.getFirebaseStatus();
+        if (status.enabled) {
+          el.innerHTML = `
+            <div><span class="ok">활성화됨</span> · Firebase 프로젝트 <strong>${esc(status.projectId || status.authDomain || "연결됨")}</strong>에 연결됩니다.</div>
+            <div>권한/공지 문서: <code>${esc(status.siteDoc)}</code> · 사용자 컬렉션: <code>${esc(status.usersCollection)}</code></div>
+            <div>공지 이미지 Storage 경로: <code>${esc(status.noticeImages)}</code></div>`;
+          return;
+        }
+        el.innerHTML = `
+          <div><span class="wait">대기 중</span> · 아직 Firebase가 비활성화되어 있습니다.</div>
+          <div><code>assets/js/firebase-config.js</code>의 설정값을 입력하고 <code>enabled: true</code>로 변경하면 운영 저장소로 전환됩니다.</div>
+          <div>현재는 기존 로컬/GitHub Pages 자동 반영 방식이 유지됩니다.</div>`;
       }
 
       function decodeBase64Utf8(content) {
@@ -1727,40 +1777,43 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       document.getElementById("accessUserSelect").addEventListener("change", renderAccessControls);
       document.getElementById("saveAccessBtn").addEventListener("click", async () => {
         const msg = document.getElementById("accessMsg");
-        const selectedUser = document.getElementById("accessUserSelect").value;
-        const access = GaongilAuth.getAccessSettings();
-        const publicPages = Array.from(document.querySelectorAll("[data-public-page]:checked")).map((el) => el.getAttribute("data-public-page"));
-        const selectedUserPages = Array.from(document.querySelectorAll("[data-user-page]:checked")).map((el) => el.getAttribute("data-user-page"));
-        access.publicPages = publicPages;
-        access.userPages = access.userPages || {};
-        if (selectedUser) access.userPages[selectedUser] = selectedUserPages;
-        GaongilAuth.setAccessSettings(access);
-        msg.textContent = "게시판 공개/교사별 열람 설정을 현재 브라우저에 저장했습니다.";
-        msg.className = "form-msg success show";
         try {
+          const selectedUser = document.getElementById("accessUserSelect").value;
+          const access = GaongilAuth.getAccessSettings();
+          const publicPages = Array.from(document.querySelectorAll("[data-public-page]:checked")).map((el) => el.getAttribute("data-public-page"));
+          const selectedUserPages = Array.from(document.querySelectorAll("[data-user-page]:checked")).map((el) => el.getAttribute("data-user-page"));
+          access.publicPages = publicPages;
+          access.userPages = access.userPages || {};
+          if (selectedUser) access.userPages[selectedUser] = selectedUserPages;
+          await GaongilAuth.setAccessSettings(access);
+          msg.textContent = "게시판 공개/교사별 열람 설정을 현재 브라우저에 저장했습니다.";
+          msg.className = "form-msg success show";
           const synced = await syncConfigToGitHub(currentSiteConfig());
           if (synced) {
             msg.textContent = "게시판 공개/교사별 열람 설정을 GitHub에 저장했습니다. Pages 반영까지 잠시 걸릴 수 있습니다.";
+          } else if (GaongilAuth.isFirebaseEnabled?.()) {
+            msg.textContent = "게시판 공개/교사별 열람 설정을 Firestore에 저장했습니다. 새로고침 후 모든 방문자에게 적용됩니다.";
           } else {
             msg.textContent = "게시판 공개/교사별 열람 설정을 현재 브라우저에만 저장했습니다. 모든 방문자에게 반영하려면 GitHub 자동 반영을 체크하고 토큰을 입력해 주세요.";
           }
         } catch (err) {
+          setFormMsg(msg, err.message || "설정을 저장하지 못했습니다.", false);
           setFormMsg(document.getElementById("githubSyncMsg"), err.message, false);
         }
       });
 
-      document.getElementById("noticeCount").addEventListener("change", () => {
+      document.getElementById("noticeCount").addEventListener("change", async () => {
         const current = collectNoticeSettingsFromForm();
         const count = Number(document.getElementById("noticeCount").value || 0);
         current.items = current.items.slice(0, count);
         while (current.items.length < count) current.items.push({ enabled: true, title: "", text: "", image: "", position: "center", width: "", linkText: "", linkUrl: "", showTodayClose: true, showNeverClose: true });
-        GaongilAuth.setNoticeSettings(current);
+        await GaongilAuth.setNoticeSettings(current, { remote: false });
         renderNoticeEditors();
       });
 
-      document.getElementById("previewNoticeBtn").addEventListener("click", () => {
+      document.getElementById("previewNoticeBtn").addEventListener("click", async () => {
         const settings = collectNoticeSettingsFromForm();
-        GaongilAuth.setNoticeSettings(settings);
+        await GaongilAuth.setNoticeSettings(settings, { remote: false });
         GaongilAuth.renderNotices({ force: true });
       });
 
@@ -1768,12 +1821,14 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         const msg = document.getElementById("noticeMsg");
         try {
           const settings = collectNoticeSettingsFromForm();
-          GaongilAuth.setNoticeSettings(settings);
+          await GaongilAuth.setNoticeSettings(settings);
           const synced = await syncConfigToGitHub(currentSiteConfig());
           setFormMsg(
             msg,
             synced
               ? "공지사항 설정을 GitHub에 저장했습니다. Pages 반영까지 잠시 걸릴 수 있습니다."
+              : GaongilAuth.isFirebaseEnabled?.()
+                ? "공지사항 설정을 Firestore에 저장했습니다. 새로고침 후 모든 방문자에게 적용됩니다."
               : "공지사항 설정을 현재 브라우저에만 저장했습니다. 모든 방문자에게 반영하려면 GitHub 자동 반영을 체크하고 토큰을 입력해 주세요.",
             true
           );
@@ -1793,7 +1848,9 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         const role = document.getElementById("newRole").value;
         try {
           await GaongilAuth.addUser({ id, name, email, role, password });
-          msg.textContent = id + " 계정을 추가했습니다.";
+          msg.textContent = GaongilAuth.isFirebaseEnabled?.()
+            ? id + " 프로필을 Firestore에 추가했습니다. 실제 로그인은 Firebase Authentication에 같은 이메일 계정이 있어야 가능합니다."
+            : id + " 계정을 추가했습니다.";
           msg.className = "form-msg success show";
           e.target.reset();
           renderUsers();

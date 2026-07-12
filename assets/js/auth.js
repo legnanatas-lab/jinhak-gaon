@@ -1,11 +1,10 @@
 /* ============================================================
    가온길 에듀 · 가온길 에듀 입시전략연구소
-   Auth / Session / Admin User Store (client-side demo)
+   Auth / Session / Admin User Store
 
-   주의: 이 스크립트는 브라우저(localStorage)에 계정 정보를 저장하는
-   "정적 호스팅용 데모" 인증입니다. 브라우저/기기마다 저장소가 분리되고
-   서버 검증이 없으므로, 실제 운영(여러 관리자·여러 기기 공유, 강력한
-   보안이 필요한 경우)에는 서버(DB) 기반 로그인으로 교체를 권장합니다.
+   Firebase가 활성화되면 Auth/Firestore/Storage를 우선 사용하고,
+   비활성화 상태에서는 기존 GitHub Pages 정적 호스팅용 localStorage
+   방식을 유지합니다.
    ============================================================ */
 
 (function (global) {
@@ -17,6 +16,95 @@
   const DEFAULT_ADMIN_ID = "admin";
   const DEFAULT_ADMIN_PASSWORD = "9980";
   const LEGACY_ADMIN_PASSWORD = "0000";
+  let attemptedFirebaseSupportLoad = false;
+  let remoteSiteConfigCache = null;
+  let remoteUsersCache = null;
+  let remoteRefreshPromise = null;
+
+  function authScriptBaseUrl() {
+    const currentScript = document.currentScript || Array.from(document.getElementsByTagName("script") || [])
+      .reverse()
+      .find((script) => /assets\/js\/auth\.js/i.test(script.getAttribute("src") || script.src || ""));
+    return currentScript && currentScript.src
+      ? currentScript.src
+      : new URL("assets/js/auth.js", location.href).href;
+  }
+
+  function loadSiblingScriptOnce(relativePath) {
+    if (typeof XMLHttpRequest === "undefined" || !document) return false;
+    try {
+      const url = new URL(relativePath + "?v=20260713-firebase-google&cb=" + Date.now(), authScriptBaseUrl()).href;
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url, false);
+      xhr.send(null);
+      if ((xhr.status >= 200 && xhr.status < 300) || (xhr.status === 0 && xhr.responseText)) {
+        new Function("window", xhr.responseText)(global);
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function loadFirebaseSupportOnce() {
+    if (attemptedFirebaseSupportLoad || global.GaongilFirebase) return;
+    attemptedFirebaseSupportLoad = true;
+    loadSiblingScriptOnce("firebase-config.js");
+    loadSiblingScriptOnce("firebase-adapter.js");
+  }
+
+  function firebaseConfig() {
+    loadFirebaseSupportOnce();
+    return global.GAONGIL_FIREBASE_CONFIG || {};
+  }
+
+  function firebaseAdapter() {
+    loadFirebaseSupportOnce();
+    return global.GaongilFirebase || null;
+  }
+
+  function firebaseEnabled() {
+    const adapter = firebaseAdapter();
+    return !!(adapter && adapter.isEnabled && adapter.isEnabled());
+  }
+
+  async function refreshFirebaseCaches(options = {}) {
+    if (!firebaseEnabled()) return null;
+    if (remoteRefreshPromise && !options.force) return remoteRefreshPromise;
+    remoteRefreshPromise = (async () => {
+      const adapter = firebaseAdapter();
+      try {
+        await adapter.init();
+        const site = await adapter.getSiteConfig().catch(() => null);
+        if (site && typeof site === "object") {
+          remoteSiteConfigCache = site;
+          global.GAONGIL_REMOTE_SITE_CONFIG = site;
+        }
+        const fbSession = await adapter.getCurrentSession().catch(() => null);
+        if (fbSession) {
+          sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
+          if (fbSession.role === "admin" && adapter.listUsers) {
+            remoteUsersCache = await adapter.listUsers().catch(() => null);
+          }
+        }
+        return { site, session: fbSession };
+      } catch (err) {
+        console.warn("[GaongilFirebase] 원격 설정을 불러오지 못했습니다.", err);
+        return null;
+      } finally {
+        remoteRefreshPromise = null;
+      }
+    })();
+    return remoteRefreshPromise;
+  }
+
+  async function saveFirebaseSiteConfig(configPatch) {
+    if (!firebaseEnabled()) return false;
+    const adapter = firebaseAdapter();
+    await adapter.saveSiteConfig(configPatch);
+    remoteSiteConfigCache = { ...(remoteSiteConfigCache || {}), ...configPatch };
+    global.GAONGIL_REMOTE_SITE_CONFIG = remoteSiteConfigCache;
+    return true;
+  }
 
   function simpleHash(text) {
     // crypto.subtle 이 없는 환경(구형 브라우저, 일부 file:// 실행 등)을 위한 대체 해시.
@@ -132,9 +220,17 @@
 
   function siteConfig() {
     loadPublishedSiteConfigOnce();
-    return global.GAONGIL_SITE_CONFIG && typeof global.GAONGIL_SITE_CONFIG === "object"
+    const published = global.GAONGIL_SITE_CONFIG && typeof global.GAONGIL_SITE_CONFIG === "object"
       ? global.GAONGIL_SITE_CONFIG
       : {};
+    const remote = remoteSiteConfigCache || global.GAONGIL_REMOTE_SITE_CONFIG;
+    if (!remote || typeof remote !== "object") return published;
+    return {
+      ...published,
+      ...remote,
+      access: remote.access || published.access,
+      notices: remote.notices || published.notices,
+    };
   }
 
   function defaultAccess() {
@@ -150,35 +246,48 @@
     };
   }
 
+  function normalizeAccessSettings(access, base = defaultAccess()) {
+    const source = access && typeof access === "object" ? access : {};
+    const publicPages = Array.isArray(source.publicPages) ? source.publicPages.map(normalizePageKey).filter(Boolean) : [];
+    const userPages = clonePlain(base.userPages, {});
+    Object.entries(source.userPages || {}).forEach(([id, pages]) => {
+      if (Array.isArray(pages)) {
+        userPages[normalizeId(id)] = Array.from(new Set(pages.map(normalizePageKey).filter(Boolean)));
+      }
+    });
+    return {
+      publicPages: Array.from(new Set([...(base.publicPages || []), ...publicPages])),
+      userPages,
+      updatedAt: Number(source.updatedAt || Date.now()),
+    };
+  }
+
   function loadAccess() {
+    const remoteAccess = (remoteSiteConfigCache || global.GAONGIL_REMOTE_SITE_CONFIG || {}).access;
+    if (firebaseEnabled() && remoteAccess) {
+      return normalizeAccessSettings(remoteAccess, { publicPages: ["index.html"], userPages: {} });
+    }
     try {
       const raw = localStorage.getItem(ACCESS_KEY);
       const parsed = raw ? JSON.parse(raw) : null;
-      const base = defaultAccess();
-      if (!parsed || typeof parsed !== "object") return base;
-      const publicPages = Array.isArray(parsed.publicPages) ? parsed.publicPages.map(normalizePageKey).filter(Boolean) : [];
-      const userPages = clonePlain(base.userPages, {});
-      Object.entries(parsed.userPages || {}).forEach(([id, pages]) => {
-        if (Array.isArray(pages)) userPages[normalizeId(id)] = pages.map(normalizePageKey).filter(Boolean);
-      });
-      return { publicPages: Array.from(new Set([...base.publicPages, ...publicPages])), userPages };
+      if (!parsed || typeof parsed !== "object") return defaultAccess();
+      return normalizeAccessSettings(parsed, { publicPages: ["index.html"], userPages: {} });
     } catch (e) {
       return defaultAccess();
     }
   }
 
-  function saveAccess(access) {
-    const base = defaultAccess();
-    const publicPages = Array.isArray(access?.publicPages) ? access.publicPages.map(normalizePageKey).filter(Boolean) : [];
-    const userPages = {};
-    Object.entries(access?.userPages || {}).forEach(([id, pages]) => {
-      if (Array.isArray(pages)) userPages[normalizeId(id)] = Array.from(new Set(pages.map(normalizePageKey).filter(Boolean)));
-    });
-    localStorage.setItem(ACCESS_KEY, JSON.stringify({
-      publicPages: Array.from(new Set([...base.publicPages, ...publicPages])),
-      userPages,
-      updatedAt: Date.now(),
-    }));
+  async function saveAccess(access) {
+    const normalized = normalizeAccessSettings(access, { publicPages: ["index.html"], userPages: {} });
+    normalized.updatedAt = Date.now();
+    localStorage.setItem(ACCESS_KEY, JSON.stringify(normalized));
+    if (firebaseEnabled()) {
+      await saveFirebaseSiteConfig({
+        access: normalized,
+        notices: loadNoticeSettings(),
+      });
+    }
+    return normalized;
   }
 
   function pageListIncludes(list, pageKey) {
@@ -244,6 +353,14 @@
 
   function loadNoticeSettings() {
     const base = defaultNoticeSettings();
+    const remoteNotices = (remoteSiteConfigCache || global.GAONGIL_REMOTE_SITE_CONFIG || {}).notices;
+    if (firebaseEnabled() && remoteNotices && typeof remoteNotices === "object") {
+      return {
+        enabled: remoteNotices.enabled !== false,
+        items: Array.isArray(remoteNotices.items) ? remoteNotices.items.map(normalizeNotice) : [],
+        updatedAt: Number(remoteNotices.updatedAtMillis || remoteNotices.updatedAt || Date.now()),
+      };
+    }
     try {
       const raw = localStorage.getItem(NOTICE_KEY);
       const parsed = raw ? JSON.parse(raw) : null;
@@ -258,13 +375,21 @@
     }
   }
 
-  function saveNoticeSettings(settings) {
+  async function saveNoticeSettings(settings, options = {}) {
     const items = Array.isArray(settings?.items) ? settings.items.map(normalizeNotice) : [];
-    localStorage.setItem(NOTICE_KEY, JSON.stringify({
+    const normalized = {
       enabled: settings?.enabled !== false,
       items,
       updatedAt: Date.now(),
-    }));
+    };
+    localStorage.setItem(NOTICE_KEY, JSON.stringify(normalized));
+    if (firebaseEnabled() && options.remote !== false) {
+      await saveFirebaseSiteConfig({
+        access: loadAccess(),
+        notices: normalized,
+      });
+    }
+    return normalized;
   }
 
   function noticePositionStyle(position, index) {
@@ -437,6 +562,7 @@
   }
 
   async function ensureSeedUsers() {
+    await refreshFirebaseCaches();
     let users = loadUsers();
     const defaultHash = await sha256(DEFAULT_ADMIN_PASSWORD);
     if (!users) {
@@ -454,10 +580,11 @@
         }
       }
     }
-    return users;
+    return Array.isArray(remoteUsersCache) ? remoteUsersCache : users;
   }
 
   function getUsers() {
+    if (firebaseEnabled() && Array.isArray(remoteUsersCache)) return remoteUsersCache;
     return loadUsers() || [];
   }
 
@@ -474,30 +601,46 @@
     const pwHash = await sha256(password);
     users.push({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash, createdAt: Date.now() });
     saveUsers(users);
+    if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
+      await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff" });
+      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+    }
     return true;
   }
 
-  function removeUser(id) {
+  async function removeUser(id) {
     let users = getUsers();
     if (id === "admin") throw new Error("최고 관리자 계정(admin)은 삭제할 수 없습니다.");
     users = users.filter((u) => u.id !== id);
     saveUsers(users);
+    if (firebaseEnabled() && firebaseAdapter()?.removeUserProfile) {
+      await firebaseAdapter().removeUserProfile(id);
+      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+    }
   }
 
-  function updateUserRole(id, role) {
+  async function updateUserRole(id, role) {
     const users = getUsers();
     const u = users.find((x) => x.id === normalizeId(id));
     if (!u) throw new Error("사용자를 찾을 수 없습니다.");
     u.role = role;
     saveUsers(users);
+    if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
+      await firebaseAdapter().saveUserProfile({ ...u, role });
+      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+    }
   }
 
-  function updateUserEmail(id, email) {
+  async function updateUserEmail(id, email) {
     const users = getUsers();
     const u = users.find((x) => x.id === normalizeId(id));
     if (!u) throw new Error("사용자를 찾을 수 없습니다.");
     u.email = normalizeEmail(email);
     saveUsers(users);
+    if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
+      await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) });
+      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+    }
   }
 
   async function changePassword(id, newPassword) {
@@ -509,6 +652,11 @@
   }
 
   async function resetPasswordByEmail(id, email, newPassword) {
+    if (firebaseEnabled() && firebaseAdapter()?.sendPasswordResetEmail) {
+      const loginKey = normalizeEmail(email) || normalizeId(id);
+      await firebaseAdapter().sendPasswordResetEmail(loginKey);
+      return true;
+    }
     await ensureSeedUsers();
     const users = getUsers();
     const u = users.find((x) => x.id === normalizeId(id));
@@ -523,6 +671,19 @@
   async function login(id, password) {
     await ensureSeedUsers();
     const normalizedId = normalizeId(id);
+    if (firebaseEnabled()) {
+      try {
+        const fbSession = await firebaseAdapter().login(normalizedId, password);
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
+        await refreshFirebaseCaches({ force: true });
+        return fbSession;
+      } catch (err) {
+        if (firebaseConfig().allowLocalFallback !== true) {
+          throw new Error(err.message || "Firebase 로그인에 실패했습니다.");
+        }
+        console.warn("[GaongilFirebase] Firebase 로그인 실패 후 로컬 로그인으로 전환합니다.", err);
+      }
+    }
     if (normalizedId === DEFAULT_ADMIN_ID && password === LEGACY_ADMIN_PASSWORD) {
       throw new Error("기본 관리자 비밀번호가 변경되었습니다. admin / 9980으로 로그인해 주세요.");
     }
@@ -535,7 +696,21 @@
     return session;
   }
 
+  async function loginWithGoogle() {
+    await ensureSeedUsers();
+    if (!firebaseEnabled() || !firebaseAdapter()?.loginWithGoogle) {
+      throw new Error("Google 로그인은 Firebase 연결 후 사용할 수 있습니다.");
+    }
+    const fbSession = await firebaseAdapter().loginWithGoogle();
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
+    await refreshFirebaseCaches({ force: true });
+    return fbSession;
+  }
+
   function logout(redirectTo) {
+    if (firebaseEnabled() && firebaseAdapter()?.logout) {
+      firebaseAdapter().logout().catch(() => {});
+    }
     sessionStorage.removeItem(SESSION_KEY);
     if (redirectTo) location.href = redirectTo;
   }
@@ -656,6 +831,27 @@
     }, { once: true });
   }
 
+  async function uploadNoticeImage(file) {
+    if (!firebaseEnabled() || !firebaseAdapter()?.uploadNoticeImage) return null;
+    return firebaseAdapter().uploadNoticeImage(file);
+  }
+
+  function getFirebaseStatus() {
+    const cfg = firebaseConfig();
+    const adapter = firebaseAdapter();
+    return {
+      enabled: firebaseEnabled(),
+      configured: !!(adapter && adapter.hasConfig && adapter.hasConfig()),
+      projectId: cfg.firebaseConfig?.projectId || "",
+      authDomain: cfg.firebaseConfig?.authDomain || "",
+      storageBucket: cfg.firebaseConfig?.storageBucket || "",
+      siteDoc: cfg.paths?.siteDoc || "gaongil_site/config",
+      usersCollection: cfg.paths?.usersCollection || "gaongil_users",
+      noticeImages: cfg.paths?.noticeImages || "gaongil_notice_images",
+      allowLocalFallback: cfg.allowLocalFallback === true,
+    };
+  }
+
   global.GaongilAuth = {
     ensureSeedUsers,
     getUsers,
@@ -666,6 +862,7 @@
     changePassword,
     resetPasswordByEmail,
     login,
+    loginWithGoogle,
     logout,
     getSession,
     requireLogin,
@@ -678,6 +875,10 @@
     getNoticeSettings: loadNoticeSettings,
     setNoticeSettings: saveNoticeSettings,
     renderNotices,
+    uploadNoticeImage,
+    refreshFirebaseCaches,
+    isFirebaseEnabled: firebaseEnabled,
+    getFirebaseStatus,
     normalizePageKey,
     canAccessPage,
     installAccessLinkGuards,
