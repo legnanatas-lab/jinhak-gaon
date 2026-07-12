@@ -2374,6 +2374,6 @@ window.GAONGIL_SITE_CONFIG = {
         "showNeverClose": true
       }
     ],
-    "updatedAt": 1783819705496
+    "updatedAt": 1783819708162
   }
 };
