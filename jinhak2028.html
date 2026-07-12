@@ -13,8 +13,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>전국 주요 대학 대입 변경사항 표 뷰어</title>
-<meta name="author" content="가온길 입시전략 연구소">
-<meta name="description" content="한가람고 교사 장태영 자료를 바탕으로 가온길 입시전략 연구소가 제작한 전국 주요 대학 대입 변경사항 표 뷰어">
+<meta name="author" content="가온길 에듀 입시전략연구소">
+<meta name="description" content="한가람고 교사 장태영 자료를 바탕으로 가온길 에듀 입시전략연구소가 제작한 전국 주요 대학 대입 변경사항 표 뷰어">
 <meta name="theme-color" content="#1f4ab8">
 <script>
 (function(){
@@ -116,7 +116,7 @@ button,input,select{font:inherit} button{cursor:pointer} a{color:inherit}.hidden
         <p>2028·2027·2026 대입 변경사항을 검색·필터·정렬로 빠르게 좁히고, 변경 전후 내용을 표에서 바로 비교할 수 있도록 구성했습니다.</p>
         <div class="source-credit" role="note" aria-label="원자료 및 제작 기관 표기">
           <span class="credit-chip">🧾 원자료 <strong>한가람고 교사 장태영 자료</strong></span>
-          <span class="credit-chip">🏫 제작 <strong>가온길 입시전략 연구소</strong></span>
+          <span class="credit-chip">🏫 제작 <strong>가온길 에듀 입시전략연구소</strong></span>
           <span class="credit-chip">✨ 구성 <strong>대입 변경사항 인터랙티브 뷰어</strong></span>
         </div>
       </div>
@@ -163,7 +163,7 @@ button,input,select{font:inherit} button{cursor:pointer} a{color:inherit}.hidden
   </section>
 
   <div class="notice">자료 기준일 이후 대학별 세부 시행계획 또는 모집요강에서 내용이 조정될 수 있습니다. 실제 상담·안내 시에는 최종 모집요강 공지 시점의 문구와 함께 확인하는 용도로 활용하세요.</div>
-  <p class="footer-note">원자료: 한가람고 교사 장태영 자료 · 제작: 가온길 입시전략 연구소 · 원본 파일: 전국 주요 대학 2027 학년도 대입 대비 변경사항(20260502).xlsx · 외부 라이브러리 없이 열람 가능한 단일 HTML 파일</p>
+  <p class="footer-note">원자료: 한가람고 교사 장태영 자료 · 제작: 가온길 에듀 입시전략연구소 · 원본 파일: 전국 주요 대학 2027 학년도 대입 대비 변경사항(20260502).xlsx · 외부 라이브러리 없이 열람 가능한 단일 HTML 파일</p>
 </div>
 
 <dialog id="detailDialog">
@@ -176,7 +176,7 @@ button,input,select{font:inherit} button{cursor:pointer} a{color:inherit}.hidden
 <div class="toast" id="toast" role="status" aria-live="polite">완료</div>
 <script>
 const RECORDS = JSON.parse(document.getElementById('records-data').textContent);
-const SOURCE = {sourceDate:'2026-05-02', baseMaterial:'한가람고 교사 장태영 자료', producer:'가온길 입시전략 연구소'};
+const SOURCE = {sourceDate:'2026-05-02', baseMaterial:'한가람고 교사 장태영 자료', producer:'가온길 에듀 입시전략연구소'};
 const storeKey = 'admissionChangeViewerFavorites.clean.v1';
 const state = {q:'',category:'all',comparison:'all',region:'all',university:'all',keyword:'all',type:'all',details:false,compact:false,favOnly:false,view:'table',sortKey:'university',sortDir:1};
 let favorites = new Set(JSON.parse(localStorage.getItem(storeKey) || '[]'));

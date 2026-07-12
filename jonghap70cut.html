@@ -163,7 +163,7 @@
 
     <section class="source-box" aria-label="제작 및 자료 기준">
       <h2>제작 · 자료 · 환산 기준</h2>
-      <div class="source-row"><b>제작</b><span>가온길 입시전략 연구소</span></div>
+      <div class="source-row"><b>제작</b><span>가온길 에듀 입시전략연구소</span></div>
       <div class="source-row"><b>자료</b><span>2026 어디가 입시결과(2026.06.11 재수집본)</span></div>
       <div class="source-row"><b>5등급환산 기준</b><span>5등급제 내신을 대진대 연구자료 기준 9등급제 평균값으로 환산</span></div>
       <p class="footer-note">2026 어디가 수시 학생부종합전형 자료 중 70%컷 등급값이 유효한 모집단위만 사용했습니다. 농어촌·기회균형·특성화·정원외 등 특별전형성 자료, 정시 자료, 교과·논술로 표기된 자료, 범위 밖 등급값, 완전 중복 행은 제외했습니다. 어디가 버튼은 2026 입시결과가 실린 2027학년도 전형 평가기준·전년도 결과공개 안내로 연결됩니다.</p>
@@ -323,7 +323,7 @@
     function copyList(){
       const lookup=state.lastLookup; if(!lookup||state.lastResults.length===0) return;
       const rows=state.lastResults.slice(0,Math.min(state.shown,100)).map((r,i)=>`${i+1}. ${r.u} | ${r.d} | ${r.e} | ${r.k} | 70%컷 ${fmt(r.g,2)} | 차이 ${r.m>=0?'+':''}${fmt(r.m,2)} | 경쟁률 ${fmtLoose(r.c)}:1`);
-      const text=[`2026 학생부종합전형 70%컷 이내 사례`,'※ 표본 자료이므로 상담 참고용으로만 활용','※ 학생부종합전형은 내신 외 서류·면접·활동 맥락을 함께 고려',`나의 환산 평균: ${fmt(lookup.avg,2)} / 조건: ${activeFilterText()}`,`표시 목록: 상위 ${rows.length}개`,'',...rows,'','자료: 2026 어디가 입시결과(2026.06.11 재수집본)','5등급환산 기준: 대진대 연구자료 기준 9등급제 평균값','제작: 가온길 입시전략 연구소'].join('\n');
+      const text=[`2026 학생부종합전형 70%컷 이내 사례`,'※ 표본 자료이므로 상담 참고용으로만 활용','※ 학생부종합전형은 내신 외 서류·면접·활동 맥락을 함께 고려',`나의 환산 평균: ${fmt(lookup.avg,2)} / 조건: ${activeFilterText()}`,`표시 목록: 상위 ${rows.length}개`,'',...rows,'','자료: 2026 어디가 입시결과(2026.06.11 재수집본)','5등급환산 기준: 대진대 연구자료 기준 9등급제 평균값','제작: 가온길 에듀 입시전략연구소'].join('\n');
       copyText(text);
     }
 

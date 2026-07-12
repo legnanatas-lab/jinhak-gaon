@@ -23,7 +23,7 @@ window.GAONGIL_SITE_DATA = {
             "start"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "guide2028"
         },
         {
@@ -36,7 +36,7 @@ window.GAONGIL_SITE_DATA = {
             "start"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "admissions2027"
         },
         {
@@ -49,7 +49,7 @@ window.GAONGIL_SITE_DATA = {
             "guide"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "hakjongguide"
         },
         {
@@ -62,7 +62,7 @@ window.GAONGIL_SITE_DATA = {
             "2026"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "susi"
         },
         {
@@ -75,7 +75,7 @@ window.GAONGIL_SITE_DATA = {
             "2026"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jeongsi"
         },
         {
@@ -88,7 +88,7 @@ window.GAONGIL_SITE_DATA = {
             "study"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "csat2028"
         },
         {
@@ -100,7 +100,7 @@ window.GAONGIL_SITE_DATA = {
             "student"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "preview"
         },
         {
@@ -112,7 +112,7 @@ window.GAONGIL_SITE_DATA = {
             "career"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jinrodesign"
         },
         {
@@ -124,7 +124,7 @@ window.GAONGIL_SITE_DATA = {
             "university"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "unimap"
         },
         {
@@ -136,7 +136,7 @@ window.GAONGIL_SITE_DATA = {
             "college"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "twounimap"
         }
       ]
@@ -157,7 +157,7 @@ window.GAONGIL_SITE_DATA = {
             "2026"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "results2026download"
         },
         {
@@ -170,7 +170,7 @@ window.GAONGIL_SITE_DATA = {
             "2026"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "prelearning2026"
         },
         {
@@ -183,7 +183,7 @@ window.GAONGIL_SITE_DATA = {
             "hakjong"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "hakjongguide2027"
         },
         {
@@ -196,7 +196,7 @@ window.GAONGIL_SITE_DATA = {
             "2027"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "susiDownload2027"
         },
         {
@@ -209,7 +209,7 @@ window.GAONGIL_SITE_DATA = {
             "plan"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "admissionPlan2028"
         }
       ]
@@ -230,7 +230,7 @@ window.GAONGIL_SITE_DATA = {
             "calendar"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "gosa2027"
         },
         {
@@ -242,7 +242,7 @@ window.GAONGIL_SITE_DATA = {
             "guide"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "admissions2027"
         },
         {
@@ -255,7 +255,7 @@ window.GAONGIL_SITE_DATA = {
             "hakjong"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jonghap_eval"
         },
         {
@@ -268,7 +268,7 @@ window.GAONGIL_SITE_DATA = {
             "interview"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jonghap_interview"
         },
         {
@@ -282,7 +282,7 @@ window.GAONGIL_SITE_DATA = {
             "tool"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "student_record_interview"
         },
         {
@@ -294,7 +294,7 @@ window.GAONGIL_SITE_DATA = {
             "special"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "special2027"
         },
         {
@@ -306,7 +306,7 @@ window.GAONGIL_SITE_DATA = {
             "local"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "localmedi"
         },
         {
@@ -318,7 +318,7 @@ window.GAONGIL_SITE_DATA = {
             "gyogwa"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "gyogwa2027"
         },
         {
@@ -330,7 +330,7 @@ window.GAONGIL_SITE_DATA = {
             "recommend"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "chuchon2027"
         },
         {
@@ -343,7 +343,7 @@ window.GAONGIL_SITE_DATA = {
             "special"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cheomdan2027"
         },
         {
@@ -356,7 +356,7 @@ window.GAONGIL_SITE_DATA = {
             "local"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "medi2027"
         },
         {
@@ -369,7 +369,7 @@ window.GAONGIL_SITE_DATA = {
             "susi"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "uichihan2027"
         },
         {
@@ -382,7 +382,7 @@ window.GAONGIL_SITE_DATA = {
             "pe"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "yeche2027"
         },
         {
@@ -394,7 +394,7 @@ window.GAONGIL_SITE_DATA = {
             "specialized"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "specialized2027"
         },
         {
@@ -408,7 +408,7 @@ window.GAONGIL_SITE_DATA = {
             "pe"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "pe2026_2028"
         },
         {
@@ -421,7 +421,7 @@ window.GAONGIL_SITE_DATA = {
             "2026"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "susi"
         },
         {
@@ -434,7 +434,7 @@ window.GAONGIL_SITE_DATA = {
             "2026"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jeongsi"
         },
         {
@@ -447,7 +447,7 @@ window.GAONGIL_SITE_DATA = {
             "health"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "procollege6"
         }
       ]
@@ -468,7 +468,7 @@ window.GAONGIL_SITE_DATA = {
             "change"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "gyogwaChange2028"
         },
         {
@@ -480,7 +480,7 @@ window.GAONGIL_SITE_DATA = {
             "hakjong"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "hakjong2028"
         },
         {
@@ -492,7 +492,7 @@ window.GAONGIL_SITE_DATA = {
             "csat"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "castrow2028"
         },
         {
@@ -505,7 +505,7 @@ window.GAONGIL_SITE_DATA = {
             "jeongsi"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "suneung2028"
         },
         {
@@ -517,7 +517,7 @@ window.GAONGIL_SITE_DATA = {
             "gyogwa"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "gyogwa2028"
         },
         {
@@ -529,7 +529,7 @@ window.GAONGIL_SITE_DATA = {
             "change"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jinhak2028"
         },
         {
@@ -541,7 +541,7 @@ window.GAONGIL_SITE_DATA = {
             "university"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "uni15_2028"
         },
         {
@@ -554,7 +554,7 @@ window.GAONGIL_SITE_DATA = {
             "gyogwa"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "gyogwa70cut"
         },
         {
@@ -567,7 +567,7 @@ window.GAONGIL_SITE_DATA = {
             "hakjong"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jonghap70cut"
         },
         {
@@ -579,7 +579,7 @@ window.GAONGIL_SITE_DATA = {
             "guide"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "guide2028"
         },
         {
@@ -591,7 +591,7 @@ window.GAONGIL_SITE_DATA = {
             "nonsul"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "nonsul2028"
         },
         {
@@ -604,7 +604,7 @@ window.GAONGIL_SITE_DATA = {
             "science"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "ist2028"
         },
         {
@@ -616,7 +616,7 @@ window.GAONGIL_SITE_DATA = {
             "education"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "edu2028"
         },
         {
@@ -630,7 +630,7 @@ window.GAONGIL_SITE_DATA = {
             "pe"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "pe2026_2028"
         }
       ]
@@ -650,7 +650,7 @@ window.GAONGIL_SITE_DATA = {
             "career"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jinrodesign"
         },
         {
@@ -663,7 +663,7 @@ window.GAONGIL_SITE_DATA = {
             "major"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sub2"
         },
         {
@@ -676,7 +676,7 @@ window.GAONGIL_SITE_DATA = {
             "research"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sciencetam"
         },
         {
@@ -689,7 +689,7 @@ window.GAONGIL_SITE_DATA = {
             "research"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "socialtam"
         },
         {
@@ -702,7 +702,7 @@ window.GAONGIL_SITE_DATA = {
             "research"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "aisc"
         },
         {
@@ -715,7 +715,7 @@ window.GAONGIL_SITE_DATA = {
             "research"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "ai_prompt"
         },
         {
@@ -727,7 +727,7 @@ window.GAONGIL_SITE_DATA = {
             "tool"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "saenggibu_check"
         },
         {
@@ -740,7 +740,7 @@ window.GAONGIL_SITE_DATA = {
             "major"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "uni2027"
         },
         {
@@ -753,7 +753,7 @@ window.GAONGIL_SITE_DATA = {
             "guide"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "studentguide"
         },
         {
@@ -766,7 +766,7 @@ window.GAONGIL_SITE_DATA = {
             "grade"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "seongjeok2026"
         },
         {
@@ -779,7 +779,7 @@ window.GAONGIL_SITE_DATA = {
             "transfer"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "transfer2026"
         },
         {
@@ -792,7 +792,7 @@ window.GAONGIL_SITE_DATA = {
             "guide"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "hakjongguide"
         }
       ]
@@ -813,7 +813,7 @@ window.GAONGIL_SITE_DATA = {
             "physics"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "soouppy"
         },
         {
@@ -826,7 +826,7 @@ window.GAONGIL_SITE_DATA = {
             "chemistry"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupch"
         },
         {
@@ -839,7 +839,7 @@ window.GAONGIL_SITE_DATA = {
             "biology"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupbio"
         },
         {
@@ -852,7 +852,7 @@ window.GAONGIL_SITE_DATA = {
             "earth"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupes"
         },
         {
@@ -865,7 +865,7 @@ window.GAONGIL_SITE_DATA = {
             "math"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupalg"
         },
         {
@@ -878,7 +878,7 @@ window.GAONGIL_SITE_DATA = {
             "math"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupcalc1"
         },
         {
@@ -891,7 +891,7 @@ window.GAONGIL_SITE_DATA = {
             "math"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupprobstat"
         },
         {
@@ -904,7 +904,7 @@ window.GAONGIL_SITE_DATA = {
             "english"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupeng1"
         },
         {
@@ -917,7 +917,7 @@ window.GAONGIL_SITE_DATA = {
             "english"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupeng2"
         },
         {
@@ -930,7 +930,7 @@ window.GAONGIL_SITE_DATA = {
             "english"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupengrw"
         },
         {
@@ -943,7 +943,7 @@ window.GAONGIL_SITE_DATA = {
             "social"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupgeo"
         },
         {
@@ -956,7 +956,7 @@ window.GAONGIL_SITE_DATA = {
             "social"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupsoc"
         },
         {
@@ -969,7 +969,7 @@ window.GAONGIL_SITE_DATA = {
             "history"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupwh"
         },
         {
@@ -982,7 +982,7 @@ window.GAONGIL_SITE_DATA = {
             "ethics"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupeth"
         },
         {
@@ -995,7 +995,7 @@ window.GAONGIL_SITE_DATA = {
             "korean"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupkor"
         },
         {
@@ -1008,7 +1008,7 @@ window.GAONGIL_SITE_DATA = {
             "korean"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupdw"
         },
         {
@@ -1021,7 +1021,7 @@ window.GAONGIL_SITE_DATA = {
             "korean"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "soouplit"
         },
         {
@@ -1034,7 +1034,7 @@ window.GAONGIL_SITE_DATA = {
             "study"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "csat2028"
         },
         {
@@ -1046,7 +1046,7 @@ window.GAONGIL_SITE_DATA = {
             "student"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "preview"
         },
         {
@@ -1058,7 +1058,7 @@ window.GAONGIL_SITE_DATA = {
             "admission"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "dong"
         }
       ]
@@ -1079,7 +1079,7 @@ window.GAONGIL_SITE_DATA = {
             "statistics"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cast2026"
         },
         {
@@ -1092,7 +1092,7 @@ window.GAONGIL_SITE_DATA = {
             "analysis"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "juneMock2027"
         },
         {
@@ -1105,7 +1105,7 @@ window.GAONGIL_SITE_DATA = {
             "statistics"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cast20276"
         },
         {
@@ -1117,7 +1117,7 @@ window.GAONGIL_SITE_DATA = {
             "tuition"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "unimo"
         },
         {
@@ -1130,7 +1130,7 @@ window.GAONGIL_SITE_DATA = {
             "grade3"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cast20265"
         },
         {
@@ -1143,7 +1143,7 @@ window.GAONGIL_SITE_DATA = {
             "grade1"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cast20266g1"
         },
         {
@@ -1156,7 +1156,7 @@ window.GAONGIL_SITE_DATA = {
             "grade2"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cast20266g2"
         },
         {
@@ -1168,7 +1168,7 @@ window.GAONGIL_SITE_DATA = {
             "school"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "highschoolmap"
         },
         {
@@ -1180,7 +1180,7 @@ window.GAONGIL_SITE_DATA = {
             "university"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "unimap"
         },
         {
@@ -1192,7 +1192,7 @@ window.GAONGIL_SITE_DATA = {
             "college"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "twounimap"
         }
       ]
@@ -1213,7 +1213,7 @@ window.GAONGIL_SITE_DATA = {
             "start"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "guide2028"
         },
         {
@@ -1226,7 +1226,7 @@ window.GAONGIL_SITE_DATA = {
             "start"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "admissions2027"
         },
         {
@@ -1239,7 +1239,7 @@ window.GAONGIL_SITE_DATA = {
             "guide"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "hakjongguide"
         },
         {
@@ -1252,7 +1252,7 @@ window.GAONGIL_SITE_DATA = {
             "2026"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "susi"
         },
         {
@@ -1265,7 +1265,7 @@ window.GAONGIL_SITE_DATA = {
             "2026"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jeongsi"
         },
         {
@@ -1278,7 +1278,7 @@ window.GAONGIL_SITE_DATA = {
             "study"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "csat2028"
         },
         {
@@ -1290,7 +1290,7 @@ window.GAONGIL_SITE_DATA = {
             "student"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "preview"
         },
         {
@@ -1302,7 +1302,7 @@ window.GAONGIL_SITE_DATA = {
             "career"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jinrodesign"
         },
         {
@@ -1314,7 +1314,7 @@ window.GAONGIL_SITE_DATA = {
             "university"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "unimap"
         },
         {
@@ -1326,7 +1326,7 @@ window.GAONGIL_SITE_DATA = {
             "college"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "twounimap"
         },
         {
@@ -1339,7 +1339,7 @@ window.GAONGIL_SITE_DATA = {
             "2026"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "results2026download"
         },
         {
@@ -1352,7 +1352,7 @@ window.GAONGIL_SITE_DATA = {
             "2026"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "prelearning2026"
         },
         {
@@ -1365,7 +1365,7 @@ window.GAONGIL_SITE_DATA = {
             "health"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "procollege6"
         },
         {
@@ -1378,7 +1378,7 @@ window.GAONGIL_SITE_DATA = {
             "hakjong"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "hakjongguide2027"
         },
         {
@@ -1391,7 +1391,7 @@ window.GAONGIL_SITE_DATA = {
             "2027"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "susiDownload2027"
         },
         {
@@ -1404,7 +1404,7 @@ window.GAONGIL_SITE_DATA = {
             "plan"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "admissionPlan2028"
         },
         {
@@ -1417,7 +1417,7 @@ window.GAONGIL_SITE_DATA = {
             "hakjong"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jonghap_eval"
         },
         {
@@ -1430,7 +1430,7 @@ window.GAONGIL_SITE_DATA = {
             "interview"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jonghap_interview"
         },
         {
@@ -1444,7 +1444,7 @@ window.GAONGIL_SITE_DATA = {
             "tool"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "student_record_interview"
         },
         {
@@ -1457,7 +1457,7 @@ window.GAONGIL_SITE_DATA = {
             "calendar"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "gosa2027"
         },
         {
@@ -1469,7 +1469,7 @@ window.GAONGIL_SITE_DATA = {
             "special"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "special2027"
         },
         {
@@ -1481,7 +1481,7 @@ window.GAONGIL_SITE_DATA = {
             "local"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "localmedi"
         },
         {
@@ -1493,7 +1493,7 @@ window.GAONGIL_SITE_DATA = {
             "gyogwa"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "gyogwa2027"
         },
         {
@@ -1505,7 +1505,7 @@ window.GAONGIL_SITE_DATA = {
             "recommend"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "chuchon2027"
         },
         {
@@ -1518,7 +1518,7 @@ window.GAONGIL_SITE_DATA = {
             "change"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "gyogwaChange2028"
         },
         {
@@ -1530,7 +1530,7 @@ window.GAONGIL_SITE_DATA = {
             "hakjong"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "hakjong2028"
         },
         {
@@ -1542,7 +1542,7 @@ window.GAONGIL_SITE_DATA = {
             "csat"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "castrow2028"
         },
         {
@@ -1555,7 +1555,7 @@ window.GAONGIL_SITE_DATA = {
             "jeongsi"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "suneung2028"
         },
         {
@@ -1567,7 +1567,7 @@ window.GAONGIL_SITE_DATA = {
             "gyogwa"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "gyogwa2028"
         },
         {
@@ -1579,7 +1579,7 @@ window.GAONGIL_SITE_DATA = {
             "change"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jinhak2028"
         },
         {
@@ -1591,7 +1591,7 @@ window.GAONGIL_SITE_DATA = {
             "university"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "uni15_2028"
         },
         {
@@ -1604,7 +1604,7 @@ window.GAONGIL_SITE_DATA = {
             "gyogwa"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "gyogwa70cut"
         },
         {
@@ -1617,7 +1617,7 @@ window.GAONGIL_SITE_DATA = {
             "hakjong"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "jonghap70cut"
         },
         {
@@ -1629,7 +1629,7 @@ window.GAONGIL_SITE_DATA = {
             "nonsul"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "nonsul2028"
         },
         {
@@ -1642,7 +1642,7 @@ window.GAONGIL_SITE_DATA = {
             "special"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cheomdan2027"
         },
         {
@@ -1655,7 +1655,7 @@ window.GAONGIL_SITE_DATA = {
             "local"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "medi2027"
         },
         {
@@ -1668,7 +1668,7 @@ window.GAONGIL_SITE_DATA = {
             "susi"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "uichihan2027"
         },
         {
@@ -1681,7 +1681,7 @@ window.GAONGIL_SITE_DATA = {
             "pe"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "yeche2027"
         },
         {
@@ -1693,7 +1693,7 @@ window.GAONGIL_SITE_DATA = {
             "specialized"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "specialized2027"
         },
         {
@@ -1706,7 +1706,7 @@ window.GAONGIL_SITE_DATA = {
             "science"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "ist2028"
         },
         {
@@ -1718,7 +1718,7 @@ window.GAONGIL_SITE_DATA = {
             "education"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "edu2028"
         },
         {
@@ -1732,7 +1732,7 @@ window.GAONGIL_SITE_DATA = {
             "pe"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "pe2026_2028"
         },
         {
@@ -1745,7 +1745,7 @@ window.GAONGIL_SITE_DATA = {
             "major"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sub2"
         },
         {
@@ -1758,7 +1758,7 @@ window.GAONGIL_SITE_DATA = {
             "research"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sciencetam"
         },
         {
@@ -1771,7 +1771,7 @@ window.GAONGIL_SITE_DATA = {
             "research"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "socialtam"
         },
         {
@@ -1784,7 +1784,7 @@ window.GAONGIL_SITE_DATA = {
             "research"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "aisc"
         },
         {
@@ -1797,7 +1797,7 @@ window.GAONGIL_SITE_DATA = {
             "research"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "ai_prompt"
         },
         {
@@ -1809,7 +1809,7 @@ window.GAONGIL_SITE_DATA = {
             "tool"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "saenggibu_check"
         },
         {
@@ -1822,7 +1822,7 @@ window.GAONGIL_SITE_DATA = {
             "major"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "uni2027"
         },
         {
@@ -1835,7 +1835,7 @@ window.GAONGIL_SITE_DATA = {
             "guide"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "studentguide"
         },
         {
@@ -1848,7 +1848,7 @@ window.GAONGIL_SITE_DATA = {
             "grade"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "seongjeok2026"
         },
         {
@@ -1861,7 +1861,7 @@ window.GAONGIL_SITE_DATA = {
             "transfer"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "transfer2026"
         },
         {
@@ -1874,7 +1874,7 @@ window.GAONGIL_SITE_DATA = {
             "physics"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "soouppy"
         },
         {
@@ -1887,7 +1887,7 @@ window.GAONGIL_SITE_DATA = {
             "chemistry"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupch"
         },
         {
@@ -1900,7 +1900,7 @@ window.GAONGIL_SITE_DATA = {
             "biology"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupbio"
         },
         {
@@ -1913,7 +1913,7 @@ window.GAONGIL_SITE_DATA = {
             "earth"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupes"
         },
         {
@@ -1926,7 +1926,7 @@ window.GAONGIL_SITE_DATA = {
             "math"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupalg"
         },
         {
@@ -1939,7 +1939,7 @@ window.GAONGIL_SITE_DATA = {
             "math"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupcalc1"
         },
         {
@@ -1952,7 +1952,7 @@ window.GAONGIL_SITE_DATA = {
             "math"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupprobstat"
         },
         {
@@ -1965,7 +1965,7 @@ window.GAONGIL_SITE_DATA = {
             "english"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupeng1"
         },
         {
@@ -1978,7 +1978,7 @@ window.GAONGIL_SITE_DATA = {
             "english"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupeng2"
         },
         {
@@ -1991,7 +1991,7 @@ window.GAONGIL_SITE_DATA = {
             "english"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupengrw"
         },
         {
@@ -2004,7 +2004,7 @@ window.GAONGIL_SITE_DATA = {
             "social"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupgeo"
         },
         {
@@ -2017,7 +2017,7 @@ window.GAONGIL_SITE_DATA = {
             "social"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupsoc"
         },
         {
@@ -2030,7 +2030,7 @@ window.GAONGIL_SITE_DATA = {
             "history"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupwh"
         },
         {
@@ -2043,7 +2043,7 @@ window.GAONGIL_SITE_DATA = {
             "ethics"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupeth"
         },
         {
@@ -2056,7 +2056,7 @@ window.GAONGIL_SITE_DATA = {
             "korean"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupkor"
         },
         {
@@ -2069,7 +2069,7 @@ window.GAONGIL_SITE_DATA = {
             "korean"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "sooupdw"
         },
         {
@@ -2082,7 +2082,7 @@ window.GAONGIL_SITE_DATA = {
             "korean"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "soouplit"
         },
         {
@@ -2094,7 +2094,7 @@ window.GAONGIL_SITE_DATA = {
             "admission"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "dong"
         },
         {
@@ -2107,7 +2107,7 @@ window.GAONGIL_SITE_DATA = {
             "statistics"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cast2026"
         },
         {
@@ -2120,7 +2120,7 @@ window.GAONGIL_SITE_DATA = {
             "analysis"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "juneMock2027"
         },
         {
@@ -2133,7 +2133,7 @@ window.GAONGIL_SITE_DATA = {
             "statistics"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cast20276"
         },
         {
@@ -2145,7 +2145,7 @@ window.GAONGIL_SITE_DATA = {
             "tuition"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "unimo"
         },
         {
@@ -2158,7 +2158,7 @@ window.GAONGIL_SITE_DATA = {
             "grade3"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cast20265"
         },
         {
@@ -2171,7 +2171,7 @@ window.GAONGIL_SITE_DATA = {
             "grade1"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cast20266g1"
         },
         {
@@ -2184,7 +2184,7 @@ window.GAONGIL_SITE_DATA = {
             "grade2"
           ],
           "status": "신규",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "cast20266g2"
         },
         {
@@ -2196,7 +2196,7 @@ window.GAONGIL_SITE_DATA = {
             "school"
           ],
           "status": "보유",
-          "brandNote": "가온길 에듀 · 가온길 입시전략연구소",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "highschoolmap"
         }
       ],

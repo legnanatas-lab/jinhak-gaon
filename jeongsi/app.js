@@ -408,7 +408,7 @@ function mount() {
       <div class="topbar-inner">
         <div class="brand">
           <div class="brand-mark logo-mark">
-            <img src="../assets/gaongil-logo.png" alt="가온길 에듀 가온길 입시전략연구소" />
+            <img src="../assets/gaongil-logo.png" alt="가온길 에듀 입시전략연구소" />
           </div>
           <div>
             <h1>정시결과</h1>
@@ -465,10 +465,10 @@ function mount() {
             <img src="../assets/gaongil-logo.png" alt="가온길 에듀" />
             <span>
               <strong>가온길 에듀</strong>
-              <em>가온길 입시전략연구소</em>
+              <em>가온길 에듀 입시전략연구소</em>
             </span>
           </div>
-          <div><strong>제작</strong> 가온길 에듀 가온길 입시전략연구소</div>
+          <div><strong>제작</strong> 가온길 에듀 입시전략연구소</div>
           <div><strong>출처</strong> 대학발표 정시(수능위주전형) 입시결과</div>
         </footer>
       </section>
@@ -891,7 +891,7 @@ function printSavedReport() {
           <img src="${logoUrl}" alt="가온길 에듀" />
           <div class="headline">
             <h1>정시결과 상담 보고서</h1>
-            <div class="sub">가온길 에듀 · 가온길 입시전략연구소 · ${today}</div>
+            <div class="sub">가온길 에듀 · 가온길 에듀 입시전략연구소 · ${today}</div>
           </div>
           <div class="contact-badge">상담문의 ${contactPhone}</div>
         </header>
@@ -907,7 +907,7 @@ function printSavedReport() {
           <div class="memo">${state.student.memo ? escapeHtml(state.student.memo) : "미입력"}</div>
         </section>
         ${rows}
-        <footer><span>본 자료는 상담 참고용입니다.</span><span>상담문의 ${contactPhone} · 가온길 에듀 가온길 입시전략연구소</span></footer>
+        <footer><span>본 자료는 상담 참고용입니다.</span><span>상담문의 ${contactPhone} · 가온길 에듀 입시전략연구소</span></footer>
         <script>window.addEventListener("load", () => setTimeout(() => window.print(), 250));</script>
       </body>
     </html>
