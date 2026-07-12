@@ -850,15 +850,15 @@ function printSavedReport() {
             pointer-events: none;
           }
           body::after {
-            content: "GAONGIL EDU";
+            content: "가온길 입시전략 연구소 상담문의 ${contactPhone}";
             position: fixed;
             left: 50%;
             top: 54%;
             transform: translate(-50%, -50%) rotate(-18deg);
             color: rgba(201, 151, 67, .09);
-            font-size: 50px;
+            font-size: 28px;
             font-weight: 900;
-            letter-spacing: 8px;
+            letter-spacing: 1px;
             white-space: nowrap;
             z-index: 0;
             pointer-events: none;

@@ -173,6 +173,62 @@ footer .pline{font-weight:600;color:#51637e}
 #toast{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);background:#23344f;color:#fff;border-radius:999px;padding:8px 20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:60}
 #toast.show{opacity:.95}
 #printinfo{display:none}
+
+/* ── 상담 PDF 패널 ── */
+#consultPanel{margin:14px 0 12px}
+.consult-panel{
+  border:1px solid rgba(148,163,184,.28);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(18,34,55,.96),rgba(11,24,40,.96));
+  color:#e5edf8;
+  padding:16px;
+  box-shadow:0 12px 30px rgba(2,6,23,.20);
+}
+.consult-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:10px}
+.consult-head h2{margin:0;font-size:18px;line-height:1.2;color:#fff}
+.consult-head p{margin:2px 0 0;color:#aebbd0;font-size:12px}
+.consult-count{font-weight:900;color:#f5d889;white-space:nowrap}
+.consult-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.consult-field{min-width:0}
+.consult-field.full{grid-column:1/-1}
+.consult-field label{display:block;margin:0 0 4px;font-size:12px;font-weight:900;color:#f9e7ad}
+.consult-control{
+  width:100%;
+  border:1px solid rgba(96,126,166,.75);
+  border-radius:10px;
+  background:#07111f;
+  color:#f8fafc;
+  padding:10px 12px;
+  font-size:13px;
+  font-weight:700;
+  outline:none;
+}
+.consult-control::placeholder{color:#6f7d90}
+.consult-control:focus{border-color:#e5b85f;box-shadow:0 0 0 3px rgba(229,184,95,.18)}
+textarea.consult-control{min-height:96px;resize:vertical;line-height:1.5}
+.consult-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(148,163,184,.20)}
+.consult-btn{
+  appearance:none;
+  border:1px solid rgba(201,151,67,.55);
+  border-radius:10px;
+  padding:9px 15px;
+  background:#111827;
+  color:#dbe7f5;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+}
+.consult-btn:hover{border-color:#f4d276;color:#fff}
+.consult-btn.primary{background:linear-gradient(180deg,#f5dc91,#d6a646);color:#07111f;border-color:#f3d58b;box-shadow:0 10px 22px rgba(214,166,70,.18)}
+.consult-btn.primary::before{content:"PDF";display:inline-flex;align-items:center;justify-content:center;margin-right:8px;border-radius:5px;background:#07111f;color:#f8df98;font-size:10px;font-weight:900;padding:2px 5px}
+.consult-btn:disabled{opacity:.48;cursor:not-allowed;filter:grayscale(.25)}
+.saved-preview{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px}
+.saved-card{border:1px solid rgba(96,126,166,.55);border-radius:10px;background:rgba(7,17,31,.72);padding:10px;min-width:0}
+.saved-card b{display:block;color:#fff;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.saved-card span{display:block;margin-top:2px;color:#aebbd0;font-size:11.5px;line-height:1.35}
+.saved-card button{margin-top:7px;appearance:none;border:1px solid rgba(96,126,166,.65);border-radius:999px;background:transparent;color:#dbe7f5;padding:4px 9px;font-size:11px;font-weight:800;cursor:pointer}
+.saved-card button:hover{border-color:#f4d276;color:#f4d276}
+.saved-empty{margin-top:10px;border:1px dashed rgba(148,163,184,.35);border-radius:10px;padding:12px;color:#aebbd0;font-size:12.5px;text-align:center}
 section[hidden]{display:none}
 main{min-height:60vh}
 
@@ -189,9 +245,15 @@ main{min-height:60vh}
   .uvm{gap:5px;font-size:10px}
   .uvm .k{font-size:9px}
   .uvm.hd .v{font-size:11.5px}
+  .consult-panel{padding:14px 12px}
+  .consult-head{display:block}
+  .consult-count{display:block;margin-top:6px}
+  .consult-grid{grid-template-columns:1fr}
+  .consult-actions{justify-content:stretch}
+  .consult-btn{flex:1 1 auto}
 }
 @media print{
-  header .tabs,#filters,#stats,.morebtn,#cmpfab,#toast,.toolbar,.uvtop,#gradeLegend,.mainbtn{display:none!important}
+  header .tabs,#filters,#stats,#consultPanel,.morebtn,#cmpfab,#toast,.toolbar,.uvtop,#gradeLegend,.mainbtn{display:none!important}
   header{background:#fff;color:#000;padding:0}
   header h1,.sub{color:#000}
   .badge{border-color:#999;color:#333}
@@ -228,6 +290,7 @@ main{min-height:60vh}
 
 <main class="wrap">
   <div id="printinfo"></div>
+  <div id="consultPanel"></div>
   <div id="filters">
     <div class="frow" id="row-g"><div class="flab">계열</div><div class="fchips" data-f="g"></div></div>
     <div class="frow" id="row-y"><div class="flab">학년도</div><div class="fchips" data-f="y"></div></div>
@@ -349,8 +412,10 @@ const GCOL=['#fde8ef;color:#b3215f','#e3effd;color:#1d4ed8','#e7f6ee;color:#1580
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const NF=n=>n.toLocaleString('ko-KR');
+const WATERMARK_TEXT='가온길 입시전략 연구소 상담문의 010-2370-7602';
+const CONTACT_PHONE='010-2370-7602';
 
-const S={tab:'ex',g:-1,y:2,t:-1,s:-1,d:-1,reg:new Set(),q:'',grade:null,sc:'',sd:1,n:400,tn:300,only3:false,trs:'0',univ:-1,cmp:[]};
+const S={tab:'ex',g:-1,y:2,t:-1,s:-1,d:-1,reg:new Set(),q:'',grade:null,sc:'',sd:1,n:400,tn:300,only3:false,trs:'0',univ:-1,cmp:[],student:{name:'',school:'',grade:'',desiredMajor:'',desiredUniversity:'',memo:''}};
 
 /* ── 행 접근 ── */
 const uOf=r=>D.u[r[2]];
@@ -633,8 +698,87 @@ function addCmp(key){
   if(S.cmp.includes(key)){S.cmp=S.cmp.filter(k=>k!==key);toast('비교에서 제외했습니다');}
   else if(S.cmp.length>=4){toast('비교는 최대 4건까지 담을 수 있습니다');}
   else{S.cmp.push(key);toast('비교에 담았습니다 ('+S.cmp.length+'/4)')}
+  renderConsultPanel();
   renderCmp();if(S.tab==='ex')syncCmpChecks();
   updateHash();
+}
+
+/* ── 상담 PDF 패널/출력 ── */
+function consultItems(){
+  return S.cmp.map(k=>{
+    const[u,m,d,t,s]=k.split('-').map(Number);
+    return{k,u,m,d,t,s,ys:groupRows(u,m,d,t,s)};
+  });
+}
+function renderConsultPanel(){
+  const panel=$('#consultPanel');
+  if(!panel)return;
+  const items=consultItems();
+  const input=(key,label,ph)=>'<div class="consult-field"><label for="consult-'+key+'">'+label+'</label><input class="consult-control" id="consult-'+key+'" data-student="'+key+'" value="'+esc(S.student[key]||'')+'" placeholder="'+ph+'"></div>';
+  const cards=items.map((it,idx)=>{
+    const meta=D.r[D.u[it.u].r]+' · '+D.g[R[(it.ys[0]??it.ys[1]??it.ys[2])][1]].replace('계열','')+' · '+D.t[it.t]+' · '+D.s[it.s]+(it.d?' · 야간':'');
+    return '<div class="saved-card"><b>'+(idx+1)+'. '+esc(udisp(it.u))+' '+esc(D.m[it.m])+'</b><span>'+esc(meta)+'</span><button type="button" data-consult-remove="'+esc(it.k)+'">선택 제외</button></div>';
+  }).join('');
+  panel.innerHTML=
+    '<section class="consult-panel" aria-label="학생정보 및 PDF 출력">'+
+      '<div class="consult-head"><div><h2>학생정보</h2><p>선택한 모집단위와 함께 PDF 보고서에 표시됩니다.</p></div><div class="consult-count">선택 '+items.length+'/4</div></div>'+
+      '<div class="consult-grid">'+
+        input('name','학생이름','예: 홍길동')+
+        input('school','학교','예: 가온고')+
+        input('grade','내신','예: 4.30')+
+        input('desiredMajor','희망학과','예: 간호학과')+
+        input('desiredUniversity','희망대학','예: 동남보건대')+
+        '<div class="consult-field full"><label for="consult-memo">상담내용</label><textarea class="consult-control" id="consult-memo" data-student="memo" placeholder="상담 중 확인한 강점, 보완점, 지원전략을 입력하세요.">'+esc(S.student.memo||'')+'</textarea></div>'+
+      '</div>'+
+      '<div class="consult-actions">'+
+        '<button type="button" class="consult-btn primary" data-consult-action="print"'+(items.length?'':' disabled')+'>PDF 저장</button>'+
+        '<button type="button" class="consult-btn" data-consult-action="clear"'+(items.length?'':' disabled')+'>선택 비우기</button>'+
+        '<button type="button" class="consult-btn" data-consult-action="reset">초기화</button>'+
+      '</div>'+
+      (items.length?'<div class="saved-preview">'+cards+'</div>':'<div class="saved-empty">탐색 표의 체크박스나 상세/대학별 화면의 “비교에 담기” 버튼으로 PDF에 넣을 모집단위를 선택하세요.</div>')+
+    '</section>';
+}
+function reportValue(v){return v==null?'<span class="muted">–</span>':v===0?'<span class="zero">0</span>':esc(String(v))}
+function reportScore(r,fi){
+  const v=r[fi];
+  if(v==null)return '<span class="muted">–</span>';
+  const type=r[3]===2?(r[8]==null?'기준 미표기':D.b[r[8]]):'';
+  return reportValue(v)+(type?'<span class="score-type">'+esc(type)+'</span>':'');
+}
+function reportStudentValue(key){return S.student[key]?esc(S.student[key]):'미입력'}
+function printConsultReport(){
+  const items=consultItems();
+  if(!items.length){alert('먼저 PDF에 담을 모집단위를 선택해 주세요.');return}
+  const logoUrl=new URL('./assets/gaongil-logo.png',location.href).href;
+  const today=new Date().toLocaleDateString('ko-KR');
+  const cards=items.map((it,idx)=>{
+    const title=esc(udisp(it.u))+' '+esc(D.m[it.m])+(it.d?' <span class="night">야간</span>':'');
+    const meta=esc(D.r[D.u[it.u].r])+' · '+esc(D.g[R[(it.ys[0]??it.ys[1]??it.ys[2])][1]].replace('계열',''))+' · '+esc(D.t[it.t])+' · '+esc(D.s[it.s]);
+    const yearRows=[2,1,0].map(y=>{
+      const i=it.ys[y];
+      if(i==null)return '<tr><td><b>'+Y[y]+'</b></td><td colspan="6" class="muted">자료 없음 (미모집 또는 미공시)</td></tr>';
+      const r=R[i];
+      return '<tr><td><b>'+Y[y]+'</b></td><td>'+reportValue(r[5])+'</td><td>'+reportValue(r[9])+'</td><td>'+reportValue(r[11])+'</td><td>'+reportValue(r[13])+'</td><td>'+reportScore(r,10)+'</td><td>'+reportScore(r,12)+'</td></tr>';
+    }).join('');
+    return '<section class="report-card"><h2>'+(idx+1)+'. '+title+'</h2><p class="meta">'+meta+'</p><table><thead><tr><th>학년도</th><th>정원*</th><th>경쟁률</th><th>합격자평균<br>학생부</th><th>합격자최저<br>학생부</th><th>수능평균</th><th>수능최저</th></tr></thead><tbody>'+yearRows+'</tbody></table></section>';
+  }).join('');
+  const html='<!doctype html><html lang="ko"><head><meta charset="UTF-8"><title>전문대학 간호·보건 상담 보고서</title><style>'+
+    '@page{size:A4;margin:8mm}*{box-sizing:border-box}html,body{min-height:100%}body{margin:0;color:#111827;background:radial-gradient(circle at 12% 8%,rgba(201,151,67,.12),transparent 28%),linear-gradient(180deg,#fff 0%,#f8fafc 100%);font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;font-size:8px;line-height:1.32;-webkit-print-color-adjust:exact;print-color-adjust:exact}'+
+    'body::before{content:"";position:fixed;left:50%;top:50%;width:78%;height:44%;transform:translate(-50%,-50%);background:url("'+logoUrl+'") center/contain no-repeat;opacity:.075;z-index:0;pointer-events:none}'+
+    'body::after{content:"'+WATERMARK_TEXT+'";position:fixed;left:50%;top:54%;transform:translate(-50%,-50%) rotate(-18deg);color:rgba(201,151,67,.09);font-size:28px;font-weight:900;letter-spacing:1px;white-space:nowrap;z-index:0;pointer-events:none}'+
+    'header,section,footer{position:relative;z-index:1}header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;border:1px solid #e8edf4;border-top:3px solid #c99743;border-radius:9px;padding:7px 9px;background:rgba(255,255,255,.92);box-shadow:0 4px 12px rgba(15,23,42,.06)}'+
+    'header img{width:104px;height:34px;object-fit:contain;background:#050505;border-radius:5px}.headline{min-width:0}h1{margin:0;font-size:14px;line-height:1.1;color:#0f172a}h2{margin:8px 0 5px;font-size:10px;line-height:1.2;color:#0f172a}.sub{margin-top:2px;color:#64748b;font-size:7.5px;font-weight:800}.contact-badge{display:inline-flex;align-items:center;justify-content:center;min-height:22px;border:1px solid #c99743;border-radius:999px;padding:3px 8px;background:linear-gradient(180deg,#fff7df,#f1d491);color:#5f3900;font-size:8px;font-weight:900;white-space:nowrap}'+
+    '.info{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:8px 0}.info div{border:1px solid #d8dee8;border-radius:5px;padding:4px 5px;background:rgba(255,255,255,.88)}.info b{display:block;color:#64748b;font-size:6.5px;line-height:1.1}.info span{display:block;margin-top:2px;font-size:8px;font-weight:900;color:#0f172a}.memo{border:1px solid #d8dee8;border-radius:6px;min-height:34px;padding:5px 6px;background:rgba(255,255,255,.88);white-space:pre-wrap;line-height:1.38}'+
+    '.report-card{margin-top:8px;border:1px solid #d8dee8;border-radius:7px;overflow:hidden;background:rgba(255,255,255,.94);break-inside:avoid;page-break-inside:avoid}.report-card h2{margin:0;padding:6px 8px;background:linear-gradient(90deg,#101827,#23324a);color:#fff;font-size:9px}.night{font-size:7px;border:1px solid rgba(255,255,255,.45);border-radius:4px;padding:1px 4px}.meta{margin:0;padding:5px 8px;background:#fff8e8;color:#5f3900;font-size:7.5px;font-weight:900}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border-top:1px solid #e5e7eb;padding:4px 5px;text-align:center;font-size:7.2px;line-height:1.24;word-break:keep-all;overflow-wrap:anywhere}th{background:#edf2f7;color:#26374f;font-weight:900}.score-type{display:inline-block;margin-left:3px;border-radius:4px;background:#eaf2ff;color:#1d4ed8;font-size:6px;font-weight:900;padding:1px 3px}.zero{color:#94a3b8}.muted{color:#64748b}footer{margin-top:10px;border-top:1px solid #d8dee8;padding-top:5px;color:#64748b;font-size:7.2px;display:flex;justify-content:space-between;gap:10px}'+
+    '</style></head><body><header><img src="'+logoUrl+'" alt="가온길 에듀"><div class="headline"><h1>전문대학 간호·보건 상담 보고서</h1><div class="sub">가온길 에듀 · 가온길 입시전략 연구소 · '+today+'</div></div><div class="contact-badge">상담문의 '+CONTACT_PHONE+'</div></header>'+
+    '<section class="info"><div><b>학생이름</b><span>'+reportStudentValue('name')+'</span></div><div><b>학교</b><span>'+reportStudentValue('school')+'</span></div><div><b>내신</b><span>'+reportStudentValue('grade')+'</span></div><div><b>희망학과</b><span>'+reportStudentValue('desiredMajor')+'</span></div><div><b>희망대학</b><span>'+reportStudentValue('desiredUniversity')+'</span></div></section>'+
+    '<section><h2>상담내용</h2><div class="memo">'+(S.student.memo?esc(S.student.memo):'미입력')+'</div></section>'+cards+
+    '<footer><span>본 자료는 상담 참고용입니다.</span><span>'+WATERMARK_TEXT+'</span></footer><script>window.addEventListener("load",()=>setTimeout(()=>window.print(),250));<\/script></body></html>';
+  const report=window.open('','_blank');
+  if(!report){alert('팝업이 차단되었습니다. 팝업 허용 후 다시 눌러 주세요.');return}
+  report.document.open();
+  report.document.write(html);
+  report.document.close();
 }
 
 /* ── 토스트/해시 ── */
@@ -717,6 +861,7 @@ function go(){
     document.getElementById(id).hidden=(S.tab!==t);
   $('#filters').style.display=(S.tab==='ex'||S.tab==='tr')?'':'none';
   updFilterUI();
+  renderConsultPanel();
   if(S.tab==='ex')renderEx();
   else if(S.tab==='tr')renderTr();
   else if(S.tab==='uv')renderUv();
@@ -727,6 +872,23 @@ function onFilterChange(){S.n=400;S.tn=300;go()}
 
 /* ── 이벤트 ── */
 document.addEventListener('click',e=>{
+  const consultAction=e.target.closest('[data-consult-action]');
+  if(consultAction){
+    const action=consultAction.dataset.consultAction;
+    if(action==='print')printConsultReport();
+    if(action==='clear'){S.cmp=[];renderConsultPanel();renderCmp();if(S.tab==='ex')renderEx();updateHash();toast('선택을 비웠습니다');}
+    if(action==='reset'){
+      S.student={name:'',school:'',grade:'',desiredMajor:'',desiredUniversity:'',memo:''};
+      S.cmp=[];renderConsultPanel();renderCmp();if(S.tab==='ex')renderEx();updateHash();toast('학생정보와 선택을 초기화했습니다');
+    }
+    return;
+  }
+  const consultRemove=e.target.closest('[data-consult-remove]');
+  if(consultRemove){
+    S.cmp=S.cmp.filter(k=>k!==consultRemove.dataset.consultRemove);
+    renderConsultPanel();renderCmp();if(S.tab==='ex')renderEx();updateHash();toast('선택에서 제외했습니다');
+    return;
+  }
   const tb=e.target.closest('.tabbtn');
   if(tb){S.tab=tb.dataset.tab;go();return}
   const chip=e.target.closest('.chip');
@@ -742,7 +904,7 @@ document.addEventListener('click',e=>{
   const bu=e.target.closest('.b-uv');
   if(bu){S.univ=+bu.dataset.u;S.tab='uv';go();window.scrollTo({top:0});return}
   const rm=e.target.closest('.rm');
-  if(rm){S.cmp=S.cmp.filter(k=>k!==rm.dataset.x);renderCmp();updateHash();return}
+  if(rm){S.cmp=S.cmp.filter(k=>k!==rm.dataset.x);renderConsultPanel();renderCmp();updateHash();return}
   const th=e.target.closest('#extbl th[data-k]');
   if(th){const k=th.dataset.k;const col=COLS.find(c=>c.k===k);
     if(S.sc===k)S.sd=-S.sd;else{S.sc=k;S.sd=col.d0}
@@ -751,6 +913,12 @@ document.addEventListener('click',e=>{
   if(tr1){toggleDetail(tr1);return}
   const tr2=e.target.closest('#trtbl tbody tr[data-i]');
   if(tr2){const r=R[+tr2.dataset.i];S.univ=r[2];S.tab='uv';go();window.scrollTo({top:0});return}
+});
+document.addEventListener('input',e=>{
+  const field=e.target.closest('[data-student]');
+  if(!field)return;
+  const key=field.dataset.student;
+  if(Object.prototype.hasOwnProperty.call(S.student,key))S.student[key]=field.value;
 });
 $('#q').addEventListener('input',()=>{S.q=$('#q').value;S.n=400;S.tn=300;S.tab==='tr'?renderTr():renderEx();updateHash()});
 $('#grade').addEventListener('input',()=>{const v=parseFloat($('#grade').value);S.grade=(!isNaN(v)&&v>=1&&v<=9)?v:null;if(S.tab==='ex')renderEx();updateHash()});
@@ -766,7 +934,7 @@ $('#only3').addEventListener('change',()=>{S.only3=$('#only3').checked;S.tn=300;
 $('#trsort').addEventListener('change',()=>{S.trs=$('#trsort').value;S.tn=300;renderTr();updateHash()});
 $('#uvsel').addEventListener('change',()=>{S.univ=+$('#uvsel').value;renderUv();updateHash()});
 $('#gotoCmp').addEventListener('click',()=>{S.tab='cmp';go();window.scrollTo({top:0})});
-$('#clrCmp').addEventListener('click',()=>{S.cmp=[];renderCmp();if(S.tab==='ex')renderEx();updateHash()});
+$('#clrCmp').addEventListener('click',()=>{S.cmp=[];renderConsultPanel();renderCmp();if(S.tab==='ex')renderEx();updateHash()});
 window.addEventListener('hashchange',()=>{parseHash();go()});
 
 /* ── 초기화 ── */
