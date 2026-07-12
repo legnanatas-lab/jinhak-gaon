@@ -1124,6 +1124,64 @@ a {
   }
 }
 
+.gaongil-mobile-menu-panel {
+  position: fixed !important;
+  top: calc(var(--home-mobile-menu-top, 78px) + env(safe-area-inset-top, 0px)) !important;
+  left: max(12px, env(safe-area-inset-left, 0px)) !important;
+  right: max(12px, env(safe-area-inset-right, 0px)) !important;
+  z-index: 2147483001 !important;
+  display: none !important;
+  max-height: calc(100dvh - var(--home-mobile-menu-top, 78px) - 24px - env(safe-area-inset-bottom, 0px)) !important;
+  overflow: auto !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+  border: 1px solid rgba(214, 173, 99, .42) !important;
+  border-radius: 14px !important;
+  padding: 8px !important;
+  background: linear-gradient(180deg, rgba(214,173,99,.10), transparent 44%), rgba(7,15,26,.98) !important;
+  box-shadow: 0 28px 80px rgba(0,0,0,.58) !important;
+}
+
+.gaongil-mobile-menu-panel.is-open {
+  display: grid !important;
+}
+
+.gaongil-mobile-menu-panel a {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 48px !important;
+  border-radius: 10px !important;
+  padding: 10px 12px !important;
+  background: transparent !important;
+  color: #edf5ff !important;
+  font-size: 15px !important;
+  font-weight: 850 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -.02em !important;
+  text-decoration: none !important;
+  word-break: keep-all !important;
+}
+
+.gaongil-mobile-menu-panel a:hover,
+.gaongil-mobile-menu-panel a:focus-visible,
+.gaongil-mobile-menu-panel a.active {
+  background: rgba(214,173,99,.16) !important;
+  color: #fff8e8 !important;
+  outline: none !important;
+}
+
+@media (max-width: 900px) {
+  .home-nav .nav-menu[open] .nav-menu-list {
+    display: none !important;
+  }
+}
+
+@supports not (height: 100dvh) {
+  .gaongil-mobile-menu-panel {
+    max-height: calc(100vh - var(--home-mobile-menu-top, 78px) - 24px - env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
 </style>
     <style>
 @font-face {
@@ -1573,32 +1631,88 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     <script>
       (() => {
         const menus = () => Array.from(document.querySelectorAll(".home-nav .nav-menu"));
+        const isMobileMenuMode = () => typeof matchMedia === "function" && matchMedia("(max-width: 900px)").matches;
         const syncHomeMenuPanelTop = () => {
           const bar = document.querySelector(".home-topbar");
           if (!bar) return;
           const bottom = Math.ceil(bar.getBoundingClientRect().bottom + 8);
           document.documentElement.style.setProperty("--home-mobile-menu-top", `${Math.max(64, bottom)}px`);
         };
+        const ensureMobileMenuPanel = () => {
+          let panel = document.querySelector(".gaongil-mobile-menu-panel");
+          if (panel) return panel;
+          panel = document.createElement("div");
+          panel.className = "gaongil-mobile-menu-panel";
+          panel.setAttribute("aria-hidden", "true");
+          panel.addEventListener("click", (event) => {
+            if (event.target.closest("a")) closeMobileMenuPanel();
+          });
+          document.body.appendChild(panel);
+          return panel;
+        };
+        const closeMobileMenuPanel = () => {
+          const panel = document.querySelector(".gaongil-mobile-menu-panel");
+          if (!panel) return;
+          panel.classList.remove("is-open");
+          panel.setAttribute("aria-hidden", "true");
+          panel.removeAttribute("aria-label");
+          panel.innerHTML = "";
+        };
+        const showMobileMenuPanel = (menu) => {
+          if (!isMobileMenuMode()) {
+            closeMobileMenuPanel();
+            return;
+          }
+          const list = menu.querySelector(".nav-menu-list");
+          if (!list) return;
+          syncHomeMenuPanelTop();
+          const panel = ensureMobileMenuPanel();
+          panel.innerHTML = list.innerHTML;
+          panel.setAttribute("aria-label", list.getAttribute("aria-label") || "하위 메뉴");
+          panel.setAttribute("aria-hidden", "false");
+          panel.classList.add("is-open");
+        };
+        const refreshMobileMenuPanel = () => {
+          const openMenu = document.querySelector(".home-nav .nav-menu[open]");
+          if (openMenu && isMobileMenuMode()) {
+            showMobileMenuPanel(openMenu);
+          } else {
+            closeMobileMenuPanel();
+          }
+        };
 
         document.addEventListener("click", (event) => {
+          const mobilePanel = document.querySelector(".gaongil-mobile-menu-panel");
+          if (mobilePanel && mobilePanel.contains(event.target)) return;
           menus().forEach((menu) => {
-            if (menu.open && !menu.contains(event.target)) menu.open = false;
+            if (menu.open && !menu.contains(event.target)) {
+              menu.open = false;
+              closeMobileMenuPanel();
+            }
           });
         });
 
         menus().forEach((menu) => {
           menu.addEventListener("toggle", () => {
-            if (!menu.open) return;
+            if (!menu.open) {
+              refreshMobileMenuPanel();
+              return;
+            }
             syncHomeMenuPanelTop();
             menus().forEach((other) => {
               if (other !== menu) other.open = false;
             });
+            showMobileMenuPanel(menu);
           });
         });
 
         syncHomeMenuPanelTop();
         window.addEventListener("resize", syncHomeMenuPanelTop, { passive: true });
-        window.addEventListener("orientationchange", syncHomeMenuPanelTop);
+        window.addEventListener("resize", refreshMobileMenuPanel, { passive: true });
+        window.addEventListener("orientationchange", () => {
+          syncHomeMenuPanelTop();
+          refreshMobileMenuPanel();
+        });
         window.addEventListener("scroll", syncHomeMenuPanelTop, { passive: true });
       })();
     </script>

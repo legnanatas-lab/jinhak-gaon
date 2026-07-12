@@ -46,7 +46,7 @@
     .home-fab:hover .fab-label{opacity:1}
     @media(max-width:480px){.home-link{top:12px;right:12px;height:30px;padding:0 11px;font-size:11.5px}.home-fab{width:50px;height:50px;right:14px;bottom:calc(18px + var(--safe-bottom))}.home-fab svg{width:20px;height:20px}}
   </style>
-  <link rel="stylesheet" href="./portal.css?v=20260712-mobile-menu" />
+  <link rel="stylesheet" href="./portal.css?v=20260712-mobile-overlay" />
   <style>
     body.gaongil-linked-page[data-gaongil-page="gyogwa70cut"] {
       color: #edf5ff;
@@ -442,7 +442,7 @@
     function bindEvents(){ $('gradeInput').addEventListener('input',()=>{state.shown=30;update();}); document.querySelectorAll('[data-grade]').forEach(btn=>btn.addEventListener('click',()=>{$('gradeInput').value=Number(btn.dataset.grade).toFixed(2);state.shown=30;update();})); $('keywordInput').addEventListener('input',()=>{state.shown=30;state.keyword=$('keywordInput').value.trim();update();}); $('clearKeywordBtn').addEventListener('click',()=>{state.keyword='';$('keywordInput').value='';state.shown=30;update();}); $('excludeSpecial').addEventListener('change',e=>{state.excludeSpecial=e.target.checked;state.shown=30;update();}); $('hideArts').addEventListener('change',e=>{state.hideArts=e.target.checked;state.shown=30;update();}); $('onlyResultLink').addEventListener('change',e=>{state.onlyResultLink=e.target.checked;state.shown=30;update();}); $('sortSelect').addEventListener('change',e=>{state.sort=e.target.value;state.shown=30;update();}); $('loadMoreBtn').addEventListener('click',()=>{state.shown+=30;update();}); $('copyListBtn').addEventListener('click',copyList); $('jumpResultsBtn').addEventListener('click',()=>$('resultsPanel').scrollIntoView({behavior:'smooth',block:'start'})); }
     document.addEventListener('DOMContentLoaded',()=>{ restoreState(); renderMeta(); $('gradeInput').value=Number(state.grade||3).toFixed(2); $('keywordInput').value=state.keyword||''; $('excludeSpecial').checked=Boolean(state.excludeSpecial); $('hideArts').checked=Boolean(state.hideArts); $('onlyResultLink').checked=Boolean(state.onlyResultLink); $('sortSelect').value=state.sort||'close'; bindEvents(); update(); });
   </script>
-  <script src="./portal-menu.js?v=20260712-mobile-menu"></script>
+  <script src="./portal-menu.js?v=20260712-mobile-overlay"></script>
 
     <script src="assets/js/auth.js?v=20260710-9980b"></script>
     <script>

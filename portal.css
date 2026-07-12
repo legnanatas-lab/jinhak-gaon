@@ -3643,3 +3643,63 @@ body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="susi"][data-gaon
     }
   }
 }
+
+/* Native phone browser fallback: render dropdowns in a body-level layer instead
+   of inside the horizontally scrolling sticky menu row. */
+.gaongil-mobile-menu-panel {
+  position: fixed !important;
+  top: calc(var(--ga-mobile-menu-top, 78px) + env(safe-area-inset-top, 0px)) !important;
+  left: max(12px, env(safe-area-inset-left, 0px)) !important;
+  right: max(12px, env(safe-area-inset-right, 0px)) !important;
+  z-index: 2147483001 !important;
+  display: none !important;
+  max-height: calc(100dvh - var(--ga-mobile-menu-top, 78px) - 24px - env(safe-area-inset-bottom, 0px)) !important;
+  overflow: auto !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+  border: 1px solid rgba(214, 173, 99, .42) !important;
+  border-radius: 14px !important;
+  padding: 8px !important;
+  background: linear-gradient(180deg, rgba(214,173,99,.10), transparent 44%), rgba(7,15,26,.98) !important;
+  box-shadow: 0 28px 80px rgba(0,0,0,.58) !important;
+}
+
+.gaongil-mobile-menu-panel.is-open {
+  display: grid !important;
+}
+
+.gaongil-mobile-menu-panel a {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 48px !important;
+  border-radius: 10px !important;
+  padding: 10px 12px !important;
+  background: transparent !important;
+  color: #edf5ff !important;
+  font-size: 15px !important;
+  font-weight: 850 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -.02em !important;
+  text-decoration: none !important;
+  word-break: keep-all !important;
+}
+
+.gaongil-mobile-menu-panel a:hover,
+.gaongil-mobile-menu-panel a:focus-visible,
+.gaongil-mobile-menu-panel a.active {
+  background: rgba(214,173,99,.16) !important;
+  color: #fff8e8 !important;
+  outline: none !important;
+}
+
+@media (max-width: 900px) {
+  body.gaongil-linked-page .gaongil-resource-menu[open] .gaongil-resource-list {
+    display: none !important;
+  }
+}
+
+@supports not (height: 100dvh) {
+  .gaongil-mobile-menu-panel {
+    max-height: calc(100vh - var(--ga-mobile-menu-top, 78px) - 24px - env(safe-area-inset-bottom, 0px)) !important;
+  }
+}

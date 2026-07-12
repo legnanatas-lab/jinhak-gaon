@@ -1265,6 +1265,56 @@
     document.documentElement.style.setProperty("--ga-mobile-menu-top", `${Math.max(64, bottom)}px`);
   }
 
+  function isMobileMenuMode() {
+    return typeof matchMedia === "function" && matchMedia("(max-width: 900px)").matches;
+  }
+
+  function ensureMobileMenuPanel() {
+    let panel = document.querySelector(".gaongil-mobile-menu-panel");
+    if (panel) return panel;
+    panel = document.createElement("div");
+    panel.className = "gaongil-mobile-menu-panel";
+    panel.setAttribute("aria-hidden", "true");
+    panel.addEventListener("click", (event) => {
+      if (event.target.closest("a")) closeMobileMenuPanel();
+    });
+    document.body.appendChild(panel);
+    return panel;
+  }
+
+  function closeMobileMenuPanel() {
+    const panel = document.querySelector(".gaongil-mobile-menu-panel");
+    if (!panel) return;
+    panel.classList.remove("is-open");
+    panel.setAttribute("aria-hidden", "true");
+    panel.removeAttribute("aria-label");
+    panel.innerHTML = "";
+  }
+
+  function showMobileMenuPanel(menu) {
+    if (!isMobileMenuMode()) {
+      closeMobileMenuPanel();
+      return;
+    }
+    const list = menu.querySelector(".gaongil-resource-list");
+    if (!list) return;
+    syncMobileMenuPanelTop();
+    const panel = ensureMobileMenuPanel();
+    panel.innerHTML = list.innerHTML;
+    panel.setAttribute("aria-label", list.getAttribute("aria-label") || "하위 메뉴");
+    panel.setAttribute("aria-hidden", "false");
+    panel.classList.add("is-open");
+  }
+
+  function refreshMobileMenuPanel() {
+    const openMenu = document.querySelector(".gaongil-resource-menu[open]");
+    if (openMenu && isMobileMenuMode()) {
+      showMobileMenuPanel(openMenu);
+    } else {
+      closeMobileMenuPanel();
+    }
+  }
+
   function init() {
     const current = currentKey();
     const currentGroupKey = resolveCurrentGroupKey(current);
@@ -1302,23 +1352,36 @@
     syncMobileMenuPanelTop();
 
     document.addEventListener("click", (event) => {
+      const mobilePanel = document.querySelector(".gaongil-mobile-menu-panel");
+      if (mobilePanel && mobilePanel.contains(event.target)) return;
       document.querySelectorAll(".gaongil-resource-menu").forEach((menu) => {
-        if (menu.open && !menu.contains(event.target)) menu.open = false;
+        if (menu.open && !menu.contains(event.target)) {
+          menu.open = false;
+          closeMobileMenuPanel();
+        }
       });
     });
 
     document.querySelectorAll(".gaongil-resource-menu").forEach((menu) => {
       menu.addEventListener("toggle", () => {
-        if (!menu.open) return;
+        if (!menu.open) {
+          refreshMobileMenuPanel();
+          return;
+        }
         syncMobileMenuPanelTop();
         document.querySelectorAll(".gaongil-resource-menu").forEach((other) => {
           if (other !== menu) other.open = false;
         });
+        showMobileMenuPanel(menu);
       });
     });
 
     window.addEventListener("resize", syncMobileMenuPanelTop, { passive: true });
-    window.addEventListener("orientationchange", syncMobileMenuPanelTop);
+    window.addEventListener("resize", refreshMobileMenuPanel, { passive: true });
+    window.addEventListener("orientationchange", () => {
+      syncMobileMenuPanelTop();
+      refreshMobileMenuPanel();
+    });
     window.addEventListener("scroll", syncMobileMenuPanelTop, { passive: true });
   }
 
