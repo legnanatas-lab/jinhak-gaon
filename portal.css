@@ -2719,7 +2719,7 @@ body.gaongil-linked-page.gaongil-linked-page[data-gaongil-page="gyogwa"] .view.a
     left: 8%;
     z-index: 0;
     height: 280px;
-    background: url("./assets/gaongil-logo.png") center / contain no-repeat;
+    background: url("./assets/gaongil-logo.png?v=20260712-logo") center / contain no-repeat;
     opacity: 0.08;
     pointer-events: none;
     -webkit-print-color-adjust: exact;

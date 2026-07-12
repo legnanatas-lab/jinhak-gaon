@@ -1235,7 +1235,7 @@ tbody tr:hover td {
     left: 8%;
     z-index: 0;
     height: 280px;
-    background: url("./assets/gaongil-logo.png") center / contain no-repeat;
+    background: url("./assets/gaongil-logo.png?v=20260712-logo") center / contain no-repeat;
     opacity: 0.08;
     pointer-events: none;
     -webkit-print-color-adjust: exact;
@@ -2010,7 +2010,7 @@ body[data-gaongil-page="susi"] .app-shell::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: url("./assets/gaongil-logo.png") center 48% / min(560px, 70vw) auto no-repeat;
+  background: url("./assets/gaongil-logo.png?v=20260712-logo") center 48% / min(560px, 70vw) auto no-repeat;
   opacity: 0.032;
   pointer-events: none;
   z-index: 0;

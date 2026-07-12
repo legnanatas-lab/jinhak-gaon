@@ -408,7 +408,7 @@ function mount() {
       <div class="topbar-inner">
         <div class="brand">
           <div class="brand-mark logo-mark">
-            <img src="../assets/gaongil-logo.png" alt="가온길 에듀 입시전략연구소" />
+            <img src="../assets/gaongil-logo.png?v=20260712-logo" alt="가온길 에듀 입시전략연구소" />
           </div>
           <div>
             <h1>정시결과</h1>
@@ -462,7 +462,7 @@ function mount() {
         </div>
         <footer class="site-footer">
           <div class="footer-brand gaongil-footer-brand">
-            <img src="../assets/gaongil-logo.png" alt="가온길 에듀" />
+            <img src="../assets/gaongil-logo.png?v=20260712-logo" alt="가온길 에듀" />
             <span>
               <strong>가온길 에듀</strong>
               <em>가온길 에듀 입시전략연구소</em>
@@ -755,7 +755,7 @@ function printSavedReport() {
     alert("먼저 표 왼쪽 선택 칸에서 모집단위를 저장해 주세요.");
     return;
   }
-  const logoUrl = new URL("../assets/gaongil-logo.png", location.href).href;
+  const logoUrl = new URL("../assets/gaongil-logo.png?v=20260712-logo", location.href).href;
   const today = new Date().toLocaleDateString("ko-KR");
   const contactPhone = "010-2370-7602";
   const rows = saved.map((record, index) => `

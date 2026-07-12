@@ -1319,7 +1319,7 @@
     const current = currentKey();
     const currentGroupKey = resolveCurrentGroupKey(current);
     const base = rootPrefix();
-    const logoSrc = base + "assets/gaongil-logo.png";
+    const logoSrc = base + "assets/gaongil-logo.png?v=20260712-logo";
     document.body.classList.add("gaongil-linked-page");
     if (current && !document.body.dataset.gaongilPage) {
       document.body.dataset.gaongilPage = current;

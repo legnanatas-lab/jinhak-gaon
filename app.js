@@ -357,7 +357,7 @@ function mount() {
       <div class="topbar-inner">
         <div class="brand">
           <div class="brand-mark logo-mark">
-            <img src="./assets/gaongil-logo.png" alt="가온길 에듀 입시전략연구소" />
+            <img src="./assets/gaongil-logo.png?v=20260712-logo" alt="가온길 에듀 입시전략연구소" />
           </div>
           <div>
             <h1>수시결과 + 2027 모집정보</h1>
@@ -411,7 +411,7 @@ function mount() {
         </div>
         <footer class="site-footer">
           <div class="footer-brand gaongil-footer-brand">
-            <img src="./assets/gaongil-logo.png" alt="가온길 에듀" />
+            <img src="./assets/gaongil-logo.png?v=20260712-logo" alt="가온길 에듀" />
             <span>
               <strong>가온길 에듀</strong>
               <em>가온길 에듀 입시전략연구소</em>
@@ -798,7 +798,8 @@ function printSavedReport() {
     alert("먼저 표 왼쪽 선택 칸에서 모집단위를 저장해 주세요.");
     return;
   }
-  const logoUrl = new URL("./assets/gaongil-logo.png", location.href).href;
+  const logoUrl = new URL("./assets/gaongil-logo.png?v=20260712-logo", location.href).href;
+  const watermarkUrl = new URL("./assets/gaongil-watermark.png?v=20260712-logo", location.href).href;
   const today = new Date().toLocaleDateString("ko-KR");
   const contactPhone = "010-2370-7602";
   const rows = saved.map((record, index) => `
@@ -841,25 +842,11 @@ function printSavedReport() {
             position: fixed;
             left: 50%;
             top: 50%;
-            width: 78%;
-            height: 44%;
+            width: 62%;
+            height: 72%;
             transform: translate(-50%, -50%);
-            background: url("${logoUrl}") center / contain no-repeat;
-            opacity: .075;
-            z-index: 0;
-            pointer-events: none;
-          }
-          body::after {
-            content: "가온길 입시전략 연구소 상담문의 ${contactPhone}";
-            position: fixed;
-            left: 50%;
-            top: 54%;
-            transform: translate(-50%, -50%) rotate(-18deg);
-            color: rgba(201, 151, 67, .09);
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            white-space: nowrap;
+            background: url("${watermarkUrl}") center / contain no-repeat;
+            opacity: .085;
             z-index: 0;
             pointer-events: none;
           }
