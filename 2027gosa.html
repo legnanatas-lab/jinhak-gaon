@@ -222,7 +222,7 @@ footer .wrap{padding:14px 16px;font-size:12px;color:var(--tx2);line-height:1.8}
 }
 </style>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="./portal.css?v=20260712-mobile-overlay" />
+  <link rel="stylesheet" href="./portal.css?v=20260712-gosa-detail" />
 </head>
 <body class="gaongil-linked-page" data-gaongil-page="gosa2027">
 <header class="hd">
@@ -276,7 +276,7 @@ footer .wrap{padding:14px 16px;font-size:12px;color:var(--tx2);line-height:1.8}
       <option value="pre">수능 전</option>
       <option value="post">수능 후</option>
     </select>
-    <button class="chip flag" data-act="weekend">주말·휴일</button>
+    <button class="chip flag" data-act="weekend" title="토·일요일 또는 공휴일에 걸친 일정만 보기" aria-pressed="false">주말·휴일만</button>
     <input id="fQ" type="search" placeholder="대학·전형·모집단위 검색" style="width:185px">
     <button data-act="reset" style="font-size:12px">초기화</button>
     <span class="fcnt" id="fCnt"></span>
@@ -294,11 +294,12 @@ footer .wrap{padding:14px 16px;font-size:12px;color:var(--tx2);line-height:1.8}
         </div>
         <div class="grid" id="calGrid"></div>
         <div class="legend">
-          <span><span class="sw" style="background:var(--h1)"></span><span class="sw" style="background:var(--h2)"></span><span class="sw" style="background:var(--h3)"></span> 진할수록 일정 많음</span>
+          <span><span class="sw heat1"></span><span class="sw heat2"></span><span class="sw heat3"></span> 칸이 진할수록 일정 많음</span>
           <span style="color:var(--t0);font-weight:600">논술</span>
           <span style="color:var(--t1);font-weight:600">면접</span>
           <span style="color:var(--t2);font-weight:600">실기</span>
-          <span style="color:var(--red)">빨강 날짜=휴일</span>
+          <span style="color:var(--red);font-weight:600">붉은 표시=일요일·공휴일</span>
+          <span style="color:var(--acc);font-weight:600">파란 표시=토요일</span>
           <span>날짜 클릭 → 상세</span>
         </div>
       </div>
@@ -517,11 +518,13 @@ function renderFilterUI() {
     $("#tn" + t).textContent = tc[t];
     document.querySelector(`.chip.t${t}`).classList.toggle("on", S.types.has(t));
   }
-  document.querySelector(".chip.flag").classList.toggle("on", S.weekend);
+  const weekendChip = document.querySelector(".chip.flag");
+  weekendChip.classList.toggle("on", S.weekend);
+  weekendChip.setAttribute("aria-pressed", S.weekend ? "true" : "false");
   $("#regBtn").textContent = (S.regions.size ? [...S.regions].join("·") : "지역 전체") + " ▾";
   document.querySelectorAll("#regChecks input").forEach(c => c.checked = S.regions.has(c.dataset.reg));
   const us = new Set(F.map(e => UNIS[e.u].short));
-  $("#fCnt").innerHTML = `일정 <b>${F.length}</b>건 · ${us.size}개교`;
+  $("#fCnt").innerHTML = `일정 <b>${F.length}</b>건 · ${us.size}개교${S.weekend ? ' · <span class="filter-note">주말·휴일 일정만 표시</span>' : ""}`;
 }
 function resetFilters() {
   S.types = new Set([0, 1, 2]); S.cat = ""; S.regions = new Set(); S.csat = ""; S.weekend = false; S.q = "";
@@ -584,8 +587,9 @@ function renderCal() {
     const tCnt = [0, 0, 0];
     ids.forEach(i => tCnt[E[i].t]++);
     const w = dow(d);
-    const cls = ["cell", w === 0 ? "sun" : "", w === 6 ? "sat" : "", isHol(d) ? "hol" : "", S.selDay === d ? "sel" : ""].join(" ");
-    const heat = tot >= 40 ? "h3" : tot >= 15 ? "h2" : tot >= 1 ? "h1" : "";
+    const heat = tot >= 20 ? "h3" : tot >= 8 ? "h2" : tot >= 1 ? "h1" : "";
+    const heatCell = heat ? "heat" + heat.slice(1) : "";
+    const cls = ["cell", heatCell, w === 0 ? "sun" : "", w === 6 ? "sat" : "", isHol(d) ? "hol" : "", S.selDay === d ? "sel" : ""].join(" ");
     const tys = [0, 1, 2].filter(t => tCnt[t]).map(t => `<span class="c${t}">${TY[t]} ${tCnt[t]}</span>`).join("");
     html += `<div class="${cls}" data-act="day" data-d="${d}" ${d === SUN ? 'style="border-color:var(--red)"' : ""}>
       <span class="dn">${d % 100}</span>${isHol(d) ? `<span class="hnm">${HOL[d]}</span>` : ""}
