@@ -13,9 +13,7 @@
   const ACCESS_KEY = "gaongil_access_v1";
   const NOTICE_KEY = "gaongil_notice_settings_v1";
   const NOTICE_DISMISS_KEY = "gaongil_notice_dismiss_v1";
-  const DEFAULT_ADMIN_ID = "admin";
-  const DEFAULT_ADMIN_PASSWORD = "9980";
-  const LEGACY_ADMIN_PASSWORD = "0000";
+  const DOWNLOAD_DETERRENT_MESSAGE = "자료 보호를 위해 저장/복사/인쇄 기능이 제한되어 있습니다. 필요한 자료는 관리자에게 문의해 주세요.";
   let attemptedFirebaseSupportLoad = false;
   let remoteSiteConfigCache = null;
   let remoteUsersCache = null;
@@ -563,23 +561,7 @@
 
   async function ensureSeedUsers() {
     await refreshFirebaseCaches();
-    let users = loadUsers();
-    const defaultHash = await sha256(DEFAULT_ADMIN_PASSWORD);
-    if (!users) {
-      users = [
-        { id: DEFAULT_ADMIN_ID, name: "관리자", role: "admin", pwHash: defaultHash, createdAt: Date.now() },
-      ];
-      saveUsers(users);
-    } else {
-      const admin = users.find((u) => u.id === DEFAULT_ADMIN_ID);
-      if (admin) {
-        const legacyHash = await sha256(LEGACY_ADMIN_PASSWORD);
-        if (admin.pwHash === legacyHash) {
-          admin.pwHash = defaultHash;
-          saveUsers(users);
-        }
-      }
-    }
+    const users = loadUsers() || [];
     return Array.isArray(remoteUsersCache) ? remoteUsersCache : users;
   }
 
@@ -610,8 +592,11 @@
 
   async function removeUser(id) {
     let users = getUsers();
-    if (id === "admin") throw new Error("최고 관리자 계정(admin)은 삭제할 수 없습니다.");
-    users = users.filter((u) => u.id !== id);
+    const normalizedId = normalizeId(id);
+    const target = users.find((u) => u.id === normalizedId);
+    const adminCount = users.filter((u) => u.role === "admin").length;
+    if (target?.role === "admin" && adminCount <= 1) throw new Error("마지막 관리자 계정은 삭제할 수 없습니다.");
+    users = users.filter((u) => u.id !== normalizedId);
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.removeUserProfile) {
       await firebaseAdapter().removeUserProfile(id);
@@ -683,9 +668,6 @@
         }
         console.warn("[GaongilFirebase] Firebase 로그인 실패 후 로컬 로그인으로 전환합니다.", err);
       }
-    }
-    if (normalizedId === DEFAULT_ADMIN_ID && password === LEGACY_ADMIN_PASSWORD) {
-      throw new Error("기본 관리자 비밀번호가 변경되었습니다. admin / 9980으로 로그인해 주세요.");
     }
     const u = findUser(normalizedId);
     if (!u) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
@@ -759,10 +741,76 @@
     return session;
   }
 
+  function isTextEditingTarget(target) {
+    const el = target && target.closest
+      ? target.closest("input, textarea, select, [contenteditable='true'], [contenteditable='']")
+      : null;
+    return !!el;
+  }
+
+  function showDownloadDeterrentMessage(options = {}) {
+    if (options.silent) return;
+    const root = document.documentElement;
+    const now = Date.now();
+    const lastShownAt = Number(root.dataset.gaongilDeterrentLast || 0);
+    if (now - lastShownAt < 1200) return;
+    root.dataset.gaongilDeterrentLast = String(now);
+    alert(DOWNLOAD_DETERRENT_MESSAGE);
+  }
+
+  function installDownloadDeterrents(options = {}) {
+    if (!document || document.documentElement.dataset.gaongilDownloadDeterrent === "on") return;
+    document.documentElement.dataset.gaongilDownloadDeterrent = "on";
+
+    const block = (event, opts = {}) => {
+      if (isTextEditingTarget(event.target)) return;
+      event.preventDefault();
+      if (event.stopPropagation) event.stopPropagation();
+      showDownloadDeterrentMessage({ silent: opts.silent || options.silent });
+    };
+
+    document.addEventListener("contextmenu", (event) => block(event), true);
+    document.addEventListener("copy", (event) => block(event), true);
+    document.addEventListener("cut", (event) => block(event), true);
+    document.addEventListener("dragstart", (event) => block(event, { silent: true }), true);
+    document.addEventListener("keydown", (event) => {
+      const key = String(event.key || "").toLowerCase();
+      const hasModifier = event.ctrlKey || event.metaKey;
+      const blocked =
+        key === "f12" ||
+        (hasModifier && ["s", "p", "u", "i", "j"].includes(key));
+      if (!blocked || isTextEditingTarget(event.target)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      showDownloadDeterrentMessage();
+    }, true);
+
+    const style = document.createElement("style");
+    style.dataset.gaongilDownloadDeterrent = "on";
+    style.textContent = `
+      @media print {
+        body > * { display: none !important; }
+        body::before {
+          content: "가온길 에듀 자료 보호 화면입니다. 출력은 관리자 승인 후 이용해 주세요.";
+          display: block !important;
+          margin: 18mm;
+          padding: 18mm;
+          border: 2px solid #d6ad63;
+          border-radius: 12px;
+          color: #071221;
+          font: 700 18px/1.6 system-ui, sans-serif;
+          white-space: pre-wrap;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function requirePageAccess(redirectTo) {
     const session = getSession();
     const key = currentPageKey();
     if (canAccessPage(key, session)) {
+      installDownloadDeterrents({ silent: true });
       installAccessLinkGuards({ login: redirectTo || "login.html" });
       return session;
     }
@@ -882,11 +930,16 @@
     normalizePageKey,
     canAccessPage,
     installAccessLinkGuards,
+    installDownloadDeterrents,
   };
 
   function mountGlobalLoginMenus() {
     mountLoginMenu("loginMenuLink");
     mountLoginMenu("gaongilPortalLogin");
+    const pageKey = currentPageKey();
+    if (!["login.html", "admin.html"].includes(pageKey)) {
+      installDownloadDeterrents({ silent: true });
+    }
   }
 
   if (document.readyState === "loading") {
