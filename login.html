@@ -1175,7 +1175,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       <div class="auth-card">
         <div class="auth-logo"><img src="./assets/favicon.svg" alt="가온길 에듀" /></div>
         <h1>가온길 에듀 로그인</h1>
-        <p class="sub">가온길 에듀 입시전략연구소 자료실</p>
+        <p class="sub">가온길 에듀 입시전략연구소 자료실 · 관리자는 Google 계정으로 로그인</p>
 
         <div class="form-msg" id="msg"></div>
 
@@ -1223,7 +1223,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     </div>
 
     <script src="./assets/js/site-data.js?v=20260711-config"></script>
-    <script src="./assets/js/auth.js?v=20260713-firebase-google"></script>
+    <script src="./assets/js/auth.js?v=20260714-google-admin"></script>
     <script>
       const params = new URLSearchParams(location.search);
 
@@ -1279,7 +1279,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       (async () => {
         clearCredentialAutofill();
         document.getElementById("googleLoginBtn")?.classList.add("show");
-        await GaongilAuth.ensureSeedUsers();
+        await GaongilAuth.ensureSeedUsers({ fast: true });
         if (GaongilAuth.isFirebaseEnabled?.()) {
           const resetPw = document.getElementById("resetPw");
           if (resetPw) {
@@ -1297,6 +1297,9 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       const form = document.getElementById("loginForm");
       const msg = document.getElementById("msg");
 
+        if (/auth\/(invalid-credential|user-not-found|wrong-password)|invalid-credential|user-not-found|wrong-password/i.test(raw)) {
+          return "아이디/비밀번호 로그인은 Firebase Authentication에 이메일·비밀번호 제공업체로 등록된 계정만 사용할 수 있습니다. Google 계정은 아래 Google 로그인 버튼을 이용해 주세요.";
+        }
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         msg.classList.remove("show");
@@ -1311,7 +1314,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         }
       });
 
-      document.getElementById("googleLoginBtn").addEventListener("click", async () => {
+      googleLoginBtn.addEventListener("click", async () => {
         msg.classList.remove("show");
         try {
           await GaongilAuth.loginWithGoogle();
@@ -1320,29 +1323,50 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
           msg.classList.add("show");
         }
+      const passwordLoginBtn = form.querySelector('button[type="submit"]');
+      const googleLoginBtn = document.getElementById("googleLoginBtn");
+      [passwordLoginBtn, googleLoginBtn].forEach((button) => {
+        if (button) button.dataset.defaultLabel = button.textContent.trim();
+      });
+
+      function setLoginBusy(busy, activeButton, label) {
+        [passwordLoginBtn, googleLoginBtn].forEach((button) => {
+          if (!button) return;
+          button.disabled = busy;
+          button.textContent = busy && button === activeButton
+            ? label
+            : button.dataset.defaultLabel;
+        });
+      }
       });
 
       document.getElementById("resetToggle").addEventListener("click", () => {
         document.getElementById("resetBox").classList.toggle("show");
       });
 
+        setLoginBusy(true, passwordLoginBtn, "로그인 중...");
       document.getElementById("resetForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         const resetMsg = document.getElementById("resetMsg");
         resetMsg.className = "form-msg";
         const id = document.getElementById("resetId").value.trim();
         const email = document.getElementById("resetEmail").value.trim();
+        } finally {
+          setLoginBusy(false);
         const pw = document.getElementById("resetPw").value;
         try {
           await GaongilAuth.resetPasswordByEmail(id, email, pw);
           resetMsg.textContent = GaongilAuth.isFirebaseEnabled?.()
             ? "등록된 이메일로 비밀번호 재설정 메일을 보냈습니다."
+        setLoginBusy(true, googleLoginBtn, "Google 로그인 중...");
             : "비밀번호가 변경되었습니다. 새 비밀번호로 로그인해 주세요.";
           resetMsg.className = "form-msg show";
           e.target.reset();
         } catch (err) {
           resetMsg.textContent = formatLoginError(err, "비밀번호 재설정에 실패했습니다.");
           resetMsg.className = "form-msg show";
+        } finally {
+          setLoginBusy(false);
         }
       });
     </script>

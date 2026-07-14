@@ -59,6 +59,22 @@
     return firestore.doc(db, ...parts, String(key));
   }
 
+  function normalizedEmail(value) {
+    return String(value || "").trim().toLowerCase();
+  }
+
+  function adminEmails() {
+    const aliases = config().loginAliases || {};
+    return [
+      aliases.admin,
+      ...(Array.isArray(config().adminEmails) ? config().adminEmails : []),
+    ].map(normalizedEmail).filter(Boolean);
+  }
+
+  function isConfiguredAdminEmail(email) {
+    return adminEmails().includes(normalizedEmail(email));
+  }
+
   async function init() {
     if (!isEnabled()) throw new Error("Firebase 설정이 꺼져 있거나 firebaseConfig가 비어 있습니다.");
     if (initPromise) return initPromise;
@@ -84,23 +100,25 @@
     const raw = String(loginId || "").trim();
     if (!raw) return "";
     const aliases = config().loginAliases || {};
-    if (aliases[raw]) return String(aliases[raw]).trim();
-    if (raw.includes("@")) return raw;
+    const aliasKey = Object.keys(aliases).find((key) => key.toLowerCase() === raw.toLowerCase());
+    if (aliasKey && aliases[aliasKey]) return normalizedEmail(aliases[aliasKey]);
+    if (raw.includes("@")) return normalizedEmail(raw);
     const domain = String(config().loginDomain || "").trim().replace(/^@/, "");
-    if (domain) return `${raw}@${domain}`;
-    throw new Error("Firebase 로그인은 이메일이 필요합니다. admin 아이디를 쓰려면 firebase-config.js의 loginAliases.admin에 관리자 이메일을 넣어 주세요.");
+    if (domain) return `${raw}@${domain}`.toLowerCase();
+    throw new Error("Firebase 로그인에는 이메일 주소가 필요합니다.");
   }
 
-  function sessionFromProfile(user, profile, loginId) {
-    const email = user?.email || "";
-    const configuredAdminEmail = String((config().loginAliases || {}).admin || "").trim().toLowerCase();
-    const isAdminAlias = configuredAdminEmail && email.toLowerCase() === configuredAdminEmail;
+  function sessionFromProfile(user, profile, loginId, signInProvider) {
+    const email = normalizedEmail(user?.email);
+    const isGoogleAdmin = isConfiguredAdminEmail(email) && signInProvider === "google.com";
     return {
-      id: String(profile?.id || (isAdminAlias ? "admin" : loginId || email || user.uid)).trim(),
-      name: String(profile?.name || (isAdminAlias ? "관리자" : email || "사용자")).trim(),
-      role: profile?.role || (isAdminAlias ? "admin" : "staff"),
+      // 관리자 권한은 지정된 이메일이 Google로 인증된 경우에만 부여합니다.
+      id: isGoogleAdmin ? "admin" : String(profile?.id || loginId || email || user.uid).trim(),
+      name: isGoogleAdmin ? "관리자" : String(profile?.name || email || "사용자").trim(),
+      role: isGoogleAdmin ? "admin" : "staff",
       email,
       uid: user.uid,
+      authProvider: signInProvider || "",
       firebase: true,
       ts: Date.now(),
     };
@@ -134,7 +152,7 @@
     const email = resolveLoginEmail(loginId);
     const credential = await modules.auth.signInWithEmailAndPassword(auth, email, password);
     const profile = await readProfile(credential.user, loginId);
-    return sessionFromProfile(credential.user, profile, loginId);
+    return sessionFromProfile(credential.user, profile, loginId, "password");
   }
 
   async function loginWithGoogle() {
@@ -144,7 +162,7 @@
     const credential = await modules.auth.signInWithPopup(auth, provider);
     const loginId = credential.user.email || credential.user.uid;
     const profile = await readProfile(credential.user, loginId);
-    return sessionFromProfile(credential.user, profile, profile?.id || loginId);
+    return sessionFromProfile(credential.user, profile, profile?.id || loginId, "google.com");
   }
 
   async function logout() {
@@ -163,24 +181,29 @@
     await init();
     return new Promise((resolve) => {
       let settled = false;
+      let unsubscribe = () => {};
       const done = (user) => {
         if (settled) return;
         settled = true;
+        unsubscribe();
         resolve(user || null);
       };
-      const unsubscribe = modules.auth.onAuthStateChanged(auth, (user) => {
-        unsubscribe();
-        done(user);
-      }, () => done(null));
-      setTimeout(() => done(auth.currentUser || null), 2200);
+      unsubscribe = modules.auth.onAuthStateChanged(auth, done, () => done(null));
+      setTimeout(() => done(auth.currentUser || null), 900);
     });
+  }
+
+  async function currentSignInProvider(user) {
+    const token = await user.getIdTokenResult().catch(() => null);
+    return String(token?.claims?.firebase?.sign_in_provider || "").trim();
   }
 
   async function getCurrentSession() {
     const user = await authStateOnce();
     if (!user) return null;
     const profile = await readProfile(user, user.email);
-    return sessionFromProfile(user, profile, profile?.id || user.email);
+    const signInProvider = await currentSignInProvider(user);
+    return sessionFromProfile(user, profile, profile?.id || user.email, signInProvider);
   }
 
   async function getSiteConfig() {

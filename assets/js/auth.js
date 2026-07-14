@@ -559,8 +559,13 @@
     return escapeHtml(value).replace(/`/g, "&#096;");
   }
 
-  async function ensureSeedUsers() {
-    await refreshFirebaseCaches();
+  async function ensureSeedUsers(options = {}) {
+    if (options.fast === true && firebaseEnabled()) {
+      const adapter = firebaseAdapter();
+      if (adapter?.init) await adapter.init().catch(() => null);
+    } else {
+      await refreshFirebaseCaches();
+    }
     const users = loadUsers() || [];
     return Array.isArray(remoteUsersCache) ? remoteUsersCache : users;
   }
@@ -654,13 +659,11 @@
   }
 
   async function login(id, password) {
-    await ensureSeedUsers();
     const normalizedId = normalizeId(id);
     if (firebaseEnabled()) {
       try {
         const fbSession = await firebaseAdapter().login(normalizedId, password);
         sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
-        await refreshFirebaseCaches({ force: true });
         return fbSession;
       } catch (err) {
         if (firebaseConfig().allowLocalFallback !== true) {
@@ -669,6 +672,7 @@
         console.warn("[GaongilFirebase] Firebase 로그인 실패 후 로컬 로그인으로 전환합니다.", err);
       }
     }
+    await ensureSeedUsers();
     const u = findUser(normalizedId);
     if (!u) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
     const hash = await sha256(password);
@@ -679,13 +683,11 @@
   }
 
   async function loginWithGoogle() {
-    await ensureSeedUsers();
     if (!firebaseEnabled() || !firebaseAdapter()?.loginWithGoogle) {
       throw new Error("Google 로그인은 Firebase 연결 후 사용할 수 있습니다.");
     }
     const fbSession = await firebaseAdapter().loginWithGoogle();
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
-    await refreshFirebaseCaches({ force: true });
     return fbSession;
   }
 

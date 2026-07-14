@@ -23,8 +23,9 @@ window.GAONGIL_FIREBASE_CONFIG = {
     measurementId: "G-6DVHBR9TZ0",
   },
 
-  // Firebase Auth는 이메일/비밀번호 로그인이 기본입니다.
-  // 관리자 이메일 노출을 줄이려면 loginAliases는 비워두고 이메일 전체로 로그인하세요.
+  // 일반 사용자는 이메일/비밀번호 또는 Google로 로그인할 수 있습니다.
+  // 관리자 권한은 아래 이메일이 Google로 로그인했을 때만 부여합니다.
+  adminEmails: ["legnanatas@jbnu.ac.kr"],
   // 교사 아이디를 teacher1처럼 입력받고 싶다면 loginDomain을 설정하면 teacher1@도메인으로 로그인합니다.
   loginDomain: "",
   loginAliases: {},
