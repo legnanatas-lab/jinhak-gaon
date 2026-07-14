@@ -1282,11 +1282,6 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       (async () => {
         clearCredentialAutofill();
         document.getElementById("googleLoginBtn")?.classList.add("show");
-        const redirectSession = await GaongilAuth.completeGoogleRedirect?.();
-        if (redirectSession) {
-          location.href = redirect;
-          return;
-        }
         await GaongilAuth.ensureSeedUsers({ fast: true });
         if (GaongilAuth.isFirebaseEnabled?.()) {
           const resetPw = document.getElementById("resetPw");
@@ -1339,9 +1334,10 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
 
       googleLoginBtn.addEventListener("click", async () => {
         msg.classList.remove("show");
-        setLoginBusy(true, googleLoginBtn, "Google 로그인 페이지로 이동 중...");
+        setLoginBusy(true, googleLoginBtn, "Google 로그인 창을 여는 중...");
         try {
-          await GaongilAuth.startGoogleLogin();
+          await GaongilAuth.loginWithGoogle();
+          location.href = redirect;
         } catch (err) {
           msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
           msg.classList.add("show");
