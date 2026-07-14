@@ -161,8 +161,9 @@
     provider.setCustomParameters({ prompt: "select_account" });
     const credential = await modules.auth.signInWithPopup(auth, provider);
     const loginId = credential.user.email || credential.user.uid;
-    const profile = await readProfile(credential.user, loginId);
-    return sessionFromProfile(credential.user, profile, profile?.id || loginId, "google.com");
+    // 로그인 직후 Firestore 프로필을 여러 번 조회하면 네트워크가 느릴 때 수십 초가 걸린다.
+    // 관리자 판별은 승인된 Google 이메일만으로 충분하며, 프로필 동기화는 관리자 화면에서 백그라운드로 수행한다.
+    return sessionFromProfile(credential.user, null, loginId, "google.com");
   }
 
   // Safari와 팝업 차단 환경에서도 동작하도록 Google 인증은 리디렉션 방식으로 시작한다.
