@@ -1386,8 +1386,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     <script src="./assets/js/auth.js?v=20260713-firebase-google"></script>
     <script>
       let session;
-      (async () => {
-        await GaongilAuth.ensureSeedUsers();
+      (() => {
         session = GaongilAuth.requireAdmin("./login.html");
         if (session) {
           renderUsers();
@@ -1395,6 +1394,18 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           renderNoticeEditors();
           renderFirebaseStatus();
           GaongilAuth.mountUserChip("userChip");
+
+          // 화면은 저장된 로그인 세션으로 바로 표시하고, 느린 Firestore 동기화는 뒤에서 처리한다.
+          GaongilAuth.refreshFirebaseCaches().then(() => {
+            const refreshed = GaongilAuth.getSession();
+            if (!refreshed || refreshed.role !== "admin") return;
+            session = refreshed;
+            renderUsers();
+            renderAccessControls();
+            renderNoticeEditors();
+            renderFirebaseStatus();
+            GaongilAuth.mountUserChip("userChip");
+          }).catch(() => {});
         }
       })();
 
