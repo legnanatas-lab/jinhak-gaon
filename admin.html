@@ -1514,11 +1514,21 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         const wrap = document.getElementById("accessBoardList");
         if (!wrap) return;
         const selectedUser = document.getElementById("accessUserSelect").value;
-        const access = GaongilAuth.getAccessSettings();
-        const userPages = access.userPages?.[selectedUser] || [];
-        wrap.innerHTML = collectAccessCatalog().map((group, groupIndex) => {
+        const access = GaongilAuth.getAccessSettings() || {};
+        const publicPages = Array.isArray(access.publicPages) ? access.publicPages : [];
+        const userPages = Array.isArray(access.userPages?.[selectedUser]) ? access.userPages[selectedUser] : [];
+        const catalog = collectAccessCatalog();
+        if (!catalog.length) {
+          wrap.innerHTML = '<p class="sync-hint">게시판 목록을 불러오는 중입니다.</p>';
+          if (wrap.dataset.catalogRetry !== "true") {
+            wrap.dataset.catalogRetry = "true";
+            setTimeout(() => { wrap.dataset.catalogRetry = ""; renderAccessControls(); }, 250);
+          }
+          return;
+        }
+        wrap.innerHTML = catalog.map((group, groupIndex) => {
           const rows = group.entries.map((entry, index) => {
-            const checkedPublic = access.publicPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
+            const checkedPublic = publicPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
             const checkedUser = userPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
             const cls = index === 0 ? "access-group-head" : "access-item";
             const parentAttr = index === 0 ? ' data-access-parent="true"' : "";
@@ -1786,6 +1796,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       }
 
       document.getElementById("accessUserSelect").addEventListener("change", renderAccessControls);
+      window.addEventListener("load", renderAccessControls, { once: true });
       document.getElementById("saveAccessBtn").addEventListener("click", async () => {
         const msg = document.getElementById("accessMsg");
         try {
