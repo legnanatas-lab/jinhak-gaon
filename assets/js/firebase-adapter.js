@@ -165,6 +165,27 @@
     return sessionFromProfile(credential.user, profile, profile?.id || loginId, "google.com");
   }
 
+  // Safari와 팝업 차단 환경에서도 동작하도록 Google 인증은 리디렉션 방식으로 시작한다.
+  async function startGoogleLogin() {
+    await init();
+    const provider = new modules.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+    await modules.auth.signInWithRedirect(auth, provider);
+  }
+
+  // Google 인증 후 이 페이지로 돌아왔을 때 세션을 복원한다.
+  async function completeGoogleRedirect() {
+    await init();
+    const credential = await modules.auth.getRedirectResult(auth);
+    const user = credential?.user || auth.currentUser;
+    if (!user) return null;
+    const provider = await currentSignInProvider(user);
+    if (provider !== "google.com") return null;
+    const loginId = user.email || user.uid;
+    const profile = await readProfile(user, loginId);
+    return sessionFromProfile(user, profile, profile?.id || loginId, "google.com");
+  }
+
   async function logout() {
     await init();
     await modules.auth.signOut(auth);
@@ -277,6 +298,8 @@
     init,
     login,
     loginWithGoogle,
+    startGoogleLogin,
+    completeGoogleRedirect,
     logout,
     sendPasswordResetEmail,
     getCurrentSession,

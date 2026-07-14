@@ -691,6 +691,20 @@
     return fbSession;
   }
 
+  async function startGoogleLogin() {
+    if (!firebaseEnabled() || !firebaseAdapter()?.startGoogleLogin) {
+      throw new Error("Google 로그인은 Firebase 연결 후 사용할 수 있습니다.");
+    }
+    await firebaseAdapter().startGoogleLogin();
+  }
+
+  async function completeGoogleRedirect() {
+    if (!firebaseEnabled() || !firebaseAdapter()?.completeGoogleRedirect) return null;
+    const fbSession = await firebaseAdapter().completeGoogleRedirect();
+    if (fbSession) sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
+    return fbSession;
+  }
+
   function logout(redirectTo) {
     if (firebaseEnabled() && firebaseAdapter()?.logout) {
       firebaseAdapter().logout().catch(() => {});
@@ -913,6 +927,8 @@
     resetPasswordByEmail,
     login,
     loginWithGoogle,
+    startGoogleLogin,
+    completeGoogleRedirect,
     logout,
     getSession,
     requireLogin,
