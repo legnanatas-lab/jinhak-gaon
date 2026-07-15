@@ -1173,7 +1173,10 @@ const PLAN2027_UNI_INDEX = new Map();
 let PLAN2027_INDEX_READY = false;
 
 function baseUniName(value) {
-  return normalize(String(value || '').replace(/\([^)]*\)/g, '').replace(/대학$/,'대'));
+  return normalize(String(value || '')
+    .replace(/^국립/,'')
+    .replace(/\([^)]*\)/g, '')
+    .replace(/대학$/,'대'));
 }
 
 function majorKey(value) {
