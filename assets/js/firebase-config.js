@@ -10,7 +10,7 @@
 window.GAONGIL_FIREBASE_CONFIG = {
   enabled: true,
   sdkVersion: "12.16.0",
-  allowLocalFallback: false,
+  allowLocalFallback: true,
 
   firebaseConfig: {
     apiKey: "AIzaSyAhHt7Ck_ZSkLo2F_0i0NjQnj9MDUmX95E",
