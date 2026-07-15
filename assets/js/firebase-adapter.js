@@ -86,8 +86,7 @@
         import(sdkUrl("storage")),
       ]);
       modules = { app: appMod, auth: authMod, firestore: firestoreMod, storage: storageMod };
-      const name = "gaongil";
-      app = appMod.getApps().find((item) => item.name === name) || appMod.initializeApp(firebaseConfig(), name);
+      app = appMod.getApps().find((item) => item.name === "[DEFAULT]") || appMod.initializeApp(firebaseConfig());
       auth = authMod.getAuth(app);
       db = firestoreMod.getFirestore(app);
       storage = storageMod.getStorage(app);
