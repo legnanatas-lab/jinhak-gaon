@@ -1064,7 +1064,7 @@
     "pages": [
       {
         "title": "2026 대학수학능력시험",
-        "url": "placeholder.html?item=cast2026",
+        "url": "stat-csat2026.html",
         "current": "수능·모의평가",
         "tags": [
           "2026",
@@ -1077,7 +1077,7 @@
       },
       {
         "title": "2027학년도 6월 대수능 모의평가 분석",
-        "url": "placeholder.html?item=juneMock2027",
+        "url": "stat-mock2027jun.html",
         "current": "수능·모의평가",
         "tags": [
           "2027",
@@ -1090,7 +1090,7 @@
       },
       {
         "title": "2027학년도 6월 모의평가 채점 결과",
-        "url": "placeholder.html?item=cast20276",
+        "url": "stat-score2027jun.html",
         "current": "수능·모의평가",
         "tags": [
           "2027",
@@ -1115,7 +1115,7 @@
       },
       {
         "title": "2026학년도 3월 고3 전국연합학력평가",
-        "url": "placeholder.html?item=cast20265",
+        "url": "stat-natl2026g3.html",
         "current": "전국연합학력평가",
         "tags": [
           "2026",
@@ -1128,7 +1128,7 @@
       },
       {
         "title": "2026학년도 고1 전국연합학력평가",
-        "url": "placeholder.html?item=cast20266g1",
+        "url": "stat-natl2026g1.html",
         "current": "전국연합학력평가",
         "tags": [
           "2026",
@@ -1141,7 +1141,7 @@
       },
       {
         "title": "2026학년도 고2 전국연합학력평가",
-        "url": "placeholder.html?item=cast20266g2",
+        "url": "stat-natl2026g2.html",
         "current": "전국연합학력평가",
         "tags": [
           "2026",
