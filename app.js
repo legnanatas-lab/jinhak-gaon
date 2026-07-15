@@ -113,7 +113,7 @@ function normalize(value) {
     .trim()
     .toLowerCase()
     .replace(/\s+/g, "")
-    .replace(/[\(\)\[\]\{\}·ㆍ,./_\-:]/g, "");
+    .replace(/[\(\)\[\]\{\}·ㆍ・,./_\-:]/g, "");
 }
 
 function toNumber(value) {
@@ -1191,7 +1191,8 @@ function majorKey(value) {
     [/산업공학과/g, '산업공학부'],
     [/첨단융합학부\s*스마트시티전공/g, 'AX융합학부 스마트시티전공'],
     [/학석사통합과정\(한의학과\)/g, '한의학전문대학원 학석사통합과정'],
-    [/경영경영학부/g, '경영학부']
+    [/경영경영학부/g, '경영학부'],
+    [/해양신소재융합/g, '첨단소재']
   ];
   for (const [pattern, replacement] of aliases) text = text.replace(pattern, replacement);
   text = text.replace(/&lt;[^&gt;]*&gt;/g, '').replace(/<[^>]*>/g, '').replace(/\[[^\]]*\]/g, '');
@@ -1264,6 +1265,28 @@ function findPlansForRecord(record) {
   const uk = baseUniName(record.university || record.universityCanon);
   const mk = majorKey(record.major);
   let candidates = PLAN2027_INDEX.get(`${uk}|${mk}`) || [];
+  if (!candidates.length && record.major && record.major.includes('(')) {
+    const pMatch = record.major.match(/\(([^)]+)\)/);
+    if (pMatch && pMatch[1]) {
+      const sub = pMatch[1];
+      const subParts = sub.split(/[,·ㆍ・]/).map(x => x.trim());
+      for (const part of subParts) {
+        const subMk = majorKey(part);
+        if (subMk) {
+          const subCandidates = PLAN2027_INDEX.get(`${uk}|${subMk}`) || [];
+          if (subCandidates.length) {
+            candidates = candidates.concat(subCandidates);
+          } else {
+            const partial = (PLAN2027_UNI_INDEX.get(uk) || []).filter(plan => {
+              const pm = majorKey(plan.m);
+              return pm && (pm.includes(subMk) || subMk.includes(pm));
+            });
+            candidates = candidates.concat(partial);
+          }
+        }
+      }
+    }
+  }
   if (!candidates.length && uk && mk) {
     // 부분 일치 보완: 의학과(의예과) vs 의예과, 학부/전공 표기 차이 등
     candidates = (PLAN2027_UNI_INDEX.get(uk) || []).filter(plan => {
