@@ -3389,7 +3389,11 @@ body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] :where(th, td, td.cat
 body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] th { background: #162a45 !important; color: #f0d99b !important; }
 body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] :where(.ocat, .tab.active) { background: rgba(134,120,255,.2) !important; color: #f1efff !important; }
 
-/* Site-wide type and control normalization */
+/* ─────────────────────────────────────────────────────────────
+   Site-wide type normalization — 가온길 에듀 통일 글꼴
+   홈화면(index.html)과 동일하게 Pretendard Variable(Gaongil Sans)
+   을 모든 페이지·모든 텍스트 요소에 강제 적용합니다.
+───────────────────────────────────────────────────────────── */
 @font-face {
   font-family: "Gaongil Sans";
   src: url("./assets/fonts/PretendardVariable.woff2") format("woff2-variations");
@@ -3397,7 +3401,27 @@ body.gaongil-linked-page[data-gaongil-page="jonghap_eval"] :where(.ocat, .tab.ac
   font-weight: 45 920;
   font-display: swap;
 }
-body.gaongil-linked-page { font-family: "Gaongil Sans", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif !important; }
+
+/* body 전체 */
+body.gaongil-linked-page {
+  font-family: "Gaongil Sans", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif !important;
+}
+
+/* 모든 텍스트 자손 요소 — 아이콘 클래스는 제외 */
+body.gaongil-linked-page :where(
+  h1, h2, h3, h4, h5, h6,
+  p, a, button, input, select, textarea, label, summary,
+  li, td, th, dt, dd, caption,
+  strong, b, em, small, span, div, section, article,
+  figcaption, blockquote, cite, abbr, mark
+):not(.ti):not([class^="ti-"]):not([class*=" ti-"]):not(.material-icons):not(.material-symbols-outlined):not(.mono):not([class*="mono"]):not(code):not(pre) {
+  font-family: "Gaongil Sans", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif !important;
+}
+
+/* 폼 컨트롤 */
+body.gaongil-linked-page :where(input, select, textarea, button) {
+  font-family: "Gaongil Sans", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif !important;
+}
 body.gaongil-linked-page.gaongil-linked-page input[type="checkbox"] {
   appearance:none !important; -webkit-appearance:none !important;
   width:20px !important; min-width:20px !important; height:20px !important; min-height:20px !important;

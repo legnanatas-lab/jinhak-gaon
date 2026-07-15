@@ -1,6 +1,30 @@
 ﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
+<script data-gaongil-origin-guard>
+(function(){
+  "use strict";
+  var allowedHosts = {
+    "legnanatas-lab.github.io": true,
+    "gaonjinhak.firebaseapp.com": true,
+    "gaonjinhak.web.app": true,
+    "localhost": true,
+    "127.0.0.1": true
+  };
+  var protocol = window.location.protocol;
+  var host = window.location.hostname;
+  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
+  if (allowed) return;
+  function blockSavedCopy(){
+    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
+    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
+    document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자료 보호 안내</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050b14;color:#edf5ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.box{max-width:720px;margin:24px;padding:32px;border:1px solid rgba(214,173,99,.45);border-radius:24px;background:rgba(13,23,38,.94);box-shadow:0 24px 80px rgba(0,0,0,.45)}h1{margin:0 0 12px;font-size:28px}p{line-height:1.7;color:#b9c4d2}a{color:#f0d99b;font-weight:800}</style></head><body><main class="box"><h1>자료 보호 안내</h1><p>'+message+'</p><p>저장된 HTML 파일이나 복사된 주소에서는 자료를 열람할 수 없습니다.</p><p><a href="'+url+'">공식 사이트로 이동하기</a></p></main></body>';
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
+  else blockSavedCopy();
+})();
+</script>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0VB6E0J6MB"></script>
 <script>
@@ -12,11 +36,27 @@
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>일반선택 세계시민과 지리 수업설계 워크북 | 충청남도교육청</title>
+<title>일반선택 세계시민과 지리 수업설계 워크북 | 가온길 에듀</title>
 <meta name="description" content="2022 개정 교육과정 일반선택 세계시민과 지리 13개 성취기준 개념기반탐구(CBI) 수업설계 워크북. 지도·통계·GIS 자료 처리와 학생부종합전형 대응 탐구 활동 포함." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style data-gaongil-font>
+/* 가온길 에듀 통일 글꼴: Pretendard Variable (로컬) */
+@font-face {
+  font-family: "Gaongil Sans";
+  src: url("./assets/fonts/PretendardVariable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 45 920;
+  font-display: swap;
+}
+html, body, button, input, select, textarea, summary {
+  font-family: "Gaongil Sans", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif !important;
+}
+body :where(p,a,button,input,select,textarea,label,summary,li,td,th,dt,dd,strong,b,em,small,div,span):not(.serif):not(.mono):not([class*="mono"]):not(.ti):not([class^="ti-"]):not(.material-icons) {
+  font-family: "Gaongil Sans", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif !important;
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -59,7 +99,7 @@ body{
   margin:0;
   background:var(--paper);
   color:var(--ink);
-  font-family:"IBM Plex Sans KR","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+  font-family:"Gaongil Sans","Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   font-weight:400;
   line-height:1.65;
   word-break:keep-all;
@@ -82,7 +122,7 @@ h1,h2,h3,h4,h5{
   margin:0;
   line-height:1.2;
   letter-spacing:-.025em;
-  font-family:"Fraunces","IBM Plex Sans KR",serif;
+  font-family:"Fraunces","Gaongil Sans","Pretendard",serif;
   font-weight:700;
 }
 h1{font-weight:900;letter-spacing:-.04em}
@@ -773,7 +813,7 @@ h1.cover-title em{
 }
 .general p{
   margin:0;
-  font-family:"Gowun Batang",serif;
+  font-family:"Gaongil Sans","Pretendard","Apple SD Gothic Neo",system-ui,sans-serif;
   font-size:1.05rem;
   line-height:1.62;
 }
@@ -884,7 +924,7 @@ h1.cover-title em{
   border-left:4px solid var(--atmo);
   padding:1rem 1.1rem;
   color:var(--ink-2);
-  font-family:"Gowun Batang",serif;
+  font-family:"Gaongil Sans","Pretendard","Apple SD Gothic Neo",system-ui,sans-serif;
   line-height:1.75;
 }
 .copy-btn{
@@ -2400,7 +2440,7 @@ function downloadCSV(){
   }).join("\n");
   var a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));
-  a.download="세계시민과지리_수업설계_매트릭스_충남교육청.csv";
+  a.download="세계시민과지리_수업설계_매트릭스_가온길에듀.csv";
   a.click();
 }
 document.getElementById("search").addEventListener("input",renderList);
