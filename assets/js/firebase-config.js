@@ -13,7 +13,7 @@ window.GAONGIL_FIREBASE_CONFIG = {
   allowLocalFallback: false,
 
   firebaseConfig: {
-    apiKey: "AIzaSyAhHt7Ck_ZSkLo2F_0i0NjQnj9MDUmX95E",
+    apiKey: "AIzaSyAhHt7Ck_ZSkLo2F_0iONjQnj9MDUmX95E",
     authDomain: "gaonjinhak.firebaseapp.com",
     databaseURL: "https://gaonjinhak-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "gaonjinhak",
