@@ -1374,23 +1374,14 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
 
       googleLoginBtn.addEventListener("click", async () => {
         msg.classList.remove("show");
-        setLoginBusy(true, googleLoginBtn, "Google 로그인 창을 여는 중...");
+        setLoginBusy(true, googleLoginBtn, "Google 로그인 페이지로 이동 중...");
         try {
-          const session = await GaongilAuth.loginWithGoogle();
-          location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
+          // 팝업 차단 및 서드파티 차단 에러를 100% 회피하기 위해, 팝업 대신 바로 리디렉션 로그인 실행
+          await GaongilAuth.startGoogleLogin();
         } catch (err) {
-          console.warn("Popup login failed, trying redirect login...", err);
-          msg.textContent = "Google 로그인 창이 닫혔거나 오류가 발생하여, 리디렉션 로그인으로 자동 전환합니다...";
+          msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
           msg.classList.add("show");
-          setTimeout(async () => {
-            try {
-              await GaongilAuth.startGoogleLogin();
-            } catch (redirErr) {
-              msg.textContent = formatLoginError(redirErr, "Google 로그인에 실패했습니다.");
-              msg.classList.add("show");
-              setLoginBusy(false);
-            }
-          }, 1500);
+          setLoginBusy(false);
         }
       });
 
