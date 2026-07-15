@@ -1190,11 +1190,13 @@ function majorKey(value) {
     [/첨단IT자율전공/g, 'AI컴퓨팅자율전공'],
     [/산업공학과/g, '산업공학부'],
     [/첨단융합학부\s*스마트시티전공/g, 'AX융합학부 스마트시티전공'],
-    [/학석사통합과정\(한의학과\)/g, '한의학전문대학원 학석사통합과정']
+    [/학석사통합과정\(한의학과\)/g, '한의학전문대학원 학석사통합과정'],
+    [/경영경영학부/g, '경영학부']
   ];
   for (const [pattern, replacement] of aliases) text = text.replace(pattern, replacement);
+  text = text.replace(/&lt;[^&gt;]*&gt;/g, '').replace(/<[^>]*>/g, '').replace(/\[[^\]]*\]/g, '');
   return normalize(text
-    .replace(/학부|학과|전공|계열|과\(의예과\)|\(의예과\)|\(.*?\)/g, '')
+    .replace(/공학부|공학과|공학전공|학부|학과|전공|계열|공학|교육|과\(의예과\)|\(의예과\)|\(.*?\)/g, '')
     .replace(/의학/g, '의예')
     .replace(/치의학/g, '치의예')
     .replace(/한의학/g, '한의예')
