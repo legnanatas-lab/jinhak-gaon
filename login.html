@@ -1307,7 +1307,19 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         clearCredentialAutofill();
         document.getElementById("googleLoginBtn")?.classList.add("show");
         await GaongilAuth.ensureSeedUsers({ fast: true });
+        
+        // Google 리디렉션 로그인 결과 복원
         if (GaongilAuth.isFirebaseEnabled?.()) {
+          try {
+            const redirectSession = await GaongilAuth.completeGoogleRedirect();
+            if (redirectSession) {
+              location.href = !params.get("redirect") && redirectSession.role === "admin" ? "./admin.html" : redirect;
+              return;
+            }
+          } catch (e) {
+            console.error("Redirect login result check failed", e);
+          }
+
           const resetPw = document.getElementById("resetPw");
           if (resetPw) {
             resetPw.required = false;
@@ -1318,7 +1330,11 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           const resetNote = document.querySelector(".reset-note");
           if (resetNote) resetNote.textContent = "Firebase Authentication에 등록된 이메일로 비밀번호 재설정 메일을 보냅니다.";
         }
-        if (GaongilAuth.getSession()) location.href = redirect;
+        
+        if (GaongilAuth.getSession()) {
+          const session = GaongilAuth.getSession();
+          location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
+        }
       })();
 
       const form = document.getElementById("loginForm");
@@ -1363,10 +1379,18 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           const session = await GaongilAuth.loginWithGoogle();
           location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
         } catch (err) {
-          msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
+          console.warn("Popup login failed, trying redirect login...", err);
+          msg.textContent = "Google 로그인 창이 닫혔거나 오류가 발생하여, 리디렉션 로그인으로 자동 전환합니다...";
           msg.classList.add("show");
-        } finally {
-          setLoginBusy(false);
+          setTimeout(async () => {
+            try {
+              await GaongilAuth.startGoogleLogin();
+            } catch (redirErr) {
+              msg.textContent = formatLoginError(redirErr, "Google 로그인에 실패했습니다.");
+              msg.classList.add("show");
+              setLoginBusy(false);
+            }
+          }, 1500);
         }
       });
 
