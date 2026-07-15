@@ -78,20 +78,28 @@
   async function init() {
     if (!isEnabled()) throw new Error("Firebase 설정이 꺼져 있거나 firebaseConfig가 비어 있습니다.");
     if (initPromise) return initPromise;
-    initPromise = (async () => {
-      const [appMod, authMod, firestoreMod, storageMod] = await Promise.all([
-        import(sdkUrl("app")),
-        import(sdkUrl("auth")),
-        import(sdkUrl("firestore")),
-        import(sdkUrl("storage")),
-      ]);
-      modules = { app: appMod, auth: authMod, firestore: firestoreMod, storage: storageMod };
-      app = appMod.getApps().find((item) => item.name === "[DEFAULT]") || appMod.initializeApp(firebaseConfig());
-      auth = authMod.getAuth(app);
-      db = firestoreMod.getFirestore(app);
-      storage = storageMod.getStorage(app);
-      return { app, auth, db, storage, modules };
-    })();
+    
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Firebase CDN 라이브러리 로딩 시간 초과 (4초). 네트워크 차단 또는 방화벽을 확인해 주세요.")), 4000)
+    );
+    
+    initPromise = Promise.race([
+      (async () => {
+        const [appMod, authMod, firestoreMod, storageMod] = await Promise.all([
+          import(sdkUrl("app")),
+          import(sdkUrl("auth")),
+          import(sdkUrl("firestore")),
+          import(sdkUrl("storage")),
+        ]);
+        modules = { app: appMod, auth: authMod, firestore: firestoreMod, storage: storageMod };
+        app = appMod.getApps().find((item) => item.name === "[DEFAULT]") || appMod.initializeApp(firebaseConfig());
+        auth = authMod.getAuth(app);
+        db = firestoreMod.getFirestore(app);
+        storage = storageMod.getStorage(app);
+        return { app, auth, db, storage, modules };
+      })(),
+      timeoutPromise
+    ]);
     return initPromise;
   }
 
