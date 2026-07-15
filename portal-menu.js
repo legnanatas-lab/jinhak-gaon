@@ -764,7 +764,7 @@
       },
       {
         "title": "2026 고등학교 전입학 및 재입학 업무처리 지침",
-        "url": "placeholder.html?item=transfer2026",
+        "url": "transfer2026.html",
         "current": "학교생활 지침",
         "tags": [
           "2026",
