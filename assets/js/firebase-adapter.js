@@ -268,18 +268,31 @@
     await init();
     const id = String(profile?.uid || profile?.id || "").trim();
     if (!id) throw new Error("사용자 프로필에는 id 또는 uid가 필요합니다.");
+    
+    const docData = {
+      id: profile.id || id,
+      name: profile.name || profile.id || id,
+      email: String(profile.email || "").trim().toLowerCase(),
+      role: profile.role || "staff",
+      updatedAt: modules.firestore.serverTimestamp(),
+    };
+    if (profile.pwHash) {
+      docData.pwHash = profile.pwHash;
+    }
+    
     await modules.firestore.setDoc(
       userDocRef(modules.firestore, id),
-      {
-        id: profile.id || id,
-        name: profile.name || profile.id || id,
-        email: String(profile.email || "").trim().toLowerCase(),
-        role: profile.role || "staff",
-        updatedAt: modules.firestore.serverTimestamp(),
-      },
+      docData,
       { merge: true }
     );
     return true;
+  }
+
+  async function getUserProfile(id) {
+    await init();
+    const docSnap = await modules.firestore.getDoc(userDocRef(modules.firestore, id));
+    if (!docSnap.exists()) return null;
+    return { id: docSnap.data().id || docSnap.id, docId: docSnap.id, ...docSnap.data() };
   }
 
   async function removeUserProfile(id) {
@@ -315,6 +328,7 @@
     saveSiteConfig,
     listUsers,
     saveUserProfile,
+    getUserProfile,
     removeUserProfile,
     uploadNoticeImage,
   };

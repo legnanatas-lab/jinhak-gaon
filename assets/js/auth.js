@@ -640,8 +640,21 @@
   function getUsers() {
     const localUsers = loadUsers() || [];
     if (firebaseEnabled() && Array.isArray(remoteUsersCache)) {
-      const localIds = new Set(localUsers.map((u) => u.id));
-      return remoteUsersCache.filter((u) => localIds.has(u.id));
+      const mergedMap = new Map();
+      localUsers.forEach((u) => {
+        mergedMap.set(normalizeId(u.id), { ...u });
+      });
+      remoteUsersCache.forEach((u) => {
+        const id = normalizeId(u.id);
+        const existing = mergedMap.get(id) || {};
+        mergedMap.set(id, {
+          ...existing,
+          ...u,
+          id,
+          pwHash: u.pwHash || existing.pwHash || "",
+        });
+      });
+      return Array.from(mergedMap.values());
     }
     return localUsers;
   }
@@ -667,7 +680,7 @@
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
       try {
-        await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff" });
+        await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash });
         remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
       } catch (err) {
         if (firebaseConfig().allowLocalFallback !== true) {
@@ -776,7 +789,25 @@
       }
     }
     await ensureSeedUsers();
-    const u = findUser(normalizedId);
+    let u = findUser(normalizedId);
+    
+    // 로컬 캐시나 remoteUsersCache 병합 목록에 없을 경우, Firestore 개별 문서를 직접 조회를 시도합니다.
+    if (!u && firebaseEnabled() && firebaseAdapter()?.getUserProfile) {
+      try {
+        const remoteProfile = await firebaseAdapter().getUserProfile(normalizedId);
+        if (remoteProfile) {
+          const localUsers = loadUsers() || [];
+          if (!localUsers.some((x) => normalizeId(x.id) === normalizedId)) {
+            localUsers.push(remoteProfile);
+            saveUsers(localUsers);
+          }
+          u = remoteProfile;
+        }
+      } catch (err) {
+        console.warn("[GaongilFirebase] Firestore 개별 프로필 조회 실패", err);
+      }
+    }
+    
     if (!u) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
     const hash = await sha256(password);
     if (hash !== u.pwHash) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
