@@ -319,6 +319,12 @@
 
   function denyAccess(redirectTo, hasSession) {
     alert(hasSession ? "관리자의 승인이 필요한 자료입니다." : "관리자의 승인이 필요합니다. 로그인 후 이용해 주세요.");
+    if (hasSession) {
+      location.href = "index.html";
+    } else {
+      const here = encodeURIComponent(buildReturnPath(redirectTo));
+      location.href = (redirectTo || "login.html") + "?redirect=" + here;
+    }
     return false;
   }
 
