@@ -1,1 +1,335 @@
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:#f6f8fb;color:#102a4c}.site-header,.overview,.exam-picker,.viewer-section{width:min(1120px,calc(100% - 32px));margin:14px auto;background:#fff;border:1px solid #d8e1ee;border-radius:22px;padding:18px;box-shadow:0 10px 26px rgba(16,42,76,.08)}.site-header{display:flex;justify-content:space-between;gap:12px}.brand,.icon-button{text-decoration:none;color:#102a4c}.header-actions{display:flex;gap:8px;flex-wrap:wrap}.icon-button,.exam-card{border:0;border-radius:999px;padding:9px 12px;background:#eef3f9;color:#102a4c;font-weight:800}.is-active{background:#102a4c!important;color:#fff!important}.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}.summary-grid article,.exam-card{background:#fbfcfe;border:1px solid #d8e1ee;border-radius:18px;padding:14px}.exam-card img{width:120px;height:80px;object-fit:cover;background:#d8e1ee;border-radius:12px}.viewer-frame{width:100%;min-height:520px;border:1px solid #d8e1ee;border-radius:18px;background:#fff}.brand-mark{display:inline-flex;width:28px;height:28px;border-radius:50%;background:#102a4c}.eyebrow{color:#b48932;font-weight:900;letter-spacing:.16em;text-transform:uppercase;font-size:12px}
+/* 
+  가온길 에듀 - 2027학년도 6월 모의평가 통합 분석 전용 스타일시트 
+  디자인 테마: Sleek Dark Navy & Gold Harmony (Pretendard Font)
+*/
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+
+body {
+  margin: 0;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: #050b14;
+  color: #edf5ff;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 컨테이너 카드 공통 글래스모피즘 디자인 */
+.site-header, 
+.overview, 
+.exam-picker, 
+.viewer-section {
+  width: min(1120px, calc(100% - 32px));
+  margin: 20px auto;
+  background: rgba(13, 23, 38, 0.95);
+  border: 1px solid rgba(214, 173, 99, 0.2);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+/* 헤더 영역 */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 2px solid rgba(214, 173, 99, 0.35);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #edf5ff;
+}
+
+.brand strong {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #edf5ff;
+}
+
+.brand small {
+  display: block;
+  font-size: 0.85rem;
+  color: #a0aec0;
+}
+
+.brand-mark {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d6ad63, #b48932);
+  box-shadow: 0 0 10px rgba(214, 173, 99, 0.4);
+}
+
+/* 헤더 네비게이션 버튼 */
+.header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(214, 173, 99, 0.25);
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #edf5ff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.icon-button svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-button:hover {
+  background: rgba(214, 173, 99, 0.15);
+  border-color: #d6ad63;
+  transform: translateY(-1px);
+}
+
+.icon-button.is-active {
+  background: linear-gradient(135deg, #d6ad63, #b48932) !important;
+  color: #050b14 !important;
+  border-color: #d6ad63 !important;
+  font-weight: 700;
+}
+
+/* 개요 섹션 */
+.overview-copy p {
+  color: #b9c4d2;
+}
+
+.eyebrow {
+  color: #d6ad63;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  margin-bottom: 8px;
+}
+
+h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+  background: linear-gradient(to right, #edf5ff, #c6d6e8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 요약 그리드 */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.summary-grid article {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(214, 173, 99, 0.15);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+.summary-grid article:hover {
+  border-color: rgba(214, 173, 99, 0.35);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.summary-grid article span {
+  display: block;
+  font-size: 0.8rem;
+  color: #929fb1;
+  margin-bottom: 6px;
+}
+
+.summary-grid article strong {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #d6ad63;
+  margin-bottom: 4px;
+}
+
+.summary-grid article small {
+  display: block;
+  font-size: 0.78rem;
+  color: #718096;
+}
+
+/* 자료 카드 선택기 */
+.exam-picker {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.exam-card {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(214, 173, 99, 0.15);
+  border-radius: 16px;
+  padding: 16px;
+  color: #edf5ff;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.exam-card img {
+  width: 100px;
+  height: 70px;
+  object-fit: cover;
+  background: #1a202c;
+  border-radius: 10px;
+  border: 1px solid rgba(214, 173, 99, 0.2);
+}
+
+.exam-card span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.exam-card small {
+  font-size: 0.78rem;
+  color: #a0aec0;
+}
+
+.exam-card strong {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #edf5ff;
+}
+
+.exam-card em {
+  font-style: normal;
+  font-size: 0.8rem;
+  color: #d6ad63;
+}
+
+.exam-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(214, 173, 99, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.exam-card.is-active {
+  background: rgba(214, 173, 99, 0.08) !important;
+  border-color: #d6ad63 !important;
+  box-shadow: 0 0 15px rgba(214, 173, 99, 0.15);
+}
+
+.exam-card.is-active strong {
+  color: #d6ad63;
+}
+
+/* 뷰어 영역 */
+.viewer-section {
+  padding: 0;
+  overflow: hidden;
+}
+
+.viewer-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(214, 173, 99, 0.2);
+  background: rgba(10, 20, 35, 0.8);
+}
+
+.viewer-toolbar h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0;
+  color: #edf5ff;
+}
+
+.viewer-toolbar .eyebrow {
+  margin-bottom: 2px;
+}
+
+.viewer-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.tool-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(214, 173, 99, 0.2);
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: #edf5ff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.tool-button svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tool-button:hover {
+  background: #d6ad63;
+  color: #050b14;
+  border-color: #d6ad63;
+}
+
+/* iframe 뷰어 프레임 */
+iframe {
+  width: 100%;
+  height: 680px;
+  border: 0;
+  background: #ffffff; /* 원본 백서가 흰색이므로 문서는 온전하게 보이도록 흰색 유지 */
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .site-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .header-actions {
+    justify-content: flex-start;
+  }
+  iframe {
+    height: 480px;
+  }
+}
