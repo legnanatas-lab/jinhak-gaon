@@ -1,10 +1,8 @@
 
-'use strict';
-const DB = window.__GAONGIL_GOSA_2027_DB__;
-if (!DB) {
-  throw new Error('대학별고사 일정 데이터를 불러오지 못했습니다.');
-}
-"use strict";
+(function () {
+  function start() {
+    if (!window.__GAONGIL_GOSA_2027_DB__) return false;
+    const DB = window.__GAONGIL_GOSA_2027_DB__;
 /* ───────── 데이터 전개 ───────── */
 const E = DB.events.map((a, i) => ({ i, u: a[0], t: a[1], st: a[2], d1: a[3], d2: a[4], p: a[5], m: a[6], app: a[7], ann: a[8], os: a[9], c: a[10] }));
 const UNIS = DB.unis.map((a, i) => ({ i, full: a[0], short: a[1], region: a[2], multi: a[3], disp: a[3] ? a[0] : a[1] }));
@@ -526,5 +524,13 @@ $("#csStu").addEventListener("change", e => { CS.cur = +e.target.value; saveCS()
   renderFilterUI();
   window.addEventListener("hashchange", parseHash);
   if (location.hash) parseHash(); else renderView();
+  return true;
+  }
+  if (!start()) {
+    const timer = setInterval(() => {
+      if (start()) clearInterval(timer);
+    }, 10);
+    setTimeout(() => clearInterval(timer), 5000);
+  }
 })();
 

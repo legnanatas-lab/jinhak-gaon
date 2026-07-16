@@ -1,9 +1,8 @@
-'use strict';
-const D = window.__GAONGIL_PROCOLLEGE6_DATA__;
-const META = window.__GAONGIL_PROCOLLEGE6_META__;
-if (!D || !META) {
-  throw new Error('전문대 데이터를 불러오지 못했습니다.');
-}
+(function () {
+  function start() {
+    if (!window.__GAONGIL_PROCOLLEGE6_DATA__ || !window.__GAONGIL_PROCOLLEGE6_META__) return false;
+    const D = window.__GAONGIL_PROCOLLEGE6_DATA__;
+    const META = window.__GAONGIL_PROCOLLEGE6_META__;
 const Y=META.years, R=D.rows;
 const GCOL=['#fde8ef;color:#b3215f','#e3effd;color:#1d4ed8','#e7f6ee;color:#15803d','#fdeee0;color:#c2570b','#efe9fb;color:#6d28d9','#dff3f0;color:#0c6e62'];
 const $=s=>document.querySelector(s);
@@ -539,3 +538,12 @@ $('#gd-univ').textContent=NF(META.univ);
 $('#gd-total').textContent=NF(META.total);
 $('#ft-collected').textContent='(수집 '+META.collected+')';
 buildChips();buildUvSel();parseHash();go();
+  return true;
+  }
+  if (!start()) {
+    const timer = setInterval(() => {
+      if (start()) clearInterval(timer);
+    }, 10);
+    setTimeout(() => clearInterval(timer), 5000);
+  }
+})();
