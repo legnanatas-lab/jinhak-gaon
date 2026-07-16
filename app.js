@@ -6,7 +6,7 @@
  */
 let DATA = { metadata: {}, records: [] };
 const DATA_URL = "./data/admission-data.json";
-const DATA_SCRIPT_URL = "./data/admission-data.js";
+const DATA_SCRIPT_URL = "./data/admission-data.js?v=20260716-force";
 const DATA_GLOBAL = "__GAONGIL_ADMISSION_DATA__";
 const PLAN2027 = Array.isArray(window.__GAONGIL_SUSI_2027_PLAN__) ? window.__GAONGIL_SUSI_2027_PLAN__ : [];
 const YEARS = [2024, 2025, 2026];
@@ -180,21 +180,7 @@ function loadDataScript(src, globalName) {
 
 async function loadAdmissionData() {
   if (window[DATA_GLOBAL]?.records?.length) return window[DATA_GLOBAL];
-  if (location.protocol === "file:") {
-    return loadDataScript(DATA_SCRIPT_URL, DATA_GLOBAL);
-  }
-  try {
-    const response = await fetch(DATA_URL, { cache: "no-cache" });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
-  } catch (error) {
-    if (window[DATA_GLOBAL]?.records?.length) return window[DATA_GLOBAL];
-    try {
-      return await loadDataScript(DATA_SCRIPT_URL, DATA_GLOBAL);
-    } catch {
-      throw error;
-    }
-  }
+  return loadDataScript(DATA_SCRIPT_URL, DATA_GLOBAL);
 }
 
 function resourceLinksHtml(items, currentKey) {
