@@ -3,7 +3,7 @@
 let DB, E, UNIS, TY, CATS, CAT_OF, PATHS;
 let Y, SUN, HOL;
 let WD, dObj, dow, fmtMD, fmtMDW, nextDay, eachDay, isHol, csatDiff, csatLabel;
-let now, S, nq, pass, F, FDAYS, typeCounts;
+let now, S, nq, pass, refilter, F, FDAYS, typeCounts;
 let $, esc, adigaURL, toast;
 let CS, saveCS, curStu, linkedSt2, addPick;
 let hashLock, setView, parseHash, renderView, update;
