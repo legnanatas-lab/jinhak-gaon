@@ -8,7 +8,7 @@ let DATA = { metadata: {}, records: [] };
 const DATA_URL = "./data/admission-data.json";
 const DATA_SCRIPT_URL = "./data/admission-data.js?v=20260716-force";
 const DATA_GLOBAL = "__GAONGIL_ADMISSION_DATA__";
-const PLAN2027 = Array.isArray(window.__GAONGIL_SUSI_2027_PLAN__) ? window.__GAONGIL_SUSI_2027_PLAN__ : [];
+let PLAN2027 = [];
 const YEARS = [2024, 2025, 2026];
 
 const METRICS = [
@@ -180,7 +180,27 @@ function loadDataScript(src, globalName) {
 
 async function loadAdmissionData() {
   if (window[DATA_GLOBAL]?.records?.length) return window[DATA_GLOBAL];
-  return loadDataScript(DATA_SCRIPT_URL, DATA_GLOBAL);
+  try {
+    const response = await fetch("./data/admission-data.json?v=20260716-force");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.warn("[GaongilFallback] JSON fetch failed, trying JS script loader...", error);
+    return loadDataScript(DATA_SCRIPT_URL, DATA_GLOBAL);
+  }
+}
+
+async function loadSusiPlanData() {
+  if (window.__GAONGIL_SUSI_2027_PLAN__?.length) return window.__GAONGIL_SUSI_2027_PLAN__;
+  try {
+    const response = await fetch("./data/susi-2027-plan.json?v=20260716-force");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.warn("[GaongilFallback] Plan JSON fetch failed, trying JS script loader...", error);
+    await loadDataScript("./data/susi-2027-plan.js?v=20260716-force", "__GAONGIL_SUSI_2027_PLAN__");
+    return window.__GAONGIL_SUSI_2027_PLAN__ || [];
+  }
 }
 
 function resourceLinksHtml(items, currentKey) {
@@ -1481,13 +1501,18 @@ function showBootError(title, detail) {
 
 async function init() {
   try {
-    DATA = await loadAdmissionData();
+    const [admissionData, planData] = await Promise.all([
+      loadAdmissionData(),
+      loadSusiPlanData()
+    ]);
+    DATA = admissionData;
+    PLAN2027 = planData;
   } catch (error) {
-    showBootError("입결 데이터를 불러오지 못했습니다.", `${DATA_URL} 또는 ${DATA_SCRIPT_URL} 파일을 확인하세요. (${error.message})`);
+    showBootError("입결 데이터를 불러오지 못했습니다.", `데이터 파일을 확인하세요. (${error.message})`);
     return;
   }
   if (!DATA.records?.length) {
-    showBootError("데이터가 비어 있습니다.", "scripts/prepare_data.py를 실행해 data/admission-data.json을 생성하세요.");
+    showBootError("데이터가 비어 있습니다.", "데이터 파일을 확인하세요.");
     return;
   }
   mount();
