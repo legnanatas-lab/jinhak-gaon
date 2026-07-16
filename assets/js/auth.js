@@ -281,10 +281,17 @@
     normalized.updatedAt = Date.now();
     localStorage.setItem(ACCESS_KEY, JSON.stringify(normalized));
     if (firebaseEnabled()) {
-      await saveFirebaseSiteConfig({
-        access: normalized,
-        notices: loadNoticeSettings(),
-      });
+      try {
+        await saveFirebaseSiteConfig({
+          access: normalized,
+          notices: loadNoticeSettings(),
+        });
+      } catch (err) {
+        if (firebaseConfig().allowLocalFallback !== true) {
+          throw err;
+        }
+        console.warn("[GaongilFirebase] Firestore 설정 저장 실패, 로컬 폴백을 적용합니다.", err);
+      }
     }
     return normalized;
   }
@@ -383,10 +390,17 @@
     };
     localStorage.setItem(NOTICE_KEY, JSON.stringify(normalized));
     if (firebaseEnabled() && options.remote !== false) {
-      await saveFirebaseSiteConfig({
-        access: loadAccess(),
-        notices: normalized,
-      });
+      try {
+        await saveFirebaseSiteConfig({
+          access: loadAccess(),
+          notices: normalized,
+        });
+      } catch (err) {
+        if (firebaseConfig().allowLocalFallback !== true) {
+          throw err;
+        }
+        console.warn("[GaongilFirebase] Firestore 공지 설정 저장 실패, 로컬 폴백을 적용합니다.", err);
+      }
     }
     return normalized;
   }
@@ -596,8 +610,15 @@
     users.push({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash, createdAt: Date.now() });
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff" });
-      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      try {
+        await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff" });
+        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      } catch (err) {
+        if (firebaseConfig().allowLocalFallback !== true) {
+          throw err;
+        }
+        console.warn("[GaongilFirebase] Firestore 사용자 추가 실패, 로컬 폴백을 적용합니다.", err);
+      }
     }
     return true;
   }
@@ -611,8 +632,15 @@
     users = users.filter((u) => u.id !== normalizedId);
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.removeUserProfile) {
-      await firebaseAdapter().removeUserProfile(id);
-      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      try {
+        await firebaseAdapter().removeUserProfile(id);
+        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      } catch (err) {
+        if (firebaseConfig().allowLocalFallback !== true) {
+          throw err;
+        }
+        console.warn("[GaongilFirebase] Firestore 사용자 삭제 실패, 로컬 폴백을 적용합니다.", err);
+      }
     }
   }
 
@@ -623,8 +651,15 @@
     u.role = role;
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      await firebaseAdapter().saveUserProfile({ ...u, role });
-      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      try {
+        await firebaseAdapter().saveUserProfile({ ...u, role });
+        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      } catch (err) {
+        if (firebaseConfig().allowLocalFallback !== true) {
+          throw err;
+        }
+        console.warn("[GaongilFirebase] Firestore 사용자 역할 수정 실패, 로컬 폴백을 적용합니다.", err);
+      }
     }
   }
 
@@ -635,8 +670,15 @@
     u.email = normalizeEmail(email);
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) });
-      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      try {
+        await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) });
+        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      } catch (err) {
+        if (firebaseConfig().allowLocalFallback !== true) {
+          throw err;
+        }
+        console.warn("[GaongilFirebase] Firestore 사용자 이메일 수정 실패, 로컬 폴백을 적용합니다.", err);
+      }
     }
   }
 
