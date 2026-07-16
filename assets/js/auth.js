@@ -627,8 +627,6 @@
     let users = getUsers();
     const normalizedId = normalizeId(id);
     const target = users.find((u) => u.id === normalizedId);
-    const adminCount = users.filter((u) => u.role === "admin").length;
-    if (target?.role === "admin" && adminCount <= 1) throw new Error("마지막 관리자 계정은 삭제할 수 없습니다.");
     users = users.filter((u) => u.id !== normalizedId);
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.removeUserProfile) {
