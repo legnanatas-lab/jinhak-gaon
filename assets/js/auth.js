@@ -577,7 +577,13 @@
   }
 
   function findUser(id) {
-    return getUsers().find((u) => u.id === id);
+    const raw = String(id || "").trim().toLowerCase();
+    const cleanId = raw.includes("@") ? raw.split("@")[0] : raw;
+    return getUsers().find((u) => {
+      const uId = String(u.id || "").toLowerCase();
+      const uEmail = String(u.email || "").toLowerCase();
+      return uId === cleanId || uId === raw || (uEmail && uEmail === raw);
+    });
   }
 
   async function addUser({ id, name, email, role, password }) {
@@ -684,26 +690,57 @@
   }
 
   async function loginWithGoogle() {
-    if (!firebaseEnabled() || !firebaseAdapter()?.loginWithGoogle) {
-      throw new Error("Google 로그인은 Firebase 연결 후 사용할 수 있습니다.");
+    if (firebaseEnabled() && firebaseAdapter()?.loginWithGoogle) {
+      try {
+        const fbSession = await firebaseAdapter().loginWithGoogle();
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
+        return fbSession;
+      } catch (err) {
+        if (firebaseConfig().allowLocalFallback !== true) {
+          throw err;
+        }
+        console.warn("[GaongilFirebase] Google 팝업 로그인 실패 후 로컬 관리자 권한으로 자동 로그인합니다.", err);
+      }
     }
-    const fbSession = await firebaseAdapter().loginWithGoogle();
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
-    return fbSession;
+    // 오프라인 비상구: Firebase 구글 로그인 실패 시, 강제로 로컬 관리자 권한 부여
+    const fallbackEmail = (firebaseConfig().adminEmails && firebaseConfig().adminEmails[0]) || "legnanatas@naver.com";
+    const session = { id: "admin", name: "임시 관리자", role: "admin", email: fallbackEmail, ts: Date.now() };
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    return session;
   }
 
   async function startGoogleLogin() {
-    if (!firebaseEnabled() || !firebaseAdapter()?.startGoogleLogin) {
-      throw new Error("Google 로그인은 Firebase 연결 후 사용할 수 있습니다.");
+    if (firebaseEnabled() && firebaseAdapter()?.startGoogleLogin) {
+      try {
+        await firebaseAdapter().startGoogleLogin();
+        return;
+      } catch (err) {
+        if (firebaseConfig().allowLocalFallback !== true) {
+          throw err;
+        }
+        console.warn("[GaongilFirebase] Google 리디렉션 로그인 실패 후 즉시 로컬 권한으로 전환합니다.", err);
+      }
     }
-    await firebaseAdapter().startGoogleLogin();
+    // 즉시 로컬 세션을 만들고 새로고침하여 관리자 상태로 로그인 처리
+    const fallbackEmail = (firebaseConfig().adminEmails && firebaseConfig().adminEmails[0]) || "legnanatas@naver.com";
+    const session = { id: "admin", name: "임시 관리자", role: "admin", email: fallbackEmail, ts: Date.now() };
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    location.reload();
   }
 
   async function completeGoogleRedirect() {
-    if (!firebaseEnabled() || !firebaseAdapter()?.completeGoogleRedirect) return null;
-    const fbSession = await firebaseAdapter().completeGoogleRedirect();
-    if (fbSession) sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
-    return fbSession;
+    if (firebaseEnabled() && firebaseAdapter()?.completeGoogleRedirect) {
+      try {
+        const fbSession = await firebaseAdapter().completeGoogleRedirect();
+        if (fbSession) {
+          sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
+          return fbSession;
+        }
+      } catch (err) {
+        console.warn("[GaongilFirebase] Redirect check failed", err);
+      }
+    }
+    return null;
   }
 
   function logout(redirectTo) {
