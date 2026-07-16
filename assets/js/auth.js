@@ -44,7 +44,8 @@
   }
 
   function loadFirebaseSupportOnce() {
-    if (attemptedFirebaseSupportLoad || global.GaongilFirebase) return;
+    if (global.GaongilFirebase && global.GAONGIL_FIREBASE_CONFIG) return;
+    if (attemptedFirebaseSupportLoad) return;
     attemptedFirebaseSupportLoad = true;
     loadSiblingScriptOnce("firebase-config.js");
     loadSiblingScriptOnce("firebase-adapter.js");
