@@ -586,8 +586,12 @@
   }
 
   function getUsers() {
-    if (firebaseEnabled() && Array.isArray(remoteUsersCache)) return remoteUsersCache;
-    return loadUsers() || [];
+    const localUsers = loadUsers() || [];
+    if (firebaseEnabled() && Array.isArray(remoteUsersCache)) {
+      const localIds = new Set(localUsers.map((u) => u.id));
+      return remoteUsersCache.filter((u) => localIds.has(u.id));
+    }
+    return localUsers;
   }
 
   function findUser(id) {
