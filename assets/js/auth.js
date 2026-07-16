@@ -262,18 +262,23 @@
   }
 
   function loadAccess() {
+    const localRaw = localStorage.getItem(ACCESS_KEY);
+    let localAccess = null;
+    try {
+      if (localRaw) localAccess = JSON.parse(localRaw);
+    } catch (e) {}
+
     const remoteAccess = (remoteSiteConfigCache || global.GAONGIL_REMOTE_SITE_CONFIG || {}).access;
+
     if (firebaseEnabled() && remoteAccess) {
+      if (localAccess && Number(localAccess.updatedAt || 0) > Number(remoteAccess.updatedAt || 0)) {
+        return normalizeAccessSettings(localAccess, { publicPages: ["index.html"], userPages: {} });
+      }
       return normalizeAccessSettings(remoteAccess, { publicPages: ["index.html"], userPages: {} });
     }
-    try {
-      const raw = localStorage.getItem(ACCESS_KEY);
-      const parsed = raw ? JSON.parse(raw) : null;
-      if (!parsed || typeof parsed !== "object") return defaultAccess();
-      return normalizeAccessSettings(parsed, { publicPages: ["index.html"], userPages: {} });
-    } catch (e) {
-      return defaultAccess();
-    }
+
+    if (localAccess) return normalizeAccessSettings(localAccess, { publicPages: ["index.html"], userPages: {} });
+    return defaultAccess();
   }
 
   async function saveAccess(access) {
@@ -312,6 +317,7 @@
     const key = normalizePageKey(pageKey) || "index.html";
     if (key === "index.html" || key === "login.html") return true;
     if (session && session.role === "admin") return true;
+    if (session && firebaseConfig().allowLocalFallback === true) return true;
     if (isPagePublic(key)) return true;
     if (session) return pageListIncludes(loadAccess().userPages[session.id], key);
     return false;
@@ -365,26 +371,40 @@
 
   function loadNoticeSettings() {
     const base = defaultNoticeSettings();
+    const localRaw = localStorage.getItem(NOTICE_KEY);
+    let localNotices = null;
+    try {
+      if (localRaw) {
+        const parsed = JSON.parse(localRaw);
+        if (parsed && typeof parsed === "object") {
+          localNotices = {
+            enabled: parsed.enabled !== false,
+            items: Array.isArray(parsed.items) ? parsed.items.map(normalizeNotice) : [],
+            updatedAt: Number(parsed.updatedAt || Date.now()),
+          };
+        }
+      }
+    } catch (e) {}
+
     const remoteNotices = (remoteSiteConfigCache || global.GAONGIL_REMOTE_SITE_CONFIG || {}).notices;
-    if (firebaseEnabled() && remoteNotices && typeof remoteNotices === "object") {
-      return {
+    let remoteParsed = null;
+    if (remoteNotices && typeof remoteNotices === "object") {
+      remoteParsed = {
         enabled: remoteNotices.enabled !== false,
         items: Array.isArray(remoteNotices.items) ? remoteNotices.items.map(normalizeNotice) : [],
         updatedAt: Number(remoteNotices.updatedAtMillis || remoteNotices.updatedAt || Date.now()),
       };
     }
-    try {
-      const raw = localStorage.getItem(NOTICE_KEY);
-      const parsed = raw ? JSON.parse(raw) : null;
-      if (!parsed || typeof parsed !== "object") return base;
-      return {
-        enabled: parsed.enabled !== false,
-        items: Array.isArray(parsed.items) ? parsed.items.map(normalizeNotice) : [],
-        updatedAt: Number(parsed.updatedAt || Date.now()),
-      };
-    } catch (e) {
-      return base;
+
+    if (firebaseEnabled() && remoteParsed) {
+      if (localNotices && Number(localNotices.updatedAt || 0) > Number(remoteParsed.updatedAt || 0)) {
+        return localNotices;
+      }
+      return remoteParsed;
     }
+
+    if (localNotices) return localNotices;
+    return base;
   }
 
   async function saveNoticeSettings(settings, options = {}) {
