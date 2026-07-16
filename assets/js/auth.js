@@ -8,6 +8,32 @@
    ============================================================ */
 
 (function (global) {
+  // Safe localStorage wrapper to prevent Safari Private mode SecurityError crash
+  const safeStorage = {
+    getItem: function(key) {
+      try {
+        return window.localStorage.getItem(key);
+      } catch (e) {
+        return this._data[key] || null;
+      }
+    },
+    setItem: function(key, val) {
+      try {
+        window.localStorage.setItem(key, val);
+      } catch (e) {
+        this._data[key] = String(val);
+      }
+    },
+    removeItem: function(key) {
+      try {
+        window.localStorage.removeItem(key);
+      } catch (e) {
+        delete this._data[key];
+      }
+    },
+    _data: {}
+  };
+
   const USERS_KEY = "gaongil_users_v2";
   const SESSION_KEY = "gaongil_session_v1";
   const ACCESS_KEY = "gaongil_access_v1";
@@ -130,14 +156,14 @@
 
   function loadUsers() {
     try {
-      const raw = localStorage.getItem(USERS_KEY);
+      const raw = safeStorage.getItem(USERS_KEY);
       if (raw) return JSON.parse(raw);
     } catch (e) {}
     return null;
   }
 
   function saveUsers(users) {
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    safeStorage.setItem(USERS_KEY, JSON.stringify(users));
   }
 
   function normalizeId(id) {
@@ -262,7 +288,7 @@
   }
 
   function loadAccess() {
-    const localRaw = localStorage.getItem(ACCESS_KEY);
+    const localRaw = safeStorage.getItem(ACCESS_KEY);
     let localAccess = null;
     try {
       if (localRaw) localAccess = JSON.parse(localRaw);
@@ -284,7 +310,7 @@
   async function saveAccess(access) {
     const normalized = normalizeAccessSettings(access, { publicPages: ["index.html"], userPages: {} });
     normalized.updatedAt = Date.now();
-    localStorage.setItem(ACCESS_KEY, JSON.stringify(normalized));
+    safeStorage.setItem(ACCESS_KEY, JSON.stringify(normalized));
     if (firebaseEnabled()) {
       try {
         await saveFirebaseSiteConfig({
@@ -371,7 +397,7 @@
 
   function loadNoticeSettings() {
     const base = defaultNoticeSettings();
-    const localRaw = localStorage.getItem(NOTICE_KEY);
+    const localRaw = safeStorage.getItem(NOTICE_KEY);
     let localNotices = null;
     try {
       if (localRaw) {
@@ -414,7 +440,7 @@
       items,
       updatedAt: Date.now(),
     };
-    localStorage.setItem(NOTICE_KEY, JSON.stringify(normalized));
+    safeStorage.setItem(NOTICE_KEY, JSON.stringify(normalized));
     if (firebaseEnabled() && options.remote !== false) {
       try {
         await saveFirebaseSiteConfig({
@@ -463,7 +489,7 @@
 
   function loadNoticeDismissals() {
     try {
-      const parsed = JSON.parse(localStorage.getItem(NOTICE_DISMISS_KEY) || "{}");
+      const parsed = JSON.parse(safeStorage.getItem(NOTICE_DISMISS_KEY) || "{}");
       return parsed && typeof parsed === "object" ? parsed : {};
     } catch (e) {
       return {};
@@ -472,7 +498,7 @@
 
   function saveNoticeDismissals(data) {
     try {
-      localStorage.setItem(NOTICE_DISMISS_KEY, JSON.stringify(data || {}));
+      safeStorage.setItem(NOTICE_DISMISS_KEY, JSON.stringify(data || {}));
     } catch (e) {}
   }
 
@@ -936,7 +962,7 @@
     if (canAccessPage(key, session)) {
       installDownloadDeterrents({ silent: true });
       installAccessLinkGuards({ login: redirectTo || "login.html" });
-      return session;
+      return session || { id: "guest", name: "게스트", role: "guest", guest: true };
     }
     denyAccess(redirectTo, !!session);
     return false;
