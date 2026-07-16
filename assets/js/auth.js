@@ -627,7 +627,8 @@
   }
 
   async function ensureSeedUsers(options = {}) {
-    if (options.fast === true && firebaseEnabled()) {
+    const isFast = options.fast !== false;
+    if (isFast && firebaseEnabled()) {
       const adapter = firebaseAdapter();
       if (adapter?.init) await adapter.init().catch(() => null);
     } else {
@@ -763,7 +764,7 @@
       await firebaseAdapter().sendPasswordResetEmail(loginKey);
       return true;
     }
-    await ensureSeedUsers();
+    await ensureSeedUsers({ fast: false });
     const users = getUsers();
     const u = users.find((x) => x.id === normalizeId(id));
     if (!u || !u.email || u.email !== normalizeEmail(email)) {
@@ -788,7 +789,7 @@
         console.warn("[GaongilFirebase] Firebase 로그인 실패 후 로컬 로그인으로 전환합니다.", err);
       }
     }
-    await ensureSeedUsers();
+    await ensureSeedUsers({ fast: false });
     let u = findUser(normalizedId);
     
     // 로컬 캐시나 remoteUsersCache 병합 목록에 없을 경우, Firestore 개별 문서를 직접 조회를 시도합니다.
