@@ -8,7 +8,8 @@ service firebase.storage {
     function bootstrapAdminEmail() {
       // 지정된 Google 로그인 관리자 이메일입니다.
       return request.auth.token.email in [
-        "legnanatas@jbnu.ac.kr"
+        "legnanatas@jbnu.ac.kr",
+        "legnanatas@naver.com"
       ];
     }
 
