@@ -2345,10 +2345,10 @@ window.GAONGIL_SITE_CONFIG = {
     }
   },
   "notices": {
-    "enabled": false,
+    "enabled": true,
     "items": [
       {
-        "enabled": false,
+        "enabled": true,
         "title": "시범운영중",
         "text": "시범입니다 시범입니다",
         "image": "",

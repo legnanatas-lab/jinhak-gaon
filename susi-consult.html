@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -57,6 +55,9 @@ html, body, button, input, select, textarea, summary { font-family: var(--gaongi
 body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,td,th,dt,dd,strong,b,em,small,div,span):not(.ti):not([class^="ti-"]):not([class*=" ti-"]):not(.material-icons):not(.material-symbols-outlined) { font-family: var(--gaongil-font) !important; }
 
 </style>
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./portal.css?v=20260712-mobile-overlay" />
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
 <body>
 <header class="top"><div class="top-inner"><div class="brand"><div class="brand-mark">路</div><div><h1>가온길 수시상담 페이지</h1><p>2026 입시결과 선택 → 같은 대학·학과의 2027 모집전형·인원·수능최저 자동 연결</p></div></div><div class="actions"><button class="btn" id="resetBtn">초기화</button><button class="btn primary" id="printBtn">상담 결과 프린트</button></div></div></header>
@@ -120,11 +121,13 @@ wire();
 
 </script>
 
-  <script src="./assets/js/auth.js?v=20260717-speed-fix"></script>
+  <script src="./assets/js/auth.js?v=20260713-firebase-google"></script>
   <script>
     (async () => {
       await GaongilAuth.ensureSeedUsers();
       GaongilAuth.requirePageAccess("./login.html");
     })();
   </script>
-  </body></html>
+  <script src="./assets/js/gaongil-dark-shell.js" defer></script>
+<script src="./portal-menu-v2.js?v=20260721b"></script>
+</body></html>

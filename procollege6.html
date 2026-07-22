@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -293,6 +291,8 @@ main{min-height:60vh}
 </style>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="./portal.css?v=20260712-mobile-overlay" />
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
 <body class="gaongil-linked-page" data-gaongil-page="procollege6">
 <header>
@@ -429,20 +429,21 @@ main{min-height:60vh}
   <div class="pline">제작 : 가온길 에듀 입시전략연구소 · 출처 전문대학포털(procollege.kr) 입시결과서비스 <span id="ft-collected"></span></div>
 </footer>
 
-<script src="assets/js/site-data.js?v=20260716-safari-fix-v2"></script>
-  <script src="assets/js/auth.js?v=20260717-speed-fix"></script>
-  <script src="assets/js/protected-loader.js?v=20260716-safari-fix-v2"></script>
+<script src="assets/js/site-data.js?v=20260711-config"></script>
+  <script src="assets/js/auth.js?v=20260713-firebase-google"></script>
+  <script src="assets/js/protected-loader.js?v=20260713-protect1"></script>
   <script>
     GaongilProtected.loadAfterAccess({
       redirectTo: "login.html",
       userChipId: "userChip",
       scripts: [
-        "./data/procollege6-data.js?v=20260716-safari-fix-v2",
-        "./assets/js/procollege6-app.js?v=20260716-safari-fix-v2",
-        "./portal-menu.js?v=20260716-safari-fix-v2"
+        "./data/procollege6-data.js?v=20260713-protect1",
+        "./assets/js/procollege6-app.js?v=20260713-protect1",
+        "./portal-menu-v2.js?v=20260721b"
       ],
       domReadyBeforeScripts: true
     });
   </script>
-  </body>
+  <script src="./assets/js/gaongil-dark-shell.js" defer></script>
+</body>
 </html>

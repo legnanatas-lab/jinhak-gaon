@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -249,6 +247,8 @@ footer .wrap{padding:14px 16px;font-size:12px;color:var(--tx2);line-height:1.8}
 </style>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="./portal.css?v=20260712-gosa-detail" />
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
 <body class="gaongil-linked-page" data-gaongil-page="gosa2027">
 <header class="hd">
@@ -399,21 +399,22 @@ footer .wrap{padding:14px 16px;font-size:12px;color:var(--tx2);line-height:1.8}
     <div style="text-align:right;margin-top:14px"><button data-act="help-close">닫기</button></div>
   </div>
 </div>
-<script src="assets/js/site-data.js?v=20260716-safari-fix-v2"></script>
-<script src="assets/js/auth.js?v=20260717-speed-fix"></script>
-<script src="assets/js/protected-loader.js?v=20260716-safari-fix-v2"></script>
+<script src="assets/js/site-data.js?v=20260711-config"></script>
+<script src="assets/js/auth.js?v=20260713-firebase-google"></script>
+<script src="assets/js/protected-loader.js?v=20260713-protect1"></script>
 <script>
   GaongilProtected.loadAfterAccess({
     redirectTo: "login.html",
     userChipId: "userChip",
     scripts: [
-      "./data/2027gosa-data.js?v=20260716-safari-fix-v3",
-      "./assets/js/2027gosa-app.js?v=20260716-safari-fix-v3",
-      "./portal-menu.js?v=20260716-safari-fix-v3"
+      "./data/2027gosa-data.js?v=20260713-protect1",
+      "./assets/js/2027gosa-app.js?v=20260713-protect1",
+      "./portal-menu-v2.js?v=20260721b"
     ],
     domReadyBeforeScripts: true
   });
 </script>
 
-  </body>
+  <script src="./assets/js/gaongil-dark-shell.js" defer></script>
+</body>
 </html>

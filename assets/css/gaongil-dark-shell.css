@@ -1,0 +1,87 @@
+/* ============================================================
+   가온길 에듀 — 전역 프리미엄 다크 셸
+   모든 하위 페이지에 공통 로드되어, 페이지별로 남아있는
+   밝은(백색) 배경을 가온길 다크 톤으로 통일합니다.
+   ============================================================ */
+
+:root{
+  --gg-bg-0:#050b14;
+  --gg-bg-1:#081321;
+  --gg-panel:#0d1626;
+  --gg-panel-2:#111f34;
+  --gg-line:rgba(214,173,99,.22);
+  --gg-line-soft:rgba(255,255,255,.08);
+  --gg-gold:#f0d99b;
+  --gg-gold-strong:#d6ad63;
+  --gg-text:#edf5ff;
+  --gg-text-muted:#aab6c9;
+  --gg-shadow: 0 18px 48px rgba(0,0,0,.34);
+}
+
+html{
+  background: var(--gg-bg-0) !important;
+}
+
+html, body{
+  color-scheme: dark;
+}
+
+body{
+  background:
+    linear-gradient(rgba(214,173,99,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(214,173,99,.04) 1px, transparent 1px),
+    radial-gradient(circle at 9% 18%, rgba(214,173,99,.10), transparent 28rem),
+    linear-gradient(180deg, var(--gg-bg-0) 0%, var(--gg-bg-1) 45%, var(--gg-bg-0) 100%) !important;
+  background-size: 64px 64px, 64px 64px, auto, auto !important;
+}
+
+/* scrollbar */
+::-webkit-scrollbar{ width:12px; height:12px; }
+::-webkit-scrollbar-track{ background: var(--gg-bg-0); }
+::-webkit-scrollbar-thumb{ background: rgba(214,173,99,.32); border-radius: 8px; border: 3px solid var(--gg-bg-0); }
+::-webkit-scrollbar-thumb:hover{ background: rgba(214,173,99,.5); }
+
+::selection{ background: rgba(214,173,99,.32); color:#fff; }
+
+a{ text-decoration-color: rgba(214,173,99,.4); }
+
+body [class*="wrap"],
+body [class*="container"],
+body [class*="content"],
+body [class*="panel"],
+body [class*="card"]:not([class*="badge"]),
+body [class*="box"]:not([class*="checkbox"]),
+body [class*="section"],
+body main,
+body table{
+  scrollbar-color: rgba(214,173,99,.35) transparent;
+}
+
+/* ============================================================
+   전역 인터랙션 다듬기 — 탐구주제 도구(tamgu)의 골드 호버 톤을
+   사이트 전체에 안전하게 확장합니다. 각 페이지가 이미 고유한
+   :hover 규칙을 갖고 있으면 그대로 우선 적용되고, 여기서는
+   부드러운 전환(transition)과 포커스 표시만 보강합니다.
+   ============================================================ */
+a, button, summary, .resource-card, .feature-card, [class*="card"], [class*="btn"], [class*="Btn"]{
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background-color .18s ease, color .18s ease;
+}
+
+:focus-visible{
+  outline: 2px solid rgba(240,217,155,.85) !important;
+  outline-offset: 2px;
+}
+
+/* dark-shell 스크립트가 새로 어둡게 바꾼 요소는 아직 자체 hover가
+   없을 가능성이 높으므로, 이 요소들에 한해 골드 리프트 효과를 추가합니다. */
+[data-gaongil-dark]:hover{
+  box-shadow: 0 18px 44px rgba(0,0,0,.38), inset 0 0 0 1px rgba(214,173,99,.22);
+}
+
+/* 클래스가 없는 순수 버튼 요소를 위한 기본 골드 호버 (이미 스타일이
+   지정된 버튼은 자체 class 규칙이 우선 적용되어 영향 없음) */
+button:not([class]):hover,
+button:not([class]):focus-visible{
+  background: linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%);
+  color: #071221;
+}

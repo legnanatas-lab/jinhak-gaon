@@ -8,25 +8,12 @@
   );
 
   function waitForDomReady() {
-    return new Promise((resolve) => {
-      if (document.readyState !== "loading") {
-        resolve();
-        return;
-      }
-
-      let resolved = false;
-      const done = () => {
-        if (resolved) return;
-        resolved = true;
-        resolve();
-      };
-
-      document.addEventListener("DOMContentLoaded", done, { once: true });
-      window.addEventListener("load", done, { once: true });
-      
-      // Safe fallback: force resolve after 20ms if events are missed
-      setTimeout(done, 20);
-    });
+    if (document.readyState === "loading") {
+      return new Promise((resolve) => {
+        document.addEventListener("DOMContentLoaded", resolve, { once: true });
+      });
+    }
+    return Promise.resolve();
   }
 
   function showBootError(message) {

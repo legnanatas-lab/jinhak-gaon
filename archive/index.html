@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<script data-gaongil-origin-guard>
+(function(){
+  "use strict";
+  var allowedHosts = {
+    "legnanatas-lab.github.io": true,
+    "gaonjinhak.firebaseapp.com": true,
+    "gaonjinhak.web.app": true,
+    "localhost": true,
+    "127.0.0.1": true
+  };
+  var protocol = window.location.protocol;
+  var host = window.location.hostname;
+  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
+  if (allowed) return;
+  function blockSavedCopy(){
+    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
+    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
+    document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자료 보호 안내</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050b14;color:#edf5ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.box{max-width:720px;margin:24px;padding:32px;border:1px solid rgba(214,173,99,.45);border-radius:24px;background:rgba(13,23,38,.94);box-shadow:0 24px 80px rgba(0,0,0,.45)}h1{margin:0 0 12px;font-size:28px}p{line-height:1.7;color:#b9c4d2}a{color:#f0d99b;font-weight:800}</style></head><body><main class="box"><h1>자료 보호 안내</h1><p>'+message+'</p><p>저장된 HTML 파일이나 복사된 주소에서는 자료를 열람할 수 없습니다.</p><p><a href="'+url+'">공식 사이트로 이동하기</a></p></main></body>';
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
+  else blockSavedCopy();
+})();
+</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="가온길 에듀 RNE 과목별 연구자료 아카이브">
+  <meta name="author" content="가온길 에듀 입시전략연구소">
+  <title>과목별 연구자료 아카이브 | 가온길 에듀</title>
+  <link rel="icon" href="assets/gaongil-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="../assets/css/gaongil-dark-shell.css">
+</head>
+<body>
+  <div class="lux-line"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="가온길 에듀 과목별 자료실 홈">
+        <img class="brand-mark" src="assets/gaongil-mark.svg" alt="">
+        <span class="brand-copy">
+          <strong>가온길 에듀</strong>
+          <span>가온길 입시전략 연구소 · 과목별 연구자료 아카이브</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a class="top-link" href="../index.html">← 가온길 에듀 홈</a>
+        <a class="top-link" href="#resources">자료 검색</a>
+        <a class="primary-link" href="https://drive.google.com/drive/u/0/folders/1r4pODL48Os9qp3EpZKBGNYnrRRZ4vnIs" target="_blank" rel="noopener">전체 Google Drive</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow">GAONGIL EDU RESEARCH ARCHIVE</div>
+        <h1 id="hero-title">과목별 연구자료를<br>한곳에서 빠르게 찾습니다.</h1>
+        <p>수학·물리·화학·생물·지구과학·정보·공학·융합 분야의 RNE 연구과제를 최신 연도순으로 정리했습니다. 제목, 연구내용 요약, 주제어를 한 번에 검색하고 연결된 Google Drive 파일을 내려받을 수 있습니다.</p>
+        <div class="hero-note">2020~2025년 자료 · 검색어는 제목, 요약, 주제어에 모두 적용됩니다.</div>
+      </div>
+      <div class="hero-stats" aria-label="자료 현황">
+        <div class="stat"><b>2,962</b><span>전체 연구자료</span></div>
+        <div class="stat"><b>8</b><span>과목·분야</span></div>
+        <div class="stat"><b>6</b><span>수록 연도</span></div>
+        <div class="stat"><b>2,928</b><span>Drive 파일 연결</span></div>
+      </div>
+    </section>
+
+    <div class="sticky-filter-zone">
+      <section class="controls" id="resources" aria-label="자료 검색 및 필터">
+        <div class="search-row">
+          <label class="search-wrap">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+            <input id="searchInput" class="search-input" type="search" placeholder="연구 주제, 내용, 키워드 검색" autocomplete="off">
+          </label>
+          <select id="yearSelect" aria-label="연도 선택">
+            <option value="all">전체 연도</option>
+            <option value="2025">2025년 (524)</option><option value="2024">2024년 (515)</option><option value="2023">2023년 (496)</option><option value="2022">2022년 (480)</option><option value="2021">2021년 (492)</option><option value="2020">2020년 (455)</option>
+          </select>
+          <select id="sortSelect" aria-label="정렬 방식">
+            <option value="newest">최신순</option>
+            <option value="oldest">오래된순</option>
+            <option value="title">제목순</option>
+          </select>
+          <button id="clearBtn" class="clear-btn" type="button">초기화</button>
+        </div>
+        <div id="fieldChips" class="field-chips" aria-label="과목별 필터">
+          <button class="field-chip active" type="button" data-field="all">전체 2,962</button>
+          <button class="field-chip" type="button" data-field="수학">수학 376</button><button class="field-chip" type="button" data-field="물리">물리 462</button><button class="field-chip" type="button" data-field="화학">화학 507</button><button class="field-chip" type="button" data-field="생물">생물 451</button><button class="field-chip" type="button" data-field="지구과학">지구과학 188</button><button class="field-chip" type="button" data-field="정보">정보 303</button><button class="field-chip" type="button" data-field="공학">공학 267</button><button class="field-chip" type="button" data-field="융합">융합 408</button>
+        </div>
+      </section>
+
+      <div id="selectionTray" class="selection-tray hidden" aria-live="polite">
+        <div class="selection-tray-inner">
+          <div class="selection-tray-copy">
+            <b><span id="selectedCount">0</span>개 자료 선택</b>
+            <span>선택한 연구자료를 한꺼번에 확인하거나 복사할 수 있습니다.</span>
+          </div>
+          <div class="selection-tray-actions">
+            <button id="openSelectionBtn" class="selection-open-btn" type="button">선택 자료 보기</button>
+            <button id="copySelectionBtn" class="selection-copy-btn" type="button">선택 내용 복사</button>
+            <button id="clearSelectionBtn" class="selection-clear-btn" type="button">전체 해제</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section aria-live="polite">
+      <div class="results-head">
+        <div>
+          <h2>연구자료 목록</h2>
+          <p id="resultSummary">전체 자료를 최신순으로 표시합니다.</p>
+        </div>
+        <div class="result-tools">
+          <div class="selection-tools" aria-label="자료 선택 도구">
+            <button class="select-page-btn" id="selectPageBtn" type="button">현재 페이지 전체 선택</button>
+            <button class="clear-selection-top hidden" id="clearSelectionTopBtn" type="button">전체 선택 해제</button>
+          </div>
+          <div class="view-tools" aria-label="보기 방식">
+            <button class="view-btn active" id="gridViewBtn" type="button" title="카드 보기" aria-label="카드 보기">▦</button>
+            <button class="view-btn" id="listViewBtn" type="button" title="목록 보기" aria-label="목록 보기">☰</button>
+          </div>
+        </div>
+      </div>
+      <div id="cardGrid" class="card-grid"></div>
+      <div id="pagination" class="pagination"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © 가온길 에듀 · 가온길 입시전략 연구소<br>
+    연구과제 설명과 주제어는 제공된 RNE 연도별 정리 자료를 기준으로 구성했습니다.
+  </footer>
+
+  <div id="modalBackdrop" class="modal-backdrop hidden" role="presentation">
+    <article class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <div>
+          <div id="modalMeta" class="card-meta"></div>
+          <h3 id="modalTitle"></h3>
+        </div>
+        <button id="modalClose" class="modal-close" type="button" aria-label="닫기">×</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+    </article>
+  </div>
+
+
+  <div id="selectionBackdrop" class="modal-backdrop hidden" role="presentation">
+    <article class="modal selection-modal" role="dialog" aria-modal="true" aria-labelledby="selectionTitle">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">SELECTED RESEARCH</div>
+          <h3 id="selectionTitle">선택한 연구자료</h3>
+        </div>
+        <button id="selectionClose" class="modal-close" type="button" aria-label="닫기">×</button>
+      </div>
+      <div id="selectionBody" class="modal-body"></div>
+    </article>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+
+  <script>
+    window.GAONGIL_CONFIG = {
+      driveFolderUrl: "https://drive.google.com/drive/u/0/folders/1r4pODL48Os9qp3EpZKBGNYnrRRZ4vnIs",
+      pageSize: 24
+    };
+  </script>
+  <script src="assets/resources-data.js"></script>
+  <script src="assets/app.js"></script>
+  <script src="../assets/js/auth.js?v=20260713-firebase-google"></script>
+  <script>
+    (async () => {
+      await GaongilAuth.ensureSeedUsers();
+      GaongilAuth.requirePageAccess("../login.html");
+    })();
+  </script>
+  <script src="../assets/js/gaongil-dark-shell.js" defer></script>
+</body>
+</html>

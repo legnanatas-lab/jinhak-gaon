@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -33,6 +31,8 @@
     <meta http-equiv="Cache-Control" content="no-store" />
     <link rel="stylesheet" href="./styles.css?v=19" />
     <link rel="stylesheet" href="./portal.css?v=20260712-mobile-overlay" />
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
   <body data-gaongil-page="susi">
     <div id="app" class="app-shell">
@@ -42,23 +42,23 @@
         <span>입결 데이터를 불러오는 중입니다...</span>
       </div>
     </div>
-    <script src="assets/js/site-data.js?v=20260716-safari-fix-v2"></script>
-    <script src="assets/js/auth.js?v=20260717-speed-fix"></script>
-    <script src="assets/js/protected-loader.js?v=20260716-safari-fix-v2"></script>
+    <script src="assets/js/site-data.js?v=20260711-config"></script>
+    <script src="assets/js/auth.js?v=20260713-firebase-google"></script>
+    <script src="assets/js/protected-loader.js?v=20260713-protect1"></script>
     <script>
       GaongilProtected.loadAfterAccess({
         redirectTo: "login.html",
         userChipId: "userChip",
         scripts: [
           "./data/admission-data.js?v=12",
-          "./data/susi-2027-plan.js?v=20260716-safari-fix-v4",
-          "./data/pnu-2027-plan.js?v=20260718-pnu-min1",
-          "./data/kgu-2027-plan.js?v=20260716-safari-fix-v4",
-          "./app.js?v=20260716-safari-fix-v4",
-          "./portal-menu.js?v=20260716-safari-fix-v4"
+          "./data/susi-2027-plan.js?v=1",
+          "./data/pnu-2027-plan.js?v=20260711-pdf1",
+          "./app.js?v=20260713-protect1",
+          "./portal-menu-v2.js?v=20260721b"
         ],
         domReadyBeforeScripts: true
       });
     </script>
+<script src="./assets/js/gaongil-dark-shell.js" defer></script>
 </body>
 </html>

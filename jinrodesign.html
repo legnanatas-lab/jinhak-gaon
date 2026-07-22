@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -1133,6 +1131,8 @@
   }
 </style>
 
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
 <body class="gaongil-linked-page" data-gaongil-page="jinrodesign">
 
@@ -1340,7 +1340,7 @@
         <div class="flow-step"><b style="color:var(--amber)">대학 학과 홈페이지</b><span>교육과정·졸업 후 진로·전공 활동은 대학 공식 학과 페이지에서 최종 확인해요.</span></div>
       </div>
       <div class="card-actions">
-        <a class="mini-link green" href="2025uni.html">학과정보 검색 바로가기</a>
+        <a class="mini-link green" href="2027uni.html">학과정보 검색 바로가기</a>
         <a class="mini-link teal" href="https://www.career.go.kr/cloud/w/job/list" target="_blank" rel="noopener">커리어넷 직업백과 ↗</a>
         <a class="mini-link" href="https://www.career.go.kr/cloud/w/major/uList" target="_blank" rel="noopener">커리어넷 대학교 학과정보 ↗</a>
       </div>
@@ -1819,9 +1819,9 @@
         <div><h4>커리어넷 진로심리검사 <span class="url">career.go.kr</span></h4><p>직업흥미검사(H), 직업적성검사, 직업가치관검사를 실시하고 결과를 확인해요.</p></div>
         <span class="arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
       </a>
-      <a class="site" href="2025uni.html">
+      <a class="site" href="2027uni.html">
         <div class="ic">🏛️</div>
-        <div><h4>학과정보 검색 <span class="url">2025uni.html</span></h4><p>관심 계열과 학과를 찾아보고, 대학별 학과 정보를 비교하며 진학 방향을 구체화해요.</p></div>
+        <div><h4>학과정보 검색 <span class="url">2027uni.html</span></h4><p>관심 계열과 학과를 찾아보고, 대학별 학과 정보를 비교하며 진학 방향을 구체화해요.</p></div>
         <span class="arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
       </a>
       <a class="site" href="sub2.html">
@@ -2084,9 +2084,9 @@ const revObserver = new IntersectionObserver((entries)=>{
 },{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>revObserver.observe(el));
 </script>
-  <script src="./portal-menu.js?v=20260712-mobile-overlay"></script>
+  <script src="./portal-menu-v2.js?v=20260721b"></script>
 
-    <script src="assets/js/auth.js?v=20260717-speed-fix"></script>
+    <script src="assets/js/auth.js?v=20260713-firebase-google"></script>
     <script>
       (async () => {
         await GaongilAuth.ensureSeedUsers();
@@ -2094,5 +2094,6 @@ document.querySelectorAll('.reveal').forEach(el=>revObserver.observe(el));
         GaongilAuth.mountUserChip("userChip");
       })();
     </script>
-  </body>
+  <script src="./assets/js/gaongil-dark-shell.js" defer></script>
+</body>
 </html>

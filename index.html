@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -1223,6 +1221,7 @@ html, body, button, input, select, textarea, summary { font-family: var(--gaongi
 body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,td,th,dt,dd,strong,b,em,small,div,span):not(.ti):not([class^="ti-"]):not([class*=" ti-"]):not(.material-icons):not(.material-symbols-outlined) { font-family: var(--gaongil-font) !important; }
 
 </style>
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
 </head>
   <body>
     <header class="home-topbar">
@@ -1237,6 +1236,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
               <a href="./hakjongguide.html">학생부종합전형에 대한 이해(초급자용)</a>
               <a href="./susi.html?v=26">2026 대학발표 입시결과 조회 (수시결과)</a>
               <a href="./jeongsi/index.html?v=26">2026 정시(수능위주) 입시결과 조회 (정시결과)</a>
+              <a href="./susi-consult.html">가온길 수시상담 페이지 (2026 입결 + 2027 모집정보)</a>
               <a href="./csat2028.html">2028 수능 대비 방법(5개 교과)</a>
               <a href="./preview.html">고등학생을 위한 내신 공부 방법</a>
               <a href="./jinrodesign.html">1·2학년을 위한 진로·학업 설계</a>
@@ -1299,6 +1299,8 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           <details class="nav-menu top-dropdown">
             <summary>학생부·진로·탐구</summary>
             <div class="nav-menu-list wide" role="menu" aria-label="학생부·진로·탐구 메뉴">
+              <a href="./tamgu/index.html">계열 선택형 탐구주제 설정 (3,866개 주제)</a>
+              <a href="./archive/index.html">과목별 연구자료 아카이브 (2,962건 · Drive 연결)</a>
               <a href="./jinrodesign.html">1·2학년을 위한 진로·학업 설계</a>
               <a href="./sub2.html">전공별 선택과목 설계</a>
               <a href="./sciencetam.html">학생부종합전형 대비 과학교과 탐구 방법</a>
@@ -1341,13 +1343,15 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           <details class="nav-menu top-dropdown">
             <summary>통계·채점결과·지도</summary>
             <div class="nav-menu-list wide" role="menu" aria-label="통계·채점결과·지도 메뉴">
-              <a href="./stat-csat2026.html">2026 대학수학능력시험</a>
-              <a href="./stat-mock2027jun.html">2027학년도 6월 대수능 모의평가 분석</a>
-              <a href="./stat-score2027jun.html">2027학년도 6월 모의평가 채점 결과</a>
+              <a href="./placeholder.html?item=cast2026">2026 대학수학능력시험</a>
+              <a href="./placeholder.html?item=juneMock2027">2027학년도 6월 대수능 모의평가 분석</a>
+              <a href="./placeholder.html?item=cast20276">2027학년도 6월 모의평가 채점 결과</a>
               <a href="./unimo.html">대학별 연간 평균 등록금</a>
-              <a href="./stat-natl2026g3.html">2026학년도 3월 고3 전국연합학력평가</a>
-              <a href="./stat-natl2026g1.html">2026학년도 고1 전국연합학력평가</a>
-              <a href="./stat-natl2026g2.html">2026학년도 고2 전국연합학력평가</a>
+              <a href="./placeholder.html?item=cast20265">2026학년도 3월 고3 전국연합학력평가</a>
+              <a href="./placeholder.html?item=cast20266g1">2026학년도 고1 전국연합학력평가</a>
+              <a href="./placeholder.html?item=cast20266g2">2026학년도 고2 전국연합학력평가</a>
+              <a href="./admission-type-results.html">대학 입학전형 유형별 선발 결과 (2024~2026)</a>
+              <a href="./highschool-type-ratio.html">전형유형별 고교유형 선발 비율 (2023~2025)</a>
               <a href="./highschoolmap.html">전국 고등학교 지도</a>
               <a href="./unimap.html">전국 4년제 대학입학 안내 지도</a>
               <a href="./2unimap.html">전국 전문대학 입학 안내 지도</a>
@@ -1454,6 +1458,15 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
               <div><dt>대학</dt><dd>191</dd></div>
             </dl>
           </a>
+          <a class="feature-card" href="./susi-consult.html">
+            <span class="card-kicker">상담</span>
+            <h3>수시상담 페이지</h3>
+            <p>2026 입시결과와 2027 모집정보를 한 화면에서 함께 보며 상담용으로 정리할 수 있습니다.</p>
+            <dl>
+              <div><dt>기준</dt><dd>2026 입결</dd></div>
+              <div><dt>연계</dt><dd>2027 모집</dd></div>
+            </dl>
+          </a>
         </div>
       </section>
 
@@ -1550,6 +1563,8 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         </div>
         <div class="resource-grid">
           <a class="resource-card" href="./jinrodesign.html"><span>고1·고2</span><strong>진로·학업 설계</strong></a>
+          <a class="resource-card" href="./admission-type-results.html"><span>선발 결과</span><strong>대학 입학전형 유형별 선발 결과 (2024~2026)</strong></a>
+          <a class="resource-card" href="./highschool-type-ratio.html"><span>고교유형</span><strong>전형유형별 고교유형 선발 비율 (2023~2025)</strong></a>
         </div>
       </section>
 
@@ -1620,6 +1635,8 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           <p>내신·수능 학습법과 탐구활동, AI 분석, 생기부 점검 자료를 모았습니다.</p>
         </div>
         <div class="resource-grid">
+          <a class="resource-card" href="./tamgu/index.html"><span>탐구주제</span><strong>계열 선택형 탐구주제 설정 (3,866개)</strong></a>
+          <a class="resource-card" href="./archive/index.html"><span>연구자료</span><strong>과목별 연구자료 아카이브 (2,962건)</strong></a>
           <a class="resource-card" href="./preview.html"><span>학습전략</span><strong>고등학생 내신 학습 방법</strong></a>
           <a class="resource-card" href="./csat2028.html"><span>수능</span><strong>2028 수능 5개 교과 가이드</strong></a>
           <a class="resource-card" href="./sciencetam.html"><span>과학</span><strong>교과 연계 심화 탐구활동</strong></a>
@@ -1744,7 +1761,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     </script>
   
     <script src="assets/js/site-data.js?v=20260711-config"></script>
-    <script src="assets/js/auth.js?v=20260717-speed-fix"></script>
+    <script src="assets/js/auth.js?v=20260713-firebase-google"></script>
     <script>
       (async () => {
         if (new URLSearchParams(location.search).has("cb")) {
@@ -1756,5 +1773,6 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         GaongilAuth.mountLoginMenu("loginMenuLink");
       })();
     </script>
-  </body>
+  <script src="./assets/js/gaongil-dark-shell.js" defer></script>
+</body>
 </html>

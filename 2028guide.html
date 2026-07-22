@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -612,6 +610,8 @@ body.gaongil-linked-page::before{content:"";position:fixed;inset:0;pointer-event
 }
 
 </style>
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
 <body data-gaongil-page="guide2028" data-gaongil-root="./" class="gaongil-linked-page">
 
@@ -1948,14 +1948,14 @@ const chartIO=new IntersectionObserver(entries=>{
 });
 
 </script>
-  <script src="./assets/js/auth.js?v=20260717-speed-fix"></script>
+  <script src="./assets/js/auth.js?v=20260713-firebase-google"></script>
   <script>
     (async () => {
       await GaongilAuth.ensureSeedUsers();
       GaongilAuth.requirePageAccess("./login.html");
     })();
   </script>
-  <script src="./portal-menu.js?v=20260712-mobile-overlay"></script>
+  <script src="./portal-menu-v2.js?v=20260721b"></script>
 
 <style id="gaongil-final-last-2028-gold-fix">
   /* 최종 보정: 금색 배경 위 흰 글씨 제거 + 가온길 다크/골드 톤 통일 */
@@ -2047,5 +2047,6 @@ const chartIO=new IntersectionObserver(entries=>{
   }
 </style>
 
+<script src="./assets/js/gaongil-dark-shell.js" defer></script>
 </body>
 </html>

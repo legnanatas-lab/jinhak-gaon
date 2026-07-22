@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -445,6 +443,8 @@ section{scroll-margin-top:96px}
 
 </style>
 
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
 <body data-gaongil-page="admissions2027">
 
@@ -1083,13 +1083,14 @@ section{scroll-margin-top:96px}
   onScroll();
 })();
 </script>
-  <script src="./assets/js/auth.js?v=20260717-speed-fix"></script>
+  <script src="./assets/js/auth.js?v=20260713-firebase-google"></script>
   <script>
     (async () => {
       await GaongilAuth.ensureSeedUsers();
       GaongilAuth.requirePageAccess("./login.html");
     })();
   </script>
-  <script src="./portal-menu.js?v=20260712-mobile-overlay"></script>
+  <script src="./portal-menu-v2.js?v=20260721b"></script>
+<script src="./assets/js/gaongil-dark-shell.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="t d">
+<title id="t">가온길 에듀</title><desc id="d">골드 G 모노그램</desc>
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0d99b"/><stop offset=".55" stop-color="#d6ad63"/><stop offset="1" stop-color="#9b7130"/></linearGradient></defs>
+<rect width="120" height="120" rx="24" fill="#050b14"/>
+<rect x="5" y="5" width="110" height="110" rx="20" fill="none" stroke="url(#g)" stroke-width="3"/>
+<path d="M88 43c-7-12-18-18-32-18-22 0-38 16-38 36s16 36 38 36c14 0 27-6 35-16V58H57v16h17v8c-4 3-10 5-17 5-13 0-23-10-23-26s10-26 23-26c8 0 14 3 19 10z" fill="url(#g)"/>
+</svg>

@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -1068,6 +1066,8 @@ td.mcode:hover{text-decoration:underline}
 @media (max-width:860px){.lang-map{grid-template-columns:1fr}}
 </style>
   <link rel="stylesheet" href="./portal.css?v=20260712-mobile-overlay" />
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
 <body>
 
@@ -2010,13 +2010,14 @@ function openStandard(i){current=i;tab='overview';openView('standards');renderLi
 function downloadCSV(){const rows=[['영역','코드','성취기준','수업제목','유형','차시','핵심개념','언어담화포커스','개념렌즈','산출물','관찰증거','심화탐구','연계진로']];DATA.forEach(x=>rows.push([x.domain,x.code,x.standard,x.title,x.type,x.period,x.concept,x.formula,x.lens,x.products.join('; '),x.evidence.join(' / '),x.deepDive,x.career]));const csv=rows.map(r=>r.map(v=>'"'+String(v).split('"').join('""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}));a.download='영어Ⅰ_수업설계_매트릭스_가온길에듀.csv';a.click();}
 document.getElementById('search').addEventListener('input',renderList);document.getElementById('domain').addEventListener('change',renderList);document.getElementById('type').addEventListener('change',renderList);renderList();renderMatrix();document.addEventListener('keydown',function(e){if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;if(e.key==='ArrowDown'&&document.getElementById('standards').classList.contains('active')){e.preventDefault();const arr=filtered();const idx=arr.indexOf(DATA[current]);if(idx>=0&&idx<arr.length-1)select(DATA.indexOf(arr[idx+1]));}if(e.key==='ArrowUp'&&document.getElementById('standards').classList.contains('active')){e.preventDefault();const arr=filtered();const idx=arr.indexOf(DATA[current]);if(idx>0)select(DATA.indexOf(arr[idx-1]));}});(function(){const fab=document.getElementById('fabHome');if(!fab)return;let ticking=false;function onScroll(){if(window.scrollY>240)fab.classList.add('visible');else fab.classList.remove('visible');ticking=false;}window.addEventListener('scroll',function(){if(!ticking){window.requestAnimationFrame(onScroll);ticking=true;}},{passive:true});})();
 </script>
-  <script src="./assets/js/auth.js?v=20260717-speed-fix"></script>
+  <script src="./assets/js/auth.js?v=20260713-firebase-google"></script>
   <script>
     (async () => {
       await GaongilAuth.ensureSeedUsers();
       GaongilAuth.requirePageAccess("./login.html");
     })();
   </script>
-  <script src="./portal-menu.js?v=20260712-mobile-overlay"></script>
+  <script src="./portal-menu-v2.js?v=20260721b"></script>
+<script src="./assets/js/gaongil-dark-shell.js" defer></script>
 </body>
 </html>

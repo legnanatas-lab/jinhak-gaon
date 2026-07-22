@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -233,6 +231,8 @@ mark.hl{background:var(--mark-cur);color:#3a2c00;border-radius:3px;padding:0 1px
 }
 </style>
   <link rel="stylesheet" href="./portal.css?v=20260712-mobile-overlay" />
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
 <body data-gaongil-page="seongjeok2026" data-gaongil-root="./" class="gaongil-linked-page">
 <header class='topbar'>
@@ -1223,13 +1223,14 @@ E라는 성적산출기준명 ➜ 1회고사 + 2회고사 + 수행1<br>▸ 학�
   bt.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
 })();
 </script>
-  <script src="./assets/js/auth.js?v=20260717-speed-fix"></script>
+  <script src="./assets/js/auth.js?v=20260713-firebase-google"></script>
   <script>
     (async () => {
       await GaongilAuth.ensureSeedUsers();
       GaongilAuth.requirePageAccess("./login.html");
     })();
   </script>
-  <script src="./portal-menu.js?v=20260712-mobile-overlay"></script>
+  <script src="./portal-menu-v2.js?v=20260721b"></script>
+<script src="./assets/js/gaongil-dark-shell.js" defer></script>
 </body>
 </html>

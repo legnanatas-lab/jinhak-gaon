@@ -1,1 +1,101 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><body style="font-family:system-ui;margin:0;padding:30px;background:#fff;color:#102a4c"><h1>탐구 분석</h1><p>원본 분석 이미지/세부 데이터가 첨부 압축에 포함되지 않아 기본 안내 화면으로 연결했습니다.</p></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script data-gaongil-origin-guard>
+(function(){
+  "use strict";
+  var allowedHosts = {
+    "legnanatas-lab.github.io": true,
+    "gaonjinhak.firebaseapp.com": true,
+    "gaonjinhak.web.app": true,
+    "localhost": true,
+    "127.0.0.1": true
+  };
+  var protocol = window.location.protocol;
+  var host = window.location.hostname;
+  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
+  if (allowed) return;
+  function blockSavedCopy(){
+    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
+    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
+    document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자료 보호 안내</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050b14;color:#edf5ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.box{max-width:720px;margin:24px;padding:32px;border:1px solid rgba(214,173,99,.45);border-radius:24px;background:rgba(13,23,38,.94);box-shadow:0 24px 80px rgba(0,0,0,.45)}h1{margin:0 0 12px;font-size:28px}p{line-height:1.7;color:#b9c4d2}a{color:#f0d99b;font-weight:800}</style></head><body><main class="box"><h1>자료 보호 안내</h1><p>'+message+'</p><p>저장된 HTML 파일이나 복사된 주소에서는 자료를 열람할 수 없습니다.</p><p><a href="'+url+'">공식 사이트로 이동하기</a></p></main></body>';
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
+  else blockSavedCopy();
+})();
+</script>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="가온길 에듀 계열 선택형 탐구주제 탐색 시스템. 키워드 기반 다중 자료 검색, KCI 공식 검색, 선택 주제 펼쳐보기를 지원합니다.">
+<meta name="author" content="가온길 에듀 입시전략연구소">
+<title>가온길 에듀 탐구주제 설정</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./assets/app.css?v=20260720-v6">
+<link rel="stylesheet" href="../assets/css/gaongil-dark-shell.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <a class="logoBox" href="./index.html" aria-label="가온길 에듀 탐구주제 홈">
+      <img src="./assets/gaongil-logo.png" alt="가온길 에듀" onerror="this.style.display='none';this.parentElement.classList.add('logoFallback')">
+      <span class="logoText">GAONGIL EDU</span>
+    </a>
+    <div class="brandGroup">
+      <div class="brandKicker">GAONGIL EDU RESEARCH</div>
+      <div class="brandTitle">계열 선택형 탐구주제 설정</div>
+      <div class="brandSub">진로 계열을 선택한 뒤, 교과·과목·영역·탐구주제를 단계별로 탐색하세요.</div>
+    </div>
+    <div class="topActions">
+      <a class="badge" href="../index.html" style="text-decoration:none">← 가온길 에듀 홈</a>
+      <span class="badge gold">7개 계열</span>
+      <span class="badge">총 3,866개 탐구주제</span>
+      <button class="selectedTopBtn" id="selectedOpenBtn" type="button">🗂 선택한 주제 <span class="selectedCount" id="selectedCount">0</span></button>
+    </div>
+  </header>
+  <div class="shell">
+    <aside class="rail">
+      <h2 class="railTitle">계열 바로가기</h2>
+      <div class="navList" id="navList"></div>
+      <div class="guide">
+        <div class="guideTitle">사용 순서</div>
+        <ol>
+          <li>계열을 선택합니다.</li>
+          <li>교과 → 과목 → 영역을 고릅니다.</li>
+          <li>주제를 선택하고 ‘선택 담기’를 누릅니다.</li>
+          <li>상단 ‘선택한 주제’에서 한꺼번에 확인합니다.</li>
+        </ol>
+      </div>
+    </aside>
+    <main class="content" id="content"></main>
+  </div>
+</div>
+<div class="modalBackdrop" id="selectedModal" aria-hidden="true">
+  <section class="selectedDrawer" role="dialog" aria-modal="true" aria-labelledby="selectedDrawerTitle">
+    <header class="drawerHead">
+      <div><div class="drawerTitle" id="selectedDrawerTitle">선택한 탐구주제</div><div class="drawerSub" id="selectedDrawerSub">선택한 주제를 계열별로 모아봅니다.</div></div>
+      <button class="drawerClose" id="selectedCloseBtn" type="button" aria-label="닫기">×</button>
+    </header>
+    <div class="drawerBody" id="selectedDrawerBody"></div>
+    <footer class="drawerFoot">
+      <button class="backBtn" id="copySelectedBtn" type="button">목록 복사</button>
+      <button class="backBtn" id="printSelectedBtn" type="button">인쇄</button>
+      <button class="resetBtn" id="clearSelectedBtn" type="button">전체 비우기</button>
+    </footer>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="./assets/data.js?v=20260720-v6"></script>
+<script src="./assets/app.js?v=20260720-v6"></script>
+<script src="../assets/js/auth.js?v=20260713-firebase-google"></script>
+<script>
+  (async () => {
+    await GaongilAuth.ensureSeedUsers();
+    GaongilAuth.requirePageAccess("../login.html");
+  })();
+</script>
+<script src="../assets/js/gaongil-dark-shell.js" defer></script>
+</body>
+</html>

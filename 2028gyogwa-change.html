@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -158,6 +156,8 @@
   </style>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="./portal.css?v=20260712-mobile-overlay" />
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
 <body class="gaongil-linked-page" data-gaongil-page="gyogwaChange2028">
   <a class="skip" href="#main">본문으로 바로가기</a>
@@ -897,9 +897,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
   setupSearch(); setupNaesinSearch(); setupTabs(); renderChecklist(); setupFloatingTools();
 });
 </script>
-  <script src="./portal-menu.js?v=20260712-mobile-overlay"></script>
+  <script src="./portal-menu-v2.js?v=20260721b"></script>
 
-    <script src="assets/js/auth.js?v=20260717-speed-fix"></script>
+    <script src="assets/js/auth.js?v=20260713-firebase-google"></script>
     <script>
       (async () => {
         await GaongilAuth.ensureSeedUsers();
@@ -907,5 +907,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         GaongilAuth.mountUserChip("userChip");
       })();
     </script>
-  </body>
+  <script src="./assets/js/gaongil-dark-shell.js" defer></script>
+</body>
 </html>

@@ -8,32 +8,6 @@
    ============================================================ */
 
 (function (global) {
-  // Safe localStorage wrapper to prevent Safari Private mode SecurityError crash
-  const safeStorage = {
-    getItem: function(key) {
-      try {
-        return window.localStorage.getItem(key);
-      } catch (e) {
-        return this._data[key] || null;
-      }
-    },
-    setItem: function(key, val) {
-      try {
-        window.localStorage.setItem(key, val);
-      } catch (e) {
-        this._data[key] = String(val);
-      }
-    },
-    removeItem: function(key) {
-      try {
-        window.localStorage.removeItem(key);
-      } catch (e) {
-        delete this._data[key];
-      }
-    },
-    _data: {}
-  };
-
   const USERS_KEY = "gaongil_users_v2";
   const SESSION_KEY = "gaongil_session_v1";
   const ACCESS_KEY = "gaongil_access_v1";
@@ -70,8 +44,7 @@
   }
 
   function loadFirebaseSupportOnce() {
-    if (global.GaongilFirebase && global.GAONGIL_FIREBASE_CONFIG) return;
-    if (attemptedFirebaseSupportLoad) return;
+    if (attemptedFirebaseSupportLoad || global.GaongilFirebase) return;
     attemptedFirebaseSupportLoad = true;
     loadSiblingScriptOnce("firebase-config.js");
     loadSiblingScriptOnce("firebase-adapter.js");
@@ -156,14 +129,14 @@
 
   function loadUsers() {
     try {
-      const raw = safeStorage.getItem(USERS_KEY);
+      const raw = localStorage.getItem(USERS_KEY);
       if (raw) return JSON.parse(raw);
     } catch (e) {}
     return null;
   }
 
   function saveUsers(users) {
-    safeStorage.setItem(USERS_KEY, JSON.stringify(users));
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
   }
 
   function normalizeId(id) {
@@ -288,41 +261,29 @@
   }
 
   function loadAccess() {
-    const localRaw = safeStorage.getItem(ACCESS_KEY);
-    let localAccess = null;
-    try {
-      if (localRaw) localAccess = JSON.parse(localRaw);
-    } catch (e) {}
-
     const remoteAccess = (remoteSiteConfigCache || global.GAONGIL_REMOTE_SITE_CONFIG || {}).access;
-
     if (firebaseEnabled() && remoteAccess) {
-      if (localAccess && Number(localAccess.updatedAt || 0) > Number(remoteAccess.updatedAt || 0)) {
-        return normalizeAccessSettings(localAccess, { publicPages: ["index.html"], userPages: {} });
-      }
       return normalizeAccessSettings(remoteAccess, { publicPages: ["index.html"], userPages: {} });
     }
-
-    if (localAccess) return normalizeAccessSettings(localAccess, { publicPages: ["index.html"], userPages: {} });
-    return defaultAccess();
+    try {
+      const raw = localStorage.getItem(ACCESS_KEY);
+      const parsed = raw ? JSON.parse(raw) : null;
+      if (!parsed || typeof parsed !== "object") return defaultAccess();
+      return normalizeAccessSettings(parsed, { publicPages: ["index.html"], userPages: {} });
+    } catch (e) {
+      return defaultAccess();
+    }
   }
 
   async function saveAccess(access) {
     const normalized = normalizeAccessSettings(access, { publicPages: ["index.html"], userPages: {} });
     normalized.updatedAt = Date.now();
-    safeStorage.setItem(ACCESS_KEY, JSON.stringify(normalized));
+    localStorage.setItem(ACCESS_KEY, JSON.stringify(normalized));
     if (firebaseEnabled()) {
-      try {
-        await saveFirebaseSiteConfig({
-          access: normalized,
-          notices: loadNoticeSettings(),
-        });
-      } catch (err) {
-        if (firebaseConfig().allowLocalFallback !== true) {
-          throw err;
-        }
-        console.warn("[GaongilFirebase] Firestore 설정 저장 실패, 로컬 폴백을 적용합니다.", err);
-      }
+      await saveFirebaseSiteConfig({
+        access: normalized,
+        notices: loadNoticeSettings(),
+      });
     }
     return normalized;
   }
@@ -343,7 +304,6 @@
     const key = normalizePageKey(pageKey) || "index.html";
     if (key === "index.html" || key === "login.html") return true;
     if (session && session.role === "admin") return true;
-    if (session && firebaseConfig().allowLocalFallback === true) return true;
     if (isPagePublic(key)) return true;
     if (session) return pageListIncludes(loadAccess().userPages[session.id], key);
     return false;
@@ -351,12 +311,6 @@
 
   function denyAccess(redirectTo, hasSession) {
     alert(hasSession ? "관리자의 승인이 필요한 자료입니다." : "관리자의 승인이 필요합니다. 로그인 후 이용해 주세요.");
-    if (hasSession) {
-      location.href = "index.html";
-    } else {
-      const here = encodeURIComponent(buildReturnPath(redirectTo));
-      location.href = (redirectTo || "login.html") + "?redirect=" + here;
-    }
     return false;
   }
 
@@ -397,40 +351,26 @@
 
   function loadNoticeSettings() {
     const base = defaultNoticeSettings();
-    const localRaw = safeStorage.getItem(NOTICE_KEY);
-    let localNotices = null;
-    try {
-      if (localRaw) {
-        const parsed = JSON.parse(localRaw);
-        if (parsed && typeof parsed === "object") {
-          localNotices = {
-            enabled: parsed.enabled !== false,
-            items: Array.isArray(parsed.items) ? parsed.items.map(normalizeNotice) : [],
-            updatedAt: Number(parsed.updatedAt || Date.now()),
-          };
-        }
-      }
-    } catch (e) {}
-
     const remoteNotices = (remoteSiteConfigCache || global.GAONGIL_REMOTE_SITE_CONFIG || {}).notices;
-    let remoteParsed = null;
-    if (remoteNotices && typeof remoteNotices === "object") {
-      remoteParsed = {
+    if (firebaseEnabled() && remoteNotices && typeof remoteNotices === "object") {
+      return {
         enabled: remoteNotices.enabled !== false,
         items: Array.isArray(remoteNotices.items) ? remoteNotices.items.map(normalizeNotice) : [],
         updatedAt: Number(remoteNotices.updatedAtMillis || remoteNotices.updatedAt || Date.now()),
       };
     }
-
-    if (firebaseEnabled() && remoteParsed) {
-      if (localNotices && Number(localNotices.updatedAt || 0) > Number(remoteParsed.updatedAt || 0)) {
-        return localNotices;
-      }
-      return remoteParsed;
+    try {
+      const raw = localStorage.getItem(NOTICE_KEY);
+      const parsed = raw ? JSON.parse(raw) : null;
+      if (!parsed || typeof parsed !== "object") return base;
+      return {
+        enabled: parsed.enabled !== false,
+        items: Array.isArray(parsed.items) ? parsed.items.map(normalizeNotice) : [],
+        updatedAt: Number(parsed.updatedAt || Date.now()),
+      };
+    } catch (e) {
+      return base;
     }
-
-    if (localNotices) return localNotices;
-    return base;
   }
 
   async function saveNoticeSettings(settings, options = {}) {
@@ -440,19 +380,12 @@
       items,
       updatedAt: Date.now(),
     };
-    safeStorage.setItem(NOTICE_KEY, JSON.stringify(normalized));
+    localStorage.setItem(NOTICE_KEY, JSON.stringify(normalized));
     if (firebaseEnabled() && options.remote !== false) {
-      try {
-        await saveFirebaseSiteConfig({
-          access: loadAccess(),
-          notices: normalized,
-        });
-      } catch (err) {
-        if (firebaseConfig().allowLocalFallback !== true) {
-          throw err;
-        }
-        console.warn("[GaongilFirebase] Firestore 공지 설정 저장 실패, 로컬 폴백을 적용합니다.", err);
-      }
+      await saveFirebaseSiteConfig({
+        access: loadAccess(),
+        notices: normalized,
+      });
     }
     return normalized;
   }
@@ -489,7 +422,7 @@
 
   function loadNoticeDismissals() {
     try {
-      const parsed = JSON.parse(safeStorage.getItem(NOTICE_DISMISS_KEY) || "{}");
+      const parsed = JSON.parse(localStorage.getItem(NOTICE_DISMISS_KEY) || "{}");
       return parsed && typeof parsed === "object" ? parsed : {};
     } catch (e) {
       return {};
@@ -498,7 +431,7 @@
 
   function saveNoticeDismissals(data) {
     try {
-      safeStorage.setItem(NOTICE_DISMISS_KEY, JSON.stringify(data || {}));
+      localStorage.setItem(NOTICE_DISMISS_KEY, JSON.stringify(data || {}));
     } catch (e) {}
   }
 
@@ -627,8 +560,7 @@
   }
 
   async function ensureSeedUsers(options = {}) {
-    const isFast = options.fast !== false;
-    if (isFast && firebaseEnabled()) {
+    if (options.fast === true && firebaseEnabled()) {
       const adapter = firebaseAdapter();
       if (adapter?.init) await adapter.init().catch(() => null);
     } else {
@@ -639,35 +571,12 @@
   }
 
   function getUsers() {
-    const localUsers = loadUsers() || [];
-    if (firebaseEnabled() && Array.isArray(remoteUsersCache)) {
-      const mergedMap = new Map();
-      localUsers.forEach((u) => {
-        mergedMap.set(normalizeId(u.id), { ...u });
-      });
-      remoteUsersCache.forEach((u) => {
-        const id = normalizeId(u.id);
-        const existing = mergedMap.get(id) || {};
-        mergedMap.set(id, {
-          ...existing,
-          ...u,
-          id,
-          pwHash: u.pwHash || existing.pwHash || "",
-        });
-      });
-      return Array.from(mergedMap.values());
-    }
-    return localUsers;
+    if (firebaseEnabled() && Array.isArray(remoteUsersCache)) return remoteUsersCache;
+    return loadUsers() || [];
   }
 
   function findUser(id) {
-    const raw = String(id || "").trim().toLowerCase();
-    const cleanId = raw.includes("@") ? raw.split("@")[0] : raw;
-    return getUsers().find((u) => {
-      const uId = String(u.id || "").toLowerCase();
-      const uEmail = String(u.email || "").toLowerCase();
-      return uId === cleanId || uId === raw || (uEmail && uEmail === raw);
-    });
+    return getUsers().find((u) => u.id === id);
   }
 
   async function addUser({ id, name, email, role, password }) {
@@ -680,15 +589,8 @@
     users.push({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash, createdAt: Date.now() });
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      try {
-        await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash });
-        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
-      } catch (err) {
-        if (firebaseConfig().allowLocalFallback !== true) {
-          throw err;
-        }
-        console.warn("[GaongilFirebase] Firestore 사용자 추가 실패, 로컬 폴백을 적용합니다.", err);
-      }
+      await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff" });
+      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
     }
     return true;
   }
@@ -697,18 +599,13 @@
     let users = getUsers();
     const normalizedId = normalizeId(id);
     const target = users.find((u) => u.id === normalizedId);
+    const adminCount = users.filter((u) => u.role === "admin").length;
+    if (target?.role === "admin" && adminCount <= 1) throw new Error("마지막 관리자 계정은 삭제할 수 없습니다.");
     users = users.filter((u) => u.id !== normalizedId);
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.removeUserProfile) {
-      try {
-        await firebaseAdapter().removeUserProfile(id);
-        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
-      } catch (err) {
-        if (firebaseConfig().allowLocalFallback !== true) {
-          throw err;
-        }
-        console.warn("[GaongilFirebase] Firestore 사용자 삭제 실패, 로컬 폴백을 적용합니다.", err);
-      }
+      await firebaseAdapter().removeUserProfile(id);
+      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
     }
   }
 
@@ -719,15 +616,8 @@
     u.role = role;
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      try {
-        await firebaseAdapter().saveUserProfile({ ...u, role });
-        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
-      } catch (err) {
-        if (firebaseConfig().allowLocalFallback !== true) {
-          throw err;
-        }
-        console.warn("[GaongilFirebase] Firestore 사용자 역할 수정 실패, 로컬 폴백을 적용합니다.", err);
-      }
+      await firebaseAdapter().saveUserProfile({ ...u, role });
+      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
     }
   }
 
@@ -738,15 +628,8 @@
     u.email = normalizeEmail(email);
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      try {
-        await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) });
-        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
-      } catch (err) {
-        if (firebaseConfig().allowLocalFallback !== true) {
-          throw err;
-        }
-        console.warn("[GaongilFirebase] Firestore 사용자 이메일 수정 실패, 로컬 폴백을 적용합니다.", err);
-      }
+      await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) });
+      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
     }
   }
 
@@ -764,7 +647,7 @@
       await firebaseAdapter().sendPasswordResetEmail(loginKey);
       return true;
     }
-    await ensureSeedUsers({ fast: false });
+    await ensureSeedUsers();
     const users = getUsers();
     const u = users.find((x) => x.id === normalizeId(id));
     if (!u || !u.email || u.email !== normalizeEmail(email)) {
@@ -789,26 +672,8 @@
         console.warn("[GaongilFirebase] Firebase 로그인 실패 후 로컬 로그인으로 전환합니다.", err);
       }
     }
-    await ensureSeedUsers({ fast: false });
-    let u = findUser(normalizedId);
-    
-    // 로컬 캐시나 remoteUsersCache 병합 목록에 없을 경우, Firestore 개별 문서를 직접 조회를 시도합니다.
-    if (!u && firebaseEnabled() && firebaseAdapter()?.getUserProfile) {
-      try {
-        const remoteProfile = await firebaseAdapter().getUserProfile(normalizedId);
-        if (remoteProfile) {
-          const localUsers = loadUsers() || [];
-          if (!localUsers.some((x) => normalizeId(x.id) === normalizedId)) {
-            localUsers.push(remoteProfile);
-            saveUsers(localUsers);
-          }
-          u = remoteProfile;
-        }
-      } catch (err) {
-        console.warn("[GaongilFirebase] Firestore 개별 프로필 조회 실패", err);
-      }
-    }
-    
+    await ensureSeedUsers();
+    const u = findUser(normalizedId);
     if (!u) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
     const hash = await sha256(password);
     if (hash !== u.pwHash) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
@@ -818,57 +683,26 @@
   }
 
   async function loginWithGoogle() {
-    if (firebaseEnabled() && firebaseAdapter()?.loginWithGoogle) {
-      try {
-        const fbSession = await firebaseAdapter().loginWithGoogle();
-        sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
-        return fbSession;
-      } catch (err) {
-        if (firebaseConfig().allowLocalFallback !== true) {
-          throw err;
-        }
-        console.warn("[GaongilFirebase] Google 팝업 로그인 실패 후 로컬 관리자 권한으로 자동 로그인합니다.", err);
-      }
+    if (!firebaseEnabled() || !firebaseAdapter()?.loginWithGoogle) {
+      throw new Error("Google 로그인은 Firebase 연결 후 사용할 수 있습니다.");
     }
-    // 오프라인 비상구: Firebase 구글 로그인 실패 시, 강제로 로컬 관리자 권한 부여
-    const fallbackEmail = (firebaseConfig().adminEmails && firebaseConfig().adminEmails[0]) || "legnanatas@naver.com";
-    const session = { id: "admin", name: "임시 관리자", role: "admin", email: fallbackEmail, ts: Date.now() };
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    return session;
+    const fbSession = await firebaseAdapter().loginWithGoogle();
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
+    return fbSession;
   }
 
   async function startGoogleLogin() {
-    if (firebaseEnabled() && firebaseAdapter()?.startGoogleLogin) {
-      try {
-        await firebaseAdapter().startGoogleLogin();
-        return;
-      } catch (err) {
-        if (firebaseConfig().allowLocalFallback !== true) {
-          throw err;
-        }
-        console.warn("[GaongilFirebase] Google 리디렉션 로그인 실패 후 즉시 로컬 권한으로 전환합니다.", err);
-      }
+    if (!firebaseEnabled() || !firebaseAdapter()?.startGoogleLogin) {
+      throw new Error("Google 로그인은 Firebase 연결 후 사용할 수 있습니다.");
     }
-    // 즉시 로컬 세션을 만들고 새로고침하여 관리자 상태로 로그인 처리
-    const fallbackEmail = (firebaseConfig().adminEmails && firebaseConfig().adminEmails[0]) || "legnanatas@naver.com";
-    const session = { id: "admin", name: "임시 관리자", role: "admin", email: fallbackEmail, ts: Date.now() };
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    location.reload();
+    await firebaseAdapter().startGoogleLogin();
   }
 
   async function completeGoogleRedirect() {
-    if (firebaseEnabled() && firebaseAdapter()?.completeGoogleRedirect) {
-      try {
-        const fbSession = await firebaseAdapter().completeGoogleRedirect();
-        if (fbSession) {
-          sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
-          return fbSession;
-        }
-      } catch (err) {
-        console.warn("[GaongilFirebase] Redirect check failed", err);
-      }
-    }
-    return null;
+    if (!firebaseEnabled() || !firebaseAdapter()?.completeGoogleRedirect) return null;
+    const fbSession = await firebaseAdapter().completeGoogleRedirect();
+    if (fbSession) sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
+    return fbSession;
   }
 
   function logout(redirectTo) {
@@ -994,7 +828,7 @@
     if (canAccessPage(key, session)) {
       installDownloadDeterrents({ silent: true });
       installAccessLinkGuards({ login: redirectTo || "login.html" });
-      return session || { id: "guest", name: "게스트", role: "guest", guest: true };
+      return session;
     }
     denyAccess(redirectTo, !!session);
     return false;

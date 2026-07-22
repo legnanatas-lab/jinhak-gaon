@@ -78,28 +78,21 @@
   async function init() {
     if (!isEnabled()) throw new Error("Firebase 설정이 꺼져 있거나 firebaseConfig가 비어 있습니다.");
     if (initPromise) return initPromise;
-    
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("Firebase CDN 라이브러리 로딩 시간 초과 (4초). 네트워크 차단 또는 방화벽을 확인해 주세요.")), 4000)
-    );
-    
-    initPromise = Promise.race([
-      (async () => {
-        const [appMod, authMod, firestoreMod, storageMod] = await Promise.all([
-          import(sdkUrl("app")),
-          import(sdkUrl("auth")),
-          import(sdkUrl("firestore")),
-          import(sdkUrl("storage")),
-        ]);
-        modules = { app: appMod, auth: authMod, firestore: firestoreMod, storage: storageMod };
-        app = appMod.getApps().find((item) => item.name === "[DEFAULT]") || appMod.initializeApp(firebaseConfig());
-        auth = authMod.getAuth(app);
-        db = firestoreMod.getFirestore(app);
-        storage = storageMod.getStorage(app);
-        return { app, auth, db, storage, modules };
-      })(),
-      timeoutPromise
-    ]);
+    initPromise = (async () => {
+      const [appMod, authMod, firestoreMod, storageMod] = await Promise.all([
+        import(sdkUrl("app")),
+        import(sdkUrl("auth")),
+        import(sdkUrl("firestore")),
+        import(sdkUrl("storage")),
+      ]);
+      modules = { app: appMod, auth: authMod, firestore: firestoreMod, storage: storageMod };
+      const name = "gaongil";
+      app = appMod.getApps().find((item) => item.name === name) || appMod.initializeApp(firebaseConfig(), name);
+      auth = authMod.getAuth(app);
+      db = firestoreMod.getFirestore(app);
+      storage = storageMod.getStorage(app);
+      return { app, auth, db, storage, modules };
+    })();
     return initPromise;
   }
 
@@ -268,31 +261,18 @@
     await init();
     const id = String(profile?.uid || profile?.id || "").trim();
     if (!id) throw new Error("사용자 프로필에는 id 또는 uid가 필요합니다.");
-    
-    const docData = {
-      id: profile.id || id,
-      name: profile.name || profile.id || id,
-      email: String(profile.email || "").trim().toLowerCase(),
-      role: profile.role || "staff",
-      updatedAt: modules.firestore.serverTimestamp(),
-    };
-    if (profile.pwHash) {
-      docData.pwHash = profile.pwHash;
-    }
-    
     await modules.firestore.setDoc(
       userDocRef(modules.firestore, id),
-      docData,
+      {
+        id: profile.id || id,
+        name: profile.name || profile.id || id,
+        email: String(profile.email || "").trim().toLowerCase(),
+        role: profile.role || "staff",
+        updatedAt: modules.firestore.serverTimestamp(),
+      },
       { merge: true }
     );
     return true;
-  }
-
-  async function getUserProfile(id) {
-    await init();
-    const docSnap = await modules.firestore.getDoc(userDocRef(modules.firestore, id));
-    if (!docSnap.exists()) return null;
-    return { id: docSnap.data().id || docSnap.id, docId: docSnap.id, ...docSnap.data() };
   }
 
   async function removeUserProfile(id) {
@@ -328,7 +308,6 @@
     saveSiteConfig,
     listUsers,
     saveUserProfile,
-    getUserProfile,
     removeUserProfile,
     uploadNoticeImage,
   };

@@ -8,8 +8,6 @@
     "legnanatas-lab.github.io": true,
     "gaonjinhak.firebaseapp.com": true,
     "gaonjinhak.web.app": true,
-    "jinhak.esteacher.kr": true,
-    "esteacher.kr": true,
     "localhost": true,
     "127.0.0.1": true
   };
@@ -348,6 +346,8 @@ html,body{background:var(--bg)!important;color:var(--ink)!important;}
   }
 </style>
 
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
 </head>
 <body data-gaongil-page="twounimap">
 <div class="app">
@@ -530,13 +530,14 @@ document.getElementById('locBtn').addEventListener('click',function(){
 document.getElementById('resetBtn').addEventListener('click',()=>{map.flyTo([36.3,127.8],7,{duration:.7});});
 </script>
 
-    <script src="assets/js/auth.js?v=20260717-speed-fix"></script>
+    <script src="assets/js/auth.js?v=20260713-firebase-google"></script>
     <script>
       (async () => {
         await GaongilAuth.ensureSeedUsers();
         GaongilAuth.requirePageAccess("login.html");
       })();
     </script>
-    <script src="./portal-menu.js?v=20260712-mobile-overlay"></script>
+    <script src="./portal-menu-v2.js?v=20260721b"></script>
+<script src="./assets/js/gaongil-dark-shell.js" defer></script>
 </body>
 </html>
