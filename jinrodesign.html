@@ -1,7 +1,29 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
+<script data-gaongil-origin-guard>
+(function(){
+  "use strict";
+  var allowedHosts = {
+    "legnanatas-lab.github.io": true,
+    "gaonjinhak.firebaseapp.com": true,
+    "gaonjinhak.web.app": true,
+    "localhost": true,
+    "127.0.0.1": true
+  };
+  var protocol = window.location.protocol;
+  var host = window.location.hostname;
+  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
+  if (allowed) return;
+  function blockSavedCopy(){
+    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
+    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
+    document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자료 보호 안내</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050b14;color:#edf5ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.box{max-width:720px;margin:24px;padding:32px;border:1px solid rgba(214,173,99,.45);border-radius:24px;background:rgba(13,23,38,.94);box-shadow:0 24px 80px rgba(0,0,0,.45)}h1{margin:0 0 12px;font-size:28px}p{line-height:1.7;color:#b9c4d2}a{color:#f0d99b;font-weight:800}</style></head><body><main class="box"><h1>자료 보호 안내</h1><p>'+message+'</p><p>저장된 HTML 파일이나 복사된 주소에서는 자료를 열람할 수 없습니다.</p><p><a href="'+url+'">공식 사이트로 이동하기</a></p></main></body>';
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
+  else blockSavedCopy();
+})();
+</script>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0VB6E0J6MB"></script>
@@ -561,7 +583,7 @@
 
 <style id="gaongil-jinrodesign-local-fixes">
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"]{
-    background:linear-gradient(180deg,#03070f,#03070f 44%,#03070f)!important;
+    background:linear-gradient(180deg,#050b14,#071525 44%,#0b1c31)!important;
     color:#f8fafc!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] section,
@@ -630,19 +652,19 @@
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .subj-tab,
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .grade-tab{
-    background:#03070f!important;
+    background:#10233b!important;
     border:1px solid rgba(228,189,104,.35)!important;
     color:#dbe7f5!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .subj-tab.active,
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .grade-tab.active{
     background:linear-gradient(135deg,#e8c76d,#c89634)!important;
-    color:#03070f!important;
+    color:#071525!important;
     border-color:#f6df9c!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .subj-col .cb,
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .field .chips{
-    background:#03070f!important;
+    background:#0b1c31!important;
     padding:16px 18px!important;
     border-top:1px solid rgba(92,119,154,.38)!important;
   }
@@ -667,7 +689,7 @@
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .tl-item::before{width:6px!important;opacity:1!important;}
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .grade-tabs{
-    background:#03070f!important;
+    background:#071525!important;
     border-color:rgba(92,119,154,.54)!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .eyebrow,
@@ -687,7 +709,7 @@
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"]{
     background:
       radial-gradient(circle at 8% 0%,rgba(44,111,215,.18),transparent 28%),
-      linear-gradient(180deg,#03070f 0%,#03070f 46%,#03070f 100%)!important;
+      linear-gradient(180deg,#050b14 0%,#071525 46%,#0b1c31 100%)!important;
     color:#f8fafc!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] section,
@@ -776,19 +798,19 @@
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .subj-tab,
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .grade-tab{
-    background:#03070f!important;
+    background:#10233b!important;
     border:1px solid rgba(228,189,104,.38)!important;
     color:#dbe7f5!important;
     box-shadow:none!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .subj-tab.active,
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .grade-tab.active{
-    background:linear-gradient(135deg,#00c3ff,#c89634)!important;
-    color:#03070f!important;
+    background:linear-gradient(135deg,#e4bd68,#c89634)!important;
+    color:#071525!important;
     border-color:#f6df9c!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .grade-tabs{
-    background:#03070f!important;
+    background:#071525!important;
     border:1px solid rgba(92,119,154,.58)!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .tl-item{
@@ -830,11 +852,11 @@
 <style id="gaongil-jinro-polish-v2">
   /* === Jinro design contrast polish v2 === */
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"]{
-    --g-bg:#03070f;
-    --g-card:#03070f;
-    --g-card2:#03070f;
+    --g-bg:#071525;
+    --g-card:#0b1c31;
+    --g-card2:#10233b;
     --g-line:#2b4968;
-    --g-gold:#00c3ff;
+    --g-gold:#e4bd68;
     --g-gold2:#f6df9c;
     --g-text:#f8fafc;
     --g-sub:#dbe7f5;
@@ -858,7 +880,7 @@
     font-weight:800!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .rtype.active{
-    background:linear-gradient(135deg,#f1d989 0%,#00c3ff 45%,#c89634 100%)!important;
+    background:linear-gradient(135deg,#f1d989 0%,#e4bd68 45%,#c89634 100%)!important;
     border:2px solid #f6df9c!important;
     box-shadow:0 12px 26px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.28)!important;
   }
@@ -892,7 +914,7 @@
     gap:18px!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .subj-col{
-    background:linear-gradient(180deg,#03070f 0%,#03070f 100%)!important;
+    background:linear-gradient(180deg,#10233b 0%,#071525 100%)!important;
     border:1px solid rgba(92,119,154,.68)!important;
     box-shadow:0 14px 28px rgba(0,0,0,.24)!important;
     overflow:hidden!important;
@@ -904,7 +926,7 @@
     letter-spacing:-.02em;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .subj-col .cb{
-    background:#03070f!important;
+    background:#071525!important;
     background-image:none!important;
     border-top:1px solid rgba(92,119,154,.50)!important;
     border-radius:0!important;
@@ -968,7 +990,7 @@
 
   /* 학년별 로드맵: 월/주제 배지 가독성 */
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] .grade-tabs{
-    background:#03070f!important;
+    background:#071525!important;
     border:1px solid rgba(92,119,154,.68)!important;
     box-shadow:0 10px 24px rgba(0,0,0,.22)!important;
   }
@@ -1053,12 +1075,12 @@
     display:none!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] #subject .subj-col{
-    background:linear-gradient(180deg,#03070f 0%,#03070f 100%)!important;
+    background:linear-gradient(180deg,#10233b 0%,#071525 100%)!important;
     border:1px solid rgba(92,119,154,.68)!important;
     box-shadow:0 14px 28px rgba(0,0,0,.24)!important;
   }
   body.gaongil-linked-page[data-gaongil-page="jinrodesign"] #subject .subj-col .cb{
-    background:#03070f!important;
+    background:#071525!important;
     background-image:none!important;
     border-top:1px solid rgba(92,119,154,.50)!important;
   }

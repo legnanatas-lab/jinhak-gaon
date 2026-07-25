@@ -1,7 +1,29 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
+<script data-gaongil-origin-guard>
+(function(){
+  "use strict";
+  var allowedHosts = {
+    "legnanatas-lab.github.io": true,
+    "gaonjinhak.firebaseapp.com": true,
+    "gaonjinhak.web.app": true,
+    "localhost": true,
+    "127.0.0.1": true
+  };
+  var protocol = window.location.protocol;
+  var host = window.location.hostname;
+  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
+  if (allowed) return;
+  function blockSavedCopy(){
+    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
+    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
+    document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자료 보호 안내</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050b14;color:#edf5ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.box{max-width:720px;margin:24px;padding:32px;border:1px solid rgba(214,173,99,.45);border-radius:24px;background:rgba(13,23,38,.94);box-shadow:0 24px 80px rgba(0,0,0,.45)}h1{margin:0 0 12px;font-size:28px}p{line-height:1.7;color:#b9c4d2}a{color:#f0d99b;font-weight:800}</style></head><body><main class="box"><h1>자료 보호 안내</h1><p>'+message+'</p><p>저장된 HTML 파일이나 복사된 주소에서는 자료를 열람할 수 없습니다.</p><p><a href="'+url+'">공식 사이트로 이동하기</a></p></main></body>';
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
+  else blockSavedCopy();
+})();
+</script>
 
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0VB6E0J6MB"></script>
@@ -358,14 +380,14 @@ table.data .num-cell{font-variant-numeric:tabular-nums;text-align:center;font-we
   --crimson:#9f2430;
 }
 html{scroll-padding-top:156px}
-body.gaongil-linked-page{background:linear-gradient(180deg,#03070f 0%,#03070f 44%,#03070f 100%) !important;color:var(--ink)}
-.topnav{position:sticky;top:82px;z-index:900;height:64px;background:rgba(8,19,33,.94);border-top:1px solid rgba(0,195,255,.28);border-bottom:1px solid rgba(0,195,255,.24);box-shadow:0 14px 34px rgba(0,0,0,.22)}
-.scroll-progress{top:146px;z-index:901;background:linear-gradient(90deg,var(--gold),#00c3ff)}
-.brand-mark{background:linear-gradient(180deg,#00c3ff 0%,#00c3ff 56%,#00c3ff 100%);box-shadow:0 8px 22px rgba(0,195,255,.28)}
-.brand-text b{font-size:14px;color:#fff8e8}.brand-text span{color:#d8e4f6;font-weight:500}.nav-links a{color:#e0e9f7;font-weight:600}.nav-links a:hover,.nav-links a.active{background:rgba(0,195,255,.16);color:#fff8e8}
-.hero{padding-top:120px;background:radial-gradient(ellipse 62% 58% at 78% 16%,rgba(58,111,196,.45),transparent),radial-gradient(ellipse 56% 68% at 8% 90%,rgba(0,195,255,.18),transparent),linear-gradient(160deg,#071a34 0%,#0d284d 56%,#102f59 100%)}
-.hero h1{max-width:860px}.hero h1 .accent::after{height:14px;bottom:7px;background:rgba(0,195,255,.26)}
-.hero-lead{max-width:760px;color:#edf4ff;font-weight:400}.hero-stat .lbl,.hero-meta-item{color:#d4dfef}.hero-meta-item b{color:#fff2c5;background:rgba(0,195,255,.18)}
+body.gaongil-linked-page{background:linear-gradient(180deg,#050b14 0%,#081321 44%,#060d18 100%) !important;color:var(--ink)}
+.topnav{position:sticky;top:82px;z-index:900;height:64px;background:rgba(8,19,33,.94);border-top:1px solid rgba(214,173,99,.28);border-bottom:1px solid rgba(214,173,99,.24);box-shadow:0 14px 34px rgba(0,0,0,.22)}
+.scroll-progress{top:146px;z-index:901;background:linear-gradient(90deg,var(--gold),#f0d99b)}
+.brand-mark{background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%);box-shadow:0 8px 22px rgba(214,173,99,.28)}
+.brand-text b{font-size:14px;color:#fff8e8}.brand-text span{color:#d8e4f6;font-weight:500}.nav-links a{color:#e0e9f7;font-weight:600}.nav-links a:hover,.nav-links a.active{background:rgba(214,173,99,.16);color:#fff8e8}
+.hero{padding-top:120px;background:radial-gradient(ellipse 62% 58% at 78% 16%,rgba(58,111,196,.45),transparent),radial-gradient(ellipse 56% 68% at 8% 90%,rgba(214,173,99,.18),transparent),linear-gradient(160deg,#071a34 0%,#0d284d 56%,#102f59 100%)}
+.hero h1{max-width:860px}.hero h1 .accent::after{height:14px;bottom:7px;background:rgba(214,173,99,.26)}
+.hero-lead{max-width:760px;color:#edf4ff;font-weight:400}.hero-stat .lbl,.hero-meta-item{color:#d4dfef}.hero-meta-item b{color:#fff2c5;background:rgba(214,173,99,.18)}
 .section,.section.alt,.section.warm{color:var(--ink)}.section.dark{color:#fff}.section.dark .sec-desc,.strat-card p{color:#e3ebf7}.sec-desc{color:var(--ink-soft);font-weight:450}.section.dark .sec-title,.section.dark h3,.section.dark h4{color:#fff}
 .card,.concept,.ov-card,.faq-item,.chart-box,.acc-item,.uni-card,.tbl-wrap{background:#fff;color:var(--ink);border-color:var(--line)}
 .card h3,.card h4,.concept h4,.ov-card h4,.faq-qt,.acc-head strong,.uni-card h4{color:var(--ink)}
@@ -395,17 +417,17 @@ table.data td.lead,.callout b,.callout .ttl,.acc-body-inner li b,.faq-a-inner p 
   text-shadow:none !important;
 }
 .filter-chip.active{
-  background:linear-gradient(180deg,#00c3ff 0%,#00c3ff 58%,#c39139 100%) !important;
-  border-color:#00c3ff !important;
+  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 58%,#c39139 100%) !important;
+  border-color:#d6ad63 !important;
   color:#0b1423 !important;
   font-weight:800 !important;
-  box-shadow:0 10px 22px rgba(0,195,255,.18) !important;
+  box-shadow:0 10px 22px rgba(214,173,99,.18) !important;
 }
 .nav-links a.active{
-  background:linear-gradient(180deg,#00c3ff 0%,#00c3ff 58%,#c39139 100%) !important;
+  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 58%,#c39139 100%) !important;
   color:#0b1423 !important;
-  border:1px solid rgba(0,195,255,.52) !important;
-  box-shadow:0 10px 22px rgba(0,195,255,.16) !important;
+  border:1px solid rgba(214,173,99,.52) !important;
+  box-shadow:0 10px 22px rgba(214,173,99,.16) !important;
 }
 .nav-links a:hover{
   color:#fff8e8 !important;
@@ -421,7 +443,7 @@ table.data td.lead,.callout b,.callout .ttl,.acc-body-inner li b,.faq-a-inner p 
 .nav-links a[aria-current="page"],
 .brand-mark,
 .tl-node:nth-child(4) .tl-dot{
-  color:#03070f !important;
+  color:#081321 !important;
   text-shadow:none !important;
 }
 .hero-cta .btn-primary{
@@ -431,7 +453,7 @@ table.data td.lead,.callout b,.callout .ttl,.acc-body-inner li b,.faq-a-inner p 
 }
 .hero-cta .btn-primary:hover{
   background:linear-gradient(180deg,#f0dda8 0%, #dfbe77 55%, #cb9b4c 100%) !important;
-  color:#03070f !important;
+  color:#081321 !important;
 }
 .filter-chip.active,
 .nav-links a.active,
@@ -443,7 +465,7 @@ table.data td.lead,.callout b,.callout .ttl,.acc-body-inner li b,.faq-a-inner p 
 }
 .filter-chip.active:hover,
 .nav-links a.active:hover{
-  color:#03070f !important;
+  color:#081321 !important;
 }
 #floatingMain{
   background:linear-gradient(180deg,#ecd79a 0%, #d9b76f 55%, #c69443 100%) !important;
@@ -464,11 +486,11 @@ table.data td.lead,.callout b,.callout .ttl,.acc-body-inner li b,.faq-a-inner p 
 /* ===== GAONGIL 2028 GUIDE: DARK READABILITY / HOSTING PATCH =====
    목적: 가온길 전체 다크 디자인에 맞추고, 흰색 카드/저대비 문자를 제거합니다. */
 :root{
-  --navy-950:#03070f;
+  --navy-950:#050b14;
   --navy-925:#07111f;
   --navy-900:#09182b;
   --navy-850:#0c1c31;
-  --navy-800:#03070f;
+  --navy-800:#10233b;
   --navy-760:#132a47;
   --navy-700:#18385f;
   --blue-500:#2f73d5;
@@ -495,11 +517,11 @@ html{scroll-padding-top:156px;}
 body.gaongil-linked-page{
   background:radial-gradient(900px 520px at 78% 8%,rgba(47,115,213,.16),transparent 62%),
              radial-gradient(760px 520px at 8% 28%,rgba(213,169,78,.08),transparent 62%),
-             linear-gradient(180deg,#03070f 0%,#07111f 48%,#03070f 100%) !important;
+             linear-gradient(180deg,#050b14 0%,#07111f 48%,#050b14 100%) !important;
   color:var(--ink) !important;
 }
 body.gaongil-linked-page::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:56px 56px;opacity:.36;z-index:-1;}
-.topnav{background:rgba(3,7,15,.94)!important;border-top:1px solid rgba(241,207,120,.18)!important;border-bottom:1px solid rgba(148,163,184,.22)!important;box-shadow:0 14px 34px rgba(0,0,0,.34)!important;}
+.topnav{background:rgba(5,11,20,.94)!important;border-top:1px solid rgba(241,207,120,.18)!important;border-bottom:1px solid rgba(148,163,184,.22)!important;box-shadow:0 14px 34px rgba(0,0,0,.34)!important;}
 .brand-text b{font-size:13px!important;color:#fff8e8!important;letter-spacing:-.035em}.brand-text span{color:#d8e4f6!important}.nav-links a{color:#e5edf8!important}.nav-links a:hover,.nav-links a.active{background:rgba(47,115,213,.20)!important;color:#fff!important}
 .hero-level{display:block;font-family:var(--sans);font-size:clamp(1rem,2.1vw,1.55rem);color:#eaf1fb;margin-top:10px;font-weight:700;letter-spacing:-.02em;}
 .hero{background:radial-gradient(ellipse 72% 64% at 76% 14%,rgba(47,115,213,.38),transparent),radial-gradient(ellipse 62% 70% at 9% 92%,rgba(241,207,120,.13),transparent),linear-gradient(160deg,#07111f 0%,#0d2442 58%,#102f59 100%)!important;}
@@ -538,7 +560,7 @@ body.gaongil-linked-page::before{content:"";position:fixed;inset:0;pointer-event
 /* 표/차트/아코디언 등 나머지 구성요소 */
 .tbl-wrap{background:rgba(12,28,49,.96)!important}.tbl-wrap table.data{background:transparent!important}table.data th{background:#0a1729!important;color:#fff!important;border-bottom-color:rgba(148,163,184,.3)!important}table.data td{background:rgba(15,31,52,.78)!important;border-bottom-color:rgba(148,163,184,.18)!important;color:#dbe7f6!important}table.data tr:hover td{background:rgba(29,58,96,.62)!important}.num-cell{color:#fff8e8!important}.mode-rel{background:rgba(200,50,69,.18)!important;color:#ff9da8!important}.mode-abs{background:rgba(47,154,97,.18)!important;color:#91e6b5!important}
 .exam-row{background:rgba(12,28,49,.96)!important;border-color:rgba(148,163,184,.22)!important}.exam-row.head{background:#0a1729!important;color:#fff!important}.exam-row .new-c,.exam-row .old-c{color:#e6edf7!important}.chart-box canvas{filter:none}.chart-fallback{color:#dbe7f6!important}.mini-legend{color:#dbe7f6!important}.ov-card{border-radius:18px!important}.ov-tag{background:rgba(47,115,213,.20)!important;color:#cfe2ff!important}.ov-go{color:var(--gold-soft)!important}.faq-a,.acc-body{background:rgba(5,14,26,.22)!important}.faq-mark,.acc-head .acc-n{background:linear-gradient(180deg,#347bdc,#255ea8)!important;color:#fff!important}.acc-toggle-all{background:rgba(12,28,49,.96)!important;border-color:var(--line-strong)!important;color:#e5edf8!important}.strat-card{background:linear-gradient(180deg,rgba(17,37,61,.96),rgba(10,24,42,.96))!important;border-color:var(--line-strong)!important}.strat-card p{color:var(--ink-soft)!important}.tl-when{color:#fff!important}.tl-actor{color:var(--gold-soft)!important}.tl::before{background:linear-gradient(90deg,rgba(100,163,255,.45),rgba(241,207,120,.64))!important}.tl-node p,.tl-what{color:var(--ink-soft)!important}
-.footer{background:#03070f!important;border-top:1px solid rgba(148,163,184,.2)!important}.footer p,.footer-meta{color:#cbd5e1!important}.footer-brand b{color:#fff!important}
+.footer{background:#050b14!important;border-top:1px solid rgba(148,163,184,.2)!important}.footer p,.footer-meta{color:#cbd5e1!important}.footer-brand b{color:#fff!important}
 @media(max-width:900px){.compare{grid-template-columns:1fr!important}.compare-mid{min-height:48px}.g2,.g3,.g4,.strat-grid{grid-template-columns:1fr!important}.uni-grid{grid-template-columns:1fr!important}.topnav{top:0!important}.scroll-progress{top:64px!important}.hero{padding-top:96px!important}.brand-text b{font-size:12px!important}.kp{gap:14px}.kp .kp-mark{width:50px!important;height:50px!important;font-size:22px!important}.kp h4{font-size:17px!important}.concept{padding:22px 20px!important}}
 
 /* === final gold-button readability refinement === */
@@ -550,7 +572,7 @@ body.gaongil-linked-page::before{content:"";position:fixed;inset:0;pointer-event
 .nav-links a[aria-current="page"],
 .brand-mark,
 .tl-node:nth-child(4) .tl-dot{
-  color:#03070f !important;
+  color:#081321 !important;
   text-shadow:none !important;
 }
 .hero-cta .btn-primary{
@@ -560,7 +582,7 @@ body.gaongil-linked-page::before{content:"";position:fixed;inset:0;pointer-event
 }
 .hero-cta .btn-primary:hover{
   background:linear-gradient(180deg,#f0dda8 0%, #dfbe77 55%, #cb9b4c 100%) !important;
-  color:#03070f !important;
+  color:#081321 !important;
 }
 .filter-chip.active,
 .nav-links a.active,
@@ -572,7 +594,7 @@ body.gaongil-linked-page::before{content:"";position:fixed;inset:0;pointer-event
 }
 .filter-chip.active:hover,
 .nav-links a.active:hover{
-  color:#03070f !important;
+  color:#081321 !important;
 }
 #floatingMain{
   background:linear-gradient(180deg,#ecd79a 0%, #d9b76f 55%, #c69443 100%) !important;
@@ -1964,9 +1986,9 @@ const chartIO=new IntersectionObserver(entries=>{
   html body.gaongil-linked-page .tag-up,
   html body.gaongil-linked-page .pill-type.k-jong,
   html body.gaongil-linked-page .uni-line .k.k-jong{
-    background:linear-gradient(180deg,#00c3ff 0%,#00c3ff 56%,#00c3ff 100%) !important;
-    color:#03070f !important;
-    -webkit-text-fill-color:#03070f !important;
+    background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
+    color:#081321 !important;
+    -webkit-text-fill-color:#081321 !important;
     text-shadow:none !important;
     font-weight:900 !important;
     border-color:rgba(255,255,255,.20) !important;

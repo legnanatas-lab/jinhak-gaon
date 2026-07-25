@@ -1,23 +1,23 @@
 :root {
-  color-scheme: dark;
-  --bg: #000000;
-  --surface: rgba(8,16,36,0.96);
-  --surface-2: rgba(12,22,48,0.94);
-  --line: rgba(0,150,255,0.22);
-  --line-strong: rgba(0,200,255,0.4);
-  --text: #e8f4ff;
-  --muted: #7fa8cc;
-  --muted-2: #5a88aa;
-  --teal: #00d4ff;
-  --teal-dark: #0099cc;
-  --blue: #0080ff;
-  --violet: #8060ff;
-  --amber: #00aaff;
-  --red: #ff6060;
-  --green: #40cc80;
-  --ink-soft: #a0c8e0;
-  --shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(0,100,200,0.12);
-  --radius: 10px;
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef2f5;
+  --line: #d9e0e7;
+  --line-strong: #b9c5d0;
+  --text: #17202a;
+  --muted: #66717d;
+  --muted-2: #8a95a0;
+  --teal: #13757b;
+  --teal-dark: #0e565b;
+  --blue: #2c64b1;
+  --violet: #6958a8;
+  --amber: #a76400;
+  --red: #b23838;
+  --green: #2e7b49;
+  --ink-soft: #253241;
+  --shadow: 0 10px 26px rgba(23, 32, 42, 0.08);
+  --radius: 8px;
   --control-h: 38px;
   --font: "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", Arial, sans-serif;
 }
@@ -200,11 +200,11 @@ button:disabled {
   width: min(320px, calc(100vw - 32px));
   max-height: min(72vh, 520px);
   overflow: auto;
-  border: 1px solid rgba(0,195,255, 0.28);
+  border: 1px solid rgba(214, 173, 99, 0.28);
   border-radius: 10px;
   padding: 8px;
   background:
-    linear-gradient(180deg, rgba(0,195,255, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(214, 173, 99, 0.08), transparent 40%),
     rgba(7, 15, 26, 0.98);
   box-shadow: 0 22px 58px rgba(0, 0, 0, 0.45);
 }
@@ -223,14 +223,14 @@ button:disabled {
 
 .resource-list a:hover,
 .resource-list a:focus-visible {
-  background: rgba(0,195,255, 0.14);
+  background: rgba(214, 173, 99, 0.14);
   color: #fff8e8;
   outline: none;
 }
 
 .resource-list a.active {
-  background: linear-gradient(180deg, #00c3ff, #c99743);
-  color: #03070f;
+  background: linear-gradient(180deg, #f0d99b, #c99743);
+  color: #071221;
 }
 
 /* 상단 주의 배너 */
@@ -1041,18 +1041,18 @@ td.col-primary {
 
 /* ---------- 가온길 프리미엄 스킨 ---------- */
 :root {
-  --bg: #03070f;
-  --surface: rgba(3,7,15, 0.94);
+  --bg: #060d18;
+  --surface: rgba(13, 23, 38, 0.94);
   --surface-2: rgba(18, 31, 50, 0.94);
   --line: rgba(92, 119, 154, 0.34);
-  --line-strong: rgba(0,195,255, 0.36);
+  --line-strong: rgba(214, 173, 99, 0.36);
   --text: #edf5ff;
   --muted: #a9b7ca;
   --muted-2: #b9c4d2;
-  --teal: #0b66ff;
-  --teal-dark: #00c3ff;
-  --blue: #00c3ff;
-  --amber: #00c3ff;
+  --teal: #d6ad63;
+  --teal-dark: #8f672b;
+  --blue: #f0d99b;
+  --amber: #f0d99b;
   --ink-soft: #fff8e8;
   --shadow: 0 22px 62px rgba(0, 0, 0, 0.32);
 }
@@ -1063,19 +1063,19 @@ html {
 
 body {
   background:
-    linear-gradient(rgba(0,195,255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,195,255, 0.04) 1px, transparent 1px),
-    linear-gradient(118deg, rgba(0,195,255, 0.1), transparent 28%),
-    linear-gradient(180deg, #03070f 0%, #03070f 44%, #03070f 100%);
+    linear-gradient(rgba(214, 173, 99, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(214, 173, 99, 0.04) 1px, transparent 1px),
+    linear-gradient(118deg, rgba(214, 173, 99, 0.1), transparent 28%),
+    linear-gradient(180deg, #050b14 0%, #081321 44%, #060d18 100%);
   background-size: 64px 64px, 64px 64px, auto, auto;
 }
 
 .topbar {
-  border-top: 2px solid rgba(0,195,255, 0.84);
-  border-bottom-color: rgba(0,195,255, 0.2);
+  border-top: 2px solid rgba(240, 217, 155, 0.84);
+  border-bottom-color: rgba(214, 173, 99, 0.2);
   background:
-    linear-gradient(90deg, rgba(0,195,255, 0.08), transparent 26%),
-    rgba(3,7,15, 0.96);
+    linear-gradient(90deg, rgba(214, 173, 99, 0.08), transparent 26%),
+    rgba(5, 11, 20, 0.96);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34);
 }
 
@@ -1090,7 +1090,7 @@ body {
   flex-basis: 108px;
   overflow: hidden;
   gap: 1px;
-  border: 1px solid rgba(0,195,255, 0.42);
+  border: 1px solid rgba(240, 217, 155, 0.42);
   border-radius: 8px;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.13), transparent 36%),
@@ -1117,10 +1117,10 @@ body {
 }
 
 .button {
-  border: 1px solid rgba(0,195,255, 0.5);
+  border: 1px solid rgba(240, 217, 155, 0.5);
   border-radius: 8px;
-  background: linear-gradient(180deg, #00c3ff, #c99743);
-  color: #03070f;
+  background: linear-gradient(180deg, #f0d99b, #c99743);
+  color: #071221;
   box-shadow:
     0 12px 26px rgba(183, 133, 49, 0.22),
     inset 0 1px 0 rgba(255, 255, 255, 0.42);
@@ -1134,9 +1134,9 @@ body {
 }
 
 .notice-bar {
-  border-bottom-color: rgba(0,195,255, 0.32);
-  background: rgba(0,195,255, 0.09);
-  color: #00c3ff;
+  border-bottom-color: rgba(214, 173, 99, 0.32);
+  background: rgba(214, 173, 99, 0.09);
+  color: #f0d99b;
 }
 
 .panel,
@@ -1149,8 +1149,8 @@ body {
 .metric-card {
   border-color: rgba(92, 119, 154, 0.36);
   background:
-    linear-gradient(180deg, rgba(0,195,255, 0.055), transparent 42%),
-    rgba(3,7,15, 0.94);
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 42%),
+    rgba(13, 23, 38, 0.94);
   box-shadow: var(--shadow);
   color: #edf5ff;
 }
@@ -1199,7 +1199,7 @@ table,
 
 th {
   background:
-    linear-gradient(180deg, rgba(0,195,255, 0.11), transparent),
+    linear-gradient(180deg, rgba(214, 173, 99, 0.11), transparent),
     #0d192a !important;
 }
 
@@ -1212,18 +1212,18 @@ tr:nth-child(even) td {
 }
 
 tbody tr:hover td {
-  background: rgba(0,195,255, 0.1) !important;
+  background: rgba(214, 173, 99, 0.1) !important;
   color: #fff8e8 !important;
 }
 
 .tag,
 .badge,
 .chip {
-  border-color: rgba(0,195,255, 0.26);
+  border-color: rgba(214, 173, 99, 0.26);
 }
 
 .site-footer strong {
-  color: #00c3ff;
+  color: #f0d99b;
 }
 
 @media print {
@@ -1281,7 +1281,7 @@ tbody tr:hover td {
   gap: 12px;
   margin-bottom: 10px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(0,195,255, 0.22);
+  border-bottom: 1px solid rgba(214, 173, 99, 0.22);
 }
 
 .footer-brand img {
@@ -1309,7 +1309,7 @@ tbody tr:hover td {
 
 .footer-brand em {
   margin-top: 2px;
-  color: #00c3ff;
+  color: #f0d99b;
   font-size: 12px;
   font-weight: 800;
 }
@@ -1334,8 +1334,8 @@ tbody tr:hover td {
   border-radius: 8px;
   padding: 16px 18px 18px;
   background:
-    linear-gradient(180deg, rgba(0,195,255, 0.055), transparent 56%),
-    rgba(3,7,15, 0.88);
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 56%),
+    rgba(13, 23, 38, 0.88);
   box-shadow: 0 18px 46px rgba(0, 0, 0, 0.26);
 }
 
@@ -1344,7 +1344,7 @@ tbody tr:hover td {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  border-top: 1px solid rgba(0,195,255, 0.18);
+  border-top: 1px solid rgba(214, 173, 99, 0.18);
   padding-top: 12px;
   color: #b9c4d2;
   font-size: 13px;
@@ -1358,7 +1358,7 @@ tbody tr:hover td {
 }
 
 .saved-head strong span {
-  color: #00c3ff;
+  color: #f0d99b;
 }
 
 .saved-body {
@@ -1367,7 +1367,7 @@ tbody tr:hover td {
   gap: 10px;
   min-height: 56px;
   margin-top: 14px;
-  border: 1px dashed rgba(0,195,255, 0.28);
+  border: 1px dashed rgba(214, 173, 99, 0.28);
   border-radius: 8px;
   padding: 10px;
 }
@@ -1384,9 +1384,9 @@ tbody tr:hover td {
   display: flex;
   min-width: min(360px, 100%);
   overflow: hidden;
-  border: 1px solid rgba(0,195,255, 0.28);
+  border: 1px solid rgba(214, 173, 99, 0.28);
   border-radius: 8px;
-  background: rgba(3,7,15, 0.72);
+  background: rgba(5, 11, 20, 0.72);
 }
 
 .saved-main {
@@ -1423,149 +1423,49 @@ tbody tr:hover td {
 .saved-remove {
   width: 40px;
   border: 0;
-  border-left: 1px solid rgba(0,195,255, 0.2);
-  background: rgba(0,195,255, 0.08);
-  color: #00c3ff;
+  border-left: 1px solid rgba(214, 173, 99, 0.2);
+  background: rgba(214, 173, 99, 0.08);
+  color: #f0d99b;
   font-size: 20px;
   font-weight: 900;
 }
 
-/* ── 선택 열 ── */
 .col-select {
-  width: 64px;
+  width: 56px;
   text-align: center;
 }
 
 th.col-select {
-  color: #00e5ff !important;
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  color: #f0d99b !important;
 }
 
 td.col-select {
-  background: rgba(0, 10, 28, 0.6) !important;
-  transition: background 0.15s ease !important;
+  background: rgba(8, 17, 29, 0.52) !important;
 }
 
-/* ─────────────────────────────────────────
-   커스텀 체크박스 — 완전 새 디자인
-   기본(미선택): 회색 테두리, 투명 배경
-   선택됨: 네온 블루 배경 + 체크 마크 발광
-───────────────────────────────────────── */
-
-/* 기본 input 숨기기 + 커스텀 레이어로 교체 */
 .save-check {
-  /* 브라우저 기본 체크박스 제거 */
-  appearance: none;
-  -webkit-appearance: none;
-
-  /* 크기 */
-  width: 26px !important;
-  height: 26px !important;
+  width: 22px !important;
+  height: 22px !important;
   margin: 0;
-  flex-shrink: 0;
-
-  /* 미선택 상태 스타일 */
-  background:
-    linear-gradient(145deg, rgba(5,12,28,0.9) 0%, rgba(8,18,38,0.8) 100%);
-  border: 2px solid rgba(0, 180, 255, 0.35);
-  border-radius: 8px;
+  border: 1px solid rgba(240, 217, 155, 0.54) !important;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08) !important;
+  accent-color: #d6ad63;
   cursor: pointer;
-  position: relative;
-  transition:
-    background 0.18s ease,
-    border-color 0.18s ease,
-    box-shadow 0.18s ease,
-    transform 0.12s ease !important;
-
-  /* 미선택 그림자: 거의 없음 */
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.06),
-    0 2px 6px rgba(0,0,0,0.4);
 }
 
-/* 미선택 호버: 테두리만 살짝 밝아짐 */
-.save-check:hover {
-  border-color: rgba(0, 220, 255, 0.65) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.10),
-    0 0 10px rgba(0, 200, 255, 0.25) !important;
-  transform: scale(1.05) !important;
-}
-
-/* ★ 선택된 상태: 강렬한 네온 블루 */
-.save-check:checked {
-  background:
-    linear-gradient(145deg, #0099ff 0%, #0055dd 60%, #0033aa 100%);
-  border-color: #00e5ff;
-  box-shadow:
-    /* 상단 광택 */
-    inset 0 1.5px 0 rgba(255,255,255,0.55),
-    /* 하단 깊이 */
-    inset 0 -2px 0 rgba(0,0,0,0.4),
-    /* 외부 네온 글로우 (핵심!) */
-    0 0 12px rgba(0, 229, 255, 0.75),
-    0 0 28px rgba(0, 150, 255, 0.45) !important;
-  transform: scale(1.08) !important;
-}
-
-/* 체크 마크 (::after 슈도 엘리먼트) */
-.save-check::after {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 6px;
-  height: 11px;
-  border: 2.5px solid transparent;
-  border-right-color: transparent;
-  border-bottom-color: transparent;
-  transform: translate(-50%, -60%) rotate(45deg) scale(0);
-  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
-              border-color 0.15s ease;
-}
-
-.save-check:checked::after {
-  border-color: #ffffff;
-  border-left: none;
-  border-top: none;
-  transform: translate(-55%, -65%) rotate(45deg) scale(1);
-  filter: drop-shadow(0 0 3px rgba(255,255,255,0.8));
-}
-
-/* ── 선택된 행(focusRow = selectedId) 스타일 ── */
 tbody tr.selected td {
-  background: rgba(0, 150, 255, 0.10) !important;
+  background: rgba(214, 173, 99, 0.12) !important;
+  box-shadow: inset 0 1px 0 rgba(240, 217, 155, 0.1), inset 0 -1px 0 rgba(240, 217, 155, 0.1);
 }
 
 tbody tr.selected td:first-child {
-  box-shadow: inset 4px 0 0 #00d4ff !important;
-}
-
-/* ★ 저장(checked)된 행 — 훨씬 더 밝고 명확하게 */
-tbody tr.row-saved td {
-  background: rgba(0, 200, 255, 0.14) !important;
-  border-top: 1px solid rgba(0, 229, 255, 0.22) !important;
-  border-bottom: 1px solid rgba(0, 229, 255, 0.22) !important;
-}
-
-tbody tr.row-saved td:first-child {
-  box-shadow: inset 4px 0 0 #00e5ff !important;
-}
-
-tbody tr.row-saved .cell-main strong {
-  color: #00e5ff !important;
-  text-shadow: 0 0 8px rgba(0, 229, 255, 0.5) !important;
-}
-
-tbody tr.row-saved td.col-select {
-  background: rgba(0, 160, 255, 0.15) !important;
+  box-shadow: inset 3px 0 0 #d6ad63;
 }
 
 /* 결과표 본문까지 어두운 상담 화면으로 고정 */
 .table-scroll {
-  background: rgba(3,7,15, 0.72) !important;
+  background: rgba(5, 11, 20, 0.72) !important;
 }
 
 tr {
@@ -1578,7 +1478,7 @@ td {
 }
 
 td.col-primary {
-  background: rgba(0,195,255, 0.1) !important;
+  background: rgba(214, 173, 99, 0.1) !important;
 }
 
 tbody tr:nth-child(even) td {
@@ -1586,12 +1486,12 @@ tbody tr:nth-child(even) td {
 }
 
 tbody tr:hover td {
-  background: rgba(0,195,255, 0.14) !important;
+  background: rgba(214, 173, 99, 0.14) !important;
   color: #fff8e8 !important;
 }
 
 tbody tr.selected td {
-  background: rgba(0,195,255, 0.18) !important;
+  background: rgba(214, 173, 99, 0.18) !important;
   color: #fff8e8 !important;
 }
 
@@ -1613,19 +1513,19 @@ tbody tr.selected td {
 }
 
 .yr3 .y.now {
-  background: rgba(0,195,255, 0.13) !important;
+  background: rgba(240, 217, 155, 0.13) !important;
   color: #fff8e8;
 }
 
 .col-primary .yr3 .y.now {
-  background: rgba(0,195,255, 0.18) !important;
-  box-shadow: inset 0 0 0 1px rgba(0,195,255, 0.32);
+  background: rgba(240, 217, 155, 0.18) !important;
+  box-shadow: inset 0 0 0 1px rgba(240, 217, 155, 0.32);
 }
 
 .detail-3yr tbody th,
 .detail-3yr .now-row th,
 .detail-3yr .now-row td {
-  background: rgba(0,195,255, 0.12) !important;
+  background: rgba(214, 173, 99, 0.12) !important;
   color: #fff8e8 !important;
 }
 
@@ -1634,7 +1534,7 @@ tbody tr.selected td {
 }
 
 .consult-panel {
-  border-bottom: 1px solid rgba(0,195,255, 0.18);
+  border-bottom: 1px solid rgba(214, 173, 99, 0.18);
   padding-bottom: 16px;
   margin-bottom: 14px;
 }
@@ -1652,13 +1552,13 @@ tbody tr.selected td {
 }
 
 .consult-panel .label {
-  color: #00c3ff;
+  color: #f0d99b;
   font-weight: 900;
 }
 
 .consult-panel .control {
-  border-color: rgba(0,195,255, 0.34) !important;
-  background: rgba(3,7,15, 0.72) !important;
+  border-color: rgba(214, 173, 99, 0.34) !important;
+  background: rgba(5, 11, 20, 0.72) !important;
   color: #fff8e8 !important;
 }
 
@@ -1704,7 +1604,7 @@ tbody tr.selected td {
 .detail-card,
 .detail-panel,
 .panel {
-  scrollbar-color: rgba(128, 150, 180, 0.82) rgba(3,7,15, 0.9);
+  scrollbar-color: rgba(128, 150, 180, 0.82) rgba(5, 11, 20, 0.9);
 }
 
 .table-scroll::-webkit-scrollbar,
@@ -1723,7 +1623,7 @@ tbody tr.selected td {
 .detail-panel::-webkit-scrollbar-track {
   border: 1px solid rgba(92, 119, 154, 0.18);
   border-radius: 999px;
-  background: rgba(3,7,15, 0.9);
+  background: rgba(5, 11, 20, 0.9);
 }
 
 .table-scroll::-webkit-scrollbar-thumb,
@@ -1731,19 +1631,19 @@ tbody tr.selected td {
 .saved-list::-webkit-scrollbar-thumb,
 .detail-card::-webkit-scrollbar-thumb,
 .detail-panel::-webkit-scrollbar-thumb {
-  border: 3px solid rgba(3,7,15, 0.9);
+  border: 3px solid rgba(5, 11, 20, 0.9);
   border-radius: 999px;
   background: rgba(128, 150, 180, 0.84);
 }
 
 .table-scroll::-webkit-scrollbar-corner {
-  background: rgba(3,7,15, 0.9);
+  background: rgba(5, 11, 20, 0.9);
 }
 
 .pager {
   border-top-color: rgba(92, 119, 154, 0.36) !important;
   background:
-    linear-gradient(90deg, rgba(0,195,255, 0.055), transparent 56%),
+    linear-gradient(90deg, rgba(214, 173, 99, 0.055), transparent 56%),
     rgba(8, 18, 31, 0.96) !important;
   color: #b9c4d2 !important;
 }
@@ -1758,15 +1658,15 @@ tbody tr.selected td {
 
 .pager .button:not(:disabled):hover,
 .pager button:not(:disabled):hover {
-  border-color: rgba(0,195,255, 0.62) !important;
+  border-color: rgba(240, 217, 155, 0.62) !important;
   color: #fff8e8 !important;
 }
 
 .pager .button.primary,
 .pager button.primary {
-  border-color: rgba(0,195,255, 0.7) !important;
-  background: linear-gradient(180deg, #00c3ff, #c99743) !important;
-  color: #03070f !important;
+  border-color: rgba(240, 217, 155, 0.7) !important;
+  background: linear-gradient(180deg, #f0d99b, #c99743) !important;
+  color: #071221 !important;
 }
 
 .pager .button:disabled,
@@ -1782,8 +1682,8 @@ tbody tr.selected td {
 .consult-panel {
   border-color: rgba(92, 119, 154, 0.36) !important;
   background:
-    linear-gradient(180deg, rgba(0,195,255, 0.055), transparent 42%),
-    rgba(3,7,15, 0.94) !important;
+    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 42%),
+    rgba(13, 23, 38, 0.94) !important;
   color: #edf5ff !important;
 }
 
@@ -1798,8 +1698,8 @@ tbody tr.selected td {
 .tag,
 .pill,
 .label-badge {
-  border-color: rgba(0,195,255, 0.34) !important;
-  background: rgba(0,195,255, 0.13) !important;
+  border-color: rgba(214, 173, 99, 0.34) !important;
+  background: rgba(214, 173, 99, 0.13) !important;
   color: #fff8e8 !important;
 }
 
@@ -1815,7 +1715,7 @@ a.button,
 .resource-list a.active,
 .pager .button.primary,
 .pager button.primary {
-  background-color: #0b66ff !important;
+  background-color: #d6ad63 !important;
 }
 
 .button:not(.secondary),
@@ -1823,7 +1723,7 @@ a.button:not(.secondary),
 .resource-list a.active,
 .pager .button.primary,
 .pager button.primary {
-  color: #03070f !important;
+  color: #071221 !important;
 }
 
 /* Final visible-button pass: keep secondary navigation dark, not pale on gold. */
@@ -1831,7 +1731,7 @@ a.button:not(.secondary),
 a.button.secondary,
 summary.button.secondary,
 button.button.secondary {
-  border-color: rgba(0,195,255, 0.36) !important;
+  border-color: rgba(214, 173, 99, 0.36) !important;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
     rgba(18, 31, 50, 0.94) !important;
@@ -1847,9 +1747,9 @@ button.button.secondary * {
 }
 
 .notice-tag {
-  border-color: rgba(0,195,255, 0.62) !important;
-  background: linear-gradient(180deg, #00c3ff 0%, #c99743 100%) !important;
-  color: #03070f !important;
+  border-color: rgba(240, 217, 155, 0.62) !important;
+  background: linear-gradient(180deg, #f0d99b 0%, #c99743 100%) !important;
+  color: #071221 !important;
 }
 
 /* Final contrast pass for result badges/chips. */
@@ -1860,9 +1760,9 @@ button.button.secondary * {
 .detail-head .chip,
 .detail-head .track-tag,
 .detail-jeonhyeong {
-  border: 1px solid rgba(0,195,255, 0.42) !important;
+  border: 1px solid rgba(214, 173, 99, 0.42) !important;
   background:
-    linear-gradient(180deg, rgba(0,195,255, 0.2), rgba(0,195,255, 0.08)),
+    linear-gradient(180deg, rgba(214, 173, 99, 0.2), rgba(214, 173, 99, 0.08)),
     rgba(22, 28, 38, 0.96) !important;
   color: #fff3d2 !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
@@ -1885,7 +1785,7 @@ button.button.secondary * {
 }
 
 .cell-main .jeonhyeong {
-  color: #00c3ff !important;
+  color: #f0d99b !important;
   font-weight: 900 !important;
 }
 
@@ -1955,8 +1855,8 @@ button.button.secondary * {
   border-radius: 18px !important;
   border-color: rgba(92, 119, 154, 0.58) !important;
   background:
-    linear-gradient(180deg, rgba(0,195,255, 0.075), transparent 38%),
-    rgba(3,7,15, 0.96) !important;
+    linear-gradient(180deg, rgba(214, 173, 99, 0.075), transparent 38%),
+    rgba(13, 23, 38, 0.96) !important;
 }
 
 .plan-2027-panel .plan-title {
@@ -1982,7 +1882,7 @@ button.button.secondary * {
   margin: -8px 0 12px !important;
   padding: 5px 9px !important;
   border-radius: 8px !important;
-  background: rgba(0,195,255, 0.10) !important;
+  background: rgba(214, 173, 99, 0.10) !important;
   color: #c3cedd !important;
   font-size: 13px !important;
   font-weight: 800;
@@ -2076,7 +1976,7 @@ button.button.secondary * {
 .plan-table tbody tr.plan-related th,
 .plan-table tbody tr.plan-related td {
   background:
-    linear-gradient(90deg, rgba(0,195,255, 0.11), transparent 70%),
+    linear-gradient(90deg, rgba(214, 173, 99, 0.11), transparent 70%),
     rgba(22, 34, 46, 0.92) !important;
 }
 
@@ -2120,21 +2020,21 @@ body[data-gaongil-page="susi"] .app-shell > * {
   z-index: 1;
 }
 body[data-gaongil-page="susi"] .consult-panel {
-  border-color: rgba(0,195,255, 0.52) !important;
+  border-color: rgba(214, 173, 99, 0.52) !important;
   background:
-    linear-gradient(135deg, rgba(0,195,255, 0.15), rgba(15, 28, 48, 0.94) 42%, rgba(6, 13, 24, 0.98)) !important;
+    linear-gradient(135deg, rgba(214, 173, 99, 0.15), rgba(15, 28, 48, 0.94) 42%, rgba(6, 13, 24, 0.98)) !important;
   box-shadow: 0 16px 44px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255,255,255,0.06) !important;
 }
 body[data-gaongil-page="susi"] .consult-actions .button[data-action="print-report"] {
   min-width: 118px;
   border-color: rgba(255, 237, 181, 0.82) !important;
-  background: linear-gradient(180deg, #ffe8a3 0%, #0b66ff 48%, #b97b22 100%) !important;
-  color: #03070f !important;
+  background: linear-gradient(180deg, #ffe8a3 0%, #d6ad63 48%, #b97b22 100%) !important;
+  color: #071221 !important;
   font-size: 14px;
   font-weight: 950;
   letter-spacing: -0.01em;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.32);
-  box-shadow: 0 14px 28px rgba(0,195,255, 0.30), inset 0 1px 0 rgba(255,255,255,.45) !important;
+  box-shadow: 0 14px 28px rgba(214, 173, 99, 0.30), inset 0 1px 0 rgba(255,255,255,.45) !important;
 }
 body[data-gaongil-page="susi"] .consult-actions .button[data-action="print-report"]::before {
   content: "PDF";
@@ -2143,7 +2043,7 @@ body[data-gaongil-page="susi"] .consult-actions .button[data-action="print-repor
   min-width: 28px;
   height: 18px;
   border-radius: 4px;
-  background: #03070f;
+  background: #071221;
   color: #ffe8a3;
   font-size: 10px;
   font-weight: 950;
@@ -2151,7 +2051,7 @@ body[data-gaongil-page="susi"] .consult-actions .button[data-action="print-repor
 }
 body[data-gaongil-page="susi"] .consult-actions .button[data-action="print-report"]:disabled {
   opacity: 1 !important;
-  border-color: rgba(0,195,255, 0.42) !important;
+  border-color: rgba(214, 173, 99, 0.42) !important;
   background: linear-gradient(180deg, #5d6470 0%, #343d4a 100%) !important;
   color: #f9e8b1 !important;
   text-shadow: none;

@@ -1,7 +1,29 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
+<script data-gaongil-origin-guard>
+(function(){
+  "use strict";
+  var allowedHosts = {
+    "legnanatas-lab.github.io": true,
+    "gaonjinhak.firebaseapp.com": true,
+    "gaonjinhak.web.app": true,
+    "localhost": true,
+    "127.0.0.1": true
+  };
+  var protocol = window.location.protocol;
+  var host = window.location.hostname;
+  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
+  if (allowed) return;
+  function blockSavedCopy(){
+    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
+    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
+    document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자료 보호 안내</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050b14;color:#edf5ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.box{max-width:720px;margin:24px;padding:32px;border:1px solid rgba(214,173,99,.45);border-radius:24px;background:rgba(13,23,38,.94);box-shadow:0 24px 80px rgba(0,0,0,.45)}h1{margin:0 0 12px;font-size:28px}p{line-height:1.7;color:#b9c4d2}a{color:#f0d99b;font-weight:800}</style></head><body><main class="box"><h1>자료 보호 안내</h1><p>'+message+'</p><p>저장된 HTML 파일이나 복사된 주소에서는 자료를 열람할 수 없습니다.</p><p><a href="'+url+'">공식 사이트로 이동하기</a></p></main></body>';
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
+  else blockSavedCopy();
+})();
+</script>
 
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0VB6E0J6MB"></script>
@@ -90,7 +112,7 @@
 
   .tag-new { display:inline-block; background:rgba(111,207,138,0.12); color:#6fcf8a; border:1px solid rgba(111,207,138,0.3); font-size:10px; padding:1px 7px; border-radius:20px; margin-left:6px; vertical-align:middle; }
   .tag-del { display:inline-block; background:rgba(248,113,113,0.1); color:#f87171; border:1px solid rgba(248,113,113,0.3); font-size:10px; padding:1px 7px; border-radius:20px; margin-left:6px; vertical-align:middle; }
-  .tag-change { display:inline-block; background:rgba(0,195,255,0.1); color:#c8a84b; border:1px solid rgba(0,195,255,0.3); font-size:10px; padding:1px 7px; border-radius:20px; margin-left:6px; vertical-align:middle; }
+  .tag-change { display:inline-block; background:rgba(200,168,75,0.1); color:#c8a84b; border:1px solid rgba(200,168,75,0.3); font-size:10px; padding:1px 7px; border-radius:20px; margin-left:6px; vertical-align:middle; }
   .delta-pos { color: #6fcf8a; }
   .delta-neg { color: #f87171; }
   .delta-neu { color: #8898b8; }
@@ -150,7 +172,7 @@
   .se-key-box-title { font-size:12px; color:var(--se-text-accent); font-weight:500; letter-spacing:1px; margin-bottom:5px; }
   .se-key-box p { font-size:13px; color:var(--se-text-sub); line-height:1.6; }
   .se-key-box p strong { color:var(--se-text-main); }
-  .se-key-box-gold { background:linear-gradient(135deg,rgba(0,195,255,0.1),rgba(0,195,255,0.03)); border:1px solid rgba(0,195,255,0.25); border-left:3px solid #c8a84b; border-radius:6px; padding:14px 18px; margin-bottom:12px; }
+  .se-key-box-gold { background:linear-gradient(135deg,rgba(200,168,75,0.1),rgba(200,168,75,0.03)); border:1px solid rgba(200,168,75,0.25); border-left:3px solid #c8a84b; border-radius:6px; padding:14px 18px; margin-bottom:12px; }
   .se-key-box-gold .se-key-box-title { color:#c8a84b; }
   .se-key-box-gold p { font-size:13px; color:var(--se-text-sub); line-height:1.6; }
   .se-footer { text-align:center; padding:28px 20px; font-size:12px; color:var(--se-text-sub); border-top:1px solid var(--se-border); }
@@ -211,7 +233,7 @@
   .gi-key-box-title { font-size:12px; color:var(--gi-text-accent); font-weight:500; letter-spacing:1px; margin-bottom:5px; }
   .gi-key-box p { font-size:13px; color:var(--gi-text-sub); line-height:1.6; }
   .gi-key-box p strong { color:var(--gi-text-main); }
-  .gi-key-box-gold { background:linear-gradient(135deg,rgba(0,195,255,0.1),rgba(0,195,255,0.03)); border:1px solid rgba(0,195,255,0.25); border-left:3px solid #c8a84b; border-radius:6px; padding:14px 18px; margin-bottom:12px; }
+  .gi-key-box-gold { background:linear-gradient(135deg,rgba(200,168,75,0.1),rgba(200,168,75,0.03)); border:1px solid rgba(200,168,75,0.25); border-left:3px solid #c8a84b; border-radius:6px; padding:14px 18px; margin-bottom:12px; }
   .gi-key-box-gold .gi-key-box-title { color:#c8a84b; }
   .gi-key-box-gold p { font-size:13px; color:var(--gi-text-sub); line-height:1.6; }
   .gi-footer { text-align:center; padding:28px 20px; font-size:12px; color:var(--gi-text-sub); border-top:1px solid var(--gi-border); }
@@ -511,7 +533,7 @@
     --cj-blue-mid: #2060c0;
     --cj-blue-light: #5090e0;
     --cj-steel: #90c0f0;
-    --cj-bg-dark: #03070f;
+    --cj-bg-dark: #050a14;
     --cj-bg-card: #08121e;
     --cj-bg-card2: #0c1a2a;
     --cj-text-main: #d8eaff;
@@ -530,7 +552,7 @@
   .cj-hero h1 span { color:var(--cj-blue-light); }
   .cj-hero-sub { font-size:15px; color:var(--cj-text-sub); margin-top:8px; position:relative; z-index:1; }
   .cj-hero-badge { display:inline-block; background:linear-gradient(135deg,var(--cj-blue),var(--cj-blue-mid)); color:#fff; font-size:11px; letter-spacing:2px; padding:5px 14px; border-radius:2px; margin-top:18px; font-weight:500; position:relative; z-index:1; }
-  .cj-nav { position:sticky; top:0; z-index:100; background:rgba(3,7,15,0.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--cj-border); padding:0 40px; }
+  .cj-nav { position:sticky; top:0; z-index:100; background:rgba(5,10,20,0.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--cj-border); padding:0 40px; }
   .cj-nav-inner { display:flex; max-width:1200px; margin:0 auto; overflow-x:auto; scrollbar-width:none; }
   .cj-nav-inner::-webkit-scrollbar { display:none; }
   .cj-nav-link { display:block; padding:14px 16px; font-size:12px; color:var(--cj-text-sub); text-decoration:none; white-space:nowrap; border-bottom:2px solid transparent; transition:color .2s,border-color .2s; letter-spacing:.5px; }
@@ -615,7 +637,7 @@
   .cc-key-box-title { font-size:12px; color:var(--cc-text-accent); font-weight:500; letter-spacing:1px; margin-bottom:5px; }
   .cc-key-box p { font-size:13px; color:var(--cc-text-sub); line-height:1.6; }
   .cc-key-box p strong { color:var(--cc-text-main); }
-  .cc-key-box-gold { background:linear-gradient(135deg,rgba(0,195,255,0.1),rgba(0,195,255,0.03)); border:1px solid rgba(0,195,255,0.25); border-left:3px solid #c8a84b; border-radius:6px; padding:14px 18px; margin-bottom:12px; }
+  .cc-key-box-gold { background:linear-gradient(135deg,rgba(200,168,75,0.1),rgba(200,168,75,0.03)); border:1px solid rgba(200,168,75,0.25); border-left:3px solid #c8a84b; border-radius:6px; padding:14px 18px; margin-bottom:12px; }
   .cc-key-box-gold .cc-key-box-title { color:#c8a84b; }
   .cc-key-box-gold p { font-size:13px; color:var(--cc-text-sub); line-height:1.6; }
   .cc-footer { text-align:center; padding:28px 20px; font-size:12px; color:var(--cc-text-sub); border-top:1px solid var(--cc-border); }
@@ -2263,7 +2285,7 @@ function switchUniv(val) {
     'daegu':     '#051008',
     'busan':     '#120508',
     'jinju':     '#100c02',
-    'cheongju':  '#03070f',
+    'cheongju':  '#050a14',
     'chuncheon': '#0a0614'
   };
   document.body.style.background = bgMap[val] || '#080e1e';
