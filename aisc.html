@@ -6554,12 +6554,31 @@
 
   document.querySelectorAll('.copy-btn').forEach(btn => btn.addEventListener('click', async () => {
     const ok = () => { btn.textContent='복사 완료'; btn.classList.add('done'); setTimeout(()=>{ btn.textContent='주제 복사'; btn.classList.remove('done'); },1100); };
-    try { await navigator.clipboard.writeText(btn.dataset.copy); ok(); }
+    // 카드 전체 내용 조합: 제목 + 각 항목(dt/dd 쌍)
+    const card = btn.closest('.card');
+    let text = '';
+    if (card) {
+      const h3 = card.querySelector('h3');
+      if (h3) text += '【탐구 주제】
+' + (h3.dataset.text || h3.textContent);
+      const dts = card.querySelectorAll('dt');
+      const dds = card.querySelectorAll('dd');
+      dts.forEach((dt, i) => {
+        const ddText = dds[i] ? (dds[i].dataset.text || dds[i].textContent) : '';
+        text += '
+
+[' + dt.textContent.trim() + ']
+' + ddText.trim();
+      });
+    } else {
+      text = btn.dataset.copy;
+    }
+    try { await navigator.clipboard.writeText(text); ok(); }
     catch(e) {
       const ta = document.createElement('textarea');
-      ta.value = btn.dataset.copy; ta.style.position='fixed'; ta.style.opacity='0';
+      ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
       document.body.append(ta); ta.select();
-      try { document.execCommand('copy'); ok(); } catch(_) { alert(btn.dataset.copy); }
+      try { document.execCommand('copy'); ok(); } catch(_) { alert(text); }
       ta.remove();
     }
   }));
