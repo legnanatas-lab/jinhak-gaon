@@ -671,6 +671,12 @@
       return out;
     }
     function renderResults(){
+      if(!DATA || DATA.length === 0){
+        $('resultSummary').textContent = '데이터 파일(2027uni_data.js)이 누락되었습니다.';
+        $('results').innerHTML = '<div class="empty"><h3 style="margin:0 0 8px">데이터를 불러오지 못했습니다.</h3><p style="margin:0">2027uni_data.js 파일이 같은 폴더에 있는지 확인해 주세요.</p></div>';
+        $('moreBtn').style.display = 'none';
+        return;
+      }
       computeResults();
       const total = state.current.length;
       const visible = state.current.slice(0, state.page * state.pageSize);
