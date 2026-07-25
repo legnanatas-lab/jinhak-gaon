@@ -213,6 +213,7 @@ transform: translateY(-3px);  /* 마우스 올리면 살짝 위로 */
       </div>
       <div id="loading" class="loading">자료를 불러오는 중입니다.</div>
       <iframe id="contentFrame" title="과목별 내신 학습 방법"></iframe>
+      <div id="contentDiv" style="display:none;width:100%;min-height:600px;overflow:auto;"></div>
     </section>
 
     <section class="hub-section" aria-label="공통 내신 원칙">
@@ -471,7 +472,27 @@ transform: translateY(-3px);  /* 마우스 올리면 살짝 위로 */
       });
       loading.style.display = 'block';
       frame.style.display = 'none';
-      frame.srcdoc = decorateInnerPage(decodePage(PAGE_DATA[id]));
+      const decoded = decorateInnerPage(decodePage(PAGE_DATA[id]));
+      // iframe srcdoc 방식 (데스크톱/PC 브라우저)
+      frame.srcdoc = decoded;
+      // 모바일 폴백: srcdoc load 이벤트 미발동 시 contentDiv에 직접 주입
+      const contentDiv = document.getElementById('contentDiv');
+      if (contentDiv) {
+        contentDiv.style.display = 'none';
+        contentDiv.innerHTML = '';
+      }
+      clearTimeout(window._gaongilFallbackTimer);
+      window._gaongilFallbackTimer = setTimeout(function() {
+        if (loading.style.display !== 'none') {
+          // iframe이 아직 로드 안 됨 → contentDiv에 HTML 직접 주입
+          if (contentDiv) {
+            frame.style.display = 'none';
+            contentDiv.innerHTML = decoded;
+            contentDiv.style.display = 'block';
+          }
+          loading.style.display = 'none';
+        }
+      }, 3000);
       if(updateHash) history.replaceState(null, '', '#' + id);
     }
     function resizeFrame() {
@@ -494,7 +515,11 @@ transform: translateY(-3px);  /* 마우스 올리면 살짝 위로 */
       resizeFrame();
       setTimeout(resizeFrame, 250);
       setTimeout(resizeFrame, 900);
+      setTimeout(resizeFrame, 2000);
     });
+    // iOS Safari srcdoc load 이벤트 미발동 대비: setTimeout 폴백
+    var _loadFallbackTimer = null;
+
     window.addEventListener('resize', () => setTimeout(resizeFrame, 100));
     function scrollToTopOfViewer() {
       document.querySelector('.viewer-shell').scrollIntoView({behavior:'smooth', block:'start'});
