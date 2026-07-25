@@ -1,29 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<script data-gaongil-origin-guard>
-(function(){
-  "use strict";
-  var allowedHosts = {
-    "legnanatas-lab.github.io": true,
-    "gaonjinhak.firebaseapp.com": true,
-    "gaonjinhak.web.app": true,
-    "localhost": true,
-    "127.0.0.1": true
-  };
-  var protocol = window.location.protocol;
-  var host = window.location.hostname;
-  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
-  if (allowed) return;
-  function blockSavedCopy(){
-    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
-    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
-    document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자료 보호 안내</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050b14;color:#edf5ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.box{max-width:720px;margin:24px;padding:32px;border:1px solid rgba(214,173,99,.45);border-radius:24px;background:rgba(13,23,38,.94);box-shadow:0 24px 80px rgba(0,0,0,.45)}h1{margin:0 0 12px;font-size:28px}p{line-height:1.7;color:#b9c4d2}a{color:#f0d99b;font-weight:800}</style></head><body><main class="box"><h1>자료 보호 안내</h1><p>'+message+'</p><p>저장된 HTML 파일이나 복사된 주소에서는 자료를 열람할 수 없습니다.</p><p><a href="'+url+'">공식 사이트로 이동하기</a></p></main></body>';
-  }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
-  else blockSavedCopy();
-})();
-</script>
+
 
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0VB6E0J6MB"></script>
@@ -52,7 +30,7 @@
     --text-sub: #a0b8a8;
     --text-accent: #6fcf8a;
     --border: rgba(74, 170, 99, 0.18);
-    --border-gold: rgba(200, 168, 75, 0.3);
+    --border-gold: rgba(0,195,255, 0.3);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -300,9 +278,9 @@
 
   .tag-change {
     display: inline-block;
-    background: rgba(200,168,75,0.1);
+    background: rgba(0,195,255,0.1);
     color: var(--ku-gold);
-    border: 1px solid rgba(200,168,75,0.3);
+    border: 1px solid rgba(0,195,255,0.3);
     font-size: 10px;
     padding: 1px 7px;
     border-radius: 20px;
@@ -464,14 +442,14 @@
   }
 
   .sn-table th {
-    background: rgba(200,168,75,0.1);
+    background: rgba(0,195,255,0.1);
     color: var(--ku-gold);
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 1px;
     padding: 9px 12px;
     text-align: center;
-    border: 1px solid rgba(200,168,75,0.15);
+    border: 1px solid rgba(0,195,255,0.15);
   }
 
   .sn-table td {
@@ -484,7 +462,7 @@
   .sn-table tr:hover td { background: rgba(74,170,99,0.04); }
 
   .highlight-a { background: rgba(111,207,138,0.06); }
-  .highlight-b { background: rgba(200,168,75,0.06); }
+  .highlight-b { background: rgba(0,195,255,0.06); }
 
   /* ── FOOTER ── */
   .footer {
@@ -562,8 +540,8 @@
 
   .score-badge {
     display: inline-block;
-    background: rgba(200,168,75,0.12);
-    border: 1px solid rgba(200,168,75,0.3);
+    background: rgba(0,195,255,0.12);
+    border: 1px solid rgba(0,195,255,0.3);
     color: var(--ku-gold);
     font-size: 11px;
     padding: 2px 8px;
@@ -589,8 +567,8 @@
   }
 
   .pill.gold {
-    background: rgba(200,168,75,0.1);
-    border-color: rgba(200,168,75,0.25);
+    background: rgba(0,195,255,0.1);
+    border-color: rgba(0,195,255,0.25);
     color: var(--ku-gold);
   }
 
@@ -831,7 +809,7 @@
     vertical-align: middle;
   }
   .cau-badge-new { background: rgba(255,96,128,0.12); color: #ff6080; border: 1px solid rgba(255,96,128,0.3); }
-  .cau-badge-chg { background: rgba(200,168,75,0.1); color: #e8c870; border: 1px solid rgba(200,168,75,0.3); }
+  .cau-badge-chg { background: rgba(0,195,255,0.1); color: #e8c870; border: 1px solid rgba(0,195,255,0.3); }
   .cau-key-box {
     background: var(--cau-bg-card2);
     border: 1px solid var(--cau-border);
@@ -1314,7 +1292,7 @@
     --kh-text-sub: #b8a0a8;
     --kh-text-accent: #e06080;
     --kh-border: rgba(164,32,64,0.2);
-    --kh-border-gold: rgba(200,168,75,0.3);
+    --kh-border-gold: rgba(0,195,255,0.3);
   }
   .khu-hero {
     position: relative; min-height: 300px;
@@ -1359,7 +1337,7 @@
   .khu-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   @media(max-width:768px) { .khu-grid-2 { grid-template-columns: 1fr; } }
   .khu-tag { display: inline-block; background: rgba(196,48,80,0.15); border: 1px solid rgba(196,48,80,0.3); color: var(--kh-crimson-light); font-size: 11px; font-weight: 700; letter-spacing: 1px; padding: 3px 10px; border-radius: 4px; margin: 3px 3px 3px 0; }
-  .khu-tag-gold { background: rgba(200,168,75,0.12); border: 1px solid rgba(200,168,75,0.3); color: var(--kh-gold); }
+  .khu-tag-gold { background: rgba(0,195,255,0.12); border: 1px solid rgba(0,195,255,0.3); color: var(--kh-gold); }
   .khu-tag-new { background: rgba(100,200,120,0.12); border: 1px solid rgba(100,200,120,0.3); color: #6fcf8a; }
   .khu-change-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--kh-border); }
   .khu-change-item:last-child { border-bottom: none; }
@@ -1394,7 +1372,7 @@
     --snu-text-sub: #8aa0cc;
     --snu-text-accent: #7098e8;
     --snu-border: rgba(58,111,216,0.2);
-    --snu-border-gold: rgba(200,168,75,0.3);
+    --snu-border-gold: rgba(0,195,255,0.3);
   }
   .snu-hero {
     position:relative; min-height:300px;
@@ -1438,7 +1416,7 @@
   .snu-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
   @media(max-width:768px) { .snu-grid-2 { grid-template-columns:1fr; } }
   .snu-tag { display:inline-block; background:rgba(58,111,216,0.15); border:1px solid rgba(58,111,216,0.3); color:var(--snu-navy-light); font-size:11px; font-weight:700; letter-spacing:1px; padding:3px 10px; border-radius:4px; margin:3px 3px 3px 0; }
-  .snu-tag-gold { background:rgba(200,168,75,0.12); border:1px solid rgba(200,168,75,0.3); color:var(--snu-gold); }
+  .snu-tag-gold { background:rgba(0,195,255,0.12); border:1px solid rgba(0,195,255,0.3); color:var(--snu-gold); }
   .snu-tag-new { background:rgba(100,200,120,0.12); border:1px solid rgba(100,200,120,0.3); color:#6fcf8a; }
   .snu-change-item { display:flex; gap:16px; padding:16px 0; border-bottom:1px solid var(--snu-border); }
   .snu-change-item:last-child { border-bottom:none; }
@@ -1581,7 +1559,7 @@
   @media(max-width:768px) { .hy-grid-2,.hy-grid-3 { grid-template-columns:1fr; } }
   .hy-tag { display:inline-block; background:rgba(74,114,216,0.15); border:1px solid rgba(74,114,216,0.35); color:var(--hy-navy-light); font-size:11px; font-weight:700; letter-spacing:1px; padding:3px 10px; border-radius:4px; margin:2px; }
   .hy-tag-red { background:rgba(200,16,46,0.12); border:1px solid rgba(200,16,46,0.35); color:var(--hy-scarlet-light); }
-  .hy-tag-gold { background:rgba(200,168,75,0.12); border:1px solid rgba(200,168,75,0.3); color:var(--hy-gold-light); }
+  .hy-tag-gold { background:rgba(0,195,255,0.12); border:1px solid rgba(0,195,255,0.3); color:var(--hy-gold-light); }
   .hy-tag-new { background:rgba(100,200,120,0.12); border:1px solid rgba(100,200,120,0.3); color:#6fcf8a; }
   .hy-table { width:100%; border-collapse:collapse; font-size:13px; }
   .hy-table th { background:rgba(13,24,64,0.5); color:var(--hy-navy-light); font-weight:700; padding:10px 14px; text-align:left; border-bottom:1px solid var(--hy-border); font-size:11px; letter-spacing:1px; }
@@ -1773,7 +1751,7 @@
   .sg-table tr:hover td { background: rgba(139,26,46,0.05); }
   .sg-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; margin-left: 5px; vertical-align: middle; }
   .sg-badge-new { background: rgba(224,96,128,0.12); color: #e06080; border: 1px solid rgba(224,96,128,0.3); }
-  .sg-badge-chg { background: rgba(200,168,75,0.1); color: #e8c870; border: 1px solid rgba(200,168,75,0.3); }
+  .sg-badge-chg { background: rgba(0,195,255,0.1); color: #e8c870; border: 1px solid rgba(0,195,255,0.3); }
   .sg-badge-del { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
   .sg-key-box {
     background: var(--sg-bg-card2);

@@ -1,50 +1,536 @@
-/* ============================================================
-   가온길 에듀 — 전역 프리미엄 다크 셸
-   모든 하위 페이지에 공통 로드되어, 페이지별로 남아있는
-   밝은(백색) 배경을 가온길 다크 톤으로 통일합니다.
-   ============================================================ */
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  가온길 에듀 — LUXURY DARK SHELL v4                              ║
+   ║  Liquid Glass · Glassmorphism · Glossy Chrome · Cyberpunk Neon  ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
 
-:root{
-  --gg-bg-0:#050b14;
-  --gg-bg-1:#081321;
-  --gg-panel:#0d1626;
-  --gg-panel-2:#111f34;
-  --gg-line:rgba(214,173,99,.22);
-  --gg-line-soft:rgba(255,255,255,.08);
-  --gg-gold:#f0d99b;
-  --gg-gold-strong:#d6ad63;
-  --gg-text:#edf5ff;
-  --gg-text-muted:#aab6c9;
-  --gg-shadow: 0 18px 48px rgba(0,0,0,.34);
+/* ═══════════════════════════════════════════
+   1. 디자인 토큰 (Design Tokens)
+══════════════════════════════════════════════ */
+:root {
+  /* ── 배경 팔레트 (무한한 우주 블랙) ── */
+  --lx-bg-void:    #000000;
+  --lx-bg-deep:    #020610;
+  --lx-bg-mid:     #03070f;
+
+  /* ── 네온 블루 팔레트 ── */
+  --lx-cyan:       #00e5ff;   /* 일렉트릭 시안  */
+  --lx-blue:       #0077ff;   /* 코발트 블루    */
+  --lx-blue-deep:  #003ea8;   /* 딥 코발트      */
+  --lx-indigo:     #2244cc;   /* 인디고 블루    */
+
+  /* ── 메탈 하이라이트 ── */
+  --lx-hi-1: rgba(255,255,255,0.30);  /* 강한 반사  */
+  --lx-hi-2: rgba(200,235,255,0.14);  /* 중간 반사  */
+  --lx-hi-3: rgba(140,200,255,0.06);  /* 약한 반사  */
+
+  /* ── 텍스트 (명도 대비 AA 준수) ── */
+  --lx-text:       #eef6ff;   /* 기본 흰색 텍스트   */
+  --lx-text-sub:   #9bbcd8;   /* 보조 텍스트        */
+  --lx-text-dim:   #5d82a0;   /* 배경 설명 텍스트   */
+
+  /* ── 글로우 & 쉐도우 ── */
+  --lx-glow-cyan:   rgba(0,229,255,0.5);
+  --lx-glow-blue:   rgba(0,119,255,0.35);
+  --lx-glow-halo:   rgba(0,80,220,0.18);
+  --lx-shadow-xl:   0 40px 100px rgba(0,0,0,0.92), 0 8px 24px rgba(0,0,0,0.7);
+  --lx-shadow-md:   0 16px 48px rgba(0,0,0,0.75), 0 4px 12px rgba(0,0,0,0.5);
+
+  /* ── 테두리 ── */
+  --lx-border-hi:   rgba(255,255,255,0.16);
+  --lx-border-glow: rgba(0,200,255,0.28);
+  --lx-border-dim:  rgba(0,150,255,0.12);
 }
 
-html{
-  background: var(--gg-bg-0) !important;
-}
-
-html, body{
+/* ═══════════════════════════════════════════
+   2. 전역 배경 — Cyberpunk / Futuristic
+══════════════════════════════════════════════ */
+html {
+  background: var(--lx-bg-void) !important;
   color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body{
+body {
+  color: var(--lx-text) !important;
   background:
-    linear-gradient(rgba(214,173,99,.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(214,173,99,.04) 1px, transparent 1px),
-    radial-gradient(circle at 9% 18%, rgba(214,173,99,.10), transparent 28rem),
-    linear-gradient(180deg, var(--gg-bg-0) 0%, var(--gg-bg-1) 45%, var(--gg-bg-0) 100%) !important;
-  background-size: 64px 64px, 64px 64px, auto, auto !important;
+    /* ─ 마이크로 격자: 사이버펑크 그리드 ─ */
+    linear-gradient(rgba(0,180,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,180,255,0.035) 1px, transparent 1px),
+    /* ─ 하단 라디얼 그라데이션 (사진의 블루 넘실거림) ─ */
+    radial-gradient(ellipse 140% 65% at 50% 105%,
+      rgba(0, 90, 220, 0.55) 0%,
+      rgba(0, 50, 160, 0.28) 40%,
+      transparent 68%),
+    /* ─ 좌상단 코너 빛 번짐 ─ */
+    radial-gradient(ellipse 45% 35% at 2% 2%,
+      rgba(0, 160, 255, 0.10) 0%,
+      transparent 70%),
+    /* ─ 기본 딥 블랙 ─ */
+    linear-gradient(180deg, #000000 0%, #020810 45%, #050f1c 100%) !important;
+  background-size: 56px 56px, 56px 56px, auto, auto, auto !important;
+  min-height: 100vh;
 }
 
-/* scrollbar */
-::-webkit-scrollbar{ width:12px; height:12px; }
-::-webkit-scrollbar-track{ background: var(--gg-bg-0); }
-::-webkit-scrollbar-thumb{ background: rgba(214,173,99,.32); border-radius: 8px; border: 3px solid var(--gg-bg-0); }
-::-webkit-scrollbar-thumb:hover{ background: rgba(214,173,99,.5); }
+/* ═══════════════════════════════════════════
+   3. 스크롤바 — 크롬 메탈 블루
+══════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track {
+  background: #000;
+  border-left: 1px solid rgba(0,120,255,0.08);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00aaff 0%, #0055cc 100%);
+  border-radius: 6px;
+  border: 2px solid #000;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 0 6px rgba(0,180,255,0.3);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00e5ff 0%, #0077ff 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 0 10px rgba(0,229,255,0.5);
+}
 
-::selection{ background: rgba(214,173,99,.32); color:#fff; }
+::selection {
+  background: rgba(0, 180, 255, 0.3);
+  color: #ffffff;
+}
 
-a{ text-decoration-color: rgba(214,173,99,.4); }
+/* ═══════════════════════════════════════════
+   4. 전역 트랜지션
+══════════════════════════════════════════════ */
+*, *::before, *::after {
+  transition:
+    transform     0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow    0.22s ease,
+    border-color  0.22s ease,
+    background    0.22s ease,
+    opacity       0.18s ease !important;
+}
 
+/* ─ 트랜지션 예외 (레이아웃 요소) ─ */
+html, body, div, section, article, aside, main, header, footer {
+  transition: none !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--lx-cyan) !important;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(0,229,255,0.18), 0 0 16px rgba(0,229,255,0.3) !important;
+  border-radius: 4px;
+}
+
+/* ═══════════════════════════════════════════
+   5. 링크
+══════════════════════════════════════════════ */
+a:not([class]):not([role]) {
+  color: #5cc8ff !important;
+  text-decoration-color: rgba(0,180,255,0.3) !important;
+}
+a:not([class]):not([role]):hover {
+  color: #00e5ff !important;
+  text-shadow: 0 0 10px rgba(0,229,255,0.5) !important;
+}
+
+/* ═══════════════════════════════════════════
+   6. ★ LIQUID GLASS CARDS
+      리퀴드 글래스 — 흐르는 유리 + 액체 굴절
+══════════════════════════════════════════════ */
+[class*="card"]:not([class*="badge"]):not([class*="breadcrumb"]),
+[class*="panel"]:not([class*="breadcrumb"]):not([class*="control"]),
+[class*="box"]:not([class*="checkbox"]):not([class*="breadcrumb"]):not([class*="text"]),
+.modal, .drawer, .result, .stat, .kpi,
+details, .faq-item {
+  position: relative;
+  overflow: visible;
+
+  /* ─ 리퀴드 글래스 배경 (3-레이어) ─ */
+  background:
+    /* Layer 1: 상단 스펙큘러 광택 (유리 빛 굴절) */
+    linear-gradient(160deg,
+      rgba(255,255,255,0.09) 0%,
+      rgba(255,255,255,0.03) 25%,
+      transparent 50%
+    ),
+    /* Layer 2: 메탈릭 미드-그라데이션 */
+    linear-gradient(145deg,
+      rgba(20, 38, 72, 0.96) 0%,
+      rgba(12, 22, 46, 0.97) 50%,
+      rgba(5,  10, 22, 0.99) 100%
+    ),
+    /* Layer 3: 내부 청색 발광 (사이버펑크) */
+    radial-gradient(ellipse 80% 40% at 50% 0%,
+      rgba(0, 100, 220, 0.12) 0%,
+      transparent 70%
+    ) !important;
+
+  /* ─ 글래스모피즘 효과 ─ */
+  backdrop-filter: blur(24px) saturate(200%) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.05) !important;
+
+  /* ─ 메탈 엣지 + 네온 글로우 쉐도우 (7-레이어) ─ */
+  box-shadow:
+    /* 상단 유리 엣지 반사 (가장 중요한 메탈 느낌) */
+    inset 0 1.5px 1px var(--lx-hi-1),
+    /* 상단 보조 광택 */
+    inset 0 0 30px rgba(0,160,255,0.06),
+    /* 좌측 사이드 미세 반사 */
+    inset 1px 0 0 var(--lx-hi-2),
+    /* 하단 깊이 엣지 */
+    inset 0 -2px 0 rgba(0,0,0,0.85),
+    /* 외부 깊은 그림자 */
+    0 24px 64px rgba(0,0,0,0.82),
+    0 6px 18px rgba(0,0,0,0.55),
+    /* 네온 블루 후광 (핵심 사이버펑크 글로우) */
+    0 0 0 1px var(--lx-border-dim),
+    0 0 40px var(--lx-glow-halo) !important;
+
+  /* ─ 테두리 ─ */
+  border: 1px solid var(--lx-border-glow) !important;
+  border-top-color: var(--lx-border-hi) !important;
+  border-bottom-color: rgba(0,0,0,0.5) !important;
+  border-radius: 16px !important;
+
+  /* ─ 텍스트 가시성 보장 ─ */
+  color: var(--lx-text) !important;
+}
+
+/* ─ 카드 내부 텍스트 명도 강제 ─ */
+[class*="card"] *,
+[class*="panel"] *,
+[class*="box"]:not([class*="checkbox"]) * {
+  color: inherit;
+}
+[class*="card"] p, [class*="card"] li, [class*="card"] span:not([class]),
+[class*="panel"] p, [class*="panel"] li,
+[class*="box"] p, [class*="box"] li {
+  color: var(--lx-text-sub) !important;
+}
+[class*="card"] h1, [class*="card"] h2, [class*="card"] h3,
+[class*="card"] h4, [class*="card"] strong, [class*="card"] b,
+[class*="panel"] h1, [class*="panel"] h2, [class*="panel"] h3 {
+  color: var(--lx-text) !important;
+}
+
+/* ─ 카드 호버 (Liquid Float 효과) ─ */
+[class*="card"]:not([class*="badge"]):hover {
+  transform: translateY(-5px) !important;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255,255,255,0.35),
+    inset 0 0 40px rgba(0,160,255,0.10),
+    inset 1px 0 0 rgba(255,255,255,0.18),
+    inset 0 -2px 0 rgba(0,0,0,0.8),
+    0 32px 80px rgba(0,0,0,0.85),
+    0 10px 24px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(0,220,255,0.3),
+    0 0 60px rgba(0,120,255,0.28) !important;
+  border-color: rgba(0,220,255,0.45) !important;
+  border-top-color: rgba(255,255,255,0.25) !important;
+}
+
+/* ═══════════════════════════════════════════
+   7. ★ GLOSSY CHROME BUTTONS
+      광택 크롬 버튼 — 클릭 욕구 유발 3D
+══════════════════════════════════════════════ */
+.btn, .button,
+[class*="btn-"]:not([class*="card"]):not([class*="badge"]),
+[class*="-btn"]:not([class*="card"]),
+button:not([class*="nav"]):not([class*="tab"]):not(.nav-pill) {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative;
+  overflow: hidden;
+
+  /* ─ 크롬 글로시 그라데이션 (4-레이어) ─ */
+  background:
+    /* 스펙큘러 하이라이트 (빛 반사 영역) */
+    linear-gradient(180deg,
+      rgba(255,255,255,0.50) 0%,
+      rgba(255,255,255,0.20) 30%,
+      rgba(255,255,255,0.02) 55%,
+      transparent 100%
+    ),
+    /* 버튼 바디 메인 그라데이션 */
+    linear-gradient(180deg,
+      #00c8ff 0%,
+      #0077ee 28%,
+      #0055dd 60%,
+      #003aaa 100%
+    ) !important;
+
+  /* ─ 입체 엣지 쉐도우 (5-레이어) ─ */
+  box-shadow:
+    /* 최상단 흰 반사선 */
+    inset 0 1.5px 0 rgba(255,255,255,0.65),
+    /* 좌측 측면 광택 */
+    inset 1px 0 0 rgba(255,255,255,0.25),
+    /* 우측 그늘 */
+    inset -1px 0 0 rgba(0,0,0,0.2),
+    /* 하단 눌림 엣지 */
+    inset 0 -3px 0 rgba(0,0,0,0.45),
+    /* 외부 글로우 + 그림자 */
+    0 8px 24px rgba(0,0,0,0.55),
+    0 0 24px rgba(0,200,255,0.55),
+    0 0 48px rgba(0,100,220,0.22) !important;
+
+  color: #ffffff !important;
+  border: 1px solid rgba(0,220,255,0.45) !important;
+  border-top-color: rgba(255,255,255,0.55) !important;
+  border-bottom-color: rgba(0,0,0,0.45) !important;
+  text-shadow:
+    0 1px 3px rgba(0,0,0,0.7),
+    0 0 12px rgba(0,220,255,0.5) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  border-radius: 10px !important;
+  cursor: pointer;
+}
+
+/* ─ 버튼 내부 shine 레이어 (::before) ─ */
+.btn::before, .button::before,
+button:not([class*="nav"]):not([class*="tab"]):not(.nav-pill)::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.20) 0%,
+    transparent 100%
+  );
+  border-radius: 9px 9px 0 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─ 버튼 호버 (네온 블래스트) ─ */
+.btn:hover, .button:hover,
+[class*="btn-"]:not([class*="card"]):not([class*="badge"]):hover,
+button:not([class*="nav"]):not([class*="tab"]):not(.nav-pill):hover {
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,0.60) 0%,
+      rgba(255,255,255,0.28) 30%,
+      rgba(255,255,255,0.05) 55%,
+      transparent 100%
+    ),
+    linear-gradient(180deg,
+      #33ddff 0%,
+      #0099ff 28%,
+      #0066ee 60%,
+      #0044bb 100%
+    ) !important;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.80),
+    inset 1px 0 0 rgba(255,255,255,0.35),
+    inset -1px 0 0 rgba(0,0,0,0.10),
+    inset 0 -3px 0 rgba(0,0,0,0.35),
+    0 10px 30px rgba(0,0,0,0.55),
+    0 0 36px rgba(0,229,255,0.80),
+    0 0 72px rgba(0,140,255,0.35) !important;
+  transform: translateY(-3px) scale(1.02) !important;
+  border-color: rgba(0,240,255,0.7) !important;
+}
+
+/* ─ 버튼 클릭 (눌림 효과) ─ */
+.btn:active, .button:active,
+button:not([class*="nav"]):not([class*="tab"]):not(.nav-pill):active {
+  transform: translateY(1px) scale(0.98) !important;
+  box-shadow:
+    inset 0 3px 8px rgba(0,0,0,0.6),
+    inset 0 -1px 0 rgba(255,255,255,0.1),
+    0 2px 10px rgba(0,100,200,0.4) !important;
+}
+
+/* ═══════════════════════════════════════════
+   8. ★ NEON GLOW TEXT
+      네온 발광 텍스트 & 타이틀
+══════════════════════════════════════════════ */
+
+/* ─ 섹션 타이틀 ─ */
+h1, h2, h3 {
+  color: var(--lx-text) !important;
+  text-shadow:
+    0 0 20px rgba(0,200,255,0.20),
+    0 1px 4px rgba(0,0,0,0.9) !important;
+}
+
+/* ─ 강조 포인트 텍스트 (그라데이션 텍스트 클립) ─ */
+.eyebrow, .kicker, .lab,
+[class*="eyebrow"], [class*="kicker"],
+[class*="accent"], [class*="point"] {
+  background: linear-gradient(135deg,
+    #00e5ff 0%, #0099ff 40%, #00c8ff 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 8px rgba(0,200,255,0.5)) !important;
+  font-weight: 700 !important;
+}
+
+/* ─ 숫자/통계 데이터 (네온 카운터) ─ */
+[class*="num"], [class*="count"],
+[class*="score"], [class*="stat"] strong,
+[class*="kpi"] strong, [class*="big"],
+.metric b, .value b {
+  background: linear-gradient(135deg, #00e5ff 0%, #0077ff 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 10px rgba(0,229,255,0.6)) !important;
+  font-weight: 900 !important;
+}
+
+/* ═══════════════════════════════════════════
+   9. 배지 / 태그 / 칩 — 네온 필
+══════════════════════════════════════════════ */
+[class*="badge"]:not([class*="card"]),
+[class*="tag"]:not([class*="card"]),
+[class*="chip"]:not([class*="card"]),
+[class*="pill"]:not([class*="nav"]):not(.nav-pill),
+[class*="label-"]:not([class*="card"]) {
+  background:
+    linear-gradient(135deg,
+      rgba(0,120,255,0.20) 0%,
+      rgba(0,80,200,0.12) 100%
+    ) !important;
+  border: 1px solid rgba(0,200,255,0.40) !important;
+  color: #00e5ff !important;
+  text-shadow: 0 0 8px rgba(0,229,255,0.5) !important;
+  box-shadow:
+    0 0 12px rgba(0,120,255,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.12) !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+}
+
+/* ═══════════════════════════════════════════
+   10. 입력 요소 — 유리 인풋
+══════════════════════════════════════════════ */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+select, textarea {
+  background: rgba(4, 10, 28, 0.85) !important;
+  border: 1px solid rgba(0,160,255,0.28) !important;
+  border-top-color: rgba(0,0,0,0.5) !important;
+  color: var(--lx-text) !important;
+  box-shadow:
+    inset 0 2px 8px rgba(0,0,0,0.6),
+    inset 0 -1px 0 rgba(0,100,255,0.1) !important;
+  border-radius: 10px !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+input::placeholder, select::placeholder, textarea::placeholder {
+  color: var(--lx-text-dim) !important;
+  opacity: 0.7 !important;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(0,220,255,0.7) !important;
+  box-shadow:
+    inset 0 2px 8px rgba(0,0,0,0.5),
+    0 0 0 3px rgba(0,180,255,0.15),
+    0 0 24px rgba(0,180,255,0.25) !important;
+  outline: none !important;
+  color: var(--lx-text) !important;
+}
+
+/* ═══════════════════════════════════════════
+   11. 테이블 — 사이버펑크 그리드
+══════════════════════════════════════════════ */
+table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+}
+
+th {
+  background:
+    linear-gradient(180deg,
+      rgba(0,100,220,0.28) 0%,
+      rgba(0,60,160,0.16) 100%
+    ) !important;
+  border-bottom: 1px solid rgba(0,200,255,0.4) !important;
+  color: #00e5ff !important;
+  text-shadow: 0 0 8px rgba(0,229,255,0.5) !important;
+  font-weight: 700 !important;
+}
+
+td {
+  color: var(--lx-text-sub) !important;
+  border-bottom: 1px solid rgba(0,100,200,0.10) !important;
+}
+
+tr:nth-child(even) td {
+  background: rgba(0,80,200,0.05) !important;
+}
+
+tr:hover td {
+  background: rgba(0,120,255,0.10) !important;
+  color: var(--lx-text) !important;
+}
+
+/* ═══════════════════════════════════════════
+   12. HR — 네온 구분선
+══════════════════════════════════════════════ */
+hr {
+  border: none !important;
+  height: 1px !important;
+  background:
+    linear-gradient(90deg,
+      transparent 0%,
+      rgba(0,180,255,0.6) 20%,
+      rgba(0,229,255,0.9) 50%,
+      rgba(0,180,255,0.6) 80%,
+      transparent 100%
+    ) !important;
+  box-shadow: 0 0 8px rgba(0,200,255,0.4) !important;
+  margin: 1.5rem 0 !important;
+}
+
+/* ═══════════════════════════════════════════
+   13. 네비게이션 — 딥 블랙 크롬
+══════════════════════════════════════════════ */
+.home-topbar, .site-header {
+  background:
+    linear-gradient(180deg,
+      rgba(0, 3, 12, 0.98) 0%,
+      rgba(0, 5, 18, 0.96) 100%
+    ) !important;
+  border-bottom: 1px solid rgba(0,180,255,0.22) !important;
+  box-shadow:
+    0 1px 0 rgba(0,200,255,0.12),
+    0 6px 30px rgba(0,0,0,0.85),
+    inset 0 1px 0 rgba(255,255,255,0.04) !important;
+  backdrop-filter: blur(32px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+}
+
+/* ═══════════════════════════════════════════
+   14. 히어로 섹션 — 딥 블루 라디얼
+══════════════════════════════════════════════ */
+[class*="hero"]:not([class*="card"]),
+[class*="banner"],
+[class*="workspace-hero"],
+[class*="page-header"] {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 110%,
+      rgba(0, 80, 220, 0.6) 0%,
+      rgba(0, 44, 140, 0.30) 45%,
+      transparent 72%
+    ),
+    linear-gradient(180deg,
+      rgba(4,10,24,0.98) 0%,
+      rgba(2,6,16,0.99) 100%
+    ) !important;
+  box-shadow:
+    inset 0 -1px 0 rgba(0,200,255,0.20),
+    0 24px 70px rgba(0,0,0,0.80) !important;
+}
+
+/* ═══════════════════════════════════════════
+   15. 스크롤 색상 (사이드바 등)
+══════════════════════════════════════════════ */
 body [class*="wrap"],
 body [class*="container"],
 body [class*="content"],
@@ -52,36 +538,52 @@ body [class*="panel"],
 body [class*="card"]:not([class*="badge"]),
 body [class*="box"]:not([class*="checkbox"]),
 body [class*="section"],
-body main,
-body table{
-  scrollbar-color: rgba(214,173,99,.35) transparent;
+body main, body table {
+  scrollbar-color: rgba(0,150,255,0.4) transparent;
+  scrollbar-width: thin;
 }
 
-/* ============================================================
-   전역 인터랙션 다듬기 — 탐구주제 도구(tamgu)의 골드 호버 톤을
-   사이트 전체에 안전하게 확장합니다. 각 페이지가 이미 고유한
-   :hover 규칙을 갖고 있으면 그대로 우선 적용되고, 여기서는
-   부드러운 전환(transition)과 포커스 표시만 보강합니다.
-   ============================================================ */
-a, button, summary, .resource-card, .feature-card, [class*="card"], [class*="btn"], [class*="Btn"]{
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background-color .18s ease, color .18s ease;
+/* ═══════════════════════════════════════════
+   16. 포커스 및 호버 fallback
+══════════════════════════════════════════════ */
+[data-gaongil-dark]:hover {
+  box-shadow:
+    0 24px 60px rgba(0,0,0,0.75),
+    inset 0 0 0 1px rgba(0,200,255,0.35),
+    0 0 40px rgba(0,100,255,0.22) !important;
+  transform: translateY(-2px) !important;
 }
 
-:focus-visible{
-  outline: 2px solid rgba(240,217,155,.85) !important;
-  outline-offset: 2px;
-}
-
-/* dark-shell 스크립트가 새로 어둡게 바꾼 요소는 아직 자체 hover가
-   없을 가능성이 높으므로, 이 요소들에 한해 골드 리프트 효과를 추가합니다. */
-[data-gaongil-dark]:hover{
-  box-shadow: 0 18px 44px rgba(0,0,0,.38), inset 0 0 0 1px rgba(214,173,99,.22);
-}
-
-/* 클래스가 없는 순수 버튼 요소를 위한 기본 골드 호버 (이미 스타일이
-   지정된 버튼은 자체 class 규칙이 우선 적용되어 영향 없음) */
 button:not([class]):hover,
-button:not([class]):focus-visible{
-  background: linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%);
-  color: #071221;
+button:not([class]):focus-visible {
+  background: linear-gradient(180deg, #00c8ff 0%, #0066ff 60%, #0033aa 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 0 20px rgba(0,180,255,0.5) !important;
+}
+
+/* ═══════════════════════════════════════════
+   17. 텍스트 가시성 전역 보장
+      (배경이 어두울 때 텍스트가 안보이는 문제 해결)
+══════════════════════════════════════════════ */
+body, body * {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 일반 텍스트는 항상 밝게 */
+p, li, span, small, label, td, dd, dt,
+.desc, .lead, .muted, .sub, .hint, .note {
+  color: var(--lx-text-sub) !important;
+}
+
+/* 제목은 항상 흰색 */
+h1, h2, h3, h4, h5, h6,
+.title, [class*="title"],
+.heading, [class*="heading"] {
+  color: var(--lx-text) !important;
+}
+
+/* 볼드 텍스트 */
+strong, b {
+  color: var(--lx-text) !important;
+  font-weight: 700 !important;
 }

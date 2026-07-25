@@ -581,9 +581,14 @@ function toggleSet(set, value, checked) {
 function handleTabClick(event) {
   const saveToggle = event.target.closest("[data-save-id]");
   if (saveToggle) {
-    const id = saveToggle.dataset.saveId;
-    if (saveToggle.checked) state.savedIds.add(id);
-    else state.savedIds.delete(id);
+    event.stopPropagation();   // 행 클릭 이벤트와 분리
+    const id = String(saveToggle.dataset.saveId);
+    if (saveToggle.checked) {
+      state.savedIds.add(id);
+    } else {
+      state.savedIds.delete(id);
+    }
+    // 체크박스 클릭 시 해당 행도 포커스(선택) 처리
     state.selectedId = id;
     renderDynamic();
     focusRow(id);
@@ -1038,11 +1043,13 @@ function renderResults(records) {
 }
 
 function renderResultRow(record) {
-  const selected = String(record.id) === String(state.selectedId) ? "selected" : "";
-  const checked = state.savedIds.has(String(record.id)) ? "checked" : "";
+  const isSaved   = state.savedIds.has(String(record.id));
+  const selected  = String(record.id) === String(state.selectedId) ? "selected" : "";
+  const rowSaved  = isSaved ? "row-saved" : "";
+  const checked   = isSaved ? "checked" : "";
   const ariaLabel = `${record.university} ${record.major}, 2026 70%컷 ${formatGrade(metricValue(record, 2026, "grade70"))}`;
   return `
-    <tr class="${selected}" data-id="${record.id}" tabindex="0" role="button" aria-pressed="${selected ? "true" : "false"}" aria-label="${escapeAttr(ariaLabel)}">
+    <tr class="${selected} ${rowSaved}" data-id="${record.id}" tabindex="0" role="button" aria-pressed="${selected ? "true" : "false"}" aria-label="${escapeAttr(ariaLabel)}">
       <td class="col-select">
         <input class="save-check" type="checkbox" data-save-id="${escapeAttr(record.id)}" ${checked} aria-label="${escapeAttr(record.university)} ${escapeAttr(record.major)} 저장" />
       </td>

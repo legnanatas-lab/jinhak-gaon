@@ -1,29 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<script data-gaongil-origin-guard>
-(function(){
-  "use strict";
-  var allowedHosts = {
-    "legnanatas-lab.github.io": true,
-    "gaonjinhak.firebaseapp.com": true,
-    "gaonjinhak.web.app": true,
-    "localhost": true,
-    "127.0.0.1": true
-  };
-  var protocol = window.location.protocol;
-  var host = window.location.hostname;
-  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
-  if (allowed) return;
-  function blockSavedCopy(){
-    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
-    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
-    document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자료 보호 안내</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050b14;color:#edf5ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.box{max-width:720px;margin:24px;padding:32px;border:1px solid rgba(214,173,99,.45);border-radius:24px;background:rgba(13,23,38,.94);box-shadow:0 24px 80px rgba(0,0,0,.45)}h1{margin:0 0 12px;font-size:28px}p{line-height:1.7;color:#b9c4d2}a{color:#f0d99b;font-weight:800}</style></head><body><main class="box"><h1>자료 보호 안내</h1><p>'+message+'</p><p>저장된 HTML 파일이나 복사된 주소에서는 자료를 열람할 수 없습니다.</p><p><a href="'+url+'">공식 사이트로 이동하기</a></p></main></body>';
-  }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
-  else blockSavedCopy();
-})();
-</script>
+
 
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0VB6E0J6MB"></script>
@@ -124,9 +102,9 @@
   }
   .tag-change {
     display: inline-block;
-    background: rgba(200,168,75,0.1);
+    background: rgba(0,195,255,0.1);
     color: #c8a84b;
-    border: 1px solid rgba(200,168,75,0.3);
+    border: 1px solid rgba(0,195,255,0.3);
     font-size: 10px; padding: 1px 7px; border-radius: 20px; margin-left: 6px; vertical-align: middle;
   }
 
@@ -224,7 +202,7 @@
   .ka-footer { text-align:center; padding:28px 20px; font-size:12px; color:var(--ka-text-sub); border-top:1px solid var(--ka-border); }
   .ka-badge { display:inline-block; background:rgba(0,130,255,0.12); color:var(--ka-blue-light); border:1px solid rgba(0,130,255,0.3); font-size:10px; padding:1px 8px; border-radius:20px; margin:1px; }
   .ka-badge.red { background:rgba(248,113,113,0.08); border-color:rgba(248,113,113,0.25); color:#f87171; }
-  .ka-badge.gold { background:rgba(200,168,75,0.1); border-color:rgba(200,168,75,0.25); color:#c8a84b; }
+  .ka-badge.gold { background:rgba(0,195,255,0.1); border-color:rgba(0,195,255,0.25); color:#c8a84b; }
 
   /* ============================================================
      DGIST  ─ 딥 다크 + 코발트 블루/스카이
@@ -1769,7 +1747,7 @@
   .po-panel { background:var(--po-bg-card); border:1px solid var(--po-border); border-radius:8px; padding:22px; }
   .po-panel-title { font-size:13px; font-weight:500; color:var(--po-text-accent); margin-bottom:14px; }
   .po-key-box { background:linear-gradient(135deg,rgba(0,56,118,0.16),rgba(0,56,118,0.06)); border:1px solid rgba(0,80,170,0.22); border-left:3px solid var(--po-blue-light); border-radius:6px; padding:14px 18px; margin-bottom:12px; }
-  .po-key-box-gold { background:linear-gradient(135deg,rgba(200,168,75,0.12),rgba(200,168,75,0.04)); border:1px solid rgba(200,168,75,0.25); border-left:3px solid var(--po-gold); border-radius:6px; padding:14px 18px; margin-bottom:12px; }
+  .po-key-box-gold { background:linear-gradient(135deg,rgba(0,195,255,0.12),rgba(0,195,255,0.04)); border:1px solid rgba(0,195,255,0.25); border-left:3px solid var(--po-gold); border-radius:6px; padding:14px 18px; margin-bottom:12px; }
   .po-key-box-title { font-size:12px; color:var(--po-text-accent); font-weight:500; margin-bottom:5px; }
   .po-key-box-title-gold { font-size:12px; color:var(--po-gold); font-weight:500; margin-bottom:5px; }
   .po-key-box p { font-size:13px; color:var(--po-text-sub); line-height:1.6; }

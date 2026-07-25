@@ -1,29 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<script data-gaongil-origin-guard>
-(function(){
-  "use strict";
-  var allowedHosts = {
-    "legnanatas-lab.github.io": true,
-    "gaonjinhak.firebaseapp.com": true,
-    "gaonjinhak.web.app": true,
-    "localhost": true,
-    "127.0.0.1": true
-  };
-  var protocol = window.location.protocol;
-  var host = window.location.hostname;
-  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
-  if (allowed) return;
-  function blockSavedCopy(){
-    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
-    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
-    document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자료 보호 안내</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050b14;color:#edf5ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.box{max-width:720px;margin:24px;padding:32px;border:1px solid rgba(214,173,99,.45);border-radius:24px;background:rgba(13,23,38,.94);box-shadow:0 24px 80px rgba(0,0,0,.45)}h1{margin:0 0 12px;font-size:28px}p{line-height:1.7;color:#b9c4d2}a{color:#f0d99b;font-weight:800}</style></head><body><main class="box"><h1>자료 보호 안내</h1><p>'+message+'</p><p>저장된 HTML 파일이나 복사된 주소에서는 자료를 열람할 수 없습니다.</p><p><a href="'+url+'">공식 사이트로 이동하기</a></p></main></body>';
-  }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
-  else blockSavedCopy();
-})();
-</script>
+
 
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0VB6E0J6MB"></script>
@@ -246,16 +224,16 @@ section{scroll-margin-top:96px}
   <style id="gaongil-2027-guide-design-patch">
 /* ===== GAONGIL 2027 GUIDE: HOSTING / DARK DESIGN PATCH ===== */
 :root{
-  --ga-2027-bg:#050b14;
-  --ga-2027-bg2:#081321;
+  --ga-2027-bg:#03070f;
+  --ga-2027-bg2:#03070f;
   --ga-2027-panel:#0e1c30;
   --ga-2027-panel2:#12243d;
   --ga-2027-line:rgba(147,170,204,.26);
-  --ga-2027-line2:rgba(214,173,99,.28);
+  --ga-2027-line2:rgba(0,195,255,.28);
   --ga-2027-text:#edf5ff;
   --ga-2027-muted:#b6c4d8;
-  --ga-2027-gold:#d6ad63;
-  --ga-2027-gold2:#f0d99b;
+  --ga-2027-gold:#00c3ff;
+  --ga-2027-gold2:#00c3ff;
   --ga-2027-blue:#7eb4ff;
   --ga-2027-teal:#5eead4;
   --ga-2027-red:#f87171;
@@ -265,10 +243,10 @@ html{background:var(--ga-2027-bg)}
 body.gaongil-linked-page{
   background:
     radial-gradient(circle at 8% 0%,rgba(126,180,255,.15),transparent 30%),
-    radial-gradient(circle at 92% 10%,rgba(214,173,99,.11),transparent 32%),
-    linear-gradient(rgba(214,173,99,.036) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(214,173,99,.032) 1px,transparent 1px),
-    linear-gradient(180deg,#050b14 0%,#081321 45%,#060d18 100%) !important;
+    radial-gradient(circle at 92% 10%,rgba(0,195,255,.11),transparent 32%),
+    linear-gradient(rgba(0,195,255,.036) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,195,255,.032) 1px,transparent 1px),
+    linear-gradient(180deg,#03070f 0%,#03070f 45%,#03070f 100%) !important;
   background-size:auto,auto,64px 64px,64px 64px,auto !important;
   color:var(--ga-2027-text) !important;
 }
@@ -277,11 +255,11 @@ body.gaongil-linked-page .hero{
   padding-top:84px;
   background:
     radial-gradient(ellipse 62% 58% at 78% 16%,rgba(58,111,196,.38),transparent),
-    radial-gradient(ellipse 56% 68% at 8% 90%,rgba(214,173,99,.18),transparent),
+    radial-gradient(ellipse 56% 68% at 8% 90%,rgba(0,195,255,.18),transparent),
     linear-gradient(160deg,#071a34 0%,#0d284d 56%,#102f59 100%) !important;
-  border-bottom:1px solid rgba(214,173,99,.24);
+  border-bottom:1px solid rgba(0,195,255,.24);
 }
-body.gaongil-linked-page .hero:before{background:rgba(214,173,99,.06)}
+body.gaongil-linked-page .hero:before{background:rgba(0,195,255,.06)}
 body.gaongil-linked-page .hero h1{letter-spacing:-.055em;max-width:940px}
 body.gaongil-linked-page .hero h1 em{color:var(--ga-2027-gold2)}
 body.gaongil-linked-page .lead,
@@ -291,24 +269,24 @@ body.gaongil-linked-page .producer,
 body.gaongil-linked-page .hero-meta span,
 body.gaongil-linked-page .hero-kpis div{
   background:rgba(8,19,33,.56);
-  border-color:rgba(214,173,99,.24);
+  border-color:rgba(0,195,255,.24);
   box-shadow:0 12px 28px rgba(0,0,0,.16);
 }
 body.gaongil-linked-page .hero-kpis b{color:var(--ga-2027-gold2)}
 body.gaongil-linked-page .btn.primary{background:linear-gradient(135deg,var(--ga-2027-gold),var(--ga-2027-gold2));color:#07111f}
-body.gaongil-linked-page .btn:not(.ghost){background:#edf5ff;color:#081321}
-body.gaongil-linked-page .btn.ghost{background:rgba(255,255,255,.08);border-color:rgba(214,173,99,.28);color:#fff8e8}
+body.gaongil-linked-page .btn:not(.ghost){background:#edf5ff;color:#03070f}
+body.gaongil-linked-page .btn.ghost{background:rgba(255,255,255,.08);border-color:rgba(0,195,255,.28);color:#fff8e8}
 body.gaongil-linked-page .topnav{
   top:82px;
   z-index:900;
   background:rgba(8,19,33,.95) !important;
-  border-top:1px solid rgba(214,173,99,.25);
-  border-bottom:1px solid rgba(214,173,99,.20);
+  border-top:1px solid rgba(0,195,255,.25);
+  border-bottom:1px solid rgba(0,195,255,.20);
   box-shadow:0 14px 34px rgba(0,0,0,.24);
 }
 body.gaongil-linked-page .nav-scroll a{color:#d8e4f6;font-weight:800}
 body.gaongil-linked-page .nav-scroll a:hover,
-body.gaongil-linked-page .nav-scroll a.active{background:rgba(214,173,99,.16);color:#fff8e8}
+body.gaongil-linked-page .nav-scroll a.active{background:rgba(0,195,255,.16);color:#fff8e8}
 body.gaongil-linked-page main{padding-top:42px}
 [data-theme="dark"] .index-section,
 [data-theme="dark"] .card,
@@ -329,9 +307,9 @@ body.gaongil-linked-page main{padding-top:42px}
   border-color:var(--ga-2027-line) !important;
 }
 [data-theme="dark"] .section-title .label{
-  background:rgba(214,173,99,.14) !important;
+  background:rgba(0,195,255,.14) !important;
   color:var(--ga-2027-gold2) !important;
-  border:1px solid rgba(214,173,99,.22);
+  border:1px solid rgba(0,195,255,.22);
 }
 [data-theme="dark"] .section-title h2,
 [data-theme="dark"] .card h3,
@@ -373,17 +351,17 @@ body.gaongil-linked-page main{padding-top:42px}
 [data-theme="dark"] .flow span,[data-theme="dark"] .flow i{color:var(--ga-2027-muted) !important}
 [data-theme="dark"] .compare-cards .card span,
 [data-theme="dark"] .phase b,
-[data-theme="dark"] .index-grid b{background:rgba(214,173,99,.16) !important;color:var(--ga-2027-gold2) !important;border:1px solid rgba(214,173,99,.22)}
+[data-theme="dark"] .index-grid b{background:rgba(0,195,255,.16) !important;color:var(--ga-2027-gold2) !important;border:1px solid rgba(0,195,255,.22)}
 [data-theme="dark"] .type-card{background:linear-gradient(180deg,rgba(18,36,61,.96),rgba(12,26,45,.96)) !important;border-color:var(--ga-2027-line) !important;box-shadow:0 18px 42px rgba(0,0,0,.28)!important}
 [data-theme="dark"] .type-card.gy span{background:rgba(59,111,196,.95)!important;color:#fff!important}
 [data-theme="dark"] .type-card.jh span{background:rgba(15,118,110,.92)!important;color:#fff!important}
 [data-theme="dark"] .type-card.ns span{background:rgba(185,103,43,.92)!important;color:#fff!important}
 [data-theme="dark"] .type-card.sg span{background:rgba(109,91,208,.92)!important;color:#fff!important}
 [data-theme="dark"] .type-card.cs span{background:rgba(190,18,60,.90)!important;color:#fff!important}
-[data-theme="dark"] .diagnosis-result{background:linear-gradient(180deg,#10233b,#0a1628)!important;border:1px solid var(--ga-2027-line)}
+[data-theme="dark"] .diagnosis-result{background:linear-gradient(180deg,#03070f,#0a1628)!important;border:1px solid var(--ga-2027-line)}
 [data-theme="dark"] .search{background:#0d1b2f!important;color:#edf5ff!important;border-color:var(--ga-2027-line)!important}
-[data-theme="dark"] .theme-toggle{border-color:rgba(214,173,99,.28)!important;color:#fff8e8!important}
-body.gaongil-linked-page footer{background:#050b14!important;border-top:1px solid rgba(214,173,99,.22)}
+[data-theme="dark"] .theme-toggle{border-color:rgba(0,195,255,.28)!important;color:#fff8e8!important}
+body.gaongil-linked-page footer{background:#03070f!important;border-top:1px solid rgba(0,195,255,.22)}
 body.gaongil-linked-page .read-progress .read-progress-fill{background:linear-gradient(90deg,var(--ga-2027-gold),var(--ga-2027-gold2))!important}
 @media(max-width:900px){body.gaongil-linked-page .topnav{top:0}.gaongil-portal-bar{position:relative!important}body.gaongil-linked-page .hero{padding-top:70px}}
 @media print{body.gaongil-linked-page .gaongil-portal-bar{display:none!important}}
