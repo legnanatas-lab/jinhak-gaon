@@ -1529,24 +1529,57 @@ function findExamsForRecord(record) {
   if (!window.examSchedule2027 || !record) return [];
   const uk = baseUniName(record.university || record.universityCanon);
   const mk = majorKey(record.major);
+  const rDomain = record.domain || "";
   
   return window.examSchedule2027.filter(ex => {
     if (baseUniName(ex.university) !== uk) return false;
     
-    const matchMajor = ex.majors.some(m => {
+    let matchMajor = false;
+    for (const m of ex.majors) {
       const pm = majorKey(m);
-      return pm && (pm.includes(mk) || mk.includes(pm) || m.includes(record.major) || record.major.includes(m));
-    });
-    if (ex.majors.length > 0 && !matchMajor) {
-      return false; 
+      if (pm && (pm.includes(mk) || mk.includes(pm) || m.includes(record.major) || record.major.includes(m))) {
+        matchMajor = true;
+        break;
+      }
+      if (rDomain === '인문' && (pm.includes('인문') || pm.includes('문과') || pm.includes('사회') || pm.includes('인경') || pm.includes('경상'))) {
+        matchMajor = true;
+        break;
+      }
+      if (rDomain === '자연' && (pm.includes('자연') || pm.includes('이과') || pm.includes('이공') || pm.includes('공학') || pm.includes('과학'))) {
+        matchMajor = true;
+        break;
+      }
+      if (rDomain === '예체능' && (pm.includes('예능') || pm.includes('체능') || pm.includes('예체능') || pm.includes('미술') || pm.includes('체육') || pm.includes('음악') || pm.includes('디자인'))) {
+        matchMajor = true;
+        break;
+      }
+      if (rDomain === '의학' && (pm.includes('의학') || pm.includes('의예') || pm.includes('약학') || pm.includes('간호') || pm.includes('수의') || pm.includes('치의'))) {
+        matchMajor = true;
+        break;
+      }
     }
     
     const exProg = String(ex.program || "").replace(/\s/g, "");
     const rProg = String(record.program || "").replace(/\s/g, "");
     const rTrack = String(record.track || "").replace(/\s/g, "");
     
+    let isStrongProgramMatch = false;
     if (exProg && rProg) {
-      if (!exProg.includes(rProg) && !rProg.includes(exProg) && !exProg.includes(rTrack) && !rTrack.includes(exProg)) {
+      if (exProg.includes(rProg) || rProg.includes(exProg)) {
+        isStrongProgramMatch = true;
+      } else if (exProg.includes(rTrack) || rTrack.includes(exProg)) {
+        isStrongProgramMatch = true;
+      }
+    }
+    
+    if (ex.majors.length > 0 && !matchMajor) {
+      if (!isStrongProgramMatch) {
+        return false;
+      }
+    }
+    
+    if (exProg && rProg) {
+      if (!isStrongProgramMatch) {
         let score = 0;
         for (const token of ['일반','지역','균형','추천','학교장','농어촌','기회','특성화','고른','면접','서류','논술','교과','종합', '실기']) {
           if (exProg.includes(token) && rProg.includes(token)) score += 1;
@@ -1556,6 +1589,7 @@ function findExamsForRecord(record) {
         }
       }
     }
+    
     return true;
   });
 }
