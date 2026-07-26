@@ -1191,7 +1191,7 @@ function baseUniName(value) {
   return normalize(String(value || '')
     .replace(/^국립/,'')
     .replace(/\([^)]*\)/g, '')
-    .replace(/대학$/,'대'));
+    .replace(/대학교?$/,'대'));
 }
 
 function majorKey(value) {
