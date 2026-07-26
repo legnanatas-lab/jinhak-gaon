@@ -514,6 +514,98 @@ function bindStaticEvents() {
       debouncedRender();
     });
   }
+  document.getElementById("modalOverlay").classList.add("show");
+}
+
+
+/* ---------- 2027 대학별 고사 일정 ---------- */
+function findExamsForRecord(record) {
+  if (!window.examSchedule2027 || !record) return [];
+  const uk = baseUniName(record.university || record.universityCanon);
+  const mk = majorKey(record.major);
+  
+  return window.examSchedule2027.filter(ex => {
+    if (baseUniName(ex.university) !== uk) return false;
+    
+    const matchMajor = ex.majors.some(m => {
+      const pm = majorKey(m);
+      return pm && (pm.includes(mk) || mk.includes(pm) || m.includes(record.major) || record.major.includes(m));
+    });
+    if (ex.majors.length > 0 && !matchMajor) {
+      return false; 
+    }
+    
+    const exProg = String(ex.program || "").replace(/\s/g, "");
+    const rProg = String(record.program || "").replace(/\s/g, "");
+    const rTrack = String(record.track || "").replace(/\s/g, "");
+    
+    if (exProg && rProg) {
+      if (!exProg.includes(rProg) && !rProg.includes(exProg) && !exProg.includes(rTrack) && !rTrack.includes(exProg)) {
+        let score = 0;
+        for (const token of ['일반','지역','균형','추천','학교장','농어촌','기회','특성화','고른','면접','서류','논술','교과','종합', '실기']) {
+          if (exProg.includes(token) && rProg.includes(token)) score += 1;
+        }
+        if (score === 0 && rProg !== exProg) {
+           return false;
+        }
+      }
+    }
+    return true;
+  });
+}
+
+function renderExamTable(record) {
+  const exams = findExamsForRecord(record);
+  if (!exams.length) {
+    return `<div class="plan-empty">연결된 2027 대학별 고사 일정이 없습니다.</div>`;
+  }
+  
+  const rows = exams.map(ex => {
+    let dateStr = ex.startDate;
+    if (ex.startDate !== ex.endDate) {
+      dateStr += ` ~ ${ex.endDate.substring(5)}`;
+    }
+    return `<tr>
+      <td>${escapeHtml(dateStr)}<br>(${escapeHtml(ex.day)})</td>
+      <td>${escapeHtml(ex.csatPhase)}</td>
+      <td>${escapeHtml(ex.type)}<br><span class="muted">${escapeHtml(ex.step)}</span></td>
+      <td>${escapeHtml(ex.program)}</td>
+    </tr>`;
+  }).join('');
+  
+  return `
+    <div class="plan-count">연결된 고사 일정 <b>${exams.length}</b>건</div>
+    <div class="table-shell plan-table-shell">
+      <table class="plan-table">
+        <thead>
+          <tr>
+            <th>일정(요일)</th>
+            <th>수능전후</th>
+            <th>유형(단계)</th>
+            <th>전형명</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function reportExamRows(record) {
+  const exams = findExamsForRecord(record).slice(0, 5);
+  if (!exams.length) return '<p class="muted">연결된 대학별 고사 일정 없음</p>';
+  return `<table class="plan-report"><thead><tr><th>일정(요일)</th><th>수능전후</th><th>유형(단계)</th><th>전형명</th></tr></thead><tbody>` +
+    exams.map(ex => {
+      let dateStr = ex.startDate;
+      if (ex.startDate !== ex.endDate) {
+        dateStr += `~${ex.endDate.substring(5)}`;
+      }
+      return `<tr><td>${escapeHtml(dateStr)}(${escapeHtml(ex.day)})</td><td>${escapeHtml(ex.csatPhase)}</td><td>${escapeHtml(ex.type)}(${escapeHtml(ex.step)})</td><td>${escapeHtml(ex.program)}</td></tr>`;
+    }).join('') +
+  `</tbody></table>`;
+}
 
   document.querySelector("#sort").addEventListener("change", (event) => {
     state.sort = event.target.value;
@@ -813,6 +905,8 @@ function printSavedReport() {
       <p class="meta">${escapeHtml(record.region)} · ${escapeHtml(record.track)} · ${escapeHtml(record.program)}</p>
       <h3 class="report-subtitle">2027 모집정보</h3>
       ${reportPlanRows(record)}
+      <h3 class="report-subtitle">2027 대학별 고사 일정</h3>
+      ${reportExamRows(record)}
       <h3 class="report-subtitle">입결 컷·경쟁 3개년</h3>
       <table>
         <thead><tr><th>연도</th><th>70%컷</th><th>50%컷</th><th>모집</th><th>경쟁률</th><th>충원율</th></tr></thead>
@@ -1107,6 +1201,13 @@ function renderDetail(record) {
           <span class="lg lg50">50%컷</span>
         </div>
       </section>
+      <section class="panel panel-pad">
+        <div class="section-title">
+          <h3>모집 · 경쟁 (3개년)</h3>
+          <span>수시 입결</span>
+        </div>
+        ${renderCompTable(record)}
+      </section>
       <section class="panel panel-pad plan-2027-panel">
         <div class="section-title plan-title">
           <h3>2027학년도 수시모집정보</h3>
@@ -1114,12 +1215,11 @@ function renderDetail(record) {
         </div>
         ${renderPlanTable(record, {limit: 20})}
       </section>
-      <section class="panel panel-pad">
-        <div class="section-title">
-          <h3>모집 · 경쟁 (3개년)</h3>
-          <span>수시 입결</span>
+      <section class="panel panel-pad exam-2027-panel">
+        <div class="section-title exam-title">
+          <h3>2027학년도 대학별 고사 일정</h3>
         </div>
-        ${renderCompTable(record)}
+        ${renderExamTable(record)}
       </section>
     </aside>
   `;
