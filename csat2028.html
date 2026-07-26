@@ -628,9 +628,7 @@
 `;
     function decorateInnerPage(html) {
       if (!html || html.includes('gaongil-embedded-dark-theme')) return html;
-      if (html.includes('</head>')) return html.replace('</head>', embeddedDarkStyle + '<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
-<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" />
-</head>');
+      if (html.includes('</head>')) return html.replace('</head>', embeddedDarkStyle + '<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css"><link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay" /></head>');
       return embeddedDarkStyle + html;
     }
 
