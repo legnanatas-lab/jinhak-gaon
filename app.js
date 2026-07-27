@@ -1539,6 +1539,7 @@ function findExamsForRecord(record) {
   const rDomain = record.domain || "";
   
   return window.examSchedule2027.filter(ex => {
+    if (ex.startDate === '시작일') return false;
     const exUk = baseUniName(ex.university);
     if (exUk !== uk && !exUk.includes(uk) && !uk.includes(exUk)) return false;
     
@@ -1576,38 +1577,14 @@ function findExamsForRecord(record) {
       }
     }
     
-    const exProg = String(ex.program || "").replace(/\s/g, "");
-    const rProg = String(record.program || "").replace(/\s/g, "");
-    const rTrack = String(record.track || "").replace(/\s/g, "");
-    
-    let isStrongProgramMatch = false;
-    if (exProg && rProg) {
-      if (exProg.includes(rProg) || rProg.includes(exProg)) {
-        isStrongProgramMatch = true;
-      } else if (exProg.includes(rTrack) || rTrack.includes(exProg)) {
-        isStrongProgramMatch = true;
+    if (!matchMajor && ex.majors && ex.majors.length > 0) {
+      const isPractical = String(ex.type || "").includes("실기") || String(ex.program || "").includes("실기");
+      if (!isPractical || rDomain === "예체능") {
+        matchMajor = true;
       }
     }
     
-    if (ex.majors && ex.majors.length > 0 && !matchMajor) {
-      if (!isStrongProgramMatch) {
-        return false;
-      }
-    }
-    
-    if (exProg && rProg) {
-      if (!isStrongProgramMatch) {
-        let score = 0;
-        for (const token of ['일반','지역','균형','추천','학교장','농어촌','기회','특성화','고른','면접','서류','논술','교과','종합', '실기']) {
-          if (exProg.includes(token) && rProg.includes(token)) score += 1;
-        }
-        if (score === 0 && rProg !== exProg) {
-           return false;
-        }
-      }
-    }
-    
-    return true;
+    return matchMajor;
   });
 }
 
