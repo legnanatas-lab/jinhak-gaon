@@ -1190,7 +1190,14 @@ let PLAN2027_INDEX_READY = false;
 function baseUniName(value) {
   return normalize(String(value || '')
     .replace(/^국립/,'')
+    .replace(/\[[^\]]*\]/g, '')
     .replace(/\([^)]*\)/g, '')
+    .replace(/여자대학교?$/,'여대')
+    .replace(/교육대학교?$/,'교대')
+    .replace(/외국어대학교?$/,'외대')
+    .replace(/체육대학교?$/,'체대')
+    .replace(/과학기술대학교?$/,'과기대')
+    .replace(/공과대학교?$/,'공대')
     .replace(/대학교?$/,'대'));
 }
 
@@ -1532,30 +1539,40 @@ function findExamsForRecord(record) {
   const rDomain = record.domain || "";
   
   return window.examSchedule2027.filter(ex => {
-    if (baseUniName(ex.university) !== uk) return false;
+    const exUk = baseUniName(ex.university);
+    if (exUk !== uk && !exUk.includes(uk) && !uk.includes(exUk)) return false;
     
     let matchMajor = false;
-    for (const m of ex.majors) {
-      const pm = majorKey(m);
-      if (pm && (pm.includes(mk) || mk.includes(pm) || m.includes(record.major) || record.major.includes(m))) {
-        matchMajor = true;
-        break;
-      }
-      if (rDomain === '인문' && (pm.includes('인문') || pm.includes('문과') || pm.includes('사회') || pm.includes('인경') || pm.includes('경상'))) {
-        matchMajor = true;
-        break;
-      }
-      if (rDomain === '자연' && (pm.includes('자연') || pm.includes('이과') || pm.includes('이공') || pm.includes('공학') || pm.includes('과학'))) {
-        matchMajor = true;
-        break;
-      }
-      if (rDomain === '예체능' && (pm.includes('예능') || pm.includes('체능') || pm.includes('예체능') || pm.includes('미술') || pm.includes('체육') || pm.includes('음악') || pm.includes('디자인'))) {
-        matchMajor = true;
-        break;
-      }
-      if (rDomain === '의학' && (pm.includes('의학') || pm.includes('의예') || pm.includes('약학') || pm.includes('간호') || pm.includes('수의') || pm.includes('치의'))) {
-        matchMajor = true;
-        break;
+    if (!ex.majors || ex.majors.length === 0) {
+      matchMajor = true;
+    } else {
+      for (const m of ex.majors) {
+        const pm = majorKey(m);
+        if (!pm) continue;
+        if (pm.includes('전체') || pm.includes('전모집단위') || pm.includes('공통') || pm.includes('자유전공') || pm.includes('무전공') || pm.includes('전학과')) {
+          matchMajor = true;
+          break;
+        }
+        if (pm.includes(mk) || mk.includes(pm) || m.includes(record.major) || record.major.includes(m)) {
+          matchMajor = true;
+          break;
+        }
+        if (rDomain === '인문' && (pm.includes('인문') || pm.includes('문과') || pm.includes('사회') || pm.includes('인경') || pm.includes('경상') || pm.includes('사범') || pm.includes('경영') || pm.includes('상경'))) {
+          matchMajor = true;
+          break;
+        }
+        if (rDomain === '자연' && (pm.includes('자연') || pm.includes('이과') || pm.includes('이공') || pm.includes('공학') || pm.includes('과학') || pm.includes('수리') || pm.includes('it') || pm.includes('소프트웨어') || pm.includes('ai'))) {
+          matchMajor = true;
+          break;
+        }
+        if (rDomain === '예체능' && (pm.includes('예능') || pm.includes('체능') || pm.includes('예체능') || pm.includes('미술') || pm.includes('체육') || pm.includes('음악') || pm.includes('디자인') || pm.includes('무용') || pm.includes('연기') || pm.includes('영상') || pm.includes('예술'))) {
+          matchMajor = true;
+          break;
+        }
+        if (rDomain === '의학' && (pm.includes('의학') || pm.includes('의예') || pm.includes('약학') || pm.includes('간호') || pm.includes('수의') || pm.includes('치의') || pm.includes('한의') || pm.includes('보건') || pm.includes('의약'))) {
+          matchMajor = true;
+          break;
+        }
       }
     }
     
@@ -1572,7 +1589,7 @@ function findExamsForRecord(record) {
       }
     }
     
-    if (ex.majors.length > 0 && !matchMajor) {
+    if (ex.majors && ex.majors.length > 0 && !matchMajor) {
       if (!isStrongProgramMatch) {
         return false;
       }
