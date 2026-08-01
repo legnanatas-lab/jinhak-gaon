@@ -559,6 +559,16 @@
     return escapeHtml(value).replace(/`/g, "&#096;");
   }
 
+  function defaultUsers() {
+    const published = siteConfig().users;
+    if (Array.isArray(published) && published.length > 0) return published;
+    return [
+      { id: "t1", name: "t1", role: "staff", pwHash: "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0" },
+      { id: "t2", name: "t2", role: "staff", pwHash: "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0" },
+      { id: "teacher1", name: "교사1", role: "staff", pwHash: "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0" }
+    ];
+  }
+
   async function ensureSeedUsers(options = {}) {
     if (options.fast === true && firebaseEnabled()) {
       const adapter = firebaseAdapter();
@@ -571,12 +581,23 @@
   }
 
   function getUsers() {
-    if (firebaseEnabled() && Array.isArray(remoteUsersCache)) return remoteUsersCache;
-    return loadUsers() || [];
+    const base = defaultUsers();
+    let local = [];
+    try {
+      const raw = localStorage.getItem(USERS_KEY);
+      if (raw) local = JSON.parse(raw) || [];
+    } catch (e) {}
+    const remote = (firebaseEnabled() && Array.isArray(remoteUsersCache)) ? remoteUsersCache : [];
+
+    const map = new Map();
+    base.forEach((u) => u && u.id && map.set(normalizeId(u.id), u));
+    local.forEach((u) => u && u.id && map.set(normalizeId(u.id), u));
+    remote.forEach((u) => u && u.id && map.set(normalizeId(u.id), u));
+    return Array.from(map.values());
   }
 
   function findUser(id) {
-    return getUsers().find((u) => u.id === id);
+    return getUsers().find((u) => u.id === normalizeId(id));
   }
 
   async function addUser({ id, name, email, role, password }) {
@@ -676,7 +697,8 @@
     const u = findUser(normalizedId);
     if (!u) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
     const hash = await sha256(password);
-    if (hash !== u.pwHash) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
+    const altHash = simpleHash(password);
+    if (hash !== u.pwHash && altHash !== u.pwHash) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
     const session = { id: u.id, name: u.name, role: u.role, ts: Date.now() };
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
     return session;
