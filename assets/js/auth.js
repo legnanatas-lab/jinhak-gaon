@@ -589,7 +589,7 @@
     users.push({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash, createdAt: Date.now() });
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff" });
+      await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash });
       remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
     }
     return true;

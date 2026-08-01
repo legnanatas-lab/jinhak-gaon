@@ -103,9 +103,8 @@
     const aliasKey = Object.keys(aliases).find((key) => key.toLowerCase() === raw.toLowerCase());
     if (aliasKey && aliases[aliasKey]) return normalizedEmail(aliases[aliasKey]);
     if (raw.includes("@")) return normalizedEmail(raw);
-    const domain = String(config().loginDomain || "").trim().replace(/^@/, "");
-    if (domain) return `${raw}@${domain}`.toLowerCase();
-    throw new Error("Firebase 로그인에는 이메일 주소가 필요합니다.");
+    const domain = String(config().loginDomain || "gaonjinhak.com").trim().replace(/^@/, "");
+    return `${raw}@${domain || "gaonjinhak.com"}`.toLowerCase();
   }
 
   function sessionFromProfile(user, profile, loginId, signInProvider) {
@@ -261,15 +260,17 @@
     await init();
     const id = String(profile?.uid || profile?.id || "").trim();
     if (!id) throw new Error("사용자 프로필에는 id 또는 uid가 필요합니다.");
+    const data = {
+      id: profile.id || id,
+      name: profile.name || profile.id || id,
+      email: String(profile.email || "").trim().toLowerCase(),
+      role: profile.role || "staff",
+      updatedAt: modules.firestore.serverTimestamp(),
+    };
+    if (profile.pwHash) data.pwHash = profile.pwHash;
     await modules.firestore.setDoc(
       userDocRef(modules.firestore, id),
-      {
-        id: profile.id || id,
-        name: profile.name || profile.id || id,
-        email: String(profile.email || "").trim().toLowerCase(),
-        role: profile.role || "staff",
-        updatedAt: modules.firestore.serverTimestamp(),
-      },
+      data,
       { merge: true }
     );
     return true;
