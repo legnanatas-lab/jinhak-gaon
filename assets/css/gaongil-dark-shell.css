@@ -105,11 +105,36 @@ footer img,
 .home-footer img,
 .notice img,
 .gaongil-notice-modal img,
-.gaongil-notice-popup img {
-  max-height: 40px !important;
-  max-width: 200px !important;
+.gaongil-notice-popup img,
+header img,
+.header img,
+.site-header img,
+.topbar img,
+.app-header img,
+.masthead img,
+.brand img,
+.brand-lockup img,
+.brand-logo-card img {
+  max-height: 42px !important;
+  max-width: 240px !important;
   width: auto !important;
   height: auto !important;
   object-fit: contain !important;
 }
+
+body.gaongil-linked-page header:not(.gaongil-portal-bar),
+body.gaongil-linked-page .app-header,
+body.gaongil-linked-page .masthead,
+body.gaongil-linked-page .topbar:not(.gaongil-portal-bar) {
+  position: relative !important;
+  top: auto !important;
+  z-index: 1 !important;
+  box-shadow: none !important;
+}
+
+body.gaongil-linked-page .app-header .topline,
+body.gaongil-linked-page header .topline {
+  display: none !important;
+}
+
 
