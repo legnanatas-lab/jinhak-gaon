@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<script data-gaongil-origin-guard>
+(function(){
+  "use strict";
+  var allowedHosts = {
+    "legnanatas-lab.github.io": true,
+    "gaonjinhak.firebaseapp.com": true,
+    "gaonjinhak.web.app": true,
+    "localhost": true,
+    "127.0.0.1": true
+  };
+  var protocol = window.location.protocol;
+  var host = window.location.hostname;
+  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
+  if (allowed) return;
+  function blockSavedCopy(){
+    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
+    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
+    document.documentElement.innerHTML = "<h1>자료 보호 안내</h1>";
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
+  else blockSavedCopy();
+})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2027학년도 전문대 수시모집 상담자료 | 가온길 에듀</title>
+<link rel="stylesheet" href="./styles.css?v=19">
+<link rel="stylesheet" href="./portal.css?v=20260712-mobile-overlay">
+<link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260712-mobile-overlay">
+<style>
+  :root {
+    --bg: #050b14;
+    --panel: #0d1726;
+    --panel-strong: #122039;
+    --gold: #d6ad63;
+    --gold-bright: #f0d99b;
+    --line: rgba(120, 148, 183, 0.28);
+    --ink: #edf5ff;
+    --muted: #aab8ca;
+  }
+  body {
+    background: #050b14;
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .shell {
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 20px 24px;
+  }
+  .header-card {
+    background: linear-gradient(135deg, rgba(18, 32, 57, 0.95), rgba(13, 23, 38, 0.95));
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+  }
+  .header-title h1 {
+    margin: 0;
+    font-size: 26px;
+    color: var(--gold-bright);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .header-title p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-gold {
+    background: linear-gradient(180deg, #e6c579, #b78239);
+    color: #191004;
+    border: 1px solid rgba(240, 217, 155, 0.55);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-gold:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(214,173,99,0.3);
+  }
+  .search-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.25);
+  }
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .filter-item label {
+    display: block;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .filter-item input, .filter-item select {
+    width: 100%;
+    height: 42px;
+    background: rgba(5, 11, 20, 0.6);
+    border: 1px solid rgba(120, 148, 183, 0.4);
+    border-radius: 8px;
+    color: var(--ink);
+    padding: 0 12px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  .filter-item input:focus, .filter-item select:focus {
+    border-color: var(--gold);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(214, 173, 99, 0.15);
+  }
+  .search-btn-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .result-count {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .result-count strong {
+    color: var(--gold-bright);
+    font-size: 16px;
+  }
+  .btn-reset {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid rgba(120, 148, 183, 0.3);
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .table-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.25);
+  }
+  .table-wrapper {
+    overflow-x: auto;
+  }
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+  }
+  table.data-table th {
+    background: rgba(18, 32, 57, 0.9);
+    color: var(--gold-bright);
+    font-weight: 700;
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  table.data-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(120, 148, 183, 0.15);
+    color: var(--ink);
+    vertical-align: middle;
+  }
+  table.data-table tr:hover {
+    background: rgba(214, 173, 99, 0.06);
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .badge-period { background: rgba(214, 173, 99, 0.2); color: var(--gold-bright); }
+  .badge-region { background: rgba(42, 85, 201, 0.2); color: #8cb1ff; }
+  .pager-row {
+    padding: 18px 24px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    border-top: 1px solid var(--line);
+  }
+  .pager-btn {
+    min-width: 34px;
+    height: 34px;
+    background: rgba(5, 11, 20, 0.5);
+    border: 1px solid rgba(120, 148, 183, 0.3);
+    color: var(--muted);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .pager-btn.active {
+    background: var(--gold);
+    color: #191004;
+    border-color: var(--gold);
+  }
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(6px);
+    overflow-y: auto;
+    padding: 30px 20px;
+  }
+  .modal-overlay.open { display: block; }
+  .modal-box {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #0d1726;
+    border: 1px solid var(--gold);
+    border-radius: 14px;
+    padding: 30px;
+    color: var(--ink);
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 15px;
+  }
+  .modal-header h2 { margin: 0; color: var(--gold-bright); font-size: 22px; }
+  .modal-close { background: none; border: none; color: var(--gold); font-size: 28px; cursor: pointer; }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <div class="header-card">
+      <div class="header-title">
+        <h1>2027학년도 전문대 수시모집 상담자료</h1>
+        <p>전국 전문대학 수시1차·2차 모집단위별 전형방법, 3개년 입시결과 및 반영비율 종합 안내</p>
+      </div>
+      <div class="header-actions">
+        <div id="userChip"></div>
+        <button class="btn-gold" onclick="window.print()">상담 보고서 인쇄 / PDF 저장</button>
+      </div>
+    </div>
+
+    <div class="search-card">
+      <div class="filter-grid">
+        <div class="filter-item">
+          <label>대학명</label>
+          <input id="filterUniv" placeholder="대학명 입력 (예: 명지전문대)">
+        </div>
+        <div class="filter-item">
+          <label>모집단위 / 학과명</label>
+          <input id="filterDept" placeholder="학과명 입력 (예: 간호)">
+        </div>
+        <div class="filter-item">
+          <label>전형명</label>
+          <input id="filterAdmission" placeholder="전형명 입력 (예: 일반)">
+        </div>
+        <div class="filter-item">
+          <label>모집시기</label>
+          <select id="filterPeriod">
+            <option value="">전체 모집시기</option>
+            <option value="수시1차">수시 1차</option>
+            <option value="수시2차">수시 2차</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label>권역 / 지역</label>
+          <select id="filterRegion">
+            <option value="">전체 권역</option>
+            <option value="수도권">수도권 (서울/경기/인천)</option>
+            <option value="충청권">충청권</option>
+            <option value="호남권">호남권</option>
+            <option value="대경권">대경권</option>
+            <option value="부울경">부울경</option>
+            <option value="강원권">강원권</option>
+            <option value="제주권">제주권</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label>2026 평균 등급 (이내)</label>
+          <input id="filterMaxGrade" type="number" step="0.1" placeholder="예: 3.5">
+        </div>
+      </div>
+      <div class="search-btn-row">
+        <div class="result-count">검색 결과: <strong id="resultCount">0</strong>건</div>
+        <button class="btn-reset" id="btnReset">필터 초기화</button>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>권역/지역</th>
+              <th>대학명</th>
+              <th>모집시기</th>
+              <th>전형유형/전형명</th>
+              <th>모집단위(학과)</th>
+              <th>인원</th>
+              <th>반영비율(학생부/면접/실기)</th>
+              <th>2026 경쟁률</th>
+              <th>2026 평균등급</th>
+              <th>2026 최저등급</th>
+              <th>학생부 반영방법 및 최저학력기준</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr><td colspan="11" style="text-align:center; padding: 40px; color: var(--muted);">데이터를 불러오는 중입니다...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pager-row" id="pagerRow"></div>
+    </div>
+  </div>
+
+  <script src="./data/procollege-2027-data.js?v=20260801"></script>
+  <script src="assets/js/site-data.js?v=20260801"></script>
+  <script src="assets/js/firebase-config.js?v=20260801"></script>
+  <script src="assets/js/firebase-adapter.js?v=20260801"></script>
+  <script src="assets/js/auth.js?v=20260801"></script>
+  <script>
+    (async () => {
+      await GaongilAuth.ensureSeedUsers();
+      GaongilAuth.requirePageAccess("login.html");
+      GaongilAuth.mountUserChip("userChip");
+    })();
+
+    const state = {
+      raw: window.PROCOLLEGE_2027_DATA || [],
+      filtered: [],
+      page: 1,
+      pageSize: 20
+    };
+
+    function filterData() {
+      const u = document.getElementById("filterUniv").value.trim().toLowerCase();
+      const d = document.getElementById("filterDept").value.trim().toLowerCase();
+      const a = document.getElementById("filterAdmission").value.trim().toLowerCase();
+      const p = document.getElementById("filterPeriod").value;
+      const r = document.getElementById("filterRegion").value;
+      const mg = parseFloat(document.getElementById("filterMaxGrade").value) || 0;
+
+      state.filtered = state.raw.filter(item => {
+        if (u && !item.univ.toLowerCase().includes(u)) return false;
+        if (d && !item.dept.toLowerCase().includes(d)) return false;
+        if (a && !item.admission.toLowerCase().includes(a) && !item.cat1.toLowerCase().includes(a)) return false;
+        if (p && !item.period.includes(p)) return false;
+        if (r && !item.region1.includes(r) && !item.region2.includes(r)) return false;
+        if (mg > 0) {
+          const grade = parseFloat(item.avg2026 || item.cut2026);
+          if (isNaN(grade) || grade > mg) return false;
+        }
+        return true;
+      });
+      state.page = 1;
+      render();
+    }
+
+    function render() {
+      document.getElementById("resultCount").innerText = state.filtered.length.toLocaleString();
+      const tbody = document.getElementById("tableBody");
+      const start = (state.page - 1) * state.pageSize;
+      const pageItems = state.filtered.slice(start, start + state.pageSize);
+
+      if (pageItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding: 50px; color: var(--muted);">조건에 해당하는 전문대 수시 상담 자료가 없습니다.</td></tr>`;
+        document.getElementById("pagerRow").innerHTML = "";
+        return;
+      }
+
+      tbody.innerHTML = pageItems.map(item => `
+        <tr>
+          <td><span class="badge badge-region">${item.region1} ${item.region2}</span></td>
+          <td><strong style="color: var(--gold-bright); font-size:14px;">${item.univ}</strong></td>
+          <td><span class="badge badge-period">${item.period}</span></td>
+          <td>
+            <div style="font-weight:700;">${item.admission}</div>
+            <div style="font-size:11px; color:var(--muted);">${item.cat1} · ${item.cat2}</div>
+          </td>
+          <td>
+            <strong style="font-size:14px;">${item.dept}</strong>
+            <span style="font-size:11px; color:var(--muted);">(${item.years}년제)</span>
+          </td>
+          <td style="font-weight:700;">${item.quota ? item.quota + "명" : "-"}</td>
+          <td style="font-size:12px;">
+            ${item.ratioStudent ? "학생부 " + item.ratioStudent + "%" : ""}
+            ${item.ratioInterview ? " 면접 " + item.ratioInterview + "%" : ""}
+            ${item.ratioPractical ? " 실기 " + item.ratioPractical + "%" : ""}
+          </td>
+          <td style="font-weight:700; color:#8cb1ff;">${item.comp2026 ? item.comp2026 + ":1" : "-"}</td>
+          <td style="font-weight:700; color:var(--gold-bright);">${item.avg2026 || "-"}</td>
+          <td>${item.cut2026 || "-"}</td>
+          <td style="font-size:12px; max-width: 260px; line-height: 1.4;">
+            <div><strong>반영과목:</strong> ${item.evalSubjects || "전과목/대학기준"}</div>
+            ${item.minCut ? `<div style="color:#ffac9c; margin-top:2px;"><strong>수능최저:</strong> ${item.minCut}</div>` : ""}
+          </td>
+        </tr>
+      `).join("");
+
+      // Render Pager
+      const totalPages = Math.ceil(state.filtered.length / state.pageSize);
+      let pagerHtml = "";
+      const maxButtons = 7;
+      let startPage = Math.max(1, state.page - Math.floor(maxButtons / 2));
+      let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+      for (let p = startPage; p <= endPage; p++) {
+        pagerHtml += `<button class="pager-btn ${p === state.page ? "active" : ""}" onclick="goPage(${p})">${p}</button>`;
+      }
+      document.getElementById("pagerRow").innerHTML = pagerHtml;
+    }
+
+    function goPage(p) {
+      state.page = p;
+      render();
+    }
+
+    ["filterUniv", "filterDept", "filterAdmission", "filterMaxGrade"].forEach(id => {
+      document.getElementById(id).addEventListener("input", filterData);
+    });
+    ["filterPeriod", "filterRegion"].forEach(id => {
+      document.getElementById(id).addEventListener("change", filterData);
+    });
+    document.getElementById("btnReset").addEventListener("click", () => {
+      ["filterUniv", "filterDept", "filterAdmission", "filterMaxGrade"].forEach(id => document.getElementById(id).value = "");
+      ["filterPeriod", "filterRegion"].forEach(id => document.getElementById(id).value = "");
+      filterData();
+    });
+
+    filterData();
+  </script>
+  <script src="./portal-menu-v2.js?v=20260801"></script>
+  <script src="./assets/js/gaongil-dark-shell.js" defer></script>
+</body>
+</html>

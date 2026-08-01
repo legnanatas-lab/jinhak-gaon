@@ -68,6 +68,7 @@ const RESOURCE_LINKS_2027 = [
   { key: "medi", label: "지역의사", href: "./2027medi.html" },
   { key: "yeche", label: "예체능 비실기", href: "./2027yeche.html" },
   { key: "ged2027", label: "검정고시 대학반영", href: "./2027ged.html" },
+  { key: "procollege2027", label: "2027 전문대 수시상담", href: "./2027procollege.html" },
   { key: "specialized", label: "특성화고 기준학과", href: "./2027-specialized-highschool-standards.html" },
   { key: "procollege6", label: "전문대 간호·보건", href: "./procollege6.html" },
   { key: "prelearning", label: "선행학습 보고서", href: "./2026prelearning-report.html" },
