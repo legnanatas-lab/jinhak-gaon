@@ -374,17 +374,21 @@ window.GAONGIL_SITE_DATA = {
         },
         {
           "title": "2027학년도 예체능계열 비실기전형 안내",
-          "url": "2027yeche.html",
+                    "url": "2027yeche.html",
           "current": "예체능계열",
-          "tags": [
-            "2027",
-            "arts",
-            "pe"
-          ],
+          "tags": ["2027", "arts", "pe"],
           "status": "보유",
           "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "yeche2027"
         },
+        {
+          "title": "2027학년도 검정고시 대학반영 분석 및 점수 환산",
+          "url": "2027ged.html",
+          "current": "검정고시",
+          "tags": ["2027", "ged", "score"],
+          "status": "보유",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
+          "key": "ged2027"   },
         {
           "title": "2027학년도 특성화고 기준학과",
           "url": "2027-specialized-highschool-standards.html",
@@ -1674,6 +1678,7 @@ window.GAONGIL_SITE_DATA = {
         {
           "title": "2027학년도 예체능계열 비실기전형 안내",
           "url": "2027yeche.html",
+        "2027ged.html",
           "current": "예체능계열",
           "tags": [
             "2027",
@@ -2286,6 +2291,7 @@ window.GAONGIL_SITE_CONFIG = {
         "2027medi.html",
         "2027uichihan.html",
         "2027yeche.html",
+        "2027ged.html",
         "2027-specialized-highschool-standards.html",
         "2026_2028py.html",
         "procollege6.html",
@@ -2373,6 +2379,7 @@ window.GAONGIL_SITE_CONFIG = {
         "2027medi.html",
         "2027uichihan.html",
         "2027yeche.html",
+        "2027ged.html",
         "2027-specialized-highschool-standards.html",
         "2026_2028py.html",
         "procollege6.html",
@@ -2460,6 +2467,7 @@ window.GAONGIL_SITE_CONFIG = {
         "2027medi.html",
         "2027uichihan.html",
         "2027yeche.html",
+        "2027ged.html",
         "2027-specialized-highschool-standards.html",
         "2026_2028py.html",
         "procollege6.html",
