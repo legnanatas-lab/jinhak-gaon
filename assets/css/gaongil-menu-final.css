@@ -344,3 +344,29 @@
     }
   }
 }
+
+/* 푸터 및 공지 로고 크기 고정 */
+.gaongil-footer-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 0 0 14px !important;
+  padding: 8px 0 12px !important;
+  border-bottom: 1px solid rgba(214, 173, 99, 0.22) !important;
+}
+
+.gaongil-footer-brand img,
+footer img,
+.footer img,
+.site-footer img,
+.home-footer img,
+.notice img,
+.gaongil-notice-modal img,
+.gaongil-notice-popup img {
+  max-height: 40px !important;
+  max-width: 200px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
