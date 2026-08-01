@@ -1613,10 +1613,20 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         const countSelect = document.getElementById("noticeCount");
         const wrap = document.getElementById("noticeEditorList");
         if (!countSelect || !wrap) return;
-        const currentCount = Math.max(Number(countSelect.value || settings.items.length || 0), settings.items.length || 0);
-        const count = Math.min(Math.max(currentCount, 0), 5);
-        countSelect.value = String(count);
+        let count = 0;
+        if (countSelect.dataset.initialized !== "true") {
+          countSelect.dataset.initialized = "true";
+          count = Array.isArray(settings.items) ? settings.items.length : 0;
+          countSelect.value = String(count);
+        } else {
+          count = Math.min(Math.max(Number(countSelect.value || 0), 0), 5);
+          countSelect.value = String(count);
+        }
         const items = settings.items || [];
+        if (count === 0) {
+          wrap.innerHTML = '<div class="notice-help" style="margin-top:12px;">공지사항이 0개로 설정되었습니다. 아래 "공지 저장" 버튼을 클릭하면 저장됩니다.</div>';
+          return;
+        }
         wrap.innerHTML = Array.from({ length: count }).map((_, i) => {
           const item = items[i] || { enabled: true, title: "", text: "", image: "", position: "center", width: "", linkText: "", linkUrl: "", showTodayClose: true, showNeverClose: true };
           return `<section class="notice-card" data-notice-index="${i}">
@@ -1712,20 +1722,23 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
 
       function collectNoticeSettingsFromForm() {
         const cards = Array.from(document.querySelectorAll("[data-notice-index]"));
+        const countSelect = document.getElementById("noticeCount");
+        const count = countSelect ? Math.max(0, Number(countSelect.value || 0)) : cards.length;
+        const items = cards.slice(0, count).map((card) => ({
+          enabled: card.querySelector("[data-notice-enabled]").checked,
+          title: card.querySelector("[data-notice-title]").value.trim(),
+          text: card.querySelector("[data-notice-text]").value.trim(),
+          image: card.querySelector("[data-notice-image]").value,
+          position: card.querySelector("[data-notice-position]").value,
+          width: card.querySelector("[data-notice-width]").value.trim(),
+          linkText: card.querySelector("[data-notice-link-text]").value.trim(),
+          linkUrl: card.querySelector("[data-notice-link-url]").value.trim(),
+          showTodayClose: card.querySelector("[data-notice-show-today]").checked,
+          showNeverClose: card.querySelector("[data-notice-show-never]").checked,
+        }));
         return {
-          enabled: true,
-          items: cards.map((card) => ({
-            enabled: card.querySelector("[data-notice-enabled]").checked,
-            title: card.querySelector("[data-notice-title]").value.trim(),
-            text: card.querySelector("[data-notice-text]").value.trim(),
-            image: card.querySelector("[data-notice-image]").value,
-            position: card.querySelector("[data-notice-position]").value,
-            width: card.querySelector("[data-notice-width]").value.trim(),
-            linkText: card.querySelector("[data-notice-link-text]").value.trim(),
-            linkUrl: card.querySelector("[data-notice-link-url]").value.trim(),
-            showTodayClose: card.querySelector("[data-notice-show-today]").checked,
-            showNeverClose: card.querySelector("[data-notice-show-never]").checked,
-          })),
+          enabled: items.length > 0,
+          items,
           updatedAt: Date.now(),
         };
       }
@@ -1894,9 +1907,17 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         const role = document.getElementById("newRole").value;
         try {
           await GaongilAuth.addUser({ id, name, email, role, password });
+          const access = GaongilAuth.getAccessSettings();
+          access.userPages = access.userPages || {};
+          if (!access.userPages[id]) {
+            const defaultTeacherPages = access.userPages["teacher1"] || access.publicPages || [];
+            access.userPages[id] = Array.from(new Set([...defaultTeacherPages]));
+            await GaongilAuth.setAccessSettings(access);
+          }
+          await syncConfigToGitHub(currentSiteConfig()).catch(() => null);
           msg.textContent = GaongilAuth.isFirebaseEnabled?.()
             ? id + " 프로필을 Firestore에 추가했습니다. 실제 로그인은 Firebase Authentication에 같은 이메일 계정이 있어야 가능합니다."
-            : id + " 계정을 추가했습니다.";
+            : id + " 계정을 추가하고 권한을 동기화했습니다.";
           msg.className = "form-msg success show";
           e.target.reset();
           renderUsers();

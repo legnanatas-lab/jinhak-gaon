@@ -776,7 +776,7 @@ function studentValue(key) {
 function reportGradeRows(record) {
   return YEARS.map((year) => {
     const data = yearData(record, year) || {};
-    const fillRate = data.fillRate == null ? "–" : `${formatNumber(data.fillRate, 0)}%`;
+    const fillRate = data.fillRate == null ? "–" : `${Math.round(Number(data.fillRate) * 100)}%`;
     return `
       <tr>
         <td>${year}</td>
