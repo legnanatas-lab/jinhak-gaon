@@ -1535,17 +1535,24 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           return;
         }
         wrap.innerHTML = catalog.map((group, groupIndex) => {
+          const userCheckDisabled = !selectedUser ? " disabled" : "";
           const rows = group.entries.map((entry, index) => {
             const checkedPublic = publicPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
             const checkedUser = (selectedUser && userPages.map(GaongilAuth.normalizePageKey).includes(entry.key)) ? " checked" : "";
-            const userCheckDisabled = !selectedUser ? " disabled" : "";
             return `<div class="access-item">
               <span>${esc(entry.title)}<small style="display:block;color:var(--muted);font-weight:500;">${esc(entry.key)}</small></span>
               <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="public" data-public-page="${esc(entry.key)}"${checkedPublic}> 공개</label>
               <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="user" data-user-page="${esc(entry.key)}"${checkedUser}${userCheckDisabled}> 교사 허용</label>
             </div>`;
           }).join("");
-          return `<section class="access-group" data-access-group-section="${groupIndex}"><div class="access-group-head"><strong>${esc(group.name)}</strong></div>${rows}</section>`;
+          return `<section class="access-group" data-access-group-section="${groupIndex}">
+            <div class="access-group-head">
+              <strong>${esc(group.name)}</strong>
+              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="public" data-access-parent="true"> 공개 전체</label>
+              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="user" data-access-parent="true"${userCheckDisabled}> 교사 허용 전체</label>
+            </div>
+            ${rows}
+          </section>`;
         }).join("");
         installAccessGroupBulkControls(wrap);
       }
