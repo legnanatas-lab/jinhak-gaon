@@ -384,12 +384,21 @@ window.GAONGIL_SITE_DATA = {
         {
           "title": "2027학년도 검정고시 대학반영 분석 및 점수 환산",
           "url": "2027ged.html",
-        "2027procollege.html",
           "current": "검정고시",
           "tags": ["2027", "ged", "score"],
           "status": "보유",
           "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
-          "key": "ged2027"   },
+          "key": "ged2027"
+        },
+        {
+          "title": "2027학년도 전문대 수시모집 상담자료",
+          "url": "2027procollege.html",
+          "current": "전문대 수시",
+          "tags": ["2027", "procollege", "susi"],
+          "status": "보유",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
+          "key": "procollege2027"
+        },
         {
           "title": "2027학년도 특성화고 기준학과",
           "url": "2027-specialized-highschool-standards.html",
@@ -1679,8 +1688,6 @@ window.GAONGIL_SITE_DATA = {
         {
           "title": "2027학년도 예체능계열 비실기전형 안내",
           "url": "2027yeche.html",
-        "2027ged.html",
-        "2027procollege.html",
           "current": "예체능계열",
           "tags": [
             "2027",

@@ -1440,26 +1440,19 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       function roleLabel(r) { return r === "admin" ? "관리자" : "등록 교사"; }
 
       function collectAccessCatalog() {
-        const catalogData = (window.GAONGIL_SITE_CONFIG?.menuTree || window.GAONGIL_SITE_DATA?.pages || []).filter((page) => !page.hidden);
-        return catalogData.map((page) => {
+        const pages = (window.GAONGIL_SITE_DATA?.pages || window.GAONGIL_SITE_CONFIG?.menuTree || []).filter((page) => !page.hidden && page.name !== "전체 자료실");
+        return pages.map((page) => {
           const seen = new Set();
-          const groupKey = GaongilAuth.normalizePageKey(page.href || page.file || page.key || "");
           const entries = [];
-          if (groupKey && groupKey !== "index.html") {
-            entries.push({ key: groupKey, title: page.label || page.name || page.title || groupKey, kind: "menu" });
-            seen.add(groupKey);
-          }
-          const items = page.pages || page.items || [];
+          const items = page.items || page.pages || [];
           items.forEach((item) => {
             const key = GaongilAuth.normalizePageKey(item.url || item.href || item.file);
             if (!key || seen.has(key) || key === "index.html") return;
             seen.add(key);
-            entries.push({ key, title: item.title || item.label || key, kind: "item" });
+            entries.push({ key, title: item.title || item.label || key });
           });
-          return { name: page.label || page.name || page.title, entries };
+          return { name: page.name || page.label || page.title, entries };
         }).filter((group) => group.entries && group.entries.length > 0);
-      }
-
       function renderUsers() {
         const users = GaongilAuth.getUsers();
         const body = document.getElementById("userTableBody");
@@ -1533,8 +1526,11 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         if (!select) return;
         const current = select.value;
         const users = GaongilAuth.getUsers().filter((u) => u.role !== "admin");
-        select.innerHTML = users.map((u) => `<option value="${esc(u.id)}">${esc(u.name || u.id)} (${esc(u.id)})</option>`).join("");
-        if (users.some((u) => u.id === current)) select.value = current;
+        const newHtml = users.map((u) => `<option value="${esc(u.id)}">${esc(u.name || u.id)} (${esc(u.id)})</option>`).join("");
+        if (select.innerHTML !== newHtml) {
+          select.innerHTML = newHtml;
+          if (users.some((u) => u.id === current)) select.value = current;
+        }
       }
 
       function renderAccessControls() {
@@ -1547,26 +1543,20 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         const userPages = Array.isArray(access.userPages?.[selectedUser]) ? access.userPages[selectedUser] : [];
         const catalog = collectAccessCatalog();
         if (!catalog.length) {
-          wrap.innerHTML = '<p class="sync-hint">게시판 목록을 불러오는 중입니다.</p>';
-          if (wrap.dataset.catalogRetry !== "true") {
-            wrap.dataset.catalogRetry = "true";
-            setTimeout(() => { wrap.dataset.catalogRetry = ""; renderAccessControls(); }, 250);
-          }
+          wrap.innerHTML = '<p class="sync-hint">등록된 게시판 자료가 없습니다.</p>';
           return;
         }
         wrap.innerHTML = catalog.map((group, groupIndex) => {
           const rows = group.entries.map((entry, index) => {
             const checkedPublic = publicPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
             const checkedUser = userPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
-            const cls = index === 0 ? "access-group-head" : "access-item";
-            const parentAttr = index === 0 ? ' data-access-parent="true"' : "";
-            return `<div class="${cls}">
+            return `<div class="access-item">
               <span>${esc(entry.title)}<small style="display:block;color:var(--muted);font-weight:500;">${esc(entry.key)}</small></span>
-              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="public"${parentAttr} data-public-page="${esc(entry.key)}"${checkedPublic}> 공개</label>
-              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="user"${parentAttr} data-user-page="${esc(entry.key)}"${checkedUser}> 교사 허용</label>
+              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="public" data-public-page="${esc(entry.key)}"${checkedPublic}> 공개</label>
+              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="user" data-user-page="${esc(entry.key)}"${checkedUser}> 교사 허용</label>
             </div>`;
           }).join("");
-          return `<section class="access-group" data-access-group-section="${groupIndex}">${rows}</section>`;
+          return `<section class="access-group" data-access-group-section="${groupIndex}"><div class="access-group-head"><strong>${esc(group.name)}</strong></div>${rows}</section>`;
         }).join("");
         installAccessGroupBulkControls(wrap);
       }
