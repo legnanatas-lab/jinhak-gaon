@@ -379,20 +379,58 @@ header img,
   object-fit: contain !important;
 }
 
-/* 상단 메인 포털 메뉴와 본문 페이지 서브 헤더 간 고정(sticky) 충돌 및 시각적 중복 정돈 */
+/* ============================================================
+   상단 메인 포털 메뉴와 본문 페이지 서브 헤더 통일 및 충돌 정돈
+   ============================================================ */
+/* 1. 통계/채점 페이지 등에서 중복 출력되던 gaon-site-bar 숨김 처리 */
+body.gaongil-linked-page .gaon-site-bar {
+  display: none !important;
+}
+
+/* 2. 메인 포털 메뉴(.gaongil-portal-bar)와 서브 헤더 간 Sticky 스크롤 충돌 및 레이어 겹침 방지 */
 body.gaongil-linked-page header:not(.gaongil-portal-bar),
 body.gaongil-linked-page .app-header,
 body.gaongil-linked-page .masthead,
+body.gaongil-linked-page .site-header,
+body.gaongil-linked-page .hd,
 body.gaongil-linked-page .topbar:not(.gaongil-portal-bar) {
   position: relative !important;
   top: auto !important;
-  z-index: 1 !important;
+  z-index: 10 !important;
   box-shadow: none !important;
+  border-top: none !important;
 }
 
+/* 3. 본문 내 서브 헤더 중복 topline 제거 */
 body.gaongil-linked-page .app-header .topline,
 body.gaongil-linked-page header .topline {
   display: none !important;
 }
+
+/* 4. 상단 헤더 로고 크기 및 비율 엄격 통일 */
+body.gaongil-linked-page header:not(.gaongil-portal-bar) img,
+body.gaongil-linked-page .topbar img,
+body.gaongil-linked-page .brand img,
+body.gaongil-linked-page .logoBox img {
+  max-height: 38px !important;
+  max-width: 220px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  vertical-align: middle !important;
+}
+
+/* 5. 상단 포털 메인 바(.gaongil-portal-bar) 다크 골드 통일 스타일 */
+.gaongil-portal-bar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 99999 !important;
+  background: rgba(5, 11, 20, 0.94) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: 1px solid rgba(214, 173, 99, 0.25) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
 
 
