@@ -1440,20 +1440,24 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       function roleLabel(r) { return r === "admin" ? "관리자" : "등록 교사"; }
 
       function collectAccessCatalog() {
-        const pages = (window.GAONGIL_SITE_DATA?.pages || []).filter((page) => page.file !== "index.html" && !page.hidden);
-        return pages.map((page) => {
+        const catalogData = (window.GAONGIL_SITE_CONFIG?.menuTree || window.GAONGIL_SITE_DATA?.pages || []).filter((page) => !page.hidden);
+        return catalogData.map((page) => {
           const seen = new Set();
-          const groupKey = GaongilAuth.normalizePageKey(page.file);
-          const entries = [{ key: groupKey, title: page.name, kind: "menu" }];
-          seen.add(groupKey);
-          (page.items || []).forEach((item) => {
-            const key = GaongilAuth.normalizePageKey(item.url);
-            if (!key || seen.has(key)) return;
+          const groupKey = GaongilAuth.normalizePageKey(page.href || page.file || page.key || "");
+          const entries = [];
+          if (groupKey && groupKey !== "index.html") {
+            entries.push({ key: groupKey, title: page.label || page.name || page.title || groupKey, kind: "menu" });
+            seen.add(groupKey);
+          }
+          const items = page.pages || page.items || [];
+          items.forEach((item) => {
+            const key = GaongilAuth.normalizePageKey(item.url || item.href || item.file);
+            if (!key || seen.has(key) || key === "index.html") return;
             seen.add(key);
-            entries.push({ key, title: item.title || key, kind: "item" });
+            entries.push({ key, title: item.title || item.label || key, kind: "item" });
           });
-          return { name: page.name, entries };
-        });
+          return { name: page.label || page.name || page.title, entries };
+        }).filter((group) => group.entries && group.entries.length > 0);
       }
 
       function renderUsers() {

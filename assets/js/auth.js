@@ -580,6 +580,23 @@
     return Array.isArray(remoteUsersCache) ? remoteUsersCache : users;
   }
 
+  const REMOVED_USERS_KEY = "gaongil_removed_users_v1";
+
+  function getRemovedUserIds() {
+    try {
+      const raw = localStorage.getItem(REMOVED_USERS_KEY);
+      return raw ? JSON.parse(raw) || [] : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function setRemovedUserIds(ids) {
+    try {
+      localStorage.setItem(REMOVED_USERS_KEY, JSON.stringify(ids));
+    } catch (e) {}
+  }
+
   function getUsers() {
     const base = defaultUsers();
     let local = [];
@@ -588,11 +605,13 @@
       if (raw) local = JSON.parse(raw) || [];
     } catch (e) {}
     const remote = (firebaseEnabled() && Array.isArray(remoteUsersCache)) ? remoteUsersCache : [];
+    const removed = getRemovedUserIds();
 
     const map = new Map();
     base.forEach((u) => u && u.id && map.set(normalizeId(u.id), u));
     local.forEach((u) => u && u.id && map.set(normalizeId(u.id), u));
     remote.forEach((u) => u && u.id && map.set(normalizeId(u.id), u));
+    removed.forEach((id) => map.delete(normalizeId(id)));
     return Array.from(map.values());
   }
 
@@ -601,8 +620,11 @@
   }
 
   async function addUser({ id, name, email, role, password }) {
-    const users = getUsers();
     id = normalizeId(id);
+    const removed = getRemovedUserIds().filter((x) => x !== id);
+    setRemovedUserIds(removed);
+
+    const users = getUsers();
     if (users.some((u) => u.id === id)) {
       throw new Error("이미 존재하는 아이디입니다.");
     }
@@ -622,6 +644,13 @@
     const target = users.find((u) => u.id === normalizedId);
     const adminCount = users.filter((u) => u.role === "admin").length;
     if (target?.role === "admin" && adminCount <= 1) throw new Error("마지막 관리자 계정은 삭제할 수 없습니다.");
+    
+    const removed = getRemovedUserIds();
+    if (!removed.includes(normalizedId)) {
+      removed.push(normalizedId);
+      setRemovedUserIds(removed);
+    }
+
     users = users.filter((u) => u.id !== normalizedId);
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.removeUserProfile) {
