@@ -43,30 +43,76 @@ img{max-width:100%;display:block}
 .hidden{display:none!important}
 .lux-line{height:3px;background:linear-gradient(90deg,#8f672b,#f0d99b 28%,#d6ad63 54%,#8f672b)}
 .site-header{
-  position:sticky;top:0;z-index:50;
-  border-bottom:1px solid rgba(214,173,99,.20);
-  background:rgba(5,11,20,.90);
-  backdrop-filter:blur(18px);
-  box-shadow:0 14px 40px rgba(0,0,0,.26);
+  position:relative!important;top:auto!important;z-index:50!important;
+  border-bottom:1px solid rgba(214,173,99,.20)!important;
+  background:rgba(5,11,20,.90)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+  box-shadow:0 14px 40px rgba(0,0,0,.26)!important;
 }
 .header-inner{
-  width:min(1480px,calc(100% - 36px));
-  margin:auto;
-  min-height:82px;
-  display:flex;
-  align-items:center;
-  gap:22px;
+  width:min(1480px,calc(100% - 36px))!important;
+  margin:auto!important;
+  min-height:76px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:22px!important;
 }
-.brand{
-  display:flex;align-items:center;gap:13px;text-decoration:none;min-width:0;
+body.gaongil-linked-page .site-header .brand,
+.site-header .brand{
+  display:flex!important;
+  align-items:center!important;
+  gap:13px!important;
+  text-decoration:none!important;
+  min-width:max-content!important;
+  flex-shrink:0!important;
 }
-.brand-mark{
-  width:48px;height:48px;border-radius:11px;overflow:hidden;flex:0 0 auto;
-  border:1px solid rgba(240,217,155,.42);
-  box-shadow:0 10px 26px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.08);
+body.gaongil-linked-page .site-header img.brand-mark,
+.site-header .brand-mark,
+.site-header .brand img{
+  width:44px!important;
+  height:44px!important;
+  min-width:44px!important;
+  min-height:44px!important;
+  max-width:44px!important;
+  max-height:44px!important;
+  border-radius:11px!important;
+  overflow:hidden!important;
+  flex:0 0 44px!important;
+  border:1px solid rgba(240,217,155,.42)!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.08)!important;
+  object-fit:contain!important;
+  vertical-align:middle!important;
 }
-.brand-copy strong{display:block;color:#fff8e8;font-size:1.08rem;letter-spacing:-.04em}
-.brand-copy span{display:block;margin-top:4px;color:var(--muted);font-size:.75rem;font-weight:700}
+body.gaongil-linked-page .site-header .brand-copy,
+.site-header .brand-copy{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  flex-shrink:0!important;
+  white-space:nowrap!important;
+}
+body.gaongil-linked-page .site-header .brand-copy strong,
+.site-header .brand-copy strong{
+  display:block!important;
+  color:#fff8e8!important;
+  font-size:1.08rem!important;
+  letter-spacing:-.04em!important;
+  line-height:1.2!important;
+  white-space:nowrap!important;
+  word-break:normal!important;
+}
+body.gaongil-linked-page .site-header .brand-copy span,
+.site-header .brand-copy span{
+  display:block!important;
+  margin-top:4px!important;
+  color:var(--muted)!important;
+  font-size:.75rem!important;
+  font-weight:700!important;
+  line-height:1.2!important;
+  white-space:nowrap!important;
+  word-break:normal!important;
+}
 .header-actions{margin-left:auto;display:flex;gap:9px;align-items:center}
 .top-link,.primary-link,.ghost-link{
   display:inline-flex;align-items:center;justify-content:center;gap:7px;
@@ -272,8 +318,9 @@ select{padding:0 38px 0 13px}
   .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:900px){
-  .header-inner{min-height:72px}
-  .brand-copy span{display:none}
+  .header-inner{min-height:72px!important}
+  body.gaongil-linked-page .site-header .brand-copy span,
+  .brand-copy span{display:none!important}
   .hero{grid-template-columns:1fr}
   .search-row{grid-template-columns:1fr 1fr}
   .search-wrap{grid-column:1/-1}
@@ -282,9 +329,10 @@ select{padding:0 38px 0 13px}
   .list-view .card-actions{width:auto;border-left:0;border-top:1px solid rgba(104,133,169,.16);padding:13px 20px 18px}
 }
 @media(max-width:680px){
-  .header-inner,main{width:min(100% - 24px,1480px)}
-  .header-actions .top-link{display:none}
-  .brand-copy strong{font-size:.94rem}
+  .header-inner,main{width:min(100% - 24px,1480px)!important}
+  .header-actions .top-link{display:none!important}
+  body.gaongil-linked-page .site-header .brand-copy strong,
+  .brand-copy strong{font-size:.94rem!important}
   .hero{padding:25px 21px}
   .hero h1{font-size:2rem}
   .hero-stats{grid-template-columns:1fr 1fr;padding:12px}
