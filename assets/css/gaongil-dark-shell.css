@@ -4,6 +4,152 @@
    밝은(백색) 배경을 가온길 다크 톤으로 통일합니다.
    ============================================================ */
 
+
+/* ──────────────────────────────────────────────────────────
+   수업자료 보드(sooup*.html) 및 전역 다크 테마 변수 오버라이드
+   페이지 렌더링 또는 DOM 동적 갱신 시 흰색 잔상이 남지 않도록
+   모든 백색/연파스텔 관련 CSS 변수 및 컴포넌트 클래스를 즉시 다크 톤으로 고정합니다.
+   ────────────────────────────────────────────────────────── */
+
+:root {
+  --paper: #081321 !important;
+  --paper-deep: #050b14 !important;
+  --paper-soft: #0d1626 !important;
+  --card: #0d1626 !important;
+  --ink: #edf5ff !important;
+  --ink-2: #d5e1f2 !important;
+  --muted: #aab6c9 !important;
+  --faint: #78879c !important;
+  --line: rgba(214,173,99,.22) !important;
+  --line-soft: rgba(255,255,255,.08) !important;
+  --shadow-card: 0 4px 20px rgba(0,0,0,.45) !important;
+  --shadow-lift: 0 10px 30px rgba(0,0,0,.55) !important;
+}
+
+/* 수업설계 보드 컴포넌트 0ms 즉시 다크화 오버라이드 */
+.browser,
+.detail,
+.detail-hd,
+.std-full,
+.tabbar,
+.panel,
+.card,
+.filters,
+.side,
+.list-meta,
+.std-item,
+.lesson-hd,
+.lesson-row,
+.q,
+.std-card,
+.rubric-table th,
+.rubric-table td,
+.matrix,
+.matrix table,
+.matrix th,
+.matrix td {
+  background-color: var(--gg-panel) !important;
+  color: var(--gg-text) !important;
+  border-color: var(--gg-line) !important;
+}
+
+.browser {
+  background: var(--gg-bg-0) !important;
+  border-color: var(--gg-line) !important;
+}
+
+.side {
+  background: var(--gg-bg-1) !important;
+  border-right-color: var(--gg-line) !important;
+}
+
+.filters {
+  background: var(--gg-bg-1) !important;
+  border-bottom-color: var(--gg-line) !important;
+}
+
+.filters input,
+.filters select {
+  background-color: var(--gg-bg-0) !important;
+  color: var(--gg-text) !important;
+  border-color: var(--gg-line) !important;
+}
+
+.list-meta {
+  background-color: var(--gg-bg-0) !important;
+  color: var(--gg-text-muted) !important;
+  border-bottom-color: var(--gg-line) !important;
+}
+
+.std-item {
+  border-bottom-color: var(--gg-line-soft) !important;
+}
+
+.std-item:hover,
+.std-item.on {
+  background-color: var(--gg-panel-2) !important;
+}
+
+.std-item.on .std-title {
+  color: var(--gg-gold) !important;
+}
+
+.detail-hd {
+  background: linear-gradient(180deg, var(--gg-bg-1), var(--gg-panel)) !important;
+  border-bottom-color: var(--gg-line) !important;
+}
+
+.std-full {
+  background-color: var(--gg-panel-2) !important;
+  color: var(--gg-text) !important;
+}
+
+.tabbar {
+  background-color: var(--gg-bg-1) !important;
+  border-bottom-color: var(--gg-line) !important;
+}
+
+.tabbar button {
+  color: var(--gg-text-muted) !important;
+  border-right-color: var(--gg-line) !important;
+  background-color: transparent !important;
+}
+
+.tabbar button:hover {
+  color: var(--gg-gold) !important;
+  background-color: var(--gg-panel-2) !important;
+}
+
+.tabbar button.on {
+  background: linear-gradient(180deg, #f0d99b 0%, #d6ad63 56%, #b98532 100%) !important;
+  color: #071221 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 14px rgba(214,173,99,.25) !important;
+  border-bottom-color: transparent !important;
+}
+
+.tabbar button.on .t-n {
+  color: #071221 !important;
+}
+
+.lesson-hd {
+  background-color: var(--gg-bg-1) !important;
+  color: var(--gg-gold) !important;
+  border-bottom-color: var(--gg-line) !important;
+}
+
+.lesson-row {
+  border-bottom-color: var(--gg-line-soft) !important;
+}
+
+.lesson-row div {
+  color: var(--gg-text-muted) !important;
+}
+
+.lesson-row div b {
+  color: var(--gg-text) !important;
+}
+
 :root{
   --gg-bg-0:#050b14;
   --gg-bg-1:#081321;

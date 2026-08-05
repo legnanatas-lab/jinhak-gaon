@@ -114,11 +114,17 @@
 
   try {
     var mo = new MutationObserver(function () {
-      clearTimeout(window.__ggRethemeTimer);
-      window.__ggRethemeTimer = setTimeout(run, 250);
+      if (window.__ggRethemeRaf) cancelAnimationFrame(window.__ggRethemeRaf);
+      window.__ggRethemeRaf = requestAnimationFrame(run);
     });
-    window.addEventListener("load", function () {
+    function startObserver() {
+      run();
       mo.observe(document.body, { childList: true, subtree: true });
-    });
+    }
+    if (document.readyState === "loading") {
+      window.addEventListener("DOMContentLoaded", startObserver, { once: true });
+    } else {
+      startObserver();
+    }
   } catch (e) {}
 })();
