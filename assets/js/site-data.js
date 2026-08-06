@@ -426,6 +426,20 @@ window.GAONGIL_SITE_DATA = {
           "key": "pe2026_2028"
         },
         {
+          "title": "2027학년도 대학별 교과환산 내신",
+          "url": "2027gyogwa-calc.html",
+          "current": "내신 환산",
+          "tags": [
+            "2027",
+            "naesin",
+            "calc",
+            "gyogwa"
+          ],
+          "status": "신규",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
+          "key": "gyogwaCalc2027"
+        },
+        {
           "title": "2026 대학발표 입시결과 조회 (수시결과)",
           "url": "susi.html?v=26",
           "current": "입시결과 조회",
@@ -1256,9 +1270,7 @@ window.GAONGIL_SITE_DATA = {
           "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "hakjongguide"
         },
-        {
-          "title": "2026 대학발표 입시결과 조회 (수시결과)",
-          "url": "susi.html?v=26",
+
           "current": "입시결과 조회",
           "tags": [
             "results",
