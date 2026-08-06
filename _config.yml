@@ -1,0 +1,4 @@
+exclude:
+  - .github
+  - node_modules
+  - README.md
