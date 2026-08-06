@@ -33,7 +33,8 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="./assets/css/gaongil-dark-shell.css">
-<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css">
+<link rel="stylesheet" href="./portal.css?v=20260721b">
+<link rel="stylesheet" href="./assets/css/gaongil-menu-final.css?v=20260721b">
 
 <style>
 :root {
@@ -620,10 +621,83 @@ table.custom-table select option {
   .step-nav-container { flex-direction: column; }
   .search-box-wrap { flex-direction: column; }
 }
+
+/* ===== Input/Select: 강제 다크 배경 (브라우저 기본 흰색 오버라이드) ===== */
+input, select, textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+table.custom-table select,
+table.custom-table input[type="text"],
+table.custom-table input[type="number"] {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background: rgba(255,255,255,0.09) !important;
+  color: #e8edf5 !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  width: 100%;
+}
+
+table.custom-table select option,
+table.custom-table select optgroup {
+  background: #1e3055 !important;
+  color: #e8edf5 !important;
+}
+
+table.custom-table select:focus,
+table.custom-table input:focus {
+  border-color: #d4a83a !important;
+  background: rgba(255,255,255,0.13) !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(212,168,58,0.18) !important;
+}
+
+/* ===== 칩/빠른선택 버튼 텍스트 가시성 ===== */
+.q-chip-btn {
+  color: #c8d6ee !important;
+}
+.q-chip-btn:hover {
+  color: #e8edf5 !important;
+}
+
+/* ===== 아웃라인 버튼 텍스트 ===== */
+.btn-outline {
+  color: #c8d6ee !important;
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.18) !important;
+}
+.btn-outline:hover {
+  color: #e8edf5 !important;
+  background: rgba(255,255,255,0.14) !important;
+}
+
+/* ===== 검색 입력창 강제 다크 ===== */
+.search-input-field {
+  -webkit-appearance: none !important;
+  background: rgba(255,255,255,0.09) !important;
+  color: #e8edf5 !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+}
+.search-input-field::placeholder { color: #8a96ae !important; }
+
+/* ===== hero-header: portal-bar 아래 배치 ===== */
+header.hero-header {
+  position: relative !important;
+  z-index: 10 !important;
+  top: auto !important;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.4) !important;
+}
 </style>
 </head>
 
-<body>
+<body class="gaongil-linked-page" data-gaongil-page="gyogwa-calc2027">
 
 <header class="hero-header">
   <div class="wrap">
