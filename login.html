@@ -1356,17 +1356,45 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         }
       });
 
+      document.addEventListener("DOMContentLoaded", async () => {
+        try {
+          if (GaongilAuth.completeGoogleRedirect) {
+            const session = await GaongilAuth.completeGoogleRedirect();
+            if (session) {
+              location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
+            }
+          }
+        } catch (err) {
+          msg.textContent = formatLoginError(err, "Google 로그인 연동 중 오류가 발생했습니다.");
+          msg.classList.add("show");
+        }
+      });
+
       googleLoginBtn.addEventListener("click", async () => {
         msg.classList.remove("show");
-        setLoginBusy(true, googleLoginBtn, "Google 로그인 창을 여는 중...");
-        try {
-          const session = await GaongilAuth.loginWithGoogle();
-          location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
-        } catch (err) {
-          msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
-          msg.classList.add("show");
-        } finally {
-          setLoginBusy(false);
+        
+        // 모바일 기기(WebView, Safari 등)에서는 팝업 차단을 피하기 위해 Redirect 방식 사용
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (isMobile && GaongilAuth.startGoogleLogin) {
+          setLoginBusy(true, googleLoginBtn, "Google 로그인으로 이동 중...");
+          try {
+            await GaongilAuth.startGoogleLogin();
+          } catch (err) {
+            msg.textContent = formatLoginError(err, "Google 로그인 시작에 실패했습니다.");
+            msg.classList.add("show");
+            setLoginBusy(false);
+          }
+        } else {
+          setLoginBusy(true, googleLoginBtn, "Google 로그인 창을 여는 중...");
+          try {
+            const session = await GaongilAuth.loginWithGoogle();
+            location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
+          } catch (err) {
+            msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
+            msg.classList.add("show");
+            setLoginBusy(false);
+          }
         }
       });
 
