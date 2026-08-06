@@ -1356,7 +1356,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         }
       });
 
-      document.addEventListener("DOMContentLoaded", async () => {
+      (async function handleGoogleRedirect() {
         try {
           if (GaongilAuth.completeGoogleRedirect) {
             const session = await GaongilAuth.completeGoogleRedirect();
@@ -1368,7 +1368,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           msg.textContent = formatLoginError(err, "Google 로그인 연동 중 오류가 발생했습니다.");
           msg.classList.add("show");
         }
-      });
+      })();
 
       googleLoginBtn.addEventListener("click", async () => {
         msg.classList.remove("show");
