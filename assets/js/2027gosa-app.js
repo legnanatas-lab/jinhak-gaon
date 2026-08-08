@@ -449,11 +449,14 @@ function exportCSV() {
 /* ───────── 인쇄용 상담지 / 일정표 ─────────
    본문 화면의 공통 쉘 인쇄 CSS와 충돌하지 않도록, 인쇄 전용 문서를 별도 창에 구성한다. */
 function openPrintDocument(title, body) {
-  const win = window.open("", "_blank", "noopener,noreferrer");
+  // Safari에서는 noopener 기능값을 주면 반환 WindowProxy가 null이 될 수 있어
+  // 새 창에 보고서를 쓸 수 없다. 빈 문서만 열고 작성 후 opener를 끊는다.
+  const win = window.open("", "_blank");
   if (!win) {
     toast("인쇄 창을 열 수 없습니다. 브라우저의 팝업 차단을 해제해 주세요.");
     return;
   }
+  try { win.opener = null; } catch (e) { }
   win.document.open();
   win.document.write(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>${esc(title)}</title>
     <style>
