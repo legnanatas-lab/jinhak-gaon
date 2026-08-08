@@ -418,6 +418,21 @@ table.custom-table select option {
   padding-top: 4px;
 }
 
+.excel-dropzone {
+  margin-top: 14px;
+  padding: 18px 20px;
+  border: 1.5px dashed var(--gold-border);
+  border-radius: var(--radius-sm);
+  background: rgba(212,168,58,.05);
+  color: var(--ink2);
+  text-align: center;
+  cursor: pointer;
+  transition: .16s ease;
+}
+.excel-dropzone:hover, .excel-dropzone.dragover { border-color: var(--gold); background: var(--gold-bg); color: var(--gold-light); }
+.excel-dropzone strong { color: var(--gold-light); }
+.dz-filename { margin-top: 6px; min-height: 18px; font-size: 12px; color: var(--muted); }
+
 .btn-item {
   display: inline-flex;
   align-items: center;
@@ -810,6 +825,10 @@ header.hero-header {
         <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" style="display:none" onchange="handleExcelUpload(event)">
         <button class="btn-item btn-secondary" onclick="saveToLocalStorage()">💾 내 성적 저장</button>
         <button class="btn-item btn-danger" onclick="clearSubjects()">전체 삭제</button>
+      </div>
+      <div id="excelDropzone" class="excel-dropzone" onclick="document.getElementById('excelFileInput').click()" ondragover="handleDropzoneDragOver(event)" ondragleave="handleDropzoneDragLeave(event)" ondrop="handleDropzoneDrop(event)">
+        📂 엑셀 파일을 여기로 <strong>드래그해서 놓거나 클릭하여 업로드</strong>하세요 (.xlsx, .xls, .csv)
+        <div id="dzFilename" class="dz-filename"></div>
       </div>
     </section>
 
