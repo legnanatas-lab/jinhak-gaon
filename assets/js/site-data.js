@@ -1284,7 +1284,9 @@ window.GAONGIL_SITE_DATA = {
           "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
           "key": "hakjongguide"
         },
-
+        {
+          "title": "2026 대학발표 입시결과 조회 (수시결과)",
+          "url": "susi.html?v=26",
           "current": "입시결과 조회",
           "tags": [
             "results",
