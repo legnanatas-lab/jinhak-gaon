@@ -446,6 +446,45 @@ function exportCSV() {
   toast(`현재 필터 기준 ${F.length}건 내려받음`);
 }
 
+/* ───────── 인쇄용 상담지 / 일정표 ─────────
+   본문 화면의 공통 쉘 인쇄 CSS와 충돌하지 않도록, 인쇄 전용 문서를 별도 창에 구성한다. */
+function openPrintDocument(title, body) {
+  const win = window.open("", "_blank", "noopener,noreferrer");
+  if (!win) {
+    toast("인쇄 창을 열 수 없습니다. 브라우저의 팝업 차단을 해제해 주세요.");
+    return;
+  }
+  win.document.open();
+  win.document.write(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>${esc(title)}</title>
+    <style>
+      @page{size:A4;margin:12mm}*{box-sizing:border-box}body{margin:0;color:#172033;background:#fff;font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:10.5pt;line-height:1.55}h1{margin:0;color:#102a43;font-size:22pt;letter-spacing:-.04em}h2{margin:22px 0 8px;color:#173b63;font-size:14pt}.meta{margin:7px 0 16px;padding:9px 12px;background:#eef4fa;border:1px solid #cbd9e6;border-radius:7px;color:#46566a}.notice{font-size:9pt;color:#5e6875;margin:10px 0 16px}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:1px solid #bdc9d7;padding:6px 7px;text-align:left;vertical-align:top;word-break:keep-all}th{background:#173f70;color:#fff;font-size:9pt}tr{break-inside:avoid}.badge{display:inline-block;border-radius:4px;padding:1px 5px;background:#eef4fa;color:#173f70;font-size:8.5pt;font-weight:700}.pick{break-inside:avoid;margin:0 0 9px;padding:10px 12px;border:1px solid #cbd9e6;border-left:5px solid #173f70;border-radius:7px}.pick h3{margin:0 0 4px;font-size:12pt}.pick p{margin:3px 0}.memo{margin-top:6px;padding-top:6px;border-top:1px dashed #cbd9e6;color:#46566a}.footer{margin-top:20px;padding-top:8px;border-top:1px solid #bdc9d7;font-size:8.5pt;color:#687789}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+    </style></head><body>${body}<div class="footer">가온길 에듀 입시전략연구소 · 대학별고사 일정은 변동될 수 있으므로 대학 입학처 공지를 반드시 확인하세요.</div><script>window.addEventListener('load',function(){setTimeout(function(){window.print()},250)});<\/script></body></html>`);
+  win.document.close();
+}
+
+function printCounselReport() {
+  const st = curStu();
+  const picks = st.picks.map((pk, pi) => ({ pk, pi, e: E[pk.e] })).filter(x => x.e);
+  const pickedHtml = picks.length ? picks.map(({ pk, pi, e }) => {
+    const u = UNIS[e.u], p = PATHS[e.p], linked = linkedSt2(e);
+    const dates = `${fmtMDW(e.d1)}${e.d1 !== e.d2 ? "~" + fmtMD(e.d2) : ""}` + linked.map(x => ` / 2차 ${fmtMDW(x.d1)}${x.d1 !== x.d2 ? "~" + fmtMD(x.d2) : ""}`).join("");
+    return `<article class="pick" style="border-left-color:${PKC[pi % PKC.length]}"><h3>${PKN[pi] || (pi + 1) + "."} ${esc(u.disp)} <span class="badge">${esc(u.region)}</span></h3><p><b>${esc(p.name)}</b> · <span class="badge">${TY[e.t]}</span> · ${esc(CATS[p.cat])}</p><p><b>고사일</b> ${dates} · <b>발표일</b> ${esc(e.ann || "미확인")}</p><p><b>모집단위</b> ${esc(e.m.map(mi => DB.units[mi]).join(", ") || "미확인")}</p>${pk.memo ? `<p class="memo"><b>상담 메모</b> ${esc(pk.memo)}</p>` : ""}</article>`;
+  }).join("") : '<div class="meta">아직 담은 전형이 없습니다. 캘린더 또는 대학별 일정에서 전형을 먼저 담아 주세요.</div>';
+  openPrintDocument(`${st.name} 대학별고사 상담지`, `<h1>${esc(st.name)} — 대학별고사 상담지</h1><div class="meta">출력일 ${new Date().toLocaleDateString("ko-KR")} · 담은 전형 ${picks.length}개 · 2027학년도 수시 대학별고사 일정</div>${picks.length > 6 ? '<div class="notice">※ 수시 지원은 최대 6회입니다. 현재 담은 전형 수를 확인하세요.</div>' : ""}${pickedHtml}`);
+}
+
+function printScheduleReport() {
+  const rows = F.slice().sort((a, b) => a.d1 - b.d1 || a.t - b.t);
+  const filters = [S.types.size !== 3 ? [...S.types].map(t => TY[t]).join("·") : "전체 유형", S.regions.size ? [...S.regions].join("·") : "전체 지역", S.csat === "pre" ? "수능 전" : S.csat === "post" ? "수능 후" : "수능 전·후", S.q ? `검색: ${S.q}` : ""].filter(Boolean).join(" / ");
+  const tableRows = rows.map(e => `<tr><td><b>${fmtMDW(e.d1)}</b>${e.d1 !== e.d2 ? "~" + fmtMD(e.d2) : ""}</td><td>${esc(UNIS[e.u].disp)}<br><small>${esc(UNIS[e.u].region)}</small></td><td><span class="badge">${TY[e.t]}</span><br>${esc(CATS[PATHS[e.p].cat])}</td><td>${esc(PATHS[e.p].name)}</td><td>${esc(e.m.map(mi => DB.units[mi]).join(", "))}</td><td>${esc(e.ann || "-")}</td></tr>`).join("");
+  openPrintDocument("2027 수시 대학별고사 일정표", `<h1>2027학년도 수시 대학별고사 일정표</h1><div class="meta">출력일 ${new Date().toLocaleDateString("ko-KR")} · 현재 필터 ${rows.length.toLocaleString()}건<br>${esc(filters)}</div><table><thead><tr><th style="width:14%">고사일</th><th style="width:16%">대학</th><th style="width:12%">유형</th><th style="width:20%">전형명</th><th>모집단위</th><th style="width:10%">발표일</th></tr></thead><tbody>${tableRows || '<tr><td colspan="6" style="text-align:center;padding:24px">현재 필터에 해당하는 일정이 없습니다.</td></tr>'}</tbody></table>`);
+}
+
+function printCurrentReport() {
+  if (S.view === "counsel") printCounselReport();
+  else printScheduleReport();
+}
+
 /* ───────── 이벤트 위임 ───────── */
 document.addEventListener("click", ev => {
   if (ev.target.closest("a")) return;
@@ -491,7 +530,7 @@ document.addEventListener("click", ev => {
     case "csv": exportCSV(); break;
     case "help": $("#helpBg").classList.add("show"); break;
     case "help-close": if (a.id === "helpBg" && ev.target !== a) break; $("#helpBg").classList.remove("show"); break;
-    case "print": window.print(); break;
+    case "print": printCurrentReport(); break;
     case "stu-new": { const n = prompt("학생 이름(별칭)을 입력하세요", "학생 " + (CS.students.length + 1)); if (n) { CS.students.push({ name: n, picks: [] }); CS.cur = CS.students.length - 1; saveCS(); renderCounsel(); } break; }
     case "stu-ren": { const n = prompt("새 이름", curStu().name); if (n) { curStu().name = n; saveCS(); renderCounsel(); } break; }
     case "stu-del": {

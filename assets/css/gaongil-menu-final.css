@@ -266,8 +266,10 @@
 .home-nav .nav-menu-list a.active,
 .nav .nav-menu-list a.active,
 .gaongil-resource-list a.active{
-  background:rgba(214,173,99,.18)!important;
-  color:#fff8e8!important;
+  background:linear-gradient(180deg,var(--ga-menu-gold-hi) 0%,var(--ga-menu-gold) 56%,var(--ga-menu-gold-low) 100%)!important;
+  border:1px solid var(--ga-menu-gold-line)!important;
+  color:var(--ga-menu-ink)!important;
+  box-shadow:0 5px 14px rgba(214,173,99,.22)!important;
 }
 
 @media(max-width:900px){
@@ -431,6 +433,5 @@ body.gaongil-linked-page .logoBox img {
   border-bottom: 1px solid rgba(214, 173, 99, 0.25) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
 }
-
 
 
