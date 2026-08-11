@@ -1,5 +1,8 @@
 (function(){
-  const session=GaongilAuth.requirePageAccess(); if(session===false) return;
+  // section.html is the public materials-board shell.  Access is checked again
+  // when a visitor follows a document link, so an anonymous visitor must still
+  // be able to see the navigation and the available materials here.
+  const session=GaongilAuth.getSession();
   GaongilAuth.installAccessLinkGuards();
   const data=window.GAONGIL_SITE_DATA;
   const requestedPage=new URLSearchParams(location.search).get('page');
