@@ -454,6 +454,15 @@ window.GAONGIL_SITE_DATA = {
           "key": "gyogwaCalc2027"
         },
         {
+          "title": "2027학년도 후위모집 대학별 요약 조회",
+          "url": "2027-late-admissions.html",
+          "current": "입시결과 조회",
+          "tags": ["2027", "late", "admissions", "results"],
+          "status": "신규",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
+          "key": "lateAdmissions2027"
+        },
+        {
           "title": "2026 대학발표 입시결과 조회 (수시결과)",
           "url": "susi.html?v=26",
           "current": "입시결과 조회",
