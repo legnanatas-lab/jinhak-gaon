@@ -2,3 +2,7 @@
 /jinhak-gaon / 302
 /jinhak-gaon/ / 302
 /jinhak-gaon/* /:splat 302
+
+# Corrected 2027 admissions-summary address.
+/2027-late-admissions /2027-susi-admissions 302
+/2027-late-admissions.html /2027-susi-admissions 302
