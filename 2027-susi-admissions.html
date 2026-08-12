@@ -234,6 +234,12 @@ nav.tabs button{color:#b9c4d2}nav.tabs button.on{color:#fff8e8;border-bottom-col
 .uitem,.uitem:hover,.uitem.on,details.card>summary:hover{color:#edf5ff;background:transparent;border-color:rgba(120,148,183,.2)}.uitem.on{background:rgba(214,173,99,.18);color:#fff8e8}
 .chip,.tbtn,.morebtn,.toc button,.day{background:#14233a;border-color:#30445e;color:#d7e1ee}.chip.on{background:#d6ad63;border-color:#f0d99b;color:#091322}.search{background:#050b14;border-color:#506989;color:#edf5ff}.search::placeholder{color:#8192aa}
 table.dt th,table.dt td{border-color:#30445e;color:#e7effa}table.dt thead th{background:#14233a;color:#f0d99b}table.dt tbody tr:nth-child(even){background:rgba(20,35,58,.5)}table.dt tbody tr:hover{background:rgba(214,173,99,.1)}
+/* 원본 자료의 빈 표 셀·보조 패널에 남은 밝은 배경을 가온길 다크 톤으로 통일 */
+table.dt td.emp,table.dt tbody tr:nth-child(even) td.emp,table.dt tbody tr:hover td.emp{background:#0d1726!important;color:#e7effa}
+.chip.q,.recent .rc,.toc .expall,#toTop{background:#14233a;border-color:#506989;color:#d7e1ee}
+.chip.q:hover,.recent .rc:hover,.toc .expall:hover,#toTop:hover{background:rgba(214,173,99,.18);border-color:#d6ad63;color:#fff8e8}
+.cmp-pick{background:rgba(20,35,58,.72);border-color:#506989;color:#e7effa}.cmp-pick .plist{background:#0d1726;border-color:#30445e}
+table.dt td.emp::selection,table.dt td::selection,mark{background:#d6ad63;color:#091322}
 details.sec[open]>summary{color:#f0d99b}.details.sec>summary .no,details.sec>summary .no{background:#d6ad63;color:#091322}.calbanner,.calnote{background:rgba(214,173,99,.1);border-color:rgba(214,173,99,.35);color:#e7effa}.day.has{background:#14233a;border-color:#506989}.day.sel{background:#d6ad63;color:#091322}.day.sel .n{color:#091322}
 footer{color:#b9c4d2!important;border-color:#30445e!important;background:#091322!important}.gaongil-footer-brand{margin-bottom:14px}
 @media print{.gaongil-portal-bar{display:none!important}body{background:#fff;color:#000}header.top{background:#fff!important;color:#000}.top h1{color:#000}.detail,details.sec{background:#fff;border-color:#bbb}table.dt th,table.dt td{color:#000;border-color:#bbb}}
