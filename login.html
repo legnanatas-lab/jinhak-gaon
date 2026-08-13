@@ -1374,13 +1374,19 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       googleLoginBtn.addEventListener("click", async () => {
         msg.classList.remove("show");
         
-        // Safari는 데스크톱에서도 Firebase 팝업의 창 간 통신을 차단하는 경우가 있어
-        // 모바일과 동일하게 현재 탭 리디렉션 방식을 사용한다.
+        // 모바일에서는 팝업 차단을 피하기 위해 현재 탭 리디렉션 방식을 사용한다.
+        // Safari 데스크톱은 Firebase 인증 창을 통해 로그인한다. Safari의 '사이트 간 추적 방지'가
+        // 켜져 있으면 인증 창이 완료되지 않을 수 있으므로 안내를 먼저 표시한다.
         const userAgent = navigator.userAgent;
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
         const isSafari = /Safari/i.test(userAgent) && !/Chrome|Chromium|CriOS|FxiOS|Edg|OPR/i.test(userAgent);
         
-        if ((isMobile || isSafari) && GaongilAuth.startGoogleLogin) {
+        if (isSafari && !isMobile) {
+          msg.textContent = "Safari에서 인증 창이 빈 화면으로 멈추면 Safari 설정 > 개인정보 보호 > ‘사이트 간 추적 방지’를 잠시 끈 뒤 다시 시도해 주세요.";
+          msg.classList.add("show");
+        }
+
+        if (isMobile && GaongilAuth.startGoogleLogin) {
           setLoginBusy(true, googleLoginBtn, "Google 로그인으로 이동 중...");
           try {
             await GaongilAuth.startGoogleLogin();
