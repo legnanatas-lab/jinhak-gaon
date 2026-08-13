@@ -1248,7 +1248,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     </div>
 
     <script src="./assets/js/site-data.js?v=20260711-config"></script>
-    <script src="./assets/js/auth.js?v=20260714-google-admin"></script>
+    <script src="./assets/js/auth.js?v=20260813-google-redirect"></script>
     <script>
       const params = new URLSearchParams(location.search);
 
@@ -1373,38 +1373,20 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
 
       googleLoginBtn.addEventListener("click", async () => {
         msg.classList.remove("show");
-        
-        // 모바일에서는 팝업 차단을 피하기 위해 현재 탭 리디렉션 방식을 사용한다.
-        // Safari 데스크톱은 Firebase 인증 창을 통해 로그인한다. Safari의 '사이트 간 추적 방지'가
-        // 켜져 있으면 인증 창이 완료되지 않을 수 있으므로 안내를 먼저 표시한다.
-        const userAgent = navigator.userAgent;
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-        const isSafari = /Safari/i.test(userAgent) && !/Chrome|Chromium|CriOS|FxiOS|Edg|OPR/i.test(userAgent);
-        
-        if (isSafari && !isMobile) {
-          msg.textContent = "Safari에서 인증 창이 빈 화면으로 멈추면 Safari 설정 > 개인정보 보호 > ‘사이트 간 추적 방지’를 잠시 끈 뒤 다시 시도해 주세요.";
+        // Firebase 인증 보조 페이지를 별도 팝업으로 열면 Safari의 추적 방지 정책에서 빈 창으로
+        // 멈출 수 있다. 모든 기기에서 현재 탭 리디렉션을 사용해 인증 상태와 원래 이동 경로를 유지한다.
+        if (!GaongilAuth.startGoogleLogin) {
+          msg.textContent = "Google 로그인 기능을 준비하지 못했습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.";
           msg.classList.add("show");
+          return;
         }
-
-        if (isMobile && GaongilAuth.startGoogleLogin) {
-          setLoginBusy(true, googleLoginBtn, "Google 로그인으로 이동 중...");
-          try {
-            await GaongilAuth.startGoogleLogin();
-          } catch (err) {
-            msg.textContent = formatLoginError(err, "Google 로그인 시작에 실패했습니다.");
-            msg.classList.add("show");
-            setLoginBusy(false);
-          }
-        } else {
-          setLoginBusy(true, googleLoginBtn, "Google 로그인 창을 여는 중...");
-          try {
-            const session = await GaongilAuth.loginWithGoogle();
-            location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
-          } catch (err) {
-            msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
-            msg.classList.add("show");
-            setLoginBusy(false);
-          }
+        setLoginBusy(true, googleLoginBtn, "Google 로그인으로 이동 중...");
+        try {
+          await GaongilAuth.startGoogleLogin();
+        } catch (err) {
+          msg.textContent = formatLoginError(err, "Google 로그인 시작에 실패했습니다.");
+          msg.classList.add("show");
+          setLoginBusy(false);
         }
       });
 
