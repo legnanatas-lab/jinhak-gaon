@@ -71,17 +71,7 @@ function updateDashboard() {
 }
 
 function initUniversityDatalist() { document.getElementById('uniDatalist').innerHTML = ADIGA_2027_UNIVERSITIES.map(u=>`<option value="${esc(u.name)}"></option>`).join(''); }
-function findUni(name) {
-  const q=String(name||'').trim();
-  if(!q) return null;
-  const withoutCampus=name=>String(name||'').replace(/\[[^\]]*\]/g,'').trim();
-  // 본교와 분교가 함께 있는 대학은 캠퍼스 표기만 제거한 정확한 이름을 먼저 찾는다.
-  // 예: “연세대학교” 검색 시 “연세대학교(미래)”보다 “연세대학교[본교]”를 우선 선택한다.
-  return ADIGA_2027_UNIVERSITIES.find(u=>u.name===q)
-    || ADIGA_2027_UNIVERSITIES.find(u=>withoutCampus(u.name)===q)
-    || ADIGA_2027_UNIVERSITIES.find(u=>u.name.includes(q)&&/\[본교\]/.test(u.name))
-    || ADIGA_2027_UNIVERSITIES.find(u=>withoutCampus(u.name).includes(q));
-}
+function findUni(name) { const q=String(name||'').trim();if(!q)return null;const exact=ADIGA_2027_UNIVERSITIES.find(u=>u.name===q);if(exact)return exact;const base=u=>u.name.replace(/\[.*?\]/g,'').trim(),same=ADIGA_2027_UNIVERSITIES.filter(u=>base(u)===q);return same.find(u=>u.name.includes('[본교]'))||same[0]||ADIGA_2027_UNIVERSITIES.find(u=>base(u).includes(q)); }
 function selectUniFromSearch() { const e=document.getElementById('uniSearchInput'); const u=findUni(e.value); if(!u) return alert('대학명을 목록에서 선택해 주세요.'); selectedUniNames.add(u.name); e.value=''; renderSelectedUnisBar(); calculateAll(); }
 function addFirstMatching(names) { names.forEach(x=>{const u=findUni(x);if(u)selectedUniNames.add(u.name);}); renderSelectedUnisBar(); calculateAll(); }
 function selectGroup(k) { const group={top10:['서울대학교','연세대학교','고려대학교','성균관대학교','서강대학교','한양대학교','중앙대학교','경희대학교','이화여자대학교','한국외국어대학교'],seoul:['서울시립대학교','건국대학교','동국대학교','홍익대학교','숙명여자대학교','숭실대학교','국민대학교','광운대학교','서울과학기술대학교'],national:['경북대학교','부산대학교','전남대학교','전북대학교','충남대학교','충북대학교','강원대학교','제주대학교','경상국립대학교']}; addFirstMatching(group[k]||[]); }
@@ -1070,11 +1060,19 @@ function calcManualRules(u) {
   });
 }
 
+function comparisonGradeForResult(r) {
+  if(Number.isFinite(r?.comparisonGrade)) return r.comparisonGrade;
+  const text=String(r?.avgGrade??'').trim();
+  if(!/^(?:[1-8](?:\.\d+)?|9(?:\.0+)?)$/.test(text)) return null;
+  const value=Number(text);
+  return value>=1&&value<=9?value:null;
+}
+
 function calculateAll() {
   const tb=document.getElementById('resultTbody'); if(!tb)return;
   if(!selectedUniNames.size){tb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text-muted);">대학을 검색하여 추가하면 ADIGA 공식 기준 기반 비교 결과가 표시됩니다.</td></tr>';return;}
   const rows=[];
-  for(const name of selectedUniNames){const u=ADIGA_2027_UNIVERSITIES.find(x=>x.name===name); rows.push(`<tr class="uni-separator-row"><td colspan="7"><span class="uni-name-badge">${esc(u.name)}</span><span class="uni-track-count">ADIGA/대학 공식 2027 기준</span></td></tr>`); const manual=calcManualRules(u); if(manual){manual.forEach(r=>rows.push(r.unavailable?`<tr><td>${esc(r.label)}</td><td colspan="5"><em>입력 필요 — ${esc(r.reason)}</em></td><td><a href="${esc(u.sourceUrl)}" target="_blank">공식 기준 확인</a></td></tr>`:`<tr class="track-row"><td>${esc(r.label)}</td><td class="score-cell">${r.score!==null?`<strong>${r.score.toFixed(2)}</strong>`:'<em>공개 점수표 없음</em>'}</td><td class="grade-cell">${r.careerBonus !== undefined || r.careerUsed !== undefined ? '공식 산식 적용' : '공개 점수 합산'}</td><td class="max-cell">${r.maxScore}</td><td class="avg-grade-cell">${Number.isFinite(r.comparisonGrade)?`<strong>${r.comparisonGrade.toFixed(2)}등급</strong><br><small>비교환산</small>`:esc(r.avgGrade)}</td><td class="career-cell">${r.careerBonus !== undefined ? `진로 가산점 +${r.careerBonus.toFixed(2)}` : r.careerUsed !== undefined ? `진로 환산 ${r.careerUsed}과목 반영` : '진로 A/B/C 점수 반영'}</td><td class="desc-cell">${esc(r.desc)}<br><a href="${esc(u.sourceUrl)}" target="_blank">공식 원문 보기</a></td></tr>`));continue;} const r=calcUniversity(u); if(r.qualitative){rows.push(`<tr><td>학생부 정성평가</td><td colspan="5"><strong>수치 환산 없음</strong> — ${esc(r.reason)}</td><td><a href="${esc(u.sourceUrl)}" target="_blank" rel="noopener">공식 기준 확인</a></td></tr>`);continue;} if(r.unavailable){rows.push(`<tr><td>교과영역 평가</td><td colspan="5"><em>공식자료 추가 확인 중 — ${esc(r.reason)}</em></td><td><a href="${esc(u.sourceUrl)}" target="_blank" rel="noopener">공식 기준 확인</a></td></tr>`);continue;} rows.push(`<tr class="track-row"><td>학생부교과 공통 기준</td><td class="score-cell">${r.score!==null?`<strong>${r.score.toFixed(2)}</strong>`:'<em>점수표 미공개</em>'}</td><td class="grade-cell"><strong>${r.grade.toFixed(2)}등급</strong><br><small>비교등급</small></td><td class="max-cell">${u.gradeTable?.[0]??'-'}</td><td class="avg-grade-cell">${r.grade.toFixed(2)}</td><td class="career-cell">${esc(r.careerInfo)}</td><td class="desc-cell">${esc(`반영 ${r.selected.length}과목 · ${u.commonAreas.join('·')} / ${r.reason}`)}<br><a href="${esc(u.sourceUrl)}" target="_blank" rel="noopener">ADIGA 원문 보기</a></td></tr>`);}
+  for(const name of selectedUniNames){const u=ADIGA_2027_UNIVERSITIES.find(x=>x.name===name); rows.push(`<tr class="uni-separator-row"><td colspan="7"><span class="uni-name-badge">${esc(u.name)}</span><span class="uni-track-count">ADIGA/대학 공식 2027 기준</span></td></tr>`); const manual=calcManualRules(u); if(manual){manual.forEach(r=>{const cg=comparisonGradeForResult(r);rows.push(r.unavailable?`<tr><td>${esc(r.label)}</td><td colspan="5"><em>입력 필요 — ${esc(r.reason)}</em></td><td><a href="${esc(u.sourceUrl)}" target="_blank">공식 기준 확인</a></td></tr>`:`<tr class="track-row"><td>${esc(r.label)}</td><td class="score-cell">${r.score!==null?`<strong>${r.score.toFixed(2)}</strong>`:'<em>공개 점수표 없음</em>'}</td><td class="grade-cell">${r.careerBonus !== undefined || r.careerUsed !== undefined ? '공식 산식 적용' : '공개 점수 합산'}</td><td class="max-cell">${r.maxScore}</td><td class="avg-grade-cell">${cg!==null?`<strong>${cg.toFixed(2)}등급</strong><br><small>${Number.isFinite(r.comparisonGrade)?'비교환산':'반영과목 평균'}</small>`:'<strong>공식 점수형</strong><br><small>단일등급 없음</small>'}</td><td class="career-cell">${r.careerBonus !== undefined ? `진로 가산점 +${r.careerBonus.toFixed(2)}` : r.careerUsed !== undefined ? `진로 환산 ${r.careerUsed}과목 반영` : '진로 A/B/C 점수 반영'}</td><td class="desc-cell">${esc(r.desc)}<br><a href="${esc(u.sourceUrl)}" target="_blank">공식 원문 보기</a></td></tr>`)});continue;} const r=calcUniversity(u); if(r.qualitative){rows.push(`<tr><td>학생부 정성평가</td><td colspan="5"><strong>수치 환산 없음</strong> — ${esc(r.reason)}</td><td><a href="${esc(u.sourceUrl)}" target="_blank" rel="noopener">공식 기준 확인</a></td></tr>`);continue;} if(r.unavailable){rows.push(`<tr><td>교과영역 평가</td><td colspan="5"><em>공식자료 추가 확인 중 — ${esc(r.reason)}</em></td><td><a href="${esc(u.sourceUrl)}" target="_blank" rel="noopener">공식 기준 확인</a></td></tr>`);continue;} rows.push(`<tr class="track-row"><td>학생부교과 공통 기준</td><td class="score-cell">${r.score!==null?`<strong>${r.score.toFixed(2)}</strong>`:'<em>점수표 미공개</em>'}</td><td class="grade-cell">공식 점수표 적용</td><td class="max-cell">${u.gradeTable?.[0]??'-'}</td><td class="avg-grade-cell"><strong>${r.grade.toFixed(2)}등급</strong><br><small>비교등급</small></td><td class="career-cell">${esc(r.careerInfo)}</td><td class="desc-cell">${esc(`반영 ${r.selected.length}과목 · ${u.commonAreas.join('·')} / ${r.reason}`)}<br><a href="${esc(u.sourceUrl)}" target="_blank" rel="noopener">ADIGA 원문 보기</a></td></tr>`);}
   tb.innerHTML=rows.join('');
 }
 
