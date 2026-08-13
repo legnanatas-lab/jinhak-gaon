@@ -88,7 +88,18 @@
       modules = { app: appMod, auth: authMod, firestore: firestoreMod, storage: storageMod };
       const name = "gaongil";
       app = appMod.getApps().find((item) => item.name === name) || appMod.initializeApp(firebaseConfig(), name);
-      auth = authMod.getAuth(app);
+      // Google 로그인은 현재 탭 OAuth 토큰으로 처리한다. Firebase의 기본 getAuth()는
+      // 팝업/리디렉션 resolver iframe까지 초기화해 일부 macOS 브라우저에서 빈 창 또는
+      // 무한 대기를 만들 수 있으므로, 세션 persistence만 사용하는 Auth로 초기화한다.
+      try {
+        auth = authMod.initializeAuth(app, {
+          persistence: authMod.browserSessionPersistence,
+        });
+      } catch (error) {
+        // 같은 앱에서 Auth가 먼저 초기화된 경우에만 기존 인스턴스를 재사용한다.
+        if (String(error?.code || "") !== "auth/already-initialized") throw error;
+        auth = authMod.getAuth(app);
+      }
       db = firestoreMod.getFirestore(app);
       storage = storageMod.getStorage(app);
       return { app, auth, db, storage, modules };
@@ -172,7 +183,13 @@
     const token = String(accessToken || "").trim();
     if (!token) throw new Error("Google 인증 토큰을 받지 못했습니다.");
     const credential = modules.auth.GoogleAuthProvider.credential(null, token);
-    const result = await modules.auth.signInWithCredential(auth, credential);
+    const result = await Promise.race([
+      modules.auth.signInWithCredential(auth, credential),
+      new Promise((_, reject) => setTimeout(
+        () => reject(new Error("Firebase 로그인 확인 시간이 초과되었습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.")),
+        15000
+      )),
+    ]);
     const loginId = result.user.email || result.user.uid;
     return sessionFromProfile(result.user, null, loginId, "google.com");
   }
