@@ -1248,8 +1248,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     </div>
 
     <script src="./assets/js/site-data.js?v=20260711-config"></script>
-    <script src="https://accounts.google.com/gsi/client"></script>
-    <script src="./assets/js/auth.js?v=20260814-google-token"></script>
+    <script src="./assets/js/auth.js?v=20260814-google-current-tab"></script>
     <script>
       const params = new URLSearchParams(location.search);
 
@@ -1309,6 +1308,35 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         clearCredentialAutofill();
         document.getElementById("googleLoginBtn")?.classList.add("show");
         await GaongilAuth.ensureSeedUsers({ fast: true });
+        const googleError = params.get("googleError");
+        if (googleError) {
+          msg.textContent = googleError;
+          msg.classList.add("show");
+          history.replaceState(null, "", location.pathname + (params.get("redirect") ? "?redirect=" + encodeURIComponent(params.get("redirect")) : ""));
+        }
+        const googleToken = sessionStorage.getItem("gaongil_google_access_token");
+        const returnedState = sessionStorage.getItem("gaongil_google_returned_state");
+        const expectedState = sessionStorage.getItem("gaongil_google_oauth_state");
+        if (googleToken) {
+          sessionStorage.removeItem("gaongil_google_access_token");
+          sessionStorage.removeItem("gaongil_google_returned_state");
+          sessionStorage.removeItem("gaongil_google_oauth_state");
+          if (!expectedState || returnedState !== expectedState) {
+            msg.textContent = "Google 로그인 상태 확인에 실패했습니다. 다시 시도해 주세요.";
+            msg.classList.add("show");
+          } else {
+            setLoginBusy(true, googleLoginBtn, "Google 로그인 확인 중...");
+            try {
+              const session = await GaongilAuth.loginWithGoogleAccessToken(googleToken);
+              location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
+              return;
+            } catch (err) {
+              msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
+              msg.classList.add("show");
+              setLoginBusy(false);
+            }
+          }
+        }
         if (GaongilAuth.isFirebaseEnabled?.()) {
           const resetPw = document.getElementById("resetPw");
           if (resetPw) {
@@ -1365,12 +1393,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           msg.classList.add("show");
           return;
         }
-        if (!window.google?.accounts?.oauth2) {
-          msg.textContent = "Google 로그인 모듈을 불러오지 못했습니다. 네트워크를 확인한 뒤 새로고침해 주세요.";
-          msg.classList.add("show");
-          return;
-        }
-        setLoginBusy(true, googleLoginBtn, "Google 계정 선택 중...");
+        setLoginBusy(true, googleLoginBtn, "Google 로그인으로 이동 중...");
         const clientId = GaongilAuth.getGoogleClientId?.();
         if (!clientId) {
           msg.textContent = "Google OAuth 클라이언트 설정을 찾지 못했습니다.";
@@ -1378,28 +1401,19 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           setLoginBusy(false);
           return;
         }
-        const tokenClient = google.accounts.oauth2.initTokenClient({
-          client_id: clientId,
-          scope: "openid email profile",
-          prompt: "select_account",
-          callback: async (tokenResponse) => {
-            try {
-              if (tokenResponse?.error) throw new Error(tokenResponse.error_description || tokenResponse.error);
-              const session = await GaongilAuth.loginWithGoogleAccessToken(tokenResponse?.access_token);
-              location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
-            } catch (err) {
-              msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
-              msg.classList.add("show");
-              setLoginBusy(false);
-            }
-          },
-          error_callback: (err) => {
-            msg.textContent = formatLoginError(err, "Google 로그인 창을 열지 못했습니다.");
-            msg.classList.add("show");
-            setLoginBusy(false);
-          },
-        });
-        tokenClient.requestAccessToken();
+        const stateBytes = new Uint8Array(24);
+        crypto.getRandomValues(stateBytes);
+        const state = Array.from(stateBytes, (value) => value.toString(16).padStart(2, "0")).join("");
+        sessionStorage.setItem("gaongil_google_oauth_state", state);
+        const oauth = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+        oauth.searchParams.set("client_id", clientId);
+        oauth.searchParams.set("redirect_uri", location.origin + "/__/auth/handler");
+        oauth.searchParams.set("response_type", "token");
+        oauth.searchParams.set("scope", "openid email profile");
+        oauth.searchParams.set("prompt", "select_account");
+        oauth.searchParams.set("include_granted_scopes", "true");
+        oauth.searchParams.set("state", state);
+        location.assign(oauth.toString());
       });
 
       document.getElementById("resetToggle").addEventListener("click", () => {
