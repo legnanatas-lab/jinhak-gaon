@@ -14,9 +14,8 @@ window.GAONGIL_FIREBASE_CONFIG = {
 
   firebaseConfig: {
     apiKey: "AIzaSyAhHt7Ck_ZSkLo2F_0i0NjQnj9MDUmX95E",
-    // Cloudflare Pages에서 Firebase 인증 보조 경로(/__/auth/*)를 중계합니다.
-    // 사이트와 동일한 도메인을 사용해야 Safari의 교차 사이트 저장소 차단을 피할 수 있습니다.
-    authDomain: "jinhak-materials.pages.dev",
+    // Firebase Authentication 보조 페이지는 Firebase Hosting 도메인에서 제공합니다.
+    authDomain: "gaonjinhak.firebaseapp.com",
     databaseURL: "https://gaonjinhak-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "gaonjinhak",
     storageBucket: "gaonjinhak.firebasestorage.app",
