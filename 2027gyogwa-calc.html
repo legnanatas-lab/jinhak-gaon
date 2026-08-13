@@ -53,6 +53,7 @@
   --ink: #e8edf5;
   --ink2: #b8c4d8;
   --muted: #8a96ae;
+  --text-muted: #8a96ae;
   --hint: #5a6680;
 
   --gold: #d4a83a;
@@ -710,6 +711,14 @@ header.hero-header {
   top: auto !important;
   box-shadow: 0 4px 32px rgba(0,0,0,0.4) !important;
 }
+
+/* 최신 ADIGA 220개 대학·캠퍼스 산식 결과 표: 가온길 다크 디자인 유지 */
+.uni-separator-row td{background:linear-gradient(90deg,#1d3556,#263f62)!important;color:#fff8e8!important;padding:12px 16px!important;border-color:#506989!important}
+.uni-name-badge{font-size:15px;font-weight:800;margin-right:10px}.uni-track-count{font-size:12px;color:#c8d6ee}
+.track-row td{vertical-align:top!important}.track-row:nth-child(even) td{background:rgba(20,35,58,.42)}
+.score-cell{color:#f0d278!important;font-size:15px;font-weight:800;text-align:right}.grade-cell,.avg-grade-cell{color:#e8edf5}.career-cell,.desc-cell{color:#b8c4d8;font-size:12.5px;line-height:1.65}.desc-cell a,.custom-table a{color:#f0d278;text-decoration:underline;font-weight:700}
+#subjTable{min-width:1240px}#subjTable td:nth-child(8){min-width:280px}#subjTable td:nth-child(8) input{min-width:0;padding:6px 5px;font-size:11px}
+@media (max-width:768px){#subjTable{min-width:1160px}.score-cell{text-align:left}}
 </style>
 </head>
 
@@ -723,9 +732,9 @@ header.hero-header {
     </div>
     <div class="hero-body">
       <h1>2027학년도 대학별 교과환산 내신 계산기</h1>
-      <p>전국 186개 4년제 대학의 2027학년도 수시 모집 교과 반영 공식 및 상위 과목/진로선택 산출 기준에 따른 나만의 대학별 내신 등급 변화를 실시간 분석합니다.</p>
+      <p>ADIGA 2027 공식 공개자료의 전국 220개 대학·캠퍼스 교과 반영 공식과 진로선택 산출 기준으로 나만의 대학별 내신을 분석합니다.</p>
       <div class="hero-stats">
-        <div class="stat-item"><b>186개</b><span>분석 대상 대학</span></div>
+        <div class="stat-item"><b>220개</b><span>분석 대상 대학·캠퍼스</span></div>
         <div class="stat-item"><b>2027</b><span>학년도 수시 전형</span></div>
         <div class="stat-item"><b>실시간</b><span>자동 환산 산출</span></div>
       </div>
@@ -754,7 +763,7 @@ header.hero-header {
         <div class="step-circle">2</div>
         <div>
           <div class="step-title">Step 2. 목표 대학 선택</div>
-          <div class="step-desc">전국 186개 대학 검색/빠른 선택</div>
+          <div class="step-desc">전국 220개 대학·캠퍼스 검색/빠른 선택</div>
         </div>
       </div>
       <div class="step-nav-item" onclick="scrollToSec('sec-step3')">
@@ -809,6 +818,7 @@ header.hero-header {
               <th style="width:160px">과목구분</th>
               <th style="width:85px">단위수</th>
               <th style="width:140px">성적 (등급/성취도)</th>
+              <th style="width:290px">세부 성적 <small>(원점수·평균·표준편차/비율)</small></th>
               <th style="width:50px; text-align:center;">삭제</th>
             </tr>
           </thead>
@@ -851,7 +861,7 @@ header.hero-header {
         <button class="q-chip-btn" onclick="selectGroup('top10')">🏆 주요 10개 대학</button>
         <button class="q-chip-btn" onclick="selectGroup('seoul')">🏢 서울/수도권 주요 대학</button>
         <button class="q-chip-btn" onclick="selectGroup('national')">🏛️ 거점 국공립 대학</button>
-        <button class="q-chip-btn" onclick="selectAllUnis()">🌐 186개 전체 대학</button>
+        <button class="q-chip-btn" onclick="selectAllUnis()">🌐 220개 전체 대학·캠퍼스</button>
         <button class="q-chip-btn" style="background:var(--crimson-bg); border-color:rgba(242,114,114,0.3); color:var(--crimson);" onclick="clearSelectedUnis()">✕ 선택 초기화</button>
       </div>
 
@@ -870,25 +880,26 @@ header.hero-header {
 
       <div style="margin-bottom: 20px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
         <button class="btn-item btn-primary btn-lg" onclick="calculateAll()" style="padding:14px 32px; font-size:16px; background:linear-gradient(135deg,#1e4a86,#2460a0); box-shadow:0 6px 20px rgba(30,74,134,0.4);">⚡ 대학별 환산 등급 계산하기</button>
-        <button class="btn-item btn-outline btn-lg" onclick="printResultsReport()">🖨️ 인쇄 / PDF</button>
+        <button class="btn-item btn-outline btn-lg" onclick="window.print()">🖨️ 인쇄 / PDF</button>
       </div>
 
       <div class="data-table-wrap">
         <table class="custom-table">
           <thead>
             <tr>
-              <th style="width:65px; text-align:center;">순위</th>
-              <th style="width:150px;">대학명</th>
-              <th>2027 반영 기준 & 상위과목 / 진로선택 반영 수식</th>
-              <th style="width:200px;">대학별 내신 환산 등급 (변화량)</th>
-              <th style="width:150px; text-align:right;">대학 환산 점수</th>
-              <th style="width:100px; text-align:center;">세부 근거</th>
+              <th style="width:190px;">전형명 (계열)</th>
+              <th style="width:110px; text-align:right;">환산점수</th>
+              <th style="width:120px;">산출 상태</th>
+              <th style="width:90px;">최고점</th>
+              <th style="width:100px;">비교등급</th>
+              <th style="width:190px;">진로선택 반영</th>
+              <th>반영 과목·공식 근거</th>
             </tr>
           </thead>
           <tbody id="resultTbody">
             <tr>
-              <td colspan="6" style="text-align:center; padding: 36px; color: var(--muted);">
-                상단의 '⚡ 대학별 환산 등급 계산하기' 버튼을 클릭하면 대학별 내신 등급 변화(예: 4.2 ➔ 3.7)와 세부 산출 과목 내역이 표시됩니다.
+              <td colspan="7" style="text-align:center; padding: 36px; color: var(--muted);">
+                상단의 '⚡ 대학별 환산 등급 계산하기' 버튼을 클릭하면 ADIGA 공식 기준에 따른 대학·전형별 산출 결과와 반영 근거가 표시됩니다.
               </td>
             </tr>
           </tbody>
@@ -911,10 +922,9 @@ header.hero-header {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="./assets/js/2027-gyogwa-universities.js?v=20260808-verified"></script>
-<script src="./assets/js/2027-gyogwa-calculator.js?v=20260808-verified"></script>
-<script src="./assets/js/2027-gyogwa-print.js?v=20260808"></script>
+<script src="./assets/js/2027-adiga-rules.js?v=20260813-adiga220"></script>
+<script src="./assets/js/2027-adiga-manual-rules.js?v=20260813-adiga220"></script>
+<script src="./assets/js/2027-gyogwa-calculator.js?v=20260813-adiga220"></script>
 
 <script src="./portal-menu-v2.js?v=20260721b"></script>
 <script src="assets/js/auth.js?v=20260713-firebase-google"></script>
