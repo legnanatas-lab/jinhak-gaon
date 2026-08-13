@@ -71,7 +71,17 @@ function updateDashboard() {
 }
 
 function initUniversityDatalist() { document.getElementById('uniDatalist').innerHTML = ADIGA_2027_UNIVERSITIES.map(u=>`<option value="${esc(u.name)}"></option>`).join(''); }
-function findUni(name) { const q=String(name||'').trim(); return ADIGA_2027_UNIVERSITIES.find(u=>u.name===q) || ADIGA_2027_UNIVERSITIES.find(u=>u.name.replace(/\[.*?\]/g,'').includes(q)); }
+function findUni(name) {
+  const q=String(name||'').trim();
+  if(!q) return null;
+  const withoutCampus=name=>String(name||'').replace(/\[[^\]]*\]/g,'').trim();
+  // 본교와 분교가 함께 있는 대학은 캠퍼스 표기만 제거한 정확한 이름을 먼저 찾는다.
+  // 예: “연세대학교” 검색 시 “연세대학교(미래)”보다 “연세대학교[본교]”를 우선 선택한다.
+  return ADIGA_2027_UNIVERSITIES.find(u=>u.name===q)
+    || ADIGA_2027_UNIVERSITIES.find(u=>withoutCampus(u.name)===q)
+    || ADIGA_2027_UNIVERSITIES.find(u=>u.name.includes(q)&&/\[본교\]/.test(u.name))
+    || ADIGA_2027_UNIVERSITIES.find(u=>withoutCampus(u.name).includes(q));
+}
 function selectUniFromSearch() { const e=document.getElementById('uniSearchInput'); const u=findUni(e.value); if(!u) return alert('대학명을 목록에서 선택해 주세요.'); selectedUniNames.add(u.name); e.value=''; renderSelectedUnisBar(); calculateAll(); }
 function addFirstMatching(names) { names.forEach(x=>{const u=findUni(x);if(u)selectedUniNames.add(u.name);}); renderSelectedUnisBar(); calculateAll(); }
 function selectGroup(k) { const group={top10:['서울대학교','연세대학교','고려대학교','성균관대학교','서강대학교','한양대학교','중앙대학교','경희대학교','이화여자대학교','한국외국어대학교'],seoul:['서울시립대학교','건국대학교','동국대학교','홍익대학교','숙명여자대학교','숭실대학교','국민대학교','광운대학교','서울과학기술대학교'],national:['경북대학교','부산대학교','전남대학교','전북대학교','충남대학교','충북대학교','강원대학교','제주대학교','경상국립대학교']}; addFirstMatching(group[k]||[]); }
