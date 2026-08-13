@@ -717,8 +717,14 @@ header.hero-header {
 .uni-name-badge{font-size:15px;font-weight:800;margin-right:10px}.uni-track-count{font-size:12px;color:#c8d6ee}
 .track-row td{vertical-align:top!important}.track-row:nth-child(even) td{background:rgba(20,35,58,.42)}
 .score-cell{color:#f0d278!important;font-size:15px;font-weight:800;text-align:right}.grade-cell,.avg-grade-cell{color:#e8edf5}.career-cell,.desc-cell{color:#b8c4d8;font-size:12.5px;line-height:1.65}.desc-cell a,.custom-table a{color:#f0d278;text-decoration:underline;font-weight:700}
-#subjTable{min-width:1240px}#subjTable td:nth-child(8){min-width:280px}#subjTable td:nth-child(8) input{min-width:0;padding:6px 5px;font-size:11px}
-@media (max-width:768px){#subjTable{min-width:1160px}.score-cell{text-align:left}}
+/* 성적표는 데스크톱에서 가로 스크롤 없이 삭제 버튼까지 한 화면에 표시 */
+#subjTable{width:100%;min-width:0;table-layout:fixed;font-size:13px}
+#subjTable th,#subjTable td{padding:9px 6px}#subjTable th{font-size:12px;letter-spacing:0}
+#subjTable td:nth-child(4) input{padding-left:8px;padding-right:8px}
+#subjTable td:nth-child(8){min-width:0}.subject-detail-inputs{display:flex;gap:3px;min-width:0}
+.subject-detail-inputs input{min-width:0!important;width:0!important;flex:1 1 0;padding:6px 4px!important;font-size:11px!important;text-align:center}
+#subjTable td:last-child{text-align:center}#subjTable th small{font-size:10.5px;color:#b8c4d8;font-weight:600}
+@media (max-width:1000px){#subjTable{min-width:960px}.score-cell{text-align:left}}
 </style>
 </head>
 
@@ -809,6 +815,11 @@ header.hero-header {
 
       <div class="data-table-wrap">
         <table class="custom-table" id="subjTable">
+          <colgroup>
+            <col style="width:6%"><col style="width:6%"><col style="width:10%">
+            <col style="width:14%"><col style="width:13%"><col style="width:6%">
+            <col style="width:11%"><col style="width:28%"><col style="width:6%">
+          </colgroup>
           <thead>
             <tr>
               <th style="width:80px">학년</th>
