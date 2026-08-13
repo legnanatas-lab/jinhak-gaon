@@ -14,9 +14,7 @@ window.GAONGIL_FIREBASE_CONFIG = {
 
   firebaseConfig: {
     apiKey: "AIzaSyAhHt7Ck_ZSkLo2F_0i0NjQnj9MDUmX95E",
-    // Cloudflare Pages가 /__/auth/*를 Firebase Hosting으로 프록시합니다.
-    // 로그인 보조 페이지를 같은 도메인에서 열어 Safari의 교차 사이트 저장소 제한을 피합니다.
-    authDomain: "jinhak-materials.pages.dev",
+    authDomain: "gaonjinhak.firebaseapp.com",
     databaseURL: "https://gaonjinhak-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "gaonjinhak",
     storageBucket: "gaonjinhak.firebasestorage.app",
@@ -28,6 +26,7 @@ window.GAONGIL_FIREBASE_CONFIG = {
   // 일반 사용자는 이메일/비밀번호 또는 Google로 로그인할 수 있습니다.
   // 관리자 권한은 아래 이메일이 Google로 로그인했을 때만 부여합니다.
   adminEmails: ["legnanatas@jbnu.ac.kr"],
+  googleClientId: "669171741311-49oq7a5gvnbenbhq10d9ephntc5ka34i.apps.googleusercontent.com",
   // 교사 아이디를 teacher1처럼 입력받고 싶다면 loginDomain을 설정하면 teacher1@도메인으로 로그인합니다.
   loginDomain: "gaonjinhak.com",
   loginAliases: {},

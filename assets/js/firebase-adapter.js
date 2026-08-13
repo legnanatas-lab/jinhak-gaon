@@ -165,6 +165,18 @@
     return sessionFromProfile(credential.user, null, loginId, "google.com");
   }
 
+  // Google Identity Services에서 받은 OAuth access token으로 Firebase에 로그인한다.
+  // Firebase의 /__/auth/handler 팝업을 사용하지 않아 Safari의 빈 창 문제를 피한다.
+  async function loginWithGoogleAccessToken(accessToken) {
+    await init();
+    const token = String(accessToken || "").trim();
+    if (!token) throw new Error("Google 인증 토큰을 받지 못했습니다.");
+    const credential = modules.auth.GoogleAuthProvider.credential(null, token);
+    const result = await modules.auth.signInWithCredential(auth, credential);
+    const loginId = result.user.email || result.user.uid;
+    return sessionFromProfile(result.user, null, loginId, "google.com");
+  }
+
   // Safari와 팝업 차단 환경에서도 동작하도록 Google 인증은 리디렉션 방식으로 시작한다.
   async function startGoogleLogin() {
     await init();
@@ -300,6 +312,7 @@
     init,
     login,
     loginWithGoogle,
+    loginWithGoogleAccessToken,
     startGoogleLogin,
     completeGoogleRedirect,
     logout,

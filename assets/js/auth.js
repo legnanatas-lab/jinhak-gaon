@@ -742,6 +742,19 @@
     return fbSession;
   }
 
+  async function loginWithGoogleAccessToken(accessToken) {
+    if (!firebaseEnabled() || !firebaseAdapter()?.loginWithGoogleAccessToken) {
+      throw new Error("Google 로그인은 Firebase 연결 후 사용할 수 있습니다.");
+    }
+    const fbSession = await firebaseAdapter().loginWithGoogleAccessToken(accessToken);
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
+    return fbSession;
+  }
+
+  function getGoogleClientId() {
+    return String(firebaseConfig().googleClientId || "").trim();
+  }
+
   async function startGoogleLogin() {
     if (!firebaseEnabled() || !firebaseAdapter()?.startGoogleLogin) {
       throw new Error("Google 로그인은 Firebase 연결 후 사용할 수 있습니다.");
@@ -978,6 +991,8 @@
     resetPasswordByEmail,
     login,
     loginWithGoogle,
+    loginWithGoogleAccessToken,
+    getGoogleClientId,
     startGoogleLogin,
     completeGoogleRedirect,
     logout,

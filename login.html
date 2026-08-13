@@ -1248,7 +1248,8 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     </div>
 
     <script src="./assets/js/site-data.js?v=20260711-config"></script>
-    <script src="./assets/js/auth.js?v=20260813-google-redirect"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <script src="./assets/js/auth.js?v=20260814-google-token"></script>
     <script>
       const params = new URLSearchParams(location.search);
 
@@ -1359,22 +1360,46 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
 
       googleLoginBtn.addEventListener("click", async () => {
         msg.classList.remove("show");
-        // 인증 보조 페이지는 Cloudflare Pages의 같은 도메인(/__/auth/*)으로 제공된다.
-        // 따라서 직접 클릭으로 연 팝업을 사용하면 리디렉션 대기 상태 없이 결과를 즉시 받을 수 있다.
-        if (!GaongilAuth.loginWithGoogle) {
+        if (!GaongilAuth.loginWithGoogleAccessToken) {
           msg.textContent = "Google 로그인 기능을 준비하지 못했습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.";
           msg.classList.add("show");
           return;
         }
-        setLoginBusy(true, googleLoginBtn, "Google 로그인 창을 여는 중...");
-        try {
-          const session = await GaongilAuth.loginWithGoogle();
-          location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
-        } catch (err) {
-          msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
+        if (!window.google?.accounts?.oauth2) {
+          msg.textContent = "Google 로그인 모듈을 불러오지 못했습니다. 네트워크를 확인한 뒤 새로고침해 주세요.";
+          msg.classList.add("show");
+          return;
+        }
+        setLoginBusy(true, googleLoginBtn, "Google 계정 선택 중...");
+        const clientId = GaongilAuth.getGoogleClientId?.();
+        if (!clientId) {
+          msg.textContent = "Google OAuth 클라이언트 설정을 찾지 못했습니다.";
           msg.classList.add("show");
           setLoginBusy(false);
+          return;
         }
+        const tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: "openid email profile",
+          prompt: "select_account",
+          callback: async (tokenResponse) => {
+            try {
+              if (tokenResponse?.error) throw new Error(tokenResponse.error_description || tokenResponse.error);
+              const session = await GaongilAuth.loginWithGoogleAccessToken(tokenResponse?.access_token);
+              location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
+            } catch (err) {
+              msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
+              msg.classList.add("show");
+              setLoginBusy(false);
+            }
+          },
+          error_callback: (err) => {
+            msg.textContent = formatLoginError(err, "Google 로그인 창을 열지 못했습니다.");
+            msg.classList.add("show");
+            setLoginBusy(false);
+          },
+        });
+        tokenClient.requestAccessToken();
       });
 
       document.getElementById("resetToggle").addEventListener("click", () => {
