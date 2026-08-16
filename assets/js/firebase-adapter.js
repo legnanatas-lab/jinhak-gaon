@@ -86,20 +86,8 @@
         import(sdkUrl("storage")),
       ]);
       modules = { app: appMod, auth: authMod, firestore: firestoreMod, storage: storageMod };
-      const name = "gaongil";
-      app = appMod.getApps().find((item) => item.name === name) || appMod.initializeApp(firebaseConfig(), name);
-      // Google 로그인은 현재 탭 OAuth 토큰으로 처리한다. Firebase의 기본 getAuth()는
-      // 팝업/리디렉션 resolver iframe까지 초기화해 일부 macOS 브라우저에서 빈 창 또는
-      // 무한 대기를 만들 수 있으므로, 세션 persistence만 사용하는 Auth로 초기화한다.
-      try {
-        auth = authMod.initializeAuth(app, {
-          persistence: authMod.browserSessionPersistence,
-        });
-      } catch (error) {
-        // 같은 앱에서 Auth가 먼저 초기화된 경우에만 기존 인스턴스를 재사용한다.
-        if (String(error?.code || "") !== "auth/already-initialized") throw error;
-        auth = authMod.getAuth(app);
-      }
+      app = appMod.getApps().length > 0 ? appMod.getApp() : appMod.initializeApp(firebaseConfig());
+      auth = authMod.getAuth(app);
       db = firestoreMod.getFirestore(app);
       storage = storageMod.getStorage(app);
       return { app, auth, db, storage, modules };
@@ -114,8 +102,9 @@
     const aliasKey = Object.keys(aliases).find((key) => key.toLowerCase() === raw.toLowerCase());
     if (aliasKey && aliases[aliasKey]) return normalizedEmail(aliases[aliasKey]);
     if (raw.includes("@")) return normalizedEmail(raw);
-    const domain = String(config().loginDomain || "gaonjinhak.com").trim().replace(/^@/, "");
-    return `${raw}@${domain || "gaonjinhak.com"}`.toLowerCase();
+    const domain = String(config().loginDomain || "").trim().replace(/^@/, "");
+    if (domain) return `${raw}@${domain}`.toLowerCase();
+    throw new Error("Firebase 로그인에는 이메일 주소가 필요합니다.");
   }
 
   function sessionFromProfile(user, profile, loginId, signInProvider) {
@@ -174,24 +163,6 @@
     // 로그인 직후 Firestore 프로필을 여러 번 조회하면 네트워크가 느릴 때 수십 초가 걸린다.
     // 관리자 판별은 승인된 Google 이메일만으로 충분하며, 프로필 동기화는 관리자 화면에서 백그라운드로 수행한다.
     return sessionFromProfile(credential.user, null, loginId, "google.com");
-  }
-
-  // Google Identity Services에서 받은 OAuth access token으로 Firebase에 로그인한다.
-  // Firebase의 /__/auth/handler 팝업을 사용하지 않아 Safari의 빈 창 문제를 피한다.
-  async function loginWithGoogleAccessToken(accessToken) {
-    await init();
-    const token = String(accessToken || "").trim();
-    if (!token) throw new Error("Google 인증 토큰을 받지 못했습니다.");
-    const credential = modules.auth.GoogleAuthProvider.credential(null, token);
-    const result = await Promise.race([
-      modules.auth.signInWithCredential(auth, credential),
-      new Promise((_, reject) => setTimeout(
-        () => reject(new Error("Firebase 로그인 확인 시간이 초과되었습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.")),
-        15000
-      )),
-    ]);
-    const loginId = result.user.email || result.user.uid;
-    return sessionFromProfile(result.user, null, loginId, "google.com");
   }
 
   // Safari와 팝업 차단 환경에서도 동작하도록 Google 인증은 리디렉션 방식으로 시작한다.
@@ -289,17 +260,15 @@
     await init();
     const id = String(profile?.uid || profile?.id || "").trim();
     if (!id) throw new Error("사용자 프로필에는 id 또는 uid가 필요합니다.");
-    const data = {
-      id: profile.id || id,
-      name: profile.name || profile.id || id,
-      email: String(profile.email || "").trim().toLowerCase(),
-      role: profile.role || "staff",
-      updatedAt: modules.firestore.serverTimestamp(),
-    };
-    if (profile.pwHash) data.pwHash = profile.pwHash;
     await modules.firestore.setDoc(
       userDocRef(modules.firestore, id),
-      data,
+      {
+        id: profile.id || id,
+        name: profile.name || profile.id || id,
+        email: String(profile.email || "").trim().toLowerCase(),
+        role: profile.role || "staff",
+        updatedAt: modules.firestore.serverTimestamp(),
+      },
       { merge: true }
     );
     return true;
@@ -329,7 +298,6 @@
     init,
     login,
     loginWithGoogle,
-    loginWithGoogleAccessToken,
     startGoogleLogin,
     completeGoogleRedirect,
     logout,
