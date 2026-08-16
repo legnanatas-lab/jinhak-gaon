@@ -76,6 +76,9 @@
         if (site && typeof site === "object") {
           remoteSiteConfigCache = site;
           global.GAONGIL_REMOTE_SITE_CONFIG = site;
+          if (Array.isArray(site.users) && site.users.length > 0) {
+            remoteUsersCache = site.users;
+          }
         }
         const fbSession = await adapter.getCurrentSession().catch(() => null);
         if (fbSession) {
@@ -599,6 +602,23 @@
     return getUsers().find((u) => normalizeId(u.id) === target);
   }
 
+  async function syncUsersToFirebaseSiteConfig(users) {
+    if (!firebaseEnabled() || !firebaseAdapter()?.saveSiteConfig) return;
+    try {
+      const list = (users || getUsers() || []).map((u) => ({
+        id: normalizeId(u.id),
+        name: u.name || u.id,
+        email: normalizeEmail(u.email),
+        role: u.role || "staff",
+        pwHash: u.pwHash || "",
+        createdAt: u.createdAt || Date.now(),
+      }));
+      await firebaseAdapter().saveSiteConfig({ users: list });
+    } catch (e) {
+      console.warn("[GaongilFirebase] Firestore siteConfig users sync warning:", e);
+    }
+  }
+
   async function addUser({ id, name, email, role, password }) {
     const users = getUsers();
     id = normalizeId(id);
@@ -606,11 +626,15 @@
       throw new Error("이미 존재하는 아이디입니다.");
     }
     const pwHash = await sha256(password);
-    users.push({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash, createdAt: Date.now() });
+    const newUser = { id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash, createdAt: Date.now() };
+    users.push(newUser);
     saveUsers(users);
-    if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash }).catch(() => null);
-      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+    if (firebaseEnabled()) {
+      if (firebaseAdapter()?.saveUserProfile) {
+        await firebaseAdapter().saveUserProfile(newUser).catch(() => null);
+        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      }
+      await syncUsersToFirebaseSiteConfig(users);
     }
     return true;
   }
@@ -623,9 +647,12 @@
     if (target?.role === "admin" && adminCount <= 1) throw new Error("마지막 관리자 계정은 삭제할 수 없습니다.");
     users = users.filter((u) => normalizeId(u.id) !== normalizedId);
     saveUsers(users);
-    if (firebaseEnabled() && firebaseAdapter()?.removeUserProfile) {
-      await firebaseAdapter().removeUserProfile(id).catch(() => null);
-      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+    if (firebaseEnabled()) {
+      if (firebaseAdapter()?.removeUserProfile) {
+        await firebaseAdapter().removeUserProfile(id).catch(() => null);
+        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      }
+      await syncUsersToFirebaseSiteConfig(users);
     }
   }
 
@@ -635,9 +662,12 @@
     if (!u) throw new Error("사용자를 찾을 수 없습니다.");
     u.role = role;
     saveUsers(users);
-    if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      await firebaseAdapter().saveUserProfile({ ...u, role }).catch(() => null);
-      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+    if (firebaseEnabled()) {
+      if (firebaseAdapter()?.saveUserProfile) {
+        await firebaseAdapter().saveUserProfile({ ...u, role }).catch(() => null);
+        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      }
+      await syncUsersToFirebaseSiteConfig(users);
     }
   }
 
@@ -647,9 +677,12 @@
     if (!u) throw new Error("사용자를 찾을 수 없습니다.");
     u.email = normalizeEmail(email);
     saveUsers(users);
-    if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) }).catch(() => null);
-      remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+    if (firebaseEnabled()) {
+      if (firebaseAdapter()?.saveUserProfile) {
+        await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) }).catch(() => null);
+        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+      }
+      await syncUsersToFirebaseSiteConfig(users);
     }
   }
 
@@ -659,6 +692,9 @@
     if (!u) throw new Error("사용자를 찾을 수 없습니다.");
     u.pwHash = await sha256(newPassword);
     saveUsers(users);
+    if (firebaseEnabled()) {
+      await syncUsersToFirebaseSiteConfig(users);
+    }
   }
 
   async function resetPasswordByEmail(id, email, newPassword) {
@@ -686,6 +722,7 @@
     const normalizedId = normalizeId(id);
     if (firebaseEnabled()) {
       try {
+        await refreshFirebaseCaches();
         const fbSession = await firebaseAdapter().login(normalizedId, password);
         sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
         return fbSession;
