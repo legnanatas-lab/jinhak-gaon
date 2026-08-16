@@ -136,11 +136,33 @@
       const raw = localStorage.getItem(USERS_KEY);
       if (raw) local = JSON.parse(raw);
     } catch (e) {}
-    const configUsers = siteConfig().users || [];
-    if (!local || !Array.isArray(local)) return configUsers;
+    // site-data.js 에 내장된 시드 사용자 (pwHash 포함)
+    const seedUsers = (global.GAONGIL_SITE_DATA && Array.isArray(global.GAONGIL_SITE_DATA.users))
+      ? global.GAONGIL_SITE_DATA.users
+      : [];
+    // published siteConfig 사용자
+    const configUsers = (global.GAONGIL_SITE_CONFIG && Array.isArray(global.GAONGIL_SITE_CONFIG.users))
+      ? global.GAONGIL_SITE_CONFIG.users
+      : [];
+    // Firestore remote 사용자 (pwHash 없을 수 있음)
+    const remoteUsers = (remoteSiteConfigCache && Array.isArray(remoteSiteConfigCache.users))
+      ? remoteSiteConfigCache.users
+      : [];
+    // 머지 순서: seed → published → remote → localStorage
+    // 뒤쪽이 앞쪽을 덮어쓰되, pwHash는 앞쪽 값을 보호
     const map = new Map();
-    configUsers.forEach((u) => { if (u && u.id) map.set(normalizeId(u.id), u); });
-    local.forEach((u) => { if (u && u.id) map.set(normalizeId(u.id), u); });
+    const mergeInto = (arr) => {
+      arr.forEach((u) => {
+        if (!u || !u.id) return;
+        const nid = normalizeId(u.id);
+        const existing = map.get(nid);
+        map.set(nid, { ...existing, ...u, pwHash: u.pwHash || existing?.pwHash || "" });
+      });
+    };
+    mergeInto(seedUsers);
+    mergeInto(configUsers);
+    mergeInto(remoteUsers);
+    if (Array.isArray(local)) mergeInto(local);
     return Array.from(map.values());
   }
 
@@ -581,20 +603,8 @@
   }
 
   function getUsers() {
-    const localAndConfig = loadUsers() || [];
-    if (firebaseEnabled() && Array.isArray(remoteUsersCache) && remoteUsersCache.length > 0) {
-      const map = new Map();
-      localAndConfig.forEach((u) => { if (u && u.id) map.set(normalizeId(u.id), u); });
-      remoteUsersCache.forEach((u) => {
-        if (u && u.id) {
-          const nid = normalizeId(u.id);
-          const existing = map.get(nid);
-          map.set(nid, { ...existing, ...u, pwHash: existing?.pwHash || u.pwHash });
-        }
-      });
-      return Array.from(map.values());
-    }
-    return localAndConfig;
+    // loadUsers() 이미 모든 소스(seed/published/remote/local) 를 pwHash 보존하며 머지함
+    return loadUsers() || [];
   }
 
   function findUser(id) {
