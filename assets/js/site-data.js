@@ -2388,20 +2388,7 @@ window.GAONGIL_SITE_CONFIG = {
       "email": "teacher@example.com",
       "role": "staff",
       "pwHash": "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0"
-    },
-    {
-      "id": "te1",
-      "name": "te1",
-      "email": "teacher@example.com",
-      "role": "staff",
-      "pwHash": "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0"
-    },
-    {
-      "id": "t1",
-      "name": "t1",
-      "email": "teacher@example.com",
-      "role": "staff",
-      "pwHash": "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0"
     }
   ]
 };
+
