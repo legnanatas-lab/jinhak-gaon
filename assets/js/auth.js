@@ -720,27 +720,50 @@
 
   async function login(id, password) {
     const normalizedId = normalizeId(id);
+
+    // --- 1) 먼저 siteConfig/seed 등록 교사 계정 해시 대조 시도 ---
+    // Firebase Auth는 이메일 기반이므로, 교사 ID(dell, math 등)는
+    // loginDomain이 없으면 이메일 변환이 안 돼서 Firebase Auth 자체가 에러를 던짐.
+    // 따라서 등록 교사 계정은 Firebase Auth를 거치지 않고 pwHash로 먼저 처리함.
     if (firebaseEnabled()) {
       try {
         await refreshFirebaseCaches();
+      } catch (e) {
+        console.warn("[GaongilAuth] refreshFirebaseCaches 실패, 로컬 데이터로 진행합니다.", e);
+      }
+    }
+    await ensureSeedUsers();
+    const localUser = findUser(normalizedId);
+    if (localUser && localUser.pwHash) {
+      const hash = await sha256(password);
+      if (localUser.pwHash === hash) {
+        const session = { id: localUser.id, name: localUser.name || localUser.id, role: localUser.role || "staff", ts: Date.now() };
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+        return session;
+      }
+      // pwHash가 있지만 일치하지 않으면 비밀번호 틀린 것
+      throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
+    }
+
+    // --- 2) 등록된 교사 계정이 아니면 Firebase Auth 시도 (Google 관리자 등) ---
+    if (firebaseEnabled()) {
+      try {
         const fbSession = await firebaseAdapter().login(normalizedId, password);
         sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
         return fbSession;
       } catch (err) {
-        console.warn("[GaongilFirebase] Firebase Auth 로그인 실패 후 등록 교사 계정 대조로 전환합니다.", err);
+        console.warn("[GaongilFirebase] Firebase Auth 로그인도 실패했습니다.", err);
       }
     }
-    await ensureSeedUsers();
-    const u = findUser(normalizedId);
-    if (!u) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
-    const hash = await sha256(password);
-    const default0000Hash = "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0";
-    if (u.pwHash && u.pwHash !== hash && hash !== default0000Hash) {
-      throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
+
+    // --- 3) pwHash 없는 등록 계정 허용 (임시 비밀번호 없이 추가된 계정) ---
+    if (localUser) {
+      const session = { id: localUser.id, name: localUser.name || localUser.id, role: localUser.role || "staff", ts: Date.now() };
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+      return session;
     }
-    const session = { id: u.id, name: u.name || u.id, role: u.role || "staff", ts: Date.now() };
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    return session;
+
+    throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
   }
 
   async function loginWithGoogle() {
