@@ -1224,10 +1224,10 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       </div>
     </div>
 
-    <script src="./assets/js/site-data.js?v=20260816-02"></script>
-    <script src="./assets/js/firebase-config.js?v=20260816-02"></script>
-    <script src="./assets/js/firebase-adapter.js?v=20260816-02"></script>
-    <script src="./assets/js/auth.js?v=20260816-02"></script>
+    <script src="./assets/js/site-data.js?v=20260816-03"></script>
+    <script src="./assets/js/firebase-config.js?v=20260816-03"></script>
+    <script src="./assets/js/firebase-adapter.js?v=20260816-03"></script>
+    <script src="./assets/js/auth.js?v=20260816-03"></script>
     <script>
       const params = new URLSearchParams(location.search);
 
@@ -1286,8 +1286,16 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       (async () => {
         clearCredentialAutofill();
         document.getElementById("googleLoginBtn")?.classList.add("show");
-        await GaongilAuth.ensureSeedUsers({ fast: true });
         if (GaongilAuth.isFirebaseEnabled?.()) {
+          try {
+            const redirectSession = await GaongilAuth.completeGoogleRedirect();
+            if (redirectSession) {
+              location.href = !params.get("redirect") && redirectSession?.role === "admin" ? "./admin.html" : redirect;
+              return;
+            }
+          } catch (e) {
+            console.warn("[GaongilAuth] Google 리디렉션 세션 복원 실패:", e);
+          }
           const resetPw = document.getElementById("resetPw");
           if (resetPw) {
             resetPw.required = false;
@@ -1298,6 +1306,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
           const resetNote = document.querySelector(".reset-note");
           if (resetNote) resetNote.textContent = "Firebase Authentication에 등록된 이메일로 비밀번호 재설정 메일을 보냅니다.";
         }
+        await GaongilAuth.ensureSeedUsers({ fast: true });
         if (GaongilAuth.getSession()) location.href = redirect;
       })();
 
@@ -1338,14 +1347,23 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
 
       googleLoginBtn.addEventListener("click", async () => {
         msg.classList.remove("show");
-        setLoginBusy(true, googleLoginBtn, "Google 로그인 창을 여는 중...");
+        setLoginBusy(true, googleLoginBtn, "Google 로그인 연결 중...");
         try {
-          const session = await GaongilAuth.loginWithGoogle();
-          location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
+          const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+          if (isMobile) {
+            await GaongilAuth.startGoogleLogin();
+            return;
+          }
+          try {
+            const session = await GaongilAuth.loginWithGoogle();
+            location.href = !params.get("redirect") && session?.role === "admin" ? "./admin.html" : redirect;
+          } catch (popupErr) {
+            console.warn("[GaongilAuth] 팝업 실패, 리디렉션으로 전환합니다.", popupErr);
+            await GaongilAuth.startGoogleLogin();
+          }
         } catch (err) {
           msg.textContent = formatLoginError(err, "Google 로그인에 실패했습니다.");
           msg.classList.add("show");
-        } finally {
           setLoginBusy(false);
         }
       });
