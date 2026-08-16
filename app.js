@@ -67,8 +67,6 @@ const RESOURCE_LINKS_2027 = [
   { key: "cheomdan", label: "계약·첨단학과", href: "./2027cheomdan.html" },
   { key: "medi", label: "지역의사", href: "./2027medi.html" },
   { key: "yeche", label: "예체능 비실기", href: "./2027yeche.html" },
-  { key: "ged2027", label: "검정고시 대학반영", href: "./2027ged.html" },
-  { key: "procollege2027", label: "2027 전문대 수시상담", href: "./2027procollege.html" },
   { key: "specialized", label: "특성화고 기준학과", href: "./2027-specialized-highschool-standards.html" },
   { key: "procollege6", label: "전문대 간호·보건", href: "./procollege6.html" },
   { key: "prelearning", label: "선행학습 보고서", href: "./2026prelearning-report.html" },
@@ -583,14 +581,9 @@ function toggleSet(set, value, checked) {
 function handleTabClick(event) {
   const saveToggle = event.target.closest("[data-save-id]");
   if (saveToggle) {
-    event.stopPropagation();   // 행 클릭 이벤트와 분리
-    const id = String(saveToggle.dataset.saveId);
-    if (saveToggle.checked) {
-      state.savedIds.add(id);
-    } else {
-      state.savedIds.delete(id);
-    }
-    // 체크박스 클릭 시 해당 행도 포커스(선택) 처리
+    const id = saveToggle.dataset.saveId;
+    if (saveToggle.checked) state.savedIds.add(id);
+    else state.savedIds.delete(id);
     state.selectedId = id;
     renderDynamic();
     focusRow(id);
@@ -778,7 +771,9 @@ function studentValue(key) {
 function reportGradeRows(record) {
   return YEARS.map((year) => {
     const data = yearData(record, year) || {};
-    const fillRate = data.fillRate == null ? "–" : `${Math.round(Number(data.fillRate) * 100)}%`;
+    const rawFill = data.fillRate;
+    const fillVal = rawFill == null ? null : (rawFill <= 1 ? rawFill * 100 : rawFill);
+    const fillRate = fillVal == null ? "–" : `${formatNumber(fillVal, 0)}%`;
     return `
       <tr>
         <td>${year}</td>
@@ -815,8 +810,6 @@ function printSavedReport() {
       <p class="meta">${escapeHtml(record.region)} · ${escapeHtml(record.track)} · ${escapeHtml(record.program)}</p>
       <h3 class="report-subtitle">2027 모집정보</h3>
       ${reportPlanRows(record)}
-      <h3 class="report-subtitle">2027 대학별 고사 일정</h3>
-      ${reportExamRows(record)}
       <h3 class="report-subtitle">입결 컷·경쟁 3개년</h3>
       <table>
         <thead><tr><th>연도</th><th>70%컷</th><th>50%컷</th><th>모집</th><th>경쟁률</th><th>충원율</th></tr></thead>
@@ -1047,13 +1040,11 @@ function renderResults(records) {
 }
 
 function renderResultRow(record) {
-  const isSaved   = state.savedIds.has(String(record.id));
-  const selected  = String(record.id) === String(state.selectedId) ? "selected" : "";
-  const rowSaved  = isSaved ? "row-saved" : "";
-  const checked   = isSaved ? "checked" : "";
+  const selected = String(record.id) === String(state.selectedId) ? "selected" : "";
+  const checked = state.savedIds.has(String(record.id)) ? "checked" : "";
   const ariaLabel = `${record.university} ${record.major}, 2026 70%컷 ${formatGrade(metricValue(record, 2026, "grade70"))}`;
   return `
-    <tr class="${selected} ${rowSaved}" data-id="${record.id}" tabindex="0" role="button" aria-pressed="${selected ? "true" : "false"}" aria-label="${escapeAttr(ariaLabel)}">
+    <tr class="${selected}" data-id="${record.id}" tabindex="0" role="button" aria-pressed="${selected ? "true" : "false"}" aria-label="${escapeAttr(ariaLabel)}">
       <td class="col-select">
         <input class="save-check" type="checkbox" data-save-id="${escapeAttr(record.id)}" ${checked} aria-label="${escapeAttr(record.university)} ${escapeAttr(record.major)} 저장" />
       </td>
@@ -1111,13 +1102,6 @@ function renderDetail(record) {
           <span class="lg lg50">50%컷</span>
         </div>
       </section>
-      <section class="panel panel-pad">
-        <div class="section-title">
-          <h3>모집 · 경쟁 (3개년)</h3>
-          <span>수시 입결</span>
-        </div>
-        ${renderCompTable(record)}
-      </section>
       <section class="panel panel-pad plan-2027-panel">
         <div class="section-title plan-title">
           <h3>2027학년도 수시모집정보</h3>
@@ -1125,11 +1109,12 @@ function renderDetail(record) {
         </div>
         ${renderPlanTable(record, {limit: 20})}
       </section>
-      <section class="panel panel-pad exam-2027-panel">
-        <div class="section-title exam-title">
-          <h3>2027학년도 대학별 고사 일정</h3>
+      <section class="panel panel-pad">
+        <div class="section-title">
+          <h3>모집 · 경쟁 (3개년)</h3>
+          <span>수시 입결</span>
         </div>
-        ${renderExamTable(record)}
+        ${renderCompTable(record)}
       </section>
     </aside>
   `;
@@ -1192,15 +1177,8 @@ let PLAN2027_INDEX_READY = false;
 function baseUniName(value) {
   return normalize(String(value || '')
     .replace(/^국립/,'')
-    .replace(/\[[^\]]*\]/g, '')
     .replace(/\([^)]*\)/g, '')
-    .replace(/여자대학교?$/,'여대')
-    .replace(/교육대학교?$/,'교대')
-    .replace(/외국어대학교?$/,'외대')
-    .replace(/체육대학교?$/,'체대')
-    .replace(/과학기술대학교?$/,'과기대')
-    .replace(/공과대학교?$/,'공대')
-    .replace(/대학교?$/,'대'));
+    .replace(/대학$/,'대'));
 }
 
 function majorKey(value) {
@@ -1532,113 +1510,3 @@ async function init() {
 }
 
 init();
-
-/* ---------- 2027 대학별 고사 일정 ---------- */
-function findExamsForRecord(record) {
-  if (!window.examSchedule2027 || !record) return [];
-  const uk = baseUniName(record.university || record.universityCanon);
-  const mk = majorKey(record.major);
-  const rDomain = record.domain || "";
-  
-  return window.examSchedule2027.filter(ex => {
-    if (ex.startDate === '시작일') return false;
-    const exUk = baseUniName(ex.university);
-    if (exUk !== uk && !exUk.includes(uk) && !uk.includes(exUk)) return false;
-    
-    let matchMajor = false;
-    if (!ex.majors || ex.majors.length === 0) {
-      matchMajor = true;
-    } else {
-      for (const m of ex.majors) {
-        const pm = majorKey(m);
-        if (!pm) continue;
-        if (pm.includes('전체') || pm.includes('전모집단위') || pm.includes('공통') || pm.includes('자유전공') || pm.includes('무전공') || pm.includes('전학과')) {
-          matchMajor = true;
-          break;
-        }
-        if (pm.includes(mk) || mk.includes(pm) || m.includes(record.major) || record.major.includes(m)) {
-          matchMajor = true;
-          break;
-        }
-        if (rDomain === '인문' && (pm.includes('인문') || pm.includes('문과') || pm.includes('사회') || pm.includes('인경') || pm.includes('경상') || pm.includes('사범') || pm.includes('경영') || pm.includes('상경'))) {
-          matchMajor = true;
-          break;
-        }
-        if (rDomain === '자연' && (pm.includes('자연') || pm.includes('이과') || pm.includes('이공') || pm.includes('공학') || pm.includes('과학') || pm.includes('수리') || pm.includes('it') || pm.includes('소프트웨어') || pm.includes('ai'))) {
-          matchMajor = true;
-          break;
-        }
-        if (rDomain === '예체능' && (pm.includes('예능') || pm.includes('체능') || pm.includes('예체능') || pm.includes('미술') || pm.includes('체육') || pm.includes('음악') || pm.includes('디자인') || pm.includes('무용') || pm.includes('연기') || pm.includes('영상') || pm.includes('예술'))) {
-          matchMajor = true;
-          break;
-        }
-        if (rDomain === '의학' && (pm.includes('의학') || pm.includes('의예') || pm.includes('약학') || pm.includes('간호') || pm.includes('수의') || pm.includes('치의') || pm.includes('한의') || pm.includes('보건') || pm.includes('의약'))) {
-          matchMajor = true;
-          break;
-        }
-      }
-    }
-    
-    if (!matchMajor && ex.majors && ex.majors.length > 0) {
-      const isPractical = String(ex.type || "").includes("실기") || String(ex.program || "").includes("실기");
-      if (!isPractical || rDomain === "예체능") {
-        matchMajor = true;
-      }
-    }
-    
-    return matchMajor;
-  });
-}
-
-function renderExamTable(record) {
-  const exams = findExamsForRecord(record);
-  if (!exams.length) {
-    return `<div class="plan-empty">연결된 2027 대학별 고사 일정이 없습니다.</div>`;
-  }
-  
-  const rows = exams.map(ex => {
-    let dateStr = ex.startDate;
-    if (ex.startDate !== ex.endDate) {
-      dateStr += ` ~ ${ex.endDate.substring(5)}`;
-    }
-    return `<tr>
-      <td>${escapeHtml(dateStr)}<br>(${escapeHtml(ex.day)})</td>
-      <td>${escapeHtml(ex.csatPhase)}</td>
-      <td>${escapeHtml(ex.type)}<br><span class="muted">${escapeHtml(ex.step)}</span></td>
-      <td>${escapeHtml(ex.program)}</td>
-    </tr>`;
-  }).join('');
-  
-  return `
-    <div class="plan-count">연결된 고사 일정 <b>${exams.length}</b>건</div>
-    <div class="table-shell plan-table-shell">
-      <table class="plan-table">
-        <thead>
-          <tr>
-            <th>일정(요일)</th>
-            <th>수능전후</th>
-            <th>유형(단계)</th>
-            <th>전형명</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${rows}
-        </tbody>
-      </table>
-    </div>
-  `;
-}
-
-function reportExamRows(record) {
-  const exams = findExamsForRecord(record).slice(0, 5);
-  if (!exams.length) return '<p class="muted">연결된 대학별 고사 일정 없음</p>';
-  return `<table class="plan-report"><thead><tr><th>일정(요일)</th><th>수능전후</th><th>유형(단계)</th><th>전형명</th></tr></thead><tbody>` +
-    exams.map(ex => {
-      let dateStr = ex.startDate;
-      if (ex.startDate !== ex.endDate) {
-        dateStr += `~${ex.endDate.substring(5)}`;
-      }
-      return `<tr><td>${escapeHtml(dateStr)}(${escapeHtml(ex.day)})</td><td>${escapeHtml(ex.csatPhase)}</td><td>${escapeHtml(ex.type)}(${escapeHtml(ex.step)})</td><td>${escapeHtml(ex.program)}</td></tr>`;
-    }).join('') +
-  `</tbody></table>`;
-}

@@ -1,30 +1,7 @@
 <!doctype html>
 <html lang="ko">
   <head>
-<script data-gaongil-origin-guard>
-(function(){
-  "use strict";
-  var allowedHosts = {
-    "legnanatas-lab.github.io": true,
-    "gaonjinhak.firebaseapp.com": true,
-    "gaonjinhak.web.app": true,
-    "jinhak-materials.pages.dev": true,
-    "localhost": true,
-    "127.0.0.1": true
-  };
-  var protocol = window.location.protocol;
-  var host = window.location.hostname;
-  var allowed = !!allowedHosts[host] && (protocol === "https:" || host === "localhost" || host === "127.0.0.1");
-  if (allowed) return;
-  function blockSavedCopy(){
-    var message = "이 자료는 가온길 에듀 공식 사이트에서 로그인 후 이용할 수 있습니다.";
-    var url = "https://legnanatas-lab.github.io/jinhak-gaon/";
-    document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자료 보호 안내</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050b14;color:#edf5ff;font-family:sans-serif}.box{max-width:720px;padding:32px;border:1px solid rgba(214,173,99,.45);border-radius:24px;background:rgba(13,23,38,.94)}h1{margin:0 0 12px;font-size:28px}p{line-height:1.7;color:#b9c4d2}a{color:#f0d99b;font-weight:800}</style></head><body><main class="box"><h1>자료 보호 안내</h1><p>'+message+'</p><p>저장된 HTML 파일이나 복사된 주소에서는 자료를 열람할 수 없습니다.</p><p><a href="'+url+'">공식 사이트로 이동하기</a></p></main></body>';
-  }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", blockSavedCopy, { once:true });
-  else blockSavedCopy();
-})();
-</script>
+
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,17 +12,17 @@
     <style>
 :root {
   color-scheme: dark;
-  --bg: #050b14;
-  --panel: rgba(13, 23, 38, 0.92);
+  --bg: #03070f;
+  --panel: rgba(3,7,15, 0.92);
   --panel-strong: rgba(18, 31, 50, 0.96);
   --line: rgba(92, 119, 154, 0.34);
-  --gold: #d6ad63;
-  --gold-bright: #f0d99b;
-  --gold-dark: #8f672b;
+  --gold: #00c3ff;
+  --gold-bright: #00c3ff;
+  --gold-dark: #00c3ff;
   --text: #edf5ff;
   --soft: #b9c4d2;
   --muted: #8fa0b6;
-  --ink: #071221;
+  --ink: #03070f;
   --shadow: 0 24px 72px rgba(0, 0, 0, 0.42);
   --radius: 8px;
   font-family: "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", Arial, sans-serif;
@@ -64,10 +41,10 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    linear-gradient(rgba(214, 173, 99, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(214, 173, 99, 0.04) 1px, transparent 1px),
-    radial-gradient(circle at 9% 18%, rgba(214, 173, 99, 0.12), transparent 28rem),
-    linear-gradient(180deg, #050b14 0%, #081321 45%, #050b14 100%);
+    linear-gradient(rgba(0,195,255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,195,255, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 9% 18%, rgba(0,195,255, 0.12), transparent 28rem),
+    linear-gradient(180deg, #03070f 0%, #03070f 45%, #03070f 100%);
   background-size: 64px 64px, 64px 64px, auto, auto;
   color: var(--text);
 }
@@ -80,11 +57,11 @@ a {
   position: sticky;
   top: 0;
   z-index: 20;
-  border-top: 2px solid rgba(240, 217, 155, 0.82);
-  border-bottom: 1px solid rgba(214, 173, 99, 0.2);
+  border-top: 2px solid rgba(0,195,255, 0.82);
+  border-bottom: 1px solid rgba(0,195,255, 0.2);
   background:
-    linear-gradient(90deg, rgba(214, 173, 99, 0.08), transparent 30%),
-    rgba(5, 11, 20, 0.96);
+    linear-gradient(90deg, rgba(0,195,255, 0.08), transparent 30%),
+    rgba(3,7,15, 0.96);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(14px);
 }
@@ -105,7 +82,7 @@ a {
   height: 64px;
   align-items: center;
   overflow: hidden;
-  border: 1px solid rgba(240, 217, 155, 0.34);
+  border: 1px solid rgba(0,195,255, 0.34);
   border-radius: var(--radius);
   background: #050505;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -136,7 +113,7 @@ a {
   gap: 10px;
   min-height: 46px;
   list-style: none;
-  border: 1px solid rgba(240, 217, 155, 0.46);
+  border: 1px solid rgba(0,195,255, 0.46);
   border-radius: var(--radius);
   padding: 0 18px;
   background: rgba(18, 31, 50, 0.86);
@@ -173,11 +150,11 @@ a {
   width: min(300px, calc(100vw - 32px));
   max-height: min(70vh, 520px);
   overflow: auto;
-  border: 1px solid rgba(214, 173, 99, 0.32);
+  border: 1px solid rgba(0,195,255, 0.32);
   border-radius: 10px;
   padding: 8px;
   background:
-    linear-gradient(180deg, rgba(214, 173, 99, 0.08), transparent 44%),
+    linear-gradient(180deg, rgba(0,195,255, 0.08), transparent 44%),
     rgba(7, 15, 26, 0.98);
   box-shadow: 0 22px 58px rgba(0, 0, 0, 0.45);
 }
@@ -200,7 +177,7 @@ a {
 
 .nav-menu-list a:hover,
 .nav-menu-list a:focus-visible {
-  background: rgba(214, 173, 99, 0.15);
+  background: rgba(0,195,255, 0.15);
   color: #fff8e8;
   outline: none;
 }
@@ -222,8 +199,8 @@ a {
   border-radius: 10px;
   padding: clamp(28px, 5vw, 62px);
   background:
-    linear-gradient(126deg, rgba(13, 23, 38, 0.98) 0%, rgba(13, 23, 38, 0.92) 51%, rgba(72, 81, 88, 0.62) 100%),
-    radial-gradient(circle at 82% 68%, rgba(214, 173, 99, 0.18), transparent 22rem);
+    linear-gradient(126deg, rgba(3,7,15, 0.98) 0%, rgba(3,7,15, 0.92) 51%, rgba(72, 81, 88, 0.62) 100%),
+    radial-gradient(circle at 82% 68%, rgba(0,195,255, 0.18), transparent 22rem);
   box-shadow: var(--shadow);
 }
 
@@ -295,7 +272,7 @@ a {
   align-items: center;
   justify-content: center;
   min-height: 50px;
-  border: 1px solid rgba(240, 217, 155, 0.48);
+  border: 1px solid rgba(0,195,255, 0.48);
   border-radius: var(--radius);
   padding: 0 22px;
   background: rgba(18, 31, 50, 0.88);
@@ -307,7 +284,7 @@ a {
 }
 
 .button.primary {
-  background: linear-gradient(180deg, #f0d99b, #c99743);
+  background: linear-gradient(180deg, #00c3ff, #c99743);
   color: var(--ink);
   box-shadow:
     0 12px 26px rgba(183, 133, 49, 0.22),
@@ -324,12 +301,12 @@ a {
   min-width: 0;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid rgba(214, 173, 99, 0.24);
+  border: 1px solid rgba(0,195,255, 0.24);
   border-radius: 10px;
   padding: 30px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.075), transparent 70%),
-    rgba(5, 11, 20, 0.45);
+    rgba(3,7,15, 0.45);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
@@ -423,7 +400,7 @@ a {
   border: 1px solid rgba(92, 119, 154, 0.36);
   border-radius: 10px;
   background:
-    linear-gradient(180deg, rgba(214, 173, 99, 0.055), transparent 42%),
+    linear-gradient(180deg, rgba(0,195,255, 0.055), transparent 42%),
     var(--panel);
   box-shadow: var(--shadow);
 }
@@ -441,7 +418,7 @@ a {
 .feature-card:focus-visible,
 .wide-card:focus-visible,
 .resource-card:focus-visible {
-  border-color: rgba(240, 217, 155, 0.62);
+  border-color: rgba(0,195,255, 0.62);
   outline: none;
   transform: translateY(-2px);
 }
@@ -453,7 +430,7 @@ a {
 
 .feature-card.featured {
   background:
-    linear-gradient(135deg, rgba(214, 173, 99, 0.16), transparent 48%),
+    linear-gradient(135deg, rgba(0,195,255, 0.16), transparent 48%),
     var(--panel-strong);
 }
 
@@ -461,10 +438,10 @@ a {
   display: inline-flex;
   align-items: center;
   min-height: 30px;
-  border: 1px solid rgba(214, 173, 99, 0.38);
+  border: 1px solid rgba(0,195,255, 0.38);
   border-radius: 999px;
   padding: 0 12px;
-  background: rgba(214, 173, 99, 0.11);
+  background: rgba(0,195,255, 0.11);
   color: var(--gold-bright);
   font-size: 13px;
   font-weight: 950;
@@ -498,7 +475,7 @@ a {
 }
 
 .feature-card dl div {
-  border-left: 2px solid rgba(214, 173, 99, 0.62);
+  border-left: 2px solid rgba(0,195,255, 0.62);
   padding-left: 12px;
 }
 
@@ -533,9 +510,9 @@ a {
   display: grid;
   min-height: 140px;
   place-content: center;
-  border: 1px solid rgba(214, 173, 99, 0.3);
+  border: 1px solid rgba(0,195,255, 0.3);
   border-radius: var(--radius);
-  background: rgba(5, 11, 20, 0.48);
+  background: rgba(3,7,15, 0.48);
   text-align: center;
 }
 
@@ -570,7 +547,7 @@ a {
   align-items: center;
   border-radius: 999px;
   padding: 0 11px;
-  background: rgba(214, 173, 99, 0.12);
+  background: rgba(0,195,255, 0.12);
   color: var(--gold-bright);
   font-size: 13px;
   font-weight: 950;
@@ -617,7 +594,7 @@ a {
   height: 34px;
   place-items: center;
   border-radius: 50%;
-  background: linear-gradient(180deg, #f0d99b, #c99743);
+  background: linear-gradient(180deg, #00c3ff, #c99743);
   color: var(--ink);
   font-weight: 950;
 }
@@ -638,7 +615,7 @@ a {
   gap: 16px;
   width: min(1520px, calc(100% - 36px));
   margin: 0 auto 42px;
-  border-top: 1px solid rgba(214, 173, 99, 0.22);
+  border-top: 1px solid rgba(0,195,255, 0.22);
   padding-top: 24px;
   color: var(--soft);
 }
@@ -646,7 +623,7 @@ a {
 .home-footer img {
   width: 190px;
   height: 58px;
-  border: 1px solid rgba(240, 217, 155, 0.24);
+  border: 1px solid rgba(0,195,255, 0.24);
   border-radius: var(--radius);
   background: #050505;
   object-fit: contain;
@@ -794,7 +771,7 @@ a {
 }
 .nav-pill:hover,
 .nav-pill:focus-visible{
-  border-color:rgba(240,217,155,.72);
+  border-color:rgba(0,195,255,.72);
   color:#fff8e8;
   outline:none;
 }
@@ -802,10 +779,10 @@ a {
 .nav-pill.home-pill{
   min-width:54px;
   padding:0 17px;
-  border-color:rgba(240,217,155,.82);
-  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%);
-  color:#071221;
-  box-shadow:0 10px 24px rgba(214,173,99,.24), inset 0 1px 0 rgba(255,255,255,.44);
+  border-color:rgba(0,195,255,.82);
+  background:linear-gradient(180deg,#00c3ff 0%,#00c3ff 56%,#00c3ff 100%);
+  color:#03070f;
+  box-shadow:0 10px 24px rgba(0,195,255,.24), inset 0 1px 0 rgba(255,255,255,.44);
 }
 @media(max-width:900px){
   .home-nav.top-tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;}
@@ -819,14 +796,14 @@ a {
 .home-nav.top-tabs.dropdown-tabs{position:relative;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:18px;overflow:visible;}
 .home-nav .nav-pill.home-pill{min-height:56px;min-width:56px;border-radius:999px;padding:0 18px;font-size:16px;font-weight:950;}
 .home-nav .nav-menu{position:relative;z-index:10001;}
-.home-nav .nav-menu summary{min-height:64px;border:2px solid rgba(240,217,155,.50);border-radius:16px;padding:0 clamp(20px,2.1vw,34px);background:linear-gradient(180deg,rgba(255,255,255,.035),transparent),#0b1b2d;color:#edf5ff;font-size:clamp(17px,1.25vw,23px);font-weight:950;letter-spacing:-.04em;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 28px rgba(0,0,0,.24);}
+.home-nav .nav-menu summary{min-height:64px;border:2px solid rgba(0,195,255,.50);border-radius:16px;padding:0 clamp(20px,2.1vw,34px);background:linear-gradient(180deg,rgba(255,255,255,.035),transparent),#0b1b2d;color:#edf5ff;font-size:clamp(17px,1.25vw,23px);font-weight:950;letter-spacing:-.04em;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 28px rgba(0,0,0,.24);}
 .home-nav .nav-menu summary::after{width:14px;height:14px;border-right:4px solid var(--gold);border-bottom:4px solid var(--gold);transform:translateY(-3px) rotate(45deg);}
-.home-nav .nav-menu[open] summary{border-color:rgba(240,217,155,.72);background:linear-gradient(180deg,rgba(255,255,255,.045),transparent),#102238;}
+.home-nav .nav-menu[open] summary{border-color:rgba(0,195,255,.72);background:linear-gradient(180deg,rgba(255,255,255,.045),transparent),#102238;}
 .home-nav .nav-menu[open] summary::after{transform:translateY(4px) rotate(225deg);}
-.home-nav .nav-menu-list{position:absolute;top:calc(100% + 18px);left:0;right:auto;display:grid;width:min(600px,calc(100vw - 24px));max-height:min(72vh,680px);overflow:auto;border:2px solid rgba(214,173,99,.44);border-radius:18px;padding:18px 0;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0) 38%),#06111f;box-shadow:0 28px 70px rgba(0,0,0,.52);}
+.home-nav .nav-menu-list{position:absolute;top:calc(100% + 18px);left:0;right:auto;display:grid;width:min(600px,calc(100vw - 24px));max-height:min(72vh,680px);overflow:auto;border:2px solid rgba(0,195,255,.44);border-radius:18px;padding:18px 0;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0) 38%),#06111f;box-shadow:0 28px 70px rgba(0,0,0,.52);}
 .home-nav .nav-menu:nth-last-child(-n+3) .nav-menu-list{left:auto;right:0;}
 .home-nav .nav-menu-list a{min-height:74px;border-radius:0;padding:0 38px;background:transparent;color:#edf5ff;font-size:clamp(19px,1.45vw,28px);font-weight:950;line-height:1.28;letter-spacing:-.045em;text-decoration:none;}
-.home-nav .nav-menu-list a:hover,.home-nav .nav-menu-list a:focus-visible{background:rgba(214,173,99,.12);color:#fff8e8;outline:none;}
+.home-nav .nav-menu-list a:hover,.home-nav .nav-menu-list a:focus-visible{background:rgba(0,195,255,.12);color:#fff8e8;outline:none;}
 @media(max-width:900px){.home-nav.top-tabs.dropdown-tabs{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;overflow-y:visible;padding:8px 0 12px;}.home-nav .nav-menu{position:static;}.home-nav .nav-menu-list{left:12px!important;right:12px!important;width:auto;}.home-nav .nav-menu summary{min-height:56px;font-size:16px;padding:0 18px;}.home-nav .nav-menu-list a{min-height:58px;padding:0 24px;font-size:18px;}}
 
 /* ---- 2026-07-07 compact menu restore: match original small pill tab design ---- */
@@ -852,14 +829,14 @@ a {
 .home-nav .nav-pill.home-pill{
   min-height:46px !important;
   min-width:54px !important;
-  border:1px solid rgba(240,217,155,.82) !important;
+  border:1px solid rgba(0,195,255,.82) !important;
   border-radius:999px !important;
   padding:0 17px !important;
-  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
-  color:#071221 !important;
+  background:linear-gradient(180deg,#00c3ff 0%,#00c3ff 56%,#00c3ff 100%) !important;
+  color:#03070f !important;
   font-size:15px !important;
   font-weight:900 !important;
-  box-shadow:0 10px 24px rgba(214,173,99,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
+  box-shadow:0 10px 24px rgba(0,195,255,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
 }
 .home-nav .nav-menu{
   position:relative !important;
@@ -890,7 +867,7 @@ a {
 .home-nav .nav-menu[open] summary,
 .home-nav .nav-menu summary:hover,
 .home-nav .nav-menu summary:focus-visible{
-  border-color:rgba(240,217,155,.72) !important;
+  border-color:rgba(0,195,255,.72) !important;
   background:rgba(18,31,50,.94) !important;
   color:#fff8e8 !important;
   outline:none !important;
@@ -907,10 +884,10 @@ a {
   width:min(360px, calc(100vw - 32px)) !important;
   max-height:min(70vh, 520px) !important;
   overflow:auto !important;
-  border:1px solid rgba(214,173,99,.32) !important;
+  border:1px solid rgba(0,195,255,.32) !important;
   border-radius:10px !important;
   padding:8px !important;
-  background:linear-gradient(180deg, rgba(214,173,99,.08), transparent 44%), rgba(7,15,26,.98) !important;
+  background:linear-gradient(180deg, rgba(0,195,255,.08), transparent 44%), rgba(7,15,26,.98) !important;
   box-shadow:0 22px 58px rgba(0,0,0,.45) !important;
 }
 .home-nav .nav-menu-list.wide{
@@ -937,7 +914,7 @@ a {
 }
 .home-nav .nav-menu-list a:hover,
 .home-nav .nav-menu-list a:focus-visible{
-  background:rgba(214,173,99,.15) !important;
+  background:rgba(0,195,255,.15) !important;
   color:#fff8e8 !important;
   outline:none !important;
 }
@@ -977,24 +954,24 @@ a {
   align-items:center !important;
   justify-content:center !important;
   min-height:46px !important;
-  border:1px solid rgba(240,217,155,.82) !important;
+  border:1px solid rgba(0,195,255,.82) !important;
   border-radius:999px !important;
   padding:0 18px !important;
-  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
+  background:linear-gradient(180deg,#00c3ff 0%,#00c3ff 56%,#00c3ff 100%) !important;
   background-clip:padding-box !important;
-  color:#071221 !important;
-  box-shadow:0 10px 24px rgba(214,173,99,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
+  color:#03070f !important;
+  box-shadow:0 10px 24px rgba(0,195,255,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
 }
 .home-nav .nav-menu.active > summary *,
 .nav .nav-menu.active > summary *,
 .gaongil-resource-menu.active > summary *{
-  color:#071221 !important;
+  color:#03070f !important;
 }
 .home-nav .nav-menu.active > summary::after,
 .nav .nav-menu.active > summary::after,
 .gaongil-resource-menu.active > summary::after{
-  border-right-color:#071221 !important;
-  border-bottom-color:#071221 !important;
+  border-right-color:#03070f !important;
+  border-bottom-color:#03070f !important;
 }
 
 /* ---- 홈페이지: 대학 발표 원문 3종 바로가기 ---- */
@@ -1012,7 +989,7 @@ a {
   overflow: hidden;
   padding: 26px;
   background:
-    linear-gradient(132deg, rgba(214, 173, 99, 0.12), transparent 48%),
+    linear-gradient(132deg, rgba(0,195,255, 0.12), transparent 48%),
     var(--panel-strong);
 }
 
@@ -1072,13 +1049,13 @@ a {
   align-items:center !important;
   justify-content:center !important;
   min-height:46px !important;
-  border:1px solid rgba(240,217,155,.82) !important;
+  border:1px solid rgba(0,195,255,.82) !important;
   border-radius:999px !important;
   padding:0 18px !important;
-  background:linear-gradient(180deg,#f0d99b 0%,#d6ad63 56%,#b98532 100%) !important;
+  background:linear-gradient(180deg,#00c3ff 0%,#00c3ff 56%,#00c3ff 100%) !important;
   background-clip:padding-box !important;
-  color:#071221 !important;
-  box-shadow:0 10px 24px rgba(214,173,99,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
+  color:#03070f !important;
+  box-shadow:0 10px 24px rgba(0,195,255,.24), inset 0 1px 0 rgba(255,255,255,.44) !important;
 }
 .home-nav .nav-menu[open] > summary *,
 .home-nav .nav-menu.active > summary *,
@@ -1086,7 +1063,7 @@ a {
 .nav .nav-menu.active > summary *,
 .gaongil-resource-menu[open] > summary *,
 .gaongil-resource-menu.active > summary *{
-  color:#071221 !important;
+  color:#03070f !important;
 }
 .home-nav .nav-menu[open] > summary::after,
 .home-nav .nav-menu.active > summary::after,
@@ -1094,8 +1071,8 @@ a {
 .nav .nav-menu.active > summary::after,
 .gaongil-resource-menu[open] > summary::after,
 .gaongil-resource-menu.active > summary::after{
-  border-right-color:#071221 !important;
-  border-bottom-color:#071221 !important;
+  border-right-color:#03070f !important;
+  border-bottom-color:#03070f !important;
 }
 
 </style>
@@ -1125,13 +1102,13 @@ a {
         width: 100%; padding: 11px 13px; border-radius: 8px; border: 1px solid var(--line);
         background: rgba(255,255,255,.04); color: var(--text); font-size: .92rem; outline: 0;
       }
-      .field input:focus, .field select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(214,173,99,.2); }
+      .field input:focus, .field select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(0,195,255,.2); }
       .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
       .btn-gold {
         width: 100%; padding: 12px 20px; border-radius: 999px; font-weight: 700; font-size: .92rem;
         border: none; cursor: pointer; color: var(--ink); margin-top: 4px;
         background: linear-gradient(135deg, var(--gold-bright), var(--gold));
-        box-shadow: 0 10px 24px rgba(214,173,99,.25);
+        box-shadow: 0 10px 24px rgba(0,195,255,.25);
       }
       .btn-gold:hover { filter: brightness(1.06); }
       .form-msg {
@@ -1145,7 +1122,7 @@ a {
       table.table th, table.table td { text-align: left; padding: 10px 6px; border-bottom: 1px solid var(--line); color: var(--text); }
       table.table th { color: var(--muted); font-weight: 600; font-size: .74rem; text-transform: uppercase; letter-spacing: .05em; }
       .role-pill { padding: 3px 10px; border-radius: 999px; font-size: .72rem; border: 1px solid var(--line); }
-      .role-pill.admin { color: #f6e6bd; background: rgba(214,173,99,.16); border-color: rgba(214,173,99,.4); }
+      .role-pill.admin { color: #f6e6bd; background: rgba(0,195,255,.16); border-color: rgba(0,195,255,.4); }
       .role-pill.staff { color: #a9c7ea; background: rgba(79,134,198,.14); border-color: rgba(79,134,198,.35); }
       .row-actions { display: flex; gap: 6px; }
       .icon-btn {
@@ -1154,7 +1131,7 @@ a {
       }
       .icon-btn:hover { border-color: var(--gold); color: var(--gold-bright); }
       .demo-hint {
-        margin-top: 18px; padding: 12px 14px; border-radius: 10px; background: rgba(214,173,99,.06);
+        margin-top: 18px; padding: 12px 14px; border-radius: 10px; background: rgba(0,195,255,.06);
         border: 1px dashed var(--line); font-size: .76rem; color: var(--muted); line-height: 1.6;
       }
       .access-panel { margin-top: 20px; }
@@ -1164,7 +1141,7 @@ a {
       .access-group-head, .access-item {
         display: grid; grid-template-columns: 1fr 116px 116px; gap: 10px; align-items: center; padding: 12px 14px;
       }
-      .access-group-head { background: rgba(214,173,99,.08); color: var(--text); font-weight: 800; }
+      .access-group-head { background: rgba(0,195,255,.08); color: var(--text); font-weight: 800; }
       .access-item { border-top: 1px solid rgba(92,119,154,.22); color: var(--soft); font-size: .84rem; }
       .access-check { display: inline-flex; align-items: center; gap: 7px; justify-content: center; color: var(--muted); font-size: .78rem; }
       .access-check input { width: 17px; height: 17px; accent-color: var(--gold); }
@@ -1410,6 +1387,30 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     <script src="./assets/js/site-data.js?v=20260711-config"></script>
     <script src="./assets/js/auth.js?v=20260713-firebase-google"></script>
     <script>
+      let session;
+      (() => {
+        session = GaongilAuth.requireAdmin("./login.html");
+        if (session) {
+          renderUsers();
+          renderAccessControls();
+          renderNoticeEditors();
+          renderFirebaseStatus();
+          GaongilAuth.mountUserChip("userChip");
+
+          // 화면은 저장된 로그인 세션으로 바로 표시하고, 느린 Firestore 동기화는 뒤에서 처리한다.
+          GaongilAuth.refreshFirebaseCaches().then(() => {
+            const refreshed = GaongilAuth.getSession();
+            if (!refreshed || refreshed.role !== "admin") return;
+            session = refreshed;
+            renderUsers();
+            renderAccessControls();
+            renderNoticeEditors();
+            renderFirebaseStatus();
+            GaongilAuth.mountUserChip("userChip");
+          }).catch(() => {});
+        }
+      })();
+
       function esc(s) {
         return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
       }
@@ -1417,25 +1418,25 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       function roleLabel(r) { return r === "admin" ? "관리자" : "등록 교사"; }
 
       function collectAccessCatalog() {
-        const pages = (window.GAONGIL_SITE_DATA?.pages || window.GAONGIL_SITE_CONFIG?.menuTree || []).filter((page) => !page.hidden && page.name !== "전체 자료실");
+        const pages = (window.GAONGIL_SITE_DATA?.pages || []).filter((page) => page.file !== "index.html" && !page.hidden);
         return pages.map((page) => {
           const seen = new Set();
-          const entries = [];
-          const items = page.items || page.pages || [];
-          items.forEach((item) => {
-            const key = GaongilAuth.normalizePageKey(item.url || item.href || item.file);
-            if (!key || seen.has(key) || key === "index.html") return;
+          const groupKey = GaongilAuth.normalizePageKey(page.file);
+          const entries = [{ key: groupKey, title: page.name, kind: "menu" }];
+          seen.add(groupKey);
+          (page.items || []).forEach((item) => {
+            const key = GaongilAuth.normalizePageKey(item.url);
+            if (!key || seen.has(key)) return;
             seen.add(key);
-            entries.push({ key, title: item.title || item.label || key });
+            entries.push({ key, title: item.title || key, kind: "item" });
           });
-          return { name: page.name || page.label || page.title, entries };
-        }).filter((group) => group.entries && group.entries.length > 0);
+          return { name: page.name, entries };
+        });
       }
 
       function renderUsers() {
         const users = GaongilAuth.getUsers();
         const body = document.getElementById("userTableBody");
-        if (!body) return;
         body.innerHTML = "";
         let admins = 0;
         users.forEach((u) => {
@@ -1506,81 +1507,43 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         if (!select) return;
         const current = select.value;
         const users = GaongilAuth.getUsers().filter((u) => u.role !== "admin");
-        let optionsHtml = "";
-        if (users.length === 0) {
-          optionsHtml = `<option value="">(등록된 교사 없음 - 공개 권한 전용)</option>`;
-        } else {
-          optionsHtml = `<option value="">(선택 안함 - 공개 권한 설정)</option>` +
-            users.map((u) => `<option value="${esc(u.id)}">${esc(u.name || u.id)} (${esc(u.id)})</option>`).join("");
-        }
-        if (select.innerHTML !== optionsHtml) {
-          select.innerHTML = optionsHtml;
-          if (current && (users.some((u) => u.id === current) || current === "")) {
-            select.value = current;
-          }
-        }
+        select.innerHTML = users.map((u) => `<option value="${esc(u.id)}">${esc(u.name || u.id)} (${esc(u.id)})</option>`).join("");
+        if (users.some((u) => u.id === current)) select.value = current;
       }
 
       function renderAccessControls() {
         renderAccessUserSelect();
         const wrap = document.getElementById("accessBoardList");
         if (!wrap) return;
-        const selectEl = document.getElementById("accessUserSelect");
-        const selectedUser = selectEl ? selectEl.value : "";
+        const selectedUser = document.getElementById("accessUserSelect").value;
         const access = GaongilAuth.getAccessSettings() || {};
         const publicPages = Array.isArray(access.publicPages) ? access.publicPages : [];
-        const userPages = (selectedUser && Array.isArray(access.userPages?.[selectedUser])) ? access.userPages[selectedUser] : [];
+        const userPages = Array.isArray(access.userPages?.[selectedUser]) ? access.userPages[selectedUser] : [];
         const catalog = collectAccessCatalog();
         if (!catalog.length) {
-          wrap.innerHTML = '<p class="sync-hint">등록된 게시판 자료가 없습니다.</p>';
+          wrap.innerHTML = '<p class="sync-hint">게시판 목록을 불러오는 중입니다.</p>';
+          if (wrap.dataset.catalogRetry !== "true") {
+            wrap.dataset.catalogRetry = "true";
+            setTimeout(() => { wrap.dataset.catalogRetry = ""; renderAccessControls(); }, 250);
+          }
           return;
         }
         wrap.innerHTML = catalog.map((group, groupIndex) => {
-          const userCheckDisabled = !selectedUser ? " disabled" : "";
           const rows = group.entries.map((entry, index) => {
             const checkedPublic = publicPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
-            const checkedUser = (selectedUser && userPages.map(GaongilAuth.normalizePageKey).includes(entry.key)) ? " checked" : "";
-            return `<div class="access-item">
+            const checkedUser = userPages.map(GaongilAuth.normalizePageKey).includes(entry.key) ? " checked" : "";
+            const cls = index === 0 ? "access-group-head" : "access-item";
+            const parentAttr = index === 0 ? ' data-access-parent="true"' : "";
+            return `<div class="${cls}">
               <span>${esc(entry.title)}<small style="display:block;color:var(--muted);font-weight:500;">${esc(entry.key)}</small></span>
-              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="public" data-public-page="${esc(entry.key)}"${checkedPublic}> 공개</label>
-              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="user" data-user-page="${esc(entry.key)}"${checkedUser}${userCheckDisabled}> 교사 허용</label>
+              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="public"${parentAttr} data-public-page="${esc(entry.key)}"${checkedPublic}> 공개</label>
+              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="user"${parentAttr} data-user-page="${esc(entry.key)}"${checkedUser}> 교사 허용</label>
             </div>`;
           }).join("");
-          return `<section class="access-group" data-access-group-section="${groupIndex}">
-            <div class="access-group-head">
-              <strong>${esc(group.name)}</strong>
-              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="public" data-access-parent="true"> 공개 전체</label>
-              <label class="access-check"><input type="checkbox" data-access-group="${groupIndex}" data-access-kind="user" data-access-parent="true"${userCheckDisabled}> 교사 허용 전체</label>
-            </div>
-            ${rows}
-          </section>`;
+          return `<section class="access-group" data-access-group-section="${groupIndex}">${rows}</section>`;
         }).join("");
         installAccessGroupBulkControls(wrap);
       }
-
-      let session;
-      (() => {
-        session = GaongilAuth.requireAdmin("./login.html");
-        if (session) {
-          renderUsers();
-          renderAccessControls();
-          renderNoticeEditors();
-          renderFirebaseStatus();
-          GaongilAuth.mountUserChip("userChip");
-
-          // 화면은 저장된 로그인 세션으로 바로 표시하고, 느린 Firestore 동기화는 뒤에서 처리한다.
-          GaongilAuth.refreshFirebaseCaches().then(() => {
-            const refreshed = GaongilAuth.getSession();
-            if (!refreshed || refreshed.role !== "admin") return;
-            session = refreshed;
-            renderUsers();
-            renderAccessControls();
-            renderNoticeEditors();
-            renderFirebaseStatus();
-            GaongilAuth.mountUserChip("userChip");
-          }).catch(() => {});
-        }
-      })();
 
       function updateAccessGroupState(groupEl, kind) {
         const inputs = Array.from(groupEl.querySelectorAll(`input[data-access-kind="${kind}"]`));
@@ -1623,31 +1586,33 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         el.className = "form-msg " + (ok ? "success" : "error") + " show";
       }
 
+      let noticeCountSelected = null;
+
       function renderNoticeEditors() {
         const settings = GaongilAuth.getNoticeSettings();
         const countSelect = document.getElementById("noticeCount");
         const wrap = document.getElementById("noticeEditorList");
         if (!countSelect || !wrap) return;
-        let count = 0;
-        if (countSelect.dataset.initialized !== "true") {
-          countSelect.dataset.initialized = "true";
-          count = Array.isArray(settings.items) ? settings.items.length : 0;
-          countSelect.value = String(count);
-        } else {
-          count = Math.min(Math.max(Number(countSelect.value || 0), 0), 5);
-          countSelect.value = String(count);
-        }
+
         const items = settings.items || [];
+        let count = noticeCountSelected !== null ? noticeCountSelected : items.length;
+        count = Math.min(Math.max(count, 0), 5);
+        countSelect.value = String(count);
+
         if (count === 0) {
-          wrap.innerHTML = '<div class="notice-help" style="margin-top:12px;">공지사항이 0개로 설정되었습니다. 아래 "공지 저장" 버튼을 클릭하면 저장됩니다.</div>';
+          wrap.innerHTML = `<div class="demo-hint" style="text-align:center; padding: 24px; color: var(--gaongil-muted,#8b9bb4);">공지사항이 0개로 설정되었습니다. 아래 "공지 저장" 버튼을 클릭하시면 저장됩니다.</div>`;
           return;
         }
+
         wrap.innerHTML = Array.from({ length: count }).map((_, i) => {
           const item = items[i] || { enabled: true, title: "", text: "", image: "", position: "center", width: "", linkText: "", linkUrl: "", showTodayClose: true, showNeverClose: true };
           return `<section class="notice-card" data-notice-index="${i}">
             <div class="notice-card-head">
               <span>공지 ${i + 1}</span>
-              <label class="inline-check"><input type="checkbox" data-notice-enabled ${item.enabled !== false ? "checked" : ""}> 사용</label>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <label class="inline-check"><input type="checkbox" data-notice-enabled ${item.enabled !== false ? "checked" : ""}> 사용</label>
+                <button type="button" class="btn ghost btn-sm" data-delete-notice="${i}" style="padding:2px 8px; font-size:12px; border-color:rgba(255,100,100,0.4); color:#ff8888;">삭제</button>
+              </div>
             </div>
             <div class="grid2">
               <div class="field">
@@ -1699,6 +1664,18 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
             </div>
           </section>`;
         }).join("");
+
+        wrap.querySelectorAll("[data-delete-notice]").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const idx = Number(btn.getAttribute("data-delete-notice"));
+            const current = collectNoticeSettingsFromForm();
+            current.items.splice(idx, 1);
+            noticeCountSelected = current.items.length;
+            await GaongilAuth.setNoticeSettings(current, { remote: false });
+            renderNoticeEditors();
+          });
+        });
+
         wrap.querySelectorAll("[data-notice-image-file]").forEach((input) => {
           input.addEventListener("change", async () => {
             const card = input.closest(".notice-card");
@@ -1737,23 +1714,20 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
 
       function collectNoticeSettingsFromForm() {
         const cards = Array.from(document.querySelectorAll("[data-notice-index]"));
-        const countSelect = document.getElementById("noticeCount");
-        const count = countSelect ? Math.max(0, Number(countSelect.value || 0)) : cards.length;
-        const items = cards.slice(0, count).map((card) => ({
-          enabled: card.querySelector("[data-notice-enabled]").checked,
-          title: card.querySelector("[data-notice-title]").value.trim(),
-          text: card.querySelector("[data-notice-text]").value.trim(),
-          image: card.querySelector("[data-notice-image]").value,
-          position: card.querySelector("[data-notice-position]").value,
-          width: card.querySelector("[data-notice-width]").value.trim(),
-          linkText: card.querySelector("[data-notice-link-text]").value.trim(),
-          linkUrl: card.querySelector("[data-notice-link-url]").value.trim(),
-          showTodayClose: card.querySelector("[data-notice-show-today]").checked,
-          showNeverClose: card.querySelector("[data-notice-show-never]").checked,
-        }));
         return {
-          enabled: items.length > 0,
-          items,
+          enabled: true,
+          items: cards.map((card) => ({
+            enabled: card.querySelector("[data-notice-enabled]").checked,
+            title: card.querySelector("[data-notice-title]").value.trim(),
+            text: card.querySelector("[data-notice-text]").value.trim(),
+            image: card.querySelector("[data-notice-image]").value,
+            position: card.querySelector("[data-notice-position]").value,
+            width: card.querySelector("[data-notice-width]").value.trim(),
+            linkText: card.querySelector("[data-notice-link-text]").value.trim(),
+            linkUrl: card.querySelector("[data-notice-link-url]").value.trim(),
+            showTodayClose: card.querySelector("[data-notice-show-today]").checked,
+            showNeverClose: card.querySelector("[data-notice-show-never]").checked,
+          })),
           updatedAt: Date.now(),
         };
       }
@@ -1762,6 +1736,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         return {
           access: GaongilAuth.getAccessSettings(),
           notices: GaongilAuth.getNoticeSettings(),
+          users: GaongilAuth.getUsers(),
         };
       }
 
@@ -1877,8 +1852,9 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       });
 
       document.getElementById("noticeCount").addEventListener("change", async () => {
-        const current = collectNoticeSettingsFromForm();
         const count = Number(document.getElementById("noticeCount").value || 0);
+        noticeCountSelected = count;
+        const current = collectNoticeSettingsFromForm();
         current.items = current.items.slice(0, count);
         while (current.items.length < count) current.items.push({ enabled: true, title: "", text: "", image: "", position: "center", width: "", linkText: "", linkUrl: "", showTodayClose: true, showNeverClose: true });
         await GaongilAuth.setNoticeSettings(current, { remote: false });
@@ -1922,17 +1898,9 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         const role = document.getElementById("newRole").value;
         try {
           await GaongilAuth.addUser({ id, name, email, role, password });
-          const access = GaongilAuth.getAccessSettings();
-          access.userPages = access.userPages || {};
-          if (!access.userPages[id]) {
-            const defaultTeacherPages = access.userPages["teacher1"] || access.publicPages || [];
-            access.userPages[id] = Array.from(new Set([...defaultTeacherPages]));
-            await GaongilAuth.setAccessSettings(access);
-          }
-          await syncConfigToGitHub(currentSiteConfig()).catch(() => null);
           msg.textContent = GaongilAuth.isFirebaseEnabled?.()
             ? id + " 프로필을 Firestore에 추가했습니다. 실제 로그인은 Firebase Authentication에 같은 이메일 계정이 있어야 가능합니다."
-            : id + " 계정을 추가하고 권한을 동기화했습니다.";
+            : id + " 계정을 추가했습니다.";
           msg.className = "form-msg success show";
           e.target.reset();
           renderUsers();

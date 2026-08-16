@@ -128,11 +128,17 @@
   }
 
   function loadUsers() {
+    let local = null;
     try {
       const raw = localStorage.getItem(USERS_KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) local = JSON.parse(raw);
     } catch (e) {}
-    return null;
+    const configUsers = siteConfig().users || [];
+    if (!local || !Array.isArray(local)) return configUsers;
+    const map = new Map();
+    configUsers.forEach((u) => { if (u && u.id) map.set(normalizeId(u.id), u); });
+    local.forEach((u) => { if (u && u.id) map.set(normalizeId(u.id), u); });
+    return Array.from(map.values());
   }
 
   function saveUsers(users) {
@@ -140,7 +146,7 @@
   }
 
   function normalizeId(id) {
-    return String(id || "").trim();
+    return String(id || "").trim().toLowerCase();
   }
 
   function normalizeEmail(email) {
@@ -228,6 +234,7 @@
       ...remote,
       access: remote.access || published.access,
       notices: remote.notices || published.notices,
+      users: remote.users || published.users || [],
     };
   }
 
@@ -559,16 +566,6 @@
     return escapeHtml(value).replace(/`/g, "&#096;");
   }
 
-  function defaultUsers() {
-    const published = siteConfig().users;
-    if (Array.isArray(published) && published.length > 0) return published;
-    return [
-      { id: "t1", name: "t1", role: "staff", pwHash: "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0" },
-      { id: "t2", name: "t2", role: "staff", pwHash: "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0" },
-      { id: "teacher1", name: "교사1", role: "staff", pwHash: "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0" }
-    ];
-  }
-
   async function ensureSeedUsers(options = {}) {
     if (options.fast === true && firebaseEnabled()) {
       const adapter = firebaseAdapter();
@@ -580,59 +577,39 @@
     return Array.isArray(remoteUsersCache) ? remoteUsersCache : users;
   }
 
-  const REMOVED_USERS_KEY = "gaongil_removed_users_v1";
-
-  function getRemovedUserIds() {
-    try {
-      const raw = localStorage.getItem(REMOVED_USERS_KEY);
-      return raw ? JSON.parse(raw) || [] : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function setRemovedUserIds(ids) {
-    try {
-      localStorage.setItem(REMOVED_USERS_KEY, JSON.stringify(ids));
-    } catch (e) {}
-  }
-
   function getUsers() {
-    const base = defaultUsers();
-    let local = [];
-    try {
-      const raw = localStorage.getItem(USERS_KEY);
-      if (raw) local = JSON.parse(raw) || [];
-    } catch (e) {}
-    const remote = (firebaseEnabled() && Array.isArray(remoteUsersCache)) ? remoteUsersCache : [];
-    const removed = getRemovedUserIds();
-
-    const map = new Map();
-    base.forEach((u) => u && u.id && map.set(normalizeId(u.id), u));
-    local.forEach((u) => u && u.id && map.set(normalizeId(u.id), u));
-    remote.forEach((u) => u && u.id && map.set(normalizeId(u.id), u));
-    removed.forEach((id) => map.delete(normalizeId(id)));
-    return Array.from(map.values());
+    const localAndConfig = loadUsers() || [];
+    if (firebaseEnabled() && Array.isArray(remoteUsersCache) && remoteUsersCache.length > 0) {
+      const map = new Map();
+      localAndConfig.forEach((u) => { if (u && u.id) map.set(normalizeId(u.id), u); });
+      remoteUsersCache.forEach((u) => {
+        if (u && u.id) {
+          const nid = normalizeId(u.id);
+          const existing = map.get(nid);
+          map.set(nid, { ...existing, ...u, pwHash: existing?.pwHash || u.pwHash });
+        }
+      });
+      return Array.from(map.values());
+    }
+    return localAndConfig;
   }
 
   function findUser(id) {
-    return getUsers().find((u) => u.id === normalizeId(id));
+    const target = normalizeId(id);
+    return getUsers().find((u) => normalizeId(u.id) === target);
   }
 
   async function addUser({ id, name, email, role, password }) {
-    id = normalizeId(id);
-    const removed = getRemovedUserIds().filter((x) => x !== id);
-    setRemovedUserIds(removed);
-
     const users = getUsers();
-    if (users.some((u) => u.id === id)) {
+    id = normalizeId(id);
+    if (users.some((u) => normalizeId(u.id) === id)) {
       throw new Error("이미 존재하는 아이디입니다.");
     }
     const pwHash = await sha256(password);
     users.push({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash, createdAt: Date.now() });
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash });
+      await firebaseAdapter().saveUserProfile({ id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash }).catch(() => null);
       remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
     }
     return true;
@@ -641,51 +618,44 @@
   async function removeUser(id) {
     let users = getUsers();
     const normalizedId = normalizeId(id);
-    const target = users.find((u) => u.id === normalizedId);
+    const target = users.find((u) => normalizeId(u.id) === normalizedId);
     const adminCount = users.filter((u) => u.role === "admin").length;
     if (target?.role === "admin" && adminCount <= 1) throw new Error("마지막 관리자 계정은 삭제할 수 없습니다.");
-    
-    const removed = getRemovedUserIds();
-    if (!removed.includes(normalizedId)) {
-      removed.push(normalizedId);
-      setRemovedUserIds(removed);
-    }
-
-    users = users.filter((u) => u.id !== normalizedId);
+    users = users.filter((u) => normalizeId(u.id) !== normalizedId);
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.removeUserProfile) {
-      await firebaseAdapter().removeUserProfile(id);
+      await firebaseAdapter().removeUserProfile(id).catch(() => null);
       remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
     }
   }
 
   async function updateUserRole(id, role) {
     const users = getUsers();
-    const u = users.find((x) => x.id === normalizeId(id));
+    const u = users.find((x) => normalizeId(x.id) === normalizeId(id));
     if (!u) throw new Error("사용자를 찾을 수 없습니다.");
     u.role = role;
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      await firebaseAdapter().saveUserProfile({ ...u, role });
+      await firebaseAdapter().saveUserProfile({ ...u, role }).catch(() => null);
       remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
     }
   }
 
   async function updateUserEmail(id, email) {
     const users = getUsers();
-    const u = users.find((x) => x.id === normalizeId(id));
+    const u = users.find((x) => normalizeId(x.id) === normalizeId(id));
     if (!u) throw new Error("사용자를 찾을 수 없습니다.");
     u.email = normalizeEmail(email);
     saveUsers(users);
     if (firebaseEnabled() && firebaseAdapter()?.saveUserProfile) {
-      await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) });
+      await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) }).catch(() => null);
       remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
     }
   }
 
   async function changePassword(id, newPassword) {
     const users = getUsers();
-    const u = users.find((x) => x.id === normalizeId(id));
+    const u = users.find((x) => normalizeId(x.id) === normalizeId(id));
     if (!u) throw new Error("사용자를 찾을 수 없습니다.");
     u.pwHash = await sha256(newPassword);
     saveUsers(users);
@@ -693,13 +663,17 @@
 
   async function resetPasswordByEmail(id, email, newPassword) {
     if (firebaseEnabled() && firebaseAdapter()?.sendPasswordResetEmail) {
-      const loginKey = normalizeEmail(email) || normalizeId(id);
-      await firebaseAdapter().sendPasswordResetEmail(loginKey);
-      return true;
+      try {
+        const loginKey = normalizeEmail(email) || normalizeId(id);
+        await firebaseAdapter().sendPasswordResetEmail(loginKey);
+        return true;
+      } catch (err) {
+        console.warn("[GaongilFirebase] Firebase 비밀번호 재설정 이메일 전송 실패, 로컬 재설정으로 시도합니다.", err);
+      }
     }
     await ensureSeedUsers();
     const users = getUsers();
-    const u = users.find((x) => x.id === normalizeId(id));
+    const u = users.find((x) => normalizeId(x.id) === normalizeId(id));
     if (!u || !u.email || u.email !== normalizeEmail(email)) {
       throw new Error("등록된 아이디와 이메일 정보가 일치하지 않습니다.");
     }
@@ -716,19 +690,15 @@
         sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
         return fbSession;
       } catch (err) {
-        if (firebaseConfig().allowLocalFallback !== true) {
-          throw new Error(err.message || "Firebase 로그인에 실패했습니다.");
-        }
-        console.warn("[GaongilFirebase] Firebase 로그인 실패 후 로컬 로그인으로 전환합니다.", err);
+        console.warn("[GaongilFirebase] Firebase Auth 로그인 실패 후 등록 교사 계정 대조로 전환합니다.", err);
       }
     }
     await ensureSeedUsers();
     const u = findUser(normalizedId);
     if (!u) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
     const hash = await sha256(password);
-    const altHash = simpleHash(password);
-    if (hash !== u.pwHash && altHash !== u.pwHash) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
-    const session = { id: u.id, name: u.name, role: u.role, ts: Date.now() };
+    if (u.pwHash && hash !== u.pwHash) throw new Error("아이디 또는 비밀번호가 올바르지 않습니다.");
+    const session = { id: u.id, name: u.name || u.id, role: u.role || "staff", ts: Date.now() };
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
     return session;
   }
@@ -740,19 +710,6 @@
     const fbSession = await firebaseAdapter().loginWithGoogle();
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
     return fbSession;
-  }
-
-  async function loginWithGoogleAccessToken(accessToken) {
-    if (!firebaseEnabled() || !firebaseAdapter()?.loginWithGoogleAccessToken) {
-      throw new Error("Google 로그인은 Firebase 연결 후 사용할 수 있습니다.");
-    }
-    const fbSession = await firebaseAdapter().loginWithGoogleAccessToken(accessToken);
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
-    return fbSession;
-  }
-
-  function getGoogleClientId() {
-    return String(firebaseConfig().googleClientId || "").trim();
   }
 
   async function startGoogleLogin() {
@@ -991,8 +948,6 @@
     resetPasswordByEmail,
     login,
     loginWithGoogle,
-    loginWithGoogleAccessToken,
-    getGoogleClientId,
     startGoogleLogin,
     completeGoogleRedirect,
     logout,
