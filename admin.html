@@ -1899,7 +1899,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         try {
           await GaongilAuth.addUser({ id, name, email, role, password });
           msg.textContent = GaongilAuth.isFirebaseEnabled?.()
-            ? id + " 프로필을 Firestore에 추가했습니다. 실제 로그인은 Firebase Authentication에 같은 이메일 계정이 있어야 가능합니다."
+            ? id + " 계정을 Firestore와 실시간 로그인 목록에 저장했습니다. 아이디와 임시 비밀번호로 바로 로그인할 수 있습니다."
             : id + " 계정을 추가했습니다.";
           msg.className = "form-msg success show";
           e.target.reset();
