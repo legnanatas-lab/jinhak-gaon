@@ -264,7 +264,14 @@
   }
 
   function defaultAccess() {
-    const published = siteConfig().access || {};
+    // Firebase 설정은 관리자별 추가/변경 권한이고, 배포본에 들어 있는 교사
+    // 기본 권한을 지우면 안 된다. siteConfig()는 원격 access를 우선하므로 여기서는
+    // 반드시 배포본 설정만 읽어 기본값으로 사용한다.
+    loadPublishedSiteConfigOnce();
+    const publishedConfig = global.GAONGIL_SITE_CONFIG && typeof global.GAONGIL_SITE_CONFIG === "object"
+      ? global.GAONGIL_SITE_CONFIG
+      : {};
+    const published = publishedConfig.access || {};
     const userPages = {};
     Object.entries(published.userPages || {}).forEach(([id, pages]) => {
       if (Array.isArray(pages)) userPages[normalizeId(id)] = pages.map(normalizePageKey).filter(Boolean);
@@ -293,15 +300,17 @@
   }
 
   function loadAccess() {
+    const base = defaultAccess();
     const remoteAccess = (remoteSiteConfigCache || global.GAONGIL_REMOTE_SITE_CONFIG || {}).access;
     if (firebaseEnabled() && remoteAccess) {
-      return normalizeAccessSettings(remoteAccess, { publicPages: ["index.html"], userPages: {} });
+      // 원격 문서는 변경분만 저장될 수 있으므로 배포된 교사 기본 권한과 병합한다.
+      return normalizeAccessSettings(remoteAccess, base);
     }
     try {
       const raw = localStorage.getItem(ACCESS_KEY);
       const parsed = raw ? JSON.parse(raw) : null;
-      if (!parsed || typeof parsed !== "object") return defaultAccess();
-      return normalizeAccessSettings(parsed, { publicPages: ["index.html"], userPages: {} });
+      if (!parsed || typeof parsed !== "object") return base;
+      return normalizeAccessSettings(parsed, base);
     } catch (e) {
       return defaultAccess();
     }
@@ -344,7 +353,13 @@
       // 등록 교사는 별도 목록이 아직 만들어지지 않았더라도 기존 교사용
       // 기본 권한(teacher1)을 상속한다. 기존 math 등 계정도 즉시 적용된다.
       if (session.role === "staff") {
-        const defaultStaffPages = access.userPages.__staff__ || access.userPages.teacher1 || [];
+        const published = defaultAccess().userPages;
+        const defaultStaffPages = [
+          access.userPages.__staff__,
+          access.userPages.teacher1,
+          published.__staff__,
+          published.teacher1,
+        ].find((pages) => Array.isArray(pages) && pages.length > 0) || [];
         return pageListIncludes(defaultStaffPages, key);
       }
     }
@@ -352,9 +367,18 @@
   }
 
   function denyAccess(redirectTo, hasSession) {
+    // 접근 거부 직후 기존 화면을 숨겨서 경고창을 닫아도 자료를 계속 볼 수 없게 한다.
+    try {
+      document.documentElement.style.visibility = "hidden";
+      if (document.body) document.body.replaceChildren();
+    } catch (e) {}
     if (hasSession) {
-      // 로그인한 사용자는 첫 화면으로 보내고, 페이지 본문을 계속 노출하지 않는다.
-      location.replace("index.html?access=denied");
+      // 호출 페이지의 상대 로그인 경로를 기준으로 첫 화면 경로도 맞춘다.
+      const loginPath = redirectTo || "login.html";
+      const homePath = /login\.html(?:[?#].*)?$/i.test(loginPath)
+        ? loginPath.replace(/login\.html(?:[?#].*)?$/i, "index.html?access=denied")
+        : loginPath;
+      location.replace(homePath);
       return false;
     }
     const login = redirectTo || "login.html";
