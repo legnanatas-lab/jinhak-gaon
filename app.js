@@ -266,6 +266,41 @@ function yearData(record, year) {
   return data;
 }
 
+// 입결 컷과 모집·경쟁 자료는 같은 대학·학과·전형을 서로 다른 원자료 행으로
+// 수집한 경우가 있다. 컷이 있는 행의 모집·경쟁 칸이 비어 있으면, 같은 캠퍼스와
+// 모집단위·전형 계열의 원자료만 보조로 사용한다. 다른 캠퍼스/다른 전형을 섞지 않는다.
+function campusName(value) {
+  const raw = String(value || '');
+  const match = raw.match(/\(([^)]+)\)/);
+  if (!match) return '';
+  const campus = normalize(match[1]);
+  if (/erica|에리카/.test(campus)) return 'erica';
+  if (/글로컬/.test(campus)) return 'glocal';
+  if (/세종/.test(campus)) return 'sejong';
+  if (/미래/.test(campus)) return 'mirae';
+  return campus;
+}
+
+function sameUniversityCampus(a, b) {
+  if (baseUniName(a.university || a.universityCanon) !== baseUniName(b.university || b.universityCanon)) return false;
+  return campusName(a.university || a.universityCanon) === campusName(b.university || b.universityCanon);
+}
+
+function competitionYearData(record, year) {
+  const direct = yearData(record, year);
+  if (direct && (direct.recruit != null || direct.competition != null)) return direct;
+  const targetMajor = majorKey(record.major);
+  const candidates = (DATA.records || []).filter((other) => {
+    if (other === record || !sameUniversityCampus(record, other)) return false;
+    if (majorKey(other.major) !== targetMajor || other.trackType !== record.trackType) return false;
+    const value = yearData(other, year);
+    return value && (value.recruit != null || value.competition != null);
+  }).sort((a, b) => programSimilarity(record, b) - programSimilarity(record, a));
+  const matched = candidates[0];
+  if (!matched) return direct;
+  return { ...yearData(matched, year), linkedFromSibling: true };
+}
+
 function metricValue(record, year, key) {
   const data = yearData(record, year);
   return data ? data[key] : null;
@@ -1104,6 +1139,13 @@ function renderDetail(record) {
           <span class="lg lg50">50%컷</span>
         </div>
       </section>
+      <section class="panel panel-pad">
+        <div class="section-title">
+          <h3>모집 · 경쟁 (3개년)</h3>
+          <span>수시 입결</span>
+        </div>
+        ${renderCompTable(record)}
+      </section>
       <section class="panel panel-pad plan-2027-panel">
         <div class="section-title plan-title">
           <h3>2027학년도 수시모집정보</h3>
@@ -1117,13 +1159,6 @@ function renderDetail(record) {
           <span>같은 대학·모집단위 기준</span>
         </div>
         ${renderExamTable(record)}
-      </section>
-      <section class="panel panel-pad">
-        <div class="section-title">
-          <h3>모집 · 경쟁 (3개년)</h3>
-          <span>수시 입결</span>
-        </div>
-        ${renderCompTable(record)}
       </section>
     </aside>
   `;
@@ -1152,10 +1187,10 @@ function renderCompTable(record) {
   const fmtRatio = (v) => (v == null ? "–" : formatNumber(v, 2));
   const fmtPct = (v) => (v == null ? "–" : `${Math.round(v * 100)}%`);
   const rows = YEARS.map((year) => {
-    const data = yearData(record, year);
+    const data = competitionYearData(record, year);
     const now = year === 2026 ? "now-row" : "";
     if (!data || (data.recruit == null && data.competition == null)) {
-      return `<tr class="${now}"><th>${year}</th><td colspan="4" class="muted-cell">자료 없음</td></tr>`;
+      return `<tr class="${now}"><th>${year}</th><td colspan="4" class="muted-cell">모집·경쟁 원자료 미공개</td></tr>`;
     }
     return `
       <tr class="${now}">
@@ -1181,7 +1216,11 @@ function renderCompTable(record) {
 /* ---------- 2027 모집정보 연결 ---------- */
 const PLAN2027_INDEX = new Map();
 const PLAN2027_UNI_INDEX = new Map();
+const PLAN2027_SOURCE_INDEX = new Map();
+const PLAN2027_SOURCE_UNI_INDEX = new Map();
 let PLAN2027_INDEX_READY = false;
+let PLAN2027_SOURCE_READY = false;
+let PLAN2027_SOURCE_LOADING = null;
 
 function baseUniName(value) {
   return normalize(String(value || '')
@@ -1195,6 +1234,10 @@ function baseUniName(value) {
     .replace(/과학기술대학교?$/,'과기대')
     .replace(/공과대학교?$/,'공대')
     .replace(/대학교?$/,'대'));
+}
+
+function planUniversityKey(value) {
+  return `${baseUniName(value)}|${campusName(value) || 'main'}`;
 }
 
 function majorKey(value) {
@@ -1245,6 +1288,126 @@ function buildPlanIndex() {
     PLAN2027_UNI_INDEX.get(uk).push(plan);
   }
   PLAN2027_INDEX_READY = true;
+}
+
+function sourceValueIsCount(value) {
+  return /^\(?\d{1,4}(?:,\d{3})*\)?$/.test(String(value || '').trim());
+}
+
+function sourceText(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim();
+}
+
+function addSourcePlan(plan) {
+  const uk = planUniversityKey(plan.u);
+  const mk = majorKey(plan.m);
+  if (!uk || !mk) return;
+  const key = `${uk}|${mk}`;
+  if (!PLAN2027_SOURCE_INDEX.has(key)) PLAN2027_SOURCE_INDEX.set(key, []);
+  PLAN2027_SOURCE_INDEX.get(key).push(plan);
+  if (!PLAN2027_SOURCE_UNI_INDEX.has(uk)) PLAN2027_SOURCE_UNI_INDEX.set(uk, []);
+  PLAN2027_SOURCE_UNI_INDEX.get(uk).push(plan);
+}
+
+// 2027 수시모집 원자료 HTML의 '전형유형별·모집단위별 모집인원' 표를 읽어
+// 누락된 대학·학과의 모집인원도 동일한 기준으로 연결한다.
+function extractSourcePlans(university) {
+  const blocks = university?.sections?.['4'] || [];
+  for (const block of blocks) {
+    const rows = block?.t === 'tb' && Array.isArray(block.r) ? block.r : null;
+    if (!rows?.length) continue;
+    const majorHeader = rows.find((row) => row.some((cell) => /모집\s*단위|학과\s*부/.test(sourceText(cell))));
+    const majorColumn = majorHeader ? majorHeader.findIndex((cell) => /모집\s*단위|학과\s*부/.test(sourceText(cell))) : -1;
+    if (majorColumn < 0) continue;
+    const firstData = rows.findIndex((row, index) => index > 0 && row.some(sourceValueIsCount));
+    if (firstData < 1) continue;
+    const headers = rows.slice(0, firstData);
+    const labels = Array.from({ length: Math.max(...rows.map((row) => row.length)) }, (_, index) =>
+      headers.map((row) => sourceText(row[index])).filter(Boolean).join(' ')
+    );
+    let currentMajor = '';
+    for (const row of rows.slice(firstData)) {
+      const rawMajor = sourceText(row[majorColumn]);
+      const detail = sourceText(row[majorColumn + 1]);
+      if (rawMajor) currentMajor = rawMajor;
+      if (!currentMajor) continue;
+      const major = detail && !/학부\s*모집|계열\s*모집|모집\s*단위/.test(detail)
+        ? `${currentMajor} ${detail}` : currentMajor;
+      row.forEach((cell, index) => {
+        const count = sourceText(cell);
+        const label = labels[index] || '';
+        if (!sourceValueIsCount(count)) return;
+        // 단순 모집인원·수시계는 전형이 아니므로 제외한다.
+        if (!/교과|종합|논술|실기|추천|서류|면접|지역|균형|고른|기회|특성화|재능|학생부/.test(label)) return;
+        const type = label
+          .replace(/수시\s*모집인원|정원\s*내|정원\s*외|모집\s*인원|모집\s*단위/g, '')
+          .replace(/\s+/g, ' ').trim();
+        if (!type) return;
+        addSourcePlan({
+          u: university.name,
+          m: major,
+          t: type,
+          p: '2027 수시 원자료',
+          n: count.replace(/[()]/g, ''),
+          method: '대학별 2027 수시모집 원자료',
+          min: '모집요강 확인',
+          sourceRaw: true,
+        });
+      });
+    }
+  }
+}
+
+function parseEmbeddedSusiSource(text) {
+  const marker = 'const D = ';
+  const start = text.indexOf(marker);
+  if (start < 0) throw new Error('2027 수시 원자료를 찾을 수 없습니다.');
+  const jsonStart = start + marker.length;
+  let depth = 0, quoted = false, escaped = false;
+  for (let index = jsonStart; index < text.length; index += 1) {
+    const char = text[index];
+    if (quoted) {
+      if (escaped) escaped = false;
+      else if (char === '\\') escaped = true;
+      else if (char === '"') quoted = false;
+      continue;
+    }
+    if (char === '"') quoted = true;
+    else if (char === '{') depth += 1;
+    else if (char === '}' && --depth === 0) return JSON.parse(text.slice(jsonStart, index + 1));
+  }
+  throw new Error('2027 수시 원자료 형식이 올바르지 않습니다.');
+}
+
+async function loadSourcePlans2027() {
+  if (PLAN2027_SOURCE_READY) return;
+  if (PLAN2027_SOURCE_LOADING) return PLAN2027_SOURCE_LOADING;
+  PLAN2027_SOURCE_LOADING = fetch('./2027-susi-admissions.html', { cache: 'no-cache' })
+    .then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.text();
+    })
+    .then((text) => {
+      const data = parseEmbeddedSusiSource(text);
+      (data.universities || []).forEach(extractSourcePlans);
+      PLAN2027_SOURCE_READY = true;
+    })
+    .finally(() => { PLAN2027_SOURCE_LOADING = null; });
+  return PLAN2027_SOURCE_LOADING;
+}
+
+function findSourcePlansForRecord(record) {
+  if (!PLAN2027_SOURCE_READY || !record) return [];
+  const uk = planUniversityKey(record.university || record.universityCanon);
+  const mk = majorKey(record.major);
+  let plans = PLAN2027_SOURCE_INDEX.get(`${uk}|${mk}`) || [];
+  if (!plans.length && mk) {
+    plans = (PLAN2027_SOURCE_UNI_INDEX.get(uk) || []).filter((plan) => {
+      const candidate = majorKey(plan.m);
+      return candidate && (candidate.includes(mk) || mk.includes(candidate));
+    });
+  }
+  return plans;
 }
 
 function typeMatchesPlan(record, plan) {
@@ -1318,6 +1481,14 @@ function findPlansForRecord(record) {
     // 아래 표에서 모집인원이 전형 전체 합계임을 명확히 표시한다.
     candidates = (PLAN2027_UNI_INDEX.get(uk) || []).filter(isUniversityWidePlan);
   }
+  // 요약 전형 데이터에 누락된 대학·캠퍼스는 대학별 2027 원자료 표에서 보완한다.
+  // 원자료 인덱스는 캠퍼스를 포함하므로 한양대 서울/ERICA처럼 다른 캠퍼스가 섞이지 않는다.
+  // 요약 데이터에 같은 학과의 다른 전형만 있는 경우에도, 해당 전형의 대학별
+  // 원자료를 함께 붙여 전형별 2027 모집정보가 빠지지 않게 한다.
+  const sourceCandidates = findSourcePlansForRecord(record);
+  if (!candidates.length || !candidates.some(plan => typeMatchesPlan(record, plan))) {
+    candidates = candidates.concat(sourceCandidates);
+  }
   const seen = new Set();
   const unique = [];
   for (const plan of candidates) {
@@ -1347,6 +1518,11 @@ function compactText(value, fallback='–') {
 function renderPlanTable(record, options = {}) {
   const plans = findPlansForRecord(record);
   if (!plans.length) {
+    if (!PLAN2027_SOURCE_READY && !PLAN2027_SOURCE_LOADING) {
+      loadSourcePlans2027().then(() => renderDynamic()).catch(() => renderDynamic());
+      return `<div class="plan-empty">대학별 2027 수시 원자료를 연결하고 있습니다…</div>`;
+    }
+    if (PLAN2027_SOURCE_LOADING) return `<div class="plan-empty">대학별 2027 수시 원자료를 연결하고 있습니다…</div>`;
     return `<div class="plan-empty">같은 대학·학과명으로 연결된 2027 모집정보가 없습니다. 학과 명칭이 바뀌었거나 통합모집일 수 있으므로 2027 모집요강에서 직접 확인하세요.</div>`;
   }
   const limit = options.limit || plans.length;
@@ -1601,6 +1777,10 @@ async function init() {
     return;
   }
   mount();
+  // 대학별 원자료까지 미리 읽어 두어 목록·상세의 2027 모집정보 누락을 보완한다.
+  loadSourcePlans2027().then(() => renderDynamic()).catch(() => {
+    // 기존 요약 전형자료는 계속 표시한다. 세부 화면에서만 원자료 연결 실패를 안내한다.
+  });
 }
 
 init();
