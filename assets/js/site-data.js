@@ -1169,6 +1169,24 @@ window.GAONGIL_SITE_DATA = {
           "key": "highschoolorigin"
         },
         {
+          "title": "└ 전국 대학 출신 고교유형·지역 현황",
+          "url": "highschool-origin-university.html",
+          "current": "대학 통계",
+          "tags": ["statistics", "highschool", "region", "university"],
+          "status": "신규",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
+          "key": "highschooloriginuniversity"
+        },
+        {
+          "title": "└ 전국 전문대학 출신 고교유형·지역 현황",
+          "url": "highschool-origin-college.html",
+          "current": "대학 통계",
+          "tags": ["statistics", "highschool", "region", "college"],
+          "status": "신규",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
+          "key": "highschoolorigincollege"
+        },
+        {
           "title": "전국 고등학교 지도",
           "url": "highschoolmap.html",
           "current": "지도 자료",
