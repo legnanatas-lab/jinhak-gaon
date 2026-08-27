@@ -54,7 +54,7 @@ window.GAONGIL_SITE_DATA = {
         },
         {
           "title": "2026 대학발표 입시결과 조회 (수시결과)",
-          "url": "susi.html?v=26",
+          "url": "susi.html?v=20260827-details",
           "current": "입시결과 조회",
           "tags": [
             "results",
@@ -413,7 +413,7 @@ window.GAONGIL_SITE_DATA = {
         },
         {
           "title": "2026 대학발표 입시결과 조회 (수시결과)",
-          "url": "susi.html?v=26",
+          "url": "susi.html?v=20260827-details",
           "current": "입시결과 조회",
           "tags": [
             "results",
@@ -1271,7 +1271,7 @@ window.GAONGIL_SITE_DATA = {
         },
         {
           "title": "2026 대학발표 입시결과 조회 (수시결과)",
-          "url": "susi.html?v=26",
+          "url": "susi.html?v=20260827-details",
           "current": "입시결과 조회",
           "tags": [
             "results",

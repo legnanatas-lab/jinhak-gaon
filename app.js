@@ -17,7 +17,7 @@ const METRICS = [
 ];
 
 const ADMISSION_RESULT_LINKS = [
-  { key: "susi", label: "수시결과", href: "./susi.html?v=26" },
+  { key: "susi", label: "수시결과", href: "./susi.html?v=20260827-details" },
   { key: "jeongsi", label: "정시결과", href: "./jeongsi/index.html?v=26" },
 ];
 
@@ -810,6 +810,8 @@ function printSavedReport() {
       <p class="meta">${escapeHtml(record.region)} · ${escapeHtml(record.track)} · ${escapeHtml(record.program)}</p>
       <h3 class="report-subtitle">2027 모집정보</h3>
       ${reportPlanRows(record)}
+      <h3 class="report-subtitle">2027 대학별 고사 일정</h3>
+      ${reportExamRows(record)}
       <h3 class="report-subtitle">입결 컷·경쟁 3개년</h3>
       <table>
         <thead><tr><th>연도</th><th>70%컷</th><th>50%컷</th><th>모집</th><th>경쟁률</th><th>충원율</th></tr></thead>
@@ -1109,6 +1111,13 @@ function renderDetail(record) {
         </div>
         ${renderPlanTable(record, {limit: 20})}
       </section>
+      <section class="panel panel-pad exam-2027-panel">
+        <div class="section-title exam-title">
+          <h3>2027학년도 대학별 고사 일정</h3>
+          <span>같은 대학·모집단위 기준</span>
+        </div>
+        ${renderExamTable(record)}
+      </section>
       <section class="panel panel-pad">
         <div class="section-title">
           <h3>모집 · 경쟁 (3개년)</h3>
@@ -1177,8 +1186,15 @@ let PLAN2027_INDEX_READY = false;
 function baseUniName(value) {
   return normalize(String(value || '')
     .replace(/^국립/,'')
+    .replace(/\[[^\]]*\]/g, '')
     .replace(/\([^)]*\)/g, '')
-    .replace(/대학$/,'대'));
+    .replace(/여자대학교?$/,'여대')
+    .replace(/교육대학교?$/,'교대')
+    .replace(/외국어대학교?$/,'외대')
+    .replace(/체육대학교?$/,'체대')
+    .replace(/과학기술대학교?$/,'과기대')
+    .replace(/공과대학교?$/,'공대')
+    .replace(/대학교?$/,'대'));
 }
 
 function majorKey(value) {
@@ -1484,6 +1500,84 @@ function trendChart(record) {
       }).join("")}
     </svg>
   `;
+}
+
+/* ---------- 2027 대학별 고사 일정 ---------- */
+function findExamsForRecord(record) {
+  if (!window.examSchedule2027 || !record) return [];
+  const universityKey = baseUniName(record.university || record.universityCanon);
+  const recordMajorKey = majorKey(record.major);
+  const recordMajor = String(record.major || "");
+  const recordDomain = record.domain || "";
+
+  return window.examSchedule2027.filter((exam) => {
+    if (exam.startDate === "시작일") return false;
+    const examUniversityKey = baseUniName(exam.university);
+    if (examUniversityKey !== universityKey && !examUniversityKey.includes(universityKey) && !universityKey.includes(examUniversityKey)) return false;
+
+    if (!exam.majors || exam.majors.length === 0) return true;
+
+    let matchesMajor = exam.majors.some((major) => {
+      const planMajorKey = majorKey(major);
+      if (!planMajorKey) return false;
+      if (/(전체|전모집단위|공통|자유전공|무전공|전학과)/.test(planMajorKey)) return true;
+      return planMajorKey.includes(recordMajorKey)
+        || recordMajorKey.includes(planMajorKey)
+        || String(major).includes(recordMajor)
+        || recordMajor.includes(String(major));
+    });
+
+    if (!matchesMajor) {
+      const domainPatterns = {
+        인문: /(인문|문과|사회|인경|경상|사범|경영|상경)/,
+        자연: /(자연|이과|이공|공학|과학|수리|it|소프트웨어|ai)/i,
+        예체능: /(예능|체능|예체능|미술|체육|음악|디자인|무용|연기|영상|예술)/,
+        의학: /(의학|의예|약학|간호|수의|치의|한의|보건|의약)/
+      };
+      const pattern = domainPatterns[recordDomain];
+      if (pattern) matchesMajor = exam.majors.some((major) => pattern.test(majorKey(major)));
+    }
+
+    if (!matchesMajor) {
+      const practical = String(exam.type || "").includes("실기") || String(exam.program || "").includes("실기");
+      matchesMajor = !practical || recordDomain === "예체능";
+    }
+    return matchesMajor;
+  });
+}
+
+function examDateLabel(exam) {
+  if (!exam.startDate) return "일정 미정";
+  return exam.startDate === exam.endDate || !exam.endDate
+    ? exam.startDate
+    : `${exam.startDate} ~ ${String(exam.endDate).substring(5)}`;
+}
+
+function renderExamTable(record) {
+  const exams = findExamsForRecord(record);
+  if (!exams.length) return '<div class="plan-empty">연결된 2027 대학별 고사 일정이 없습니다.</div>';
+  const rows = exams.map((exam) => `
+    <tr>
+      <td>${escapeHtml(examDateLabel(exam))}<br><span class="muted">(${escapeHtml(exam.day || "")})</span></td>
+      <td>${escapeHtml(exam.csatPhase || "–")}</td>
+      <td>${escapeHtml(exam.type || "–")}<br><span class="muted">${escapeHtml(exam.step || "")}</span></td>
+      <td>${escapeHtml(exam.program || "–")}</td>
+    </tr>
+  `).join("");
+  return `
+    <div class="plan-count">연결된 고사 일정 <b>${exams.length}</b>건</div>
+    <div class="table-shell plan-table-shell">
+      <table class="plan-table">
+        <thead><tr><th>일정(요일)</th><th>수능전후</th><th>유형(단계)</th><th>전형명</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function reportExamRows(record) {
+  const exams = findExamsForRecord(record).slice(0, 5);
+  if (!exams.length) return '<p class="muted">연결된 대학별 고사 일정 없음</p>';
+  return `<table class="plan-report"><thead><tr><th>일정(요일)</th><th>수능전후</th><th>유형(단계)</th><th>전형명</th></tr></thead><tbody>${exams.map((exam) => `<tr><td>${escapeHtml(examDateLabel(exam))}(${escapeHtml(exam.day || "")})</td><td>${escapeHtml(exam.csatPhase || "–")}</td><td>${escapeHtml(exam.type || "–")}(${escapeHtml(exam.step || "")})</td><td>${escapeHtml(exam.program || "–")}</td></tr>`).join("")}</tbody></table>`;
 }
 
 /* ---------- 초기화 ---------- */
