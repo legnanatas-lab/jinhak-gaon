@@ -1258,6 +1258,20 @@
         "key": "cast20266g2"
       },
       {
+        "title": "신입생 출신 고교유형·지역 현황 (2023~2026)",
+        "url": "highschool-origin.html",
+        "current": "대학 통계",
+        "tags": [
+          "statistics",
+          "highschool",
+          "region",
+          "admission"
+        ],
+        "status": "신규",
+        "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
+        "key": "highschoolOrigin"
+      },
+      {
         "title": "대학 입학전형 유형별 선발 결과 (2024~2026)",
         "url": "admission-type-results.html",
         "current": "선발 통계",
