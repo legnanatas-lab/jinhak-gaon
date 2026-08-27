@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script src="./assets/js/access-bootstrap.js?v=20260827-access2"></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0VB6E0J6MB"></script>
 <script>
@@ -615,6 +616,13 @@ initScope();initCompare();initUni();initType();initArea();initTrend();
 renderCompare();renderUniList();renderType();renderArea();renderTrend();
 const sv=location.hash.slice(1);
 if(['compare','uni','type','area','trend'].includes(sv))showView(sv);
+</script>
+<script src="./assets/js/auth.js?v=20260827-access2"></script>
+<script>
+  (async () => {
+    await GaongilAuth.ensureSeedUsers();
+    GaongilAuth.requirePageAccess("./login.html");
+  })();
 </script>
 </body>
 </html>

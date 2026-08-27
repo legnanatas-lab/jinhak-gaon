@@ -2349,7 +2349,10 @@ window.GAONGIL_SITE_CONFIG = {
         "placeholder.html?item=cast20265",
         "placeholder.html?item=cast20266g1",
         "placeholder.html?item=cast20266g2",
-        "highschoolmap.html"
+        "highschoolmap.html",
+        "highschool-origin.html",
+        "highschool-origin-university.html",
+        "highschool-origin-college.html"
       ]
     }
   },
