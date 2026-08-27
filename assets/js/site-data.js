@@ -1160,6 +1160,15 @@ window.GAONGIL_SITE_DATA = {
           "key": "cast20266g2"
         },
         {
+          "title": "신입생 출신 고교유형·지역 현황 (2023~2026)",
+          "url": "highschool-origin.html",
+          "current": "대학 통계",
+          "tags": ["statistics", "highschool", "region", "admission"],
+          "status": "신규",
+          "brandNote": "가온길 에듀 · 가온길 에듀 입시전략연구소",
+          "key": "highschoolorigin"
+        },
+        {
           "title": "전국 고등학교 지도",
           "url": "highschoolmap.html",
           "current": "지도 자료",
@@ -2391,4 +2400,3 @@ window.GAONGIL_SITE_CONFIG = {
     }
   ]
 };
-
