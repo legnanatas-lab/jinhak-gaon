@@ -104,6 +104,27 @@ a {
   gap: 10px;
 }
 
+.admin-logout-btn {
+  min-height: 42px;
+  border: 1px solid rgba(0, 195, 255, 0.58);
+  border-radius: var(--radius);
+  padding: 0 16px;
+  background: rgba(18, 31, 50, 0.9);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.admin-logout-btn:hover,
+.admin-logout-btn:focus-visible {
+  border-color: var(--gold);
+  background: rgba(202, 151, 46, 0.16);
+  color: #fff7df;
+  outline: none;
+}
+
 .nav-menu {
   position: relative;
 }
@@ -1203,6 +1224,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         <nav class="home-nav">
           <a href="./index.html" style="padding:10px 14px;">홈으로</a>
           <span class="user-chip" id="userChip" style="padding:10px 14px; color:var(--soft); font-size:.85rem;"></span>
+          <button class="admin-logout-btn" id="logoutBtn" type="button" aria-label="관리자 로그아웃">로그아웃</button>
         </nav>
       </div>
     </header>
@@ -1391,6 +1413,9 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
       let session;
       (() => {
         session = GaongilAuth.requireAdmin("./login.html");
+        document.getElementById("logoutBtn")?.addEventListener("click", () => {
+          GaongilAuth.logout("login.html");
+        });
         if (session) {
           renderUsers();
           renderAccessControls();
