@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko">
   <head>
+<script src="./assets/js/access-bootstrap.js?v=20260827-access"></script>
 
 
     <meta charset="UTF-8" />
@@ -1385,7 +1386,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     </footer>
 
     <script src="./assets/js/site-data.js?v=20260711-config"></script>
-    <script src="./assets/js/auth.js?v=20260713-firebase-google"></script>
+    <script src="./assets/js/auth.js?v=20260827-access"></script>
     <script>
       let session;
       (() => {
@@ -1899,7 +1900,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
         try {
           await GaongilAuth.addUser({ id, name, email, role, password });
           msg.textContent = GaongilAuth.isFirebaseEnabled?.()
-            ? id + " 계정을 Firestore와 실시간 로그인 목록에 저장했습니다. 아이디와 임시 비밀번호로 바로 로그인할 수 있습니다."
+            ? id + " 계정을 Firestore 권한 목록에 저장했고 기본 교사 권한을 적용했습니다. 아이디와 임시 비밀번호로 바로 로그인할 수 있습니다."
             : id + " 계정을 추가했습니다.";
           msg.className = "form-msg success show";
           e.target.reset();

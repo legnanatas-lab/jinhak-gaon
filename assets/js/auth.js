@@ -265,20 +265,20 @@
 
   function defaultAccess() {
     const published = siteConfig().access || {};
-    const publicPages = Array.isArray(published.publicPages) ? published.publicPages : [];
     const userPages = {};
     Object.entries(published.userPages || {}).forEach(([id, pages]) => {
       if (Array.isArray(pages)) userPages[normalizeId(id)] = pages.map(normalizePageKey).filter(Boolean);
     });
     return {
-      publicPages: Array.from(new Set(["index.html", ...publicPages.map(normalizePageKey).filter(Boolean)])),
+      // 자료실은 로그인 사용자만 이용한다. 홈페이지와 로그인 화면만 예외다.
+      // 이전 배포본의 publicPages 목록이 남아 있어도 익명 접근에는 사용하지 않는다.
+      publicPages: ["index.html"],
       userPages,
     };
   }
 
   function normalizeAccessSettings(access, base = defaultAccess()) {
     const source = access && typeof access === "object" ? access : {};
-    const publicPages = Array.isArray(source.publicPages) ? source.publicPages.map(normalizePageKey).filter(Boolean) : [];
     const userPages = clonePlain(base.userPages, {});
     Object.entries(source.userPages || {}).forEach(([id, pages]) => {
       if (Array.isArray(pages)) {
@@ -286,7 +286,7 @@
       }
     });
     return {
-      publicPages: Array.from(new Set([...(base.publicPages || []), ...publicPages])),
+      publicPages: ["index.html"],
       userPages,
       updatedAt: Number(source.updatedAt || Date.now()),
     };
@@ -337,12 +337,29 @@
     if (key === "index.html" || key === "login.html") return true;
     if (session && session.role === "admin") return true;
     if (isPagePublic(key)) return true;
-    if (session) return pageListIncludes(loadAccess().userPages[session.id], key);
+    if (session) {
+      const access = loadAccess();
+      const ownPages = access.userPages[normalizeId(session.id)];
+      if (pageListIncludes(ownPages, key)) return true;
+      // 등록 교사는 별도 목록이 아직 만들어지지 않았더라도 기존 교사용
+      // 기본 권한(teacher1)을 상속한다. 기존 math 등 계정도 즉시 적용된다.
+      if (session.role === "staff") {
+        const defaultStaffPages = access.userPages.__staff__ || access.userPages.teacher1 || [];
+        return pageListIncludes(defaultStaffPages, key);
+      }
+    }
     return false;
   }
 
   function denyAccess(redirectTo, hasSession) {
-    alert(hasSession ? "관리자의 승인이 필요한 자료입니다." : "관리자의 승인이 필요합니다. 로그인 후 이용해 주세요.");
+    if (hasSession) {
+      // 로그인한 사용자는 첫 화면으로 보내고, 페이지 본문을 계속 노출하지 않는다.
+      location.replace("index.html?access=denied");
+      return false;
+    }
+    const login = redirectTo || "login.html";
+    const here = encodeURIComponent(buildReturnPath(login));
+    location.replace(login + "?redirect=" + here);
     return false;
   }
 
@@ -645,6 +662,15 @@
         remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
       }
       await syncUsersToFirebaseSiteConfig(users);
+    }
+    // 새로 등록한 교사는 기존 교사용 기본 권한을 바로 상속한다.
+    // 관리자는 이후 관리자 화면에서 해당 교사의 개별 권한을 조정할 수 있다.
+    if (newUser.role === "staff") {
+      const access = loadAccess();
+      if (!Array.isArray(access.userPages[id]) || access.userPages[id].length === 0) {
+        access.userPages[id] = Array.from(access.userPages.__staff__ || access.userPages.teacher1 || []);
+        await saveAccess(access);
+      }
     }
     return true;
   }
