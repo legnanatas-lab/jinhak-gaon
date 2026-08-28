@@ -1415,17 +1415,28 @@ function sourceText(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
+// 원자료는 일부 대학이 캠퍼스 표기를 생략한다. 정확한 캠퍼스 키를 먼저 사용하고,
+// 같은 대학의 원자료만 있을 때에만 대학명 키로 한 번 더 연결한다.
+function sourceUniversityKeys(value) {
+  const raw = String(value || '');
+  const exact = raw.includes('|') ? raw : planUniversityKey(raw);
+  const university = exact.split('|')[0] || baseUniName(raw);
+  return [...new Set([exact, university].filter(Boolean))];
+}
+
 function addSourcePlan(plan) {
-  const uk = planUniversityKey(plan.u);
   const majorKeys = programMajorKeys(plan.m);
-  if (!uk || !majorKeys.length) return;
-  for (const mk of majorKeys) {
-    const key = `${uk}|${mk}`;
-    if (!PLAN2027_SOURCE_INDEX.has(key)) PLAN2027_SOURCE_INDEX.set(key, []);
-    PLAN2027_SOURCE_INDEX.get(key).push(plan);
+  const universityKeys = sourceUniversityKeys(plan.u);
+  if (!universityKeys.length || !majorKeys.length) return;
+  for (const uk of universityKeys) {
+    for (const mk of majorKeys) {
+      const key = `${uk}|${mk}`;
+      if (!PLAN2027_SOURCE_INDEX.has(key)) PLAN2027_SOURCE_INDEX.set(key, []);
+      PLAN2027_SOURCE_INDEX.get(key).push(plan);
+    }
+    if (!PLAN2027_SOURCE_UNI_INDEX.has(uk)) PLAN2027_SOURCE_UNI_INDEX.set(uk, []);
+    PLAN2027_SOURCE_UNI_INDEX.get(uk).push(plan);
   }
-  if (!PLAN2027_SOURCE_UNI_INDEX.has(uk)) PLAN2027_SOURCE_UNI_INDEX.set(uk, []);
-  PLAN2027_SOURCE_UNI_INDEX.get(uk).push(plan);
 }
 
 // 2027 수시모집 원자료 HTML의 '전형유형별·모집단위별 모집인원' 표를 읽어
@@ -1475,6 +1486,80 @@ function extractSourcePlans(university) {
       });
     }
   }
+}
+
+// 일부 대학은 모집단위별 표(4번 항목) 대신 전형별 모집인원 표(2번 항목)에만
+// 학과별 정원을 적는다. 예: "일반전형 모집인원 / 국제통상학부(5)".
+// 이 목록도 같은 모집정보 인덱스에 넣어 입결이 있는 학과의 2027 요강이 비어
+// 보이지 않도록 한다.
+function sourcePlanTypeLabel(value) {
+  return sourceText(value)
+    .replace(/\s+/g, '')
+    .replace(/모집인원|수시모집|정원내|정원외/g, '')
+    .trim();
+}
+
+function extractSourcePlanList(value, type, universityName) {
+  const compact = String(value || '')
+    .replace(/[\r\n]+/g, '')
+    .replace(/\s+/g, '')
+    .replace(/^총[\d,]+명/, '');
+  if (!compact || !type || !/전형/.test(type)) return;
+
+  // 목록 항목은 일반적으로 "학과명(모집인원)" 형태이며, 복수 학과 통합 표기는
+  // 오인 연결을 막기 위해 개별 학과명으로 식별되는 항목만 기록한다.
+  const itemPattern = /(?:^|,)([^,()]+?(?:학과|학부|전공|계열|대학))\((\d{1,4})\)(?=,|$)/g;
+  let match;
+  while ((match = itemPattern.exec(compact))) {
+    const major = sourceText(match[1]);
+    const count = match[2];
+    if (!major || !count) continue;
+    addSourcePlan({
+      u: universityName,
+      m: major,
+      t: type,
+      p: '2027 수시 원자료',
+      n: count,
+      method: '대학별 2027 수시모집 원자료',
+      min: '모집요강 확인',
+      sourceRaw: true,
+    });
+  }
+}
+
+function extractSourcePlanLists(university) {
+  const blocks = university?.sections?.['2'] || [];
+  const planLists = new Map();
+  let currentType = '';
+
+  for (const block of blocks) {
+    const rows = block?.t === 'tb' && Array.isArray(block.r) ? block.r : null;
+    if (!rows?.length) continue;
+
+    // 대학 원본 표는 2027·2026학년도를 나란히 담고, 같은 전형의 모집단위가
+    // 여러 표로 나뉘어 이어지기도 합니다. 2027 열만 모아 전형별 목록으로 복원합니다.
+    const yearRow = rows.find((row) => row.some((cell) => /2027\s*학년도/.test(sourceText(cell))));
+    const yearColumns = (yearRow || []).reduce((columns, cell, index) => {
+      if (/2027\s*학년도/.test(sourceText(cell))) columns.push(index);
+      return columns;
+    }, []);
+    if (!yearColumns.length) continue;
+
+    for (const row of rows) {
+      const label = sourceText(row?.[0]);
+      const type = sourcePlanTypeLabel(row?.[0]);
+      if (/모집인원/.test(label) && /전형/.test(type)) currentType = type;
+      if (!currentType) continue;
+
+      for (const index of yearColumns) {
+        const cell = String(row?.[index] ?? '');
+        if (!cell) continue;
+        planLists.set(currentType, `${planLists.get(currentType) || ''}${cell}`);
+      }
+    }
+  }
+
+  for (const [type, list] of planLists) extractSourcePlanList(list, type, university.name);
 }
 
 // '학과(부) 변경사항'은 2027·2026 비교 표라서 셀 병합에 따라 구분값이 비어 있는
@@ -1543,6 +1628,7 @@ async function loadSourcePlans2027() {
       const data = parseEmbeddedSusiSource(text);
       (data.universities || []).forEach((university) => {
         extractSourcePlans(university);
+        extractSourcePlanLists(university);
         extractProgramChanges(university);
       });
       addNewProgramRecords();
@@ -1561,12 +1647,20 @@ function findSourcePlansForRecord(record) {
 function findSourcePlansForMajor(universityKey, major) {
   const keys = programMajorKeys(major);
   let plans = [];
-  for (const key of keys) plans = plans.concat(PLAN2027_SOURCE_INDEX.get(`${universityKey}|${key}`) || []);
+  const universityKeys = sourceUniversityKeys(universityKey);
+  for (const uk of universityKeys) {
+    for (const key of keys) plans = plans.concat(PLAN2027_SOURCE_INDEX.get(`${uk}|${key}`) || []);
+    if (plans.length) break;
+  }
   if (!plans.length && keys.length) {
-    plans = (PLAN2027_SOURCE_UNI_INDEX.get(universityKey) || []).filter((plan) => {
-      const candidateKeys = programMajorKeys(plan.m);
-      return candidateKeys.some((candidate) => keys.some((key) => candidate.includes(key) || key.includes(candidate)));
-    });
+    for (const uk of universityKeys) {
+      const partial = (PLAN2027_SOURCE_UNI_INDEX.get(uk) || []).filter((plan) => {
+        const candidateKeys = programMajorKeys(plan.m);
+        return candidateKeys.some((candidate) => keys.some((key) => candidate.includes(key) || key.includes(candidate)));
+      });
+      plans = plans.concat(partial);
+      if (plans.length) break;
+    }
   }
   return [...new Map(plans.map((plan) => [[plan.u, plan.m, plan.t, plan.p, plan.n].join('|'), plan])).values()];
 }
@@ -1975,7 +2069,7 @@ function examDateLabel(exam) {
 
 function renderExamTable(record) {
   const exams = findExamsForRecord(record);
-  if (!exams.length) return '<div class="plan-empty">연결된 2027 대학별 고사 일정이 없습니다.</div>';
+  if (!exams.length) return '<div class="plan-empty">해당 모집단위에는 대학별고사(논술·면접·실기) 일정이 없습니다. 원서접수·합격자 발표는 2027 모집요강을 확인하세요.</div>';
   const rows = exams.map((exam) => `
     <tr>
       <td>${escapeHtml(examDateLabel(exam))}<br><span class="muted">(${escapeHtml(exam.day || "")})</span></td>
@@ -1996,7 +2090,7 @@ function renderExamTable(record) {
 
 function reportExamRows(record) {
   const exams = findExamsForRecord(record).slice(0, 5);
-  if (!exams.length) return '<p class="muted">연결된 대학별 고사 일정 없음</p>';
+  if (!exams.length) return '<p class="muted">해당 모집단위의 대학별고사 일정 없음</p>';
   return `<table class="plan-report"><thead><tr><th>일정(요일)</th><th>수능전후</th><th>유형(단계)</th><th>전형명</th></tr></thead><tbody>${exams.map((exam) => `<tr><td>${escapeHtml(examDateLabel(exam))}(${escapeHtml(exam.day || "")})</td><td>${escapeHtml(exam.csatPhase || "–")}</td><td>${escapeHtml(exam.type || "–")}(${escapeHtml(exam.step || "")})</td><td>${escapeHtml(exam.program || "–")}</td></tr>`).join("")}</tbody></table>`;
 }
 
