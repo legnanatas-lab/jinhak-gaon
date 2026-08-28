@@ -19,6 +19,18 @@
   const fileName = (location.pathname.split("/").pop() || "index.html").toLowerCase();
   if (fileName === "index.html" || fileName === "login.html") return;
 
+  // 출신 고교유형·지역 통계 화면은 대용량 데이터를 초기화한 뒤 auth.js가
+  // 실제 권한을 확인한다. 여기서 세션만 보고 즉시 화면을 숨기면, 브라우저의
+  // sessionStorage 복원보다 먼저 리디렉션이 실행되어 빈 화면으로 멈출 수 있다.
+  // 따라서 해당 화면에서는 선차단을 건너뛰고 auth.js의 비동기 권한 검사를
+  // 단일 기준으로 사용한다.
+  const deferredAuthPages = {
+    "highschool-origin.html": true,
+    "highschool-origin-university.html": true,
+    "highschool-origin-college.html": true,
+  };
+  if (deferredAuthPages[fileName]) return;
+
   let session = null;
   try {
     session = JSON.parse(sessionStorage.getItem("gaongil_session_v1") || "null");
