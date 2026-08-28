@@ -1093,8 +1093,9 @@ function renderResultRow(record) {
       </td>
       <td class="col-major">
         <div class="cell-main">
-          <strong title="${escapeAttr(record.major)}">${escapeHtml(record.major)}</strong>
+          <strong title="${escapeAttr(displayMajorName(record))}">${escapeHtml(displayMajorName(record))}</strong>
           <span title="${escapeAttr(record.program)}">${trackTag(record)} <b class="jeonhyeong">${escapeHtml(record.program)}</b></span>
+          ${renderProgramChangeHint(record)}
           <small class="plan-link-hint">2027 모집정보 ${findPlansForRecord(record).length}건</small>
         </div>
       </td>
@@ -1125,11 +1126,12 @@ function renderDetail(record) {
             ${record.domain ? `<span class="chip">${escapeHtml(record.domain)}</span>` : ""}
             ${record.field ? `<span class="chip">${escapeHtml(record.field)}</span>` : ""}
           </div>
-          <h2>${escapeHtml(record.university)} ${escapeHtml(record.major)}</h2>
+          <h2>${escapeHtml(record.university)} ${escapeHtml(displayMajorName(record))}</h2>
           <p class="detail-jeonhyeong">${escapeHtml(record.program)}</p>
         </div>
+        ${renderProgramChangeBanner(record)}
         <div class="section-title">
-          <h3>입결 컷 (3개년)</h3>
+          <h3>${record.isNewProgram ? '입결 컷 (신설 학과)' : '입결 컷 (3개년)'}</h3>
           ${deltaText}
         </div>
         ${renderCutTable(record)}
@@ -1218,9 +1220,15 @@ const PLAN2027_INDEX = new Map();
 const PLAN2027_UNI_INDEX = new Map();
 const PLAN2027_SOURCE_INDEX = new Map();
 const PLAN2027_SOURCE_UNI_INDEX = new Map();
+// 2027 원자료의 '학과(부) 변경사항' 표. 기존 입결은 2026 명칭으로 남아 있으므로
+// 2027 명칭과 양방향으로 연결해 변경·신설 모집단위를 모두 보여 준다.
+const PROGRAM_CHANGE_OLD_INDEX = new Map();
+const PROGRAM_CHANGE_NEW_INDEX = new Map();
+const PROGRAM_CHANGES = [];
 let PLAN2027_INDEX_READY = false;
 let PLAN2027_SOURCE_READY = false;
 let PLAN2027_SOURCE_LOADING = null;
+let PROGRAM_CHANGE_RECORDS_ADDED = false;
 
 function baseUniName(value) {
   return normalize(String(value || '')
@@ -1266,6 +1274,113 @@ function majorKey(value) {
     .replace(/수의학/g, '수의예'));
 }
 
+function majorIdentity(value) {
+  return normalize(String(value || '')
+    .replace(/&lt;[^&gt;]*&gt;/g, '')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\[[^\]]*\]/g, '')
+    .replace(/\s+/g, ''));
+}
+
+function programMajorKeys(value) {
+  const raw = String(value || '').replace(/<br\s*\/?>/gi, '\n');
+  const values = [raw];
+  const parens = raw.match(/\(([^)]+)\)/g) || [];
+  for (const parenthetical of parens) {
+    const inside = parenthetical.slice(1, -1);
+    values.push(inside);
+    for (const part of inside.split(/[,·ㆍ・/]/)) values.push(part);
+  }
+  return [...new Set(values.flatMap((item) => [majorKey(item), majorIdentity(item)]).filter(Boolean))];
+}
+
+function programChangeKey(university, major) {
+  return `${planUniversityKey(university)}|${major}`;
+}
+
+function addProgramChange(change) {
+  const newNames = programMajorNames(change.newMajor);
+  const oldNames = programMajorNames(change.oldMajor);
+  if (!newNames.length) return;
+  const status = /신설/.test(change.category || '') || !oldNames.length ? 'new' : 'changed';
+  const normalized = {
+    ...change,
+    status,
+    newMajor: newNames.join(' · '),
+    oldMajor: oldNames.join(' · '),
+    newNames,
+    oldNames,
+  };
+  PROGRAM_CHANGES.push(normalized);
+  for (const name of newNames) {
+    for (const key of programMajorKeys(name)) {
+      const indexKey = programChangeKey(normalized.university, key);
+      if (!PROGRAM_CHANGE_NEW_INDEX.has(indexKey)) PROGRAM_CHANGE_NEW_INDEX.set(indexKey, []);
+      PROGRAM_CHANGE_NEW_INDEX.get(indexKey).push(normalized);
+    }
+  }
+  for (const name of oldNames) {
+    for (const key of programMajorKeys(name)) {
+      const indexKey = programChangeKey(normalized.university, key);
+      if (!PROGRAM_CHANGE_OLD_INDEX.has(indexKey)) PROGRAM_CHANGE_OLD_INDEX.set(indexKey, []);
+      PROGRAM_CHANGE_OLD_INDEX.get(indexKey).push(normalized);
+    }
+  }
+}
+
+function programMajorNames(value) {
+  const lines = String(value || '')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .split(/\n+/)
+    .map((item) => sourceText(item))
+    .filter((item) => item && item !== '-' && item !== '–');
+  const joined = [];
+  for (const line of lines) {
+    if (/^\([^)]*\)$/.test(line) && joined.length) joined[joined.length - 1] += line;
+    else joined.push(line);
+  }
+  return [...new Set(joined)];
+}
+
+function findProgramChangesForRecord(record) {
+  if (!record) return [];
+  if (record.programChange) return [record.programChange];
+  const university = record.university || record.universityCanon;
+  const direct = [];
+  for (const key of programMajorKeys(record.major)) {
+    direct.push(...(PROGRAM_CHANGE_OLD_INDEX.get(programChangeKey(university, key)) || []));
+    direct.push(...(PROGRAM_CHANGE_NEW_INDEX.get(programChangeKey(university, key)) || []));
+  }
+  return [...new Map(direct.map((change) => [change.id, change])).values()];
+}
+
+function primaryProgramChange(record) {
+  const changes = findProgramChangesForRecord(record);
+  return changes.find((change) => change.status === 'new') || changes.find((change) => change.status === 'changed') || null;
+}
+
+function displayMajorName(record) {
+  const change = primaryProgramChange(record);
+  if (change?.status === 'changed' && change.newMajor) return change.newMajor;
+  return record?.major || '';
+}
+
+function renderProgramChangeHint(record) {
+  const change = primaryProgramChange(record);
+  if (!change) return '';
+  if (change.status === 'new') return '<small class="program-change-hint new">신설 · 2027 모집정보</small>';
+  return `<small class="program-change-hint changed">변경 · 기존 ${escapeHtml(change.oldMajor || record.major)}</small>`;
+}
+
+function renderProgramChangeBanner(record) {
+  const change = primaryProgramChange(record);
+  if (!change) return '';
+  if (change.status === 'new') {
+    return `<div class="program-change-banner new"><b>신설</b><span>2027학년도 신설 모집단위입니다. 모집정보는 표시되며 이전 3개년 입결은 없습니다.</span></div>`;
+  }
+  return `<div class="program-change-banner changed"><b>학과(부) 변경</b><span>2027 <strong>${escapeHtml(change.newMajor)}</strong> · 기존 <strong>${escapeHtml(change.oldMajor || record.major)}</strong>의 2024~2026 입결을 연결해 표시합니다.</span></div>`;
+}
+
 function isUniversityWidePlan(planOrMajor) {
   const value = typeof planOrMajor === 'object' && planOrMajor !== null
     ? planOrMajor.m
@@ -1279,11 +1394,13 @@ function buildPlanIndex() {
   if (PLAN2027_INDEX_READY) return;
   for (const plan of PLAN2027) {
     const uk = baseUniName(plan.u);
-    const mk = majorKey(plan.m);
-    if (!uk || !mk) continue;
-    const key = `${uk}|${mk}`;
-    if (!PLAN2027_INDEX.has(key)) PLAN2027_INDEX.set(key, []);
-    PLAN2027_INDEX.get(key).push(plan);
+    const majorKeys = programMajorKeys(plan.m);
+    if (!uk || !majorKeys.length) continue;
+    for (const mk of majorKeys) {
+      const key = `${uk}|${mk}`;
+      if (!PLAN2027_INDEX.has(key)) PLAN2027_INDEX.set(key, []);
+      PLAN2027_INDEX.get(key).push(plan);
+    }
     if (!PLAN2027_UNI_INDEX.has(uk)) PLAN2027_UNI_INDEX.set(uk, []);
     PLAN2027_UNI_INDEX.get(uk).push(plan);
   }
@@ -1300,11 +1417,13 @@ function sourceText(value) {
 
 function addSourcePlan(plan) {
   const uk = planUniversityKey(plan.u);
-  const mk = majorKey(plan.m);
-  if (!uk || !mk) return;
-  const key = `${uk}|${mk}`;
-  if (!PLAN2027_SOURCE_INDEX.has(key)) PLAN2027_SOURCE_INDEX.set(key, []);
-  PLAN2027_SOURCE_INDEX.get(key).push(plan);
+  const majorKeys = programMajorKeys(plan.m);
+  if (!uk || !majorKeys.length) return;
+  for (const mk of majorKeys) {
+    const key = `${uk}|${mk}`;
+    if (!PLAN2027_SOURCE_INDEX.has(key)) PLAN2027_SOURCE_INDEX.set(key, []);
+    PLAN2027_SOURCE_INDEX.get(key).push(plan);
+  }
   if (!PLAN2027_SOURCE_UNI_INDEX.has(uk)) PLAN2027_SOURCE_UNI_INDEX.set(uk, []);
   PLAN2027_SOURCE_UNI_INDEX.get(uk).push(plan);
 }
@@ -1358,6 +1477,39 @@ function extractSourcePlans(university) {
   }
 }
 
+// '학과(부) 변경사항'은 2027·2026 비교 표라서 셀 병합에 따라 구분값이 비어 있는
+// 연속 행이 많다. 마지막 구분값을 유지해 각 2027 모집단위를 변경/신설로 해석한다.
+function extractProgramChanges(university) {
+  const blocks = university?.sections?.['3'] || [];
+  let sequence = 0;
+  for (const block of blocks) {
+    const rows = block?.t === 'tb' && Array.isArray(block.r) ? block.r : null;
+    if (!rows?.length) continue;
+    const headerIndex = rows.findIndex((row) => row.some((cell) => /2027\s*학년도/.test(sourceText(cell))) && row.some((cell) => /2026\s*학년도/.test(sourceText(cell))));
+    if (headerIndex < 0) continue;
+    const header = rows[headerIndex];
+    const newColumn = header.findIndex((cell) => /2027\s*학년도/.test(sourceText(cell)));
+    const oldColumn = header.findIndex((cell) => /2026\s*학년도/.test(sourceText(cell)));
+    if (newColumn < 0 || oldColumn < 0) continue;
+    let category = '';
+    for (const row of rows.slice(headerIndex + 1)) {
+      const rowCategory = sourceText(row[0]);
+      if (rowCategory) category = rowCategory;
+      if (!/변경|신설/.test(category)) continue;
+      const newMajor = row[newColumn];
+      const oldMajor = row[oldColumn];
+      if (!programMajorNames(newMajor).length) continue;
+      addProgramChange({
+        id: `${baseUniName(university.name)}-${sequence += 1}`,
+        university: university.name,
+        category,
+        newMajor,
+        oldMajor,
+      });
+    }
+  }
+}
+
 function parseEmbeddedSusiSource(text) {
   const marker = 'const D = ';
   const start = text.indexOf(marker);
@@ -1389,7 +1541,11 @@ async function loadSourcePlans2027() {
     })
     .then((text) => {
       const data = parseEmbeddedSusiSource(text);
-      (data.universities || []).forEach(extractSourcePlans);
+      (data.universities || []).forEach((university) => {
+        extractSourcePlans(university);
+        extractProgramChanges(university);
+      });
+      addNewProgramRecords();
       PLAN2027_SOURCE_READY = true;
     })
     .finally(() => { PLAN2027_SOURCE_LOADING = null; });
@@ -1399,15 +1555,98 @@ async function loadSourcePlans2027() {
 function findSourcePlansForRecord(record) {
   if (!PLAN2027_SOURCE_READY || !record) return [];
   const uk = planUniversityKey(record.university || record.universityCanon);
-  const mk = majorKey(record.major);
-  let plans = PLAN2027_SOURCE_INDEX.get(`${uk}|${mk}`) || [];
-  if (!plans.length && mk) {
-    plans = (PLAN2027_SOURCE_UNI_INDEX.get(uk) || []).filter((plan) => {
-      const candidate = majorKey(plan.m);
-      return candidate && (candidate.includes(mk) || mk.includes(candidate));
+  return findSourcePlansForMajor(uk, record.major);
+}
+
+function findSourcePlansForMajor(universityKey, major) {
+  const keys = programMajorKeys(major);
+  let plans = [];
+  for (const key of keys) plans = plans.concat(PLAN2027_SOURCE_INDEX.get(`${universityKey}|${key}`) || []);
+  if (!plans.length && keys.length) {
+    plans = (PLAN2027_SOURCE_UNI_INDEX.get(universityKey) || []).filter((plan) => {
+      const candidateKeys = programMajorKeys(plan.m);
+      return candidateKeys.some((candidate) => keys.some((key) => candidate.includes(key) || key.includes(candidate)));
     });
   }
-  return plans;
+  return [...new Map(plans.map((plan) => [[plan.u, plan.m, plan.t, plan.p, plan.n].join('|'), plan])).values()];
+}
+
+function plansForChangedMajor(record) {
+  const university = record.university || record.universityCanon;
+  const sourceKey = planUniversityKey(university);
+  const staticKey = baseUniName(university);
+  const changes = findProgramChangesForRecord(record);
+  const plans = [];
+  for (const change of changes) {
+    for (const newMajor of change.newNames || []) {
+      plans.push(...findSourcePlansForMajor(sourceKey, newMajor));
+      const keys = programMajorKeys(newMajor);
+      for (const key of keys) plans.push(...(PLAN2027_INDEX.get(`${staticKey}|${key}`) || []));
+      if (!keys.length) continue;
+      plans.push(...(PLAN2027_UNI_INDEX.get(staticKey) || []).filter((plan) =>
+        programMajorKeys(plan.m).some((candidate) => keys.some((key) => candidate.includes(key) || key.includes(candidate)))
+      ));
+    }
+  }
+  return [...new Map(plans.map((plan) => [[plan.u, plan.m, plan.t, plan.p, plan.n].join('|'), plan])).values()];
+}
+
+function inferProgramTrack(plans) {
+  const text = plans.map((plan) => `${plan.t || ''} ${plan.p || ''}`).join(' ');
+  if (/교과|지역균형|학교장|추천/.test(text)) return { track: '교과', trackType: 'subject' };
+  if (/종합|서류|면접|학생부종합/.test(text)) return { track: '종합', trackType: 'comprehensive' };
+  if (/논술/.test(text)) return { track: '논술', trackType: 'essay' };
+  if (/실기/.test(text)) return { track: '실기', trackType: 'practical' };
+  return { track: '수시', trackType: 'other' };
+}
+
+function addNewProgramRecords() {
+  if (PROGRAM_CHANGE_RECORDS_ADDED || !DATA.records?.length) return;
+  buildPlanIndex();
+  let added = 0;
+  for (const change of PROGRAM_CHANGES.filter((item) => item.status === 'new')) {
+    for (const major of change.newNames || []) {
+      const universityKey = planUniversityKey(change.university);
+      const exists = DATA.records.some((record) =>
+        planUniversityKey(record.university || record.universityCanon) === universityKey
+        && programMajorKeys(record.major).some((key) => programMajorKeys(major).includes(key))
+      );
+      if (exists) continue;
+      const sourcePlans = findSourcePlansForMajor(universityKey, major);
+      const staticPlans = (PLAN2027_UNI_INDEX.get(baseUniName(change.university)) || []).filter((plan) =>
+        programMajorKeys(plan.m).some((candidate) => programMajorKeys(major).some((key) => candidate.includes(key) || key.includes(candidate)))
+      );
+      const plans = [...sourcePlans, ...staticPlans];
+      if (!plans.length) continue; // 2027 모집정보가 실제로 있는 신설학과만 표시
+      const peer = DATA.records.find((record) => planUniversityKey(record.university || record.universityCanon) === universityKey);
+      const track = inferProgramTrack(plans);
+      DATA.records.push({
+        id: `new-2027-${baseUniName(change.university)}-${added += 1}`,
+        region: peer?.region || '미분류',
+        university: peer?.university || change.university,
+        universityCanon: peer?.universityCanon || change.university,
+        track: track.track,
+        trackType: track.trackType,
+        program: '2027 신설 모집단위',
+        major,
+        field: '신설',
+        domain: '신설',
+        grade50: null,
+        grade70: null,
+        gradeQuality: 'new-program',
+        recruit2026: null,
+        competition2026: null,
+        waitlist2026: null,
+        realCompetition2026: null,
+        fillRate2026: null,
+        history: { trend: { deltaFrom2025: null, range: null, direction: '신설' }, years: {} },
+        searchText: normalize(`${change.university} ${major} 신설 2027 모집정보 ${plans.map((plan) => `${plan.t} ${plan.p}`).join(' ')}`),
+        programChange: change,
+        isNewProgram: true,
+      });
+    }
+  }
+  PROGRAM_CHANGE_RECORDS_ADDED = true;
 }
 
 function typeMatchesPlan(record, plan) {
@@ -1489,6 +1728,9 @@ function findPlansForRecord(record) {
   if (!candidates.length || !candidates.some(plan => typeMatchesPlan(record, plan))) {
     candidates = candidates.concat(sourceCandidates);
   }
+  // 2027 학과(부) 변경 표에 있는 경우에는 새 학과명으로 모집정보를 찾되,
+  // 이 행의 3개년 입결·경쟁률은 기존 학과명으로 유지한다.
+  candidates = candidates.concat(plansForChangedMajor(record));
   const seen = new Set();
   const unique = [];
   for (const plan of candidates) {
@@ -1682,8 +1924,12 @@ function trendChart(record) {
 function findExamsForRecord(record) {
   if (!window.examSchedule2027 || !record) return [];
   const universityKey = baseUniName(record.university || record.universityCanon);
-  const recordMajorKey = majorKey(record.major);
-  const recordMajor = String(record.major || "");
+  const changeMajors = findProgramChangesForRecord(record).flatMap((change) => [
+    ...(change.newNames || []),
+    ...(change.oldNames || []),
+  ]);
+  const recordMajors = [String(record.major || ""), ...changeMajors].filter(Boolean);
+  const recordMajorKeys = [...new Set(recordMajors.flatMap(programMajorKeys))];
   const recordDomain = record.domain || "";
 
   return window.examSchedule2027.filter((exam) => {
@@ -1694,13 +1940,11 @@ function findExamsForRecord(record) {
     if (!exam.majors || exam.majors.length === 0) return true;
 
     let matchesMajor = exam.majors.some((major) => {
-      const planMajorKey = majorKey(major);
-      if (!planMajorKey) return false;
-      if (/(전체|전모집단위|공통|자유전공|무전공|전학과)/.test(planMajorKey)) return true;
-      return planMajorKey.includes(recordMajorKey)
-        || recordMajorKey.includes(planMajorKey)
-        || String(major).includes(recordMajor)
-        || recordMajor.includes(String(major));
+      const planMajorKeys = programMajorKeys(major);
+      if (!planMajorKeys.length) return false;
+      if (planMajorKeys.some((key) => /(전체|전모집단위|공통|자유전공|무전공|전학과)/.test(key))) return true;
+      return planMajorKeys.some((planKey) => recordMajorKeys.some((recordKey) => planKey.includes(recordKey) || recordKey.includes(planKey)))
+        || recordMajors.some((recordMajor) => String(major).includes(recordMajor) || recordMajor.includes(String(major)));
     });
 
     if (!matchesMajor) {

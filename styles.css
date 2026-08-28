@@ -1814,6 +1814,15 @@ button.button.secondary * {
 
 /* 2027 모집정보 연계 */
 .plan-link-hint{display:block;margin-top:4px;color:#e7c66b;font-size:11px;font-weight:800;}
+.program-change-hint{display:block;margin-top:4px;font-size:11px;font-weight:900;letter-spacing:.01em;}
+.program-change-hint.changed{color:#f1ca6f;}
+.program-change-hint.new{color:#55e0c2;}
+.program-change-banner{display:flex;align-items:flex-start;gap:8px;margin:0 0 12px;padding:10px 12px;border:1px solid;border-radius:12px;font-size:12px;line-height:1.55;}
+.program-change-banner b{flex:0 0 auto;padding:1px 7px;border-radius:999px;font-size:11px;}
+.program-change-banner.changed{border-color:rgba(232,190,86,.46);background:rgba(232,190,86,.08);color:#ffefc2;}
+.program-change-banner.changed b{background:#e8be56;color:#132036;}
+.program-change-banner.new{border-color:rgba(85,224,194,.48);background:rgba(45,171,146,.1);color:#d1fff4;}
+.program-change-banner.new b{background:#55e0c2;color:#09271f;}
 .plan-2027-panel{border-color:rgba(231,198,107,.35)!important;box-shadow:0 0 0 1px rgba(231,198,107,.08) inset;}
 .plan-count{font-size:12px;color:var(--muted);margin:0 0 8px;}
 .plan-count b{color:#e7c66b;}
@@ -1834,7 +1843,7 @@ button.button.secondary * {
 .plan-more-list dt{color:#93a4b8;font-weight:800;}
 .plan-more-list dd{margin:0;color:var(--text);}
 .saved-plan-count{display:block;margin-top:3px;color:#e7c66b;font-style:normal;font-size:11px;}
-@media print{.plan-more{display:none!important}.plan-link-hint{color:#000!important}.plan-table tr.plan-related td,.plan-table tr.plan-related th{background:#fff8dc!important}}
+@media print{.plan-more{display:none!important}.plan-link-hint,.program-change-hint{color:#000!important}.program-change-banner{color:#000!important;border-color:#555!important;background:#fff!important}.plan-table tr.plan-related td,.plan-table tr.plan-related th{background:#fff8dc!important}}
 
 
 
