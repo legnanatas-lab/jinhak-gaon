@@ -88,6 +88,9 @@
       modules = { app: appMod, auth: authMod, firestore: firestoreMod, storage: storageMod };
       app = appMod.getApps().length > 0 ? appMod.getApp() : appMod.initializeApp(firebaseConfig());
       auth = authMod.getAuth(app);
+      // 관리자 인증은 브라우저를 닫으면 종료되는 일반적인 세션 방식으로 유지한다.
+      // 이전 Google 로그인 상태가 다음 브라우저 실행까지 관리자 권한으로 복원되는 것을 막는다.
+      await authMod.setPersistence(auth, authMod.browserSessionPersistence);
       db = firestoreMod.getFirestore(app);
       storage = storageMod.getStorage(app);
       return { app, auth, db, storage, modules };

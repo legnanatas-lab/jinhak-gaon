@@ -1411,31 +1411,27 @@ body :where(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,label,summary,li,
     <script src="./assets/js/auth.js?v=20260827-access2"></script>
     <script>
       let session;
-      (() => {
-        session = GaongilAuth.requireAdmin("./login.html");
+      (async () => {
+        const cached = GaongilAuth.requireAdmin("./login.html");
+        if (!cached) return;
+        const verified = await GaongilAuth.verifyAdminSession();
+        if (!verified) {
+          location.replace("./login.html?redirect=admin.html");
+          return;
+        }
+        session = verified;
         document.getElementById("logoutBtn")?.addEventListener("click", () => {
           GaongilAuth.logout("login.html");
         });
-        if (session) {
-          renderUsers();
-          renderAccessControls();
-          renderNoticeEditors();
-          renderFirebaseStatus();
-          GaongilAuth.mountUserChip("userChip");
-
-          // 화면은 저장된 로그인 세션으로 바로 표시하고, 느린 Firestore 동기화는 뒤에서 처리한다.
-          GaongilAuth.refreshFirebaseCaches().then(() => {
-            const refreshed = GaongilAuth.getSession();
-            if (!refreshed || refreshed.role !== "admin") return;
-            session = refreshed;
-            renderUsers();
-            renderAccessControls();
-            renderNoticeEditors();
-            renderFirebaseStatus();
-            GaongilAuth.mountUserChip("userChip");
-          }).catch(() => {});
-        }
-      })();
+        renderUsers();
+        renderAccessControls();
+        renderNoticeEditors();
+        renderFirebaseStatus();
+        GaongilAuth.mountUserChip("userChip");
+        document.documentElement.style.visibility = "visible";
+      })().catch(() => {
+        location.replace("./login.html?redirect=admin.html");
+      });
 
       function esc(s) {
         return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));

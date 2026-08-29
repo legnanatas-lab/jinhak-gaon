@@ -849,6 +849,31 @@
     return fbSession;
   }
 
+  async function verifyAdminSession() {
+    // sessionStorage 값만으로는 관리자 화면을 열지 않는다. 현재 Firebase 인증이
+    // 허용된 Google 관리자 계정인지 매번 다시 확인한다.
+    if (!firebaseEnabled() || !firebaseAdapter()?.getCurrentSession) {
+      sessionStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+    try {
+      const fbSession = await firebaseAdapter().getCurrentSession();
+      const valid = fbSession
+        && fbSession.role === "admin"
+        && fbSession.firebase === true
+        && fbSession.authProvider === "google.com";
+      if (!valid) {
+        sessionStorage.removeItem(SESSION_KEY);
+        return null;
+      }
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(fbSession));
+      return fbSession;
+    } catch (e) {
+      sessionStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+  }
+
   function logout(redirectTo) {
     if (firebaseEnabled() && firebaseAdapter()?.logout) {
       firebaseAdapter().logout().catch(() => {});
@@ -1073,6 +1098,7 @@
     loginWithGoogle,
     startGoogleLogin,
     completeGoogleRedirect,
+    verifyAdminSession,
     logout,
     getSession,
     requireLogin,

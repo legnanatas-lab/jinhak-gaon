@@ -19,6 +19,10 @@
   const fileName = (location.pathname.split("/").pop() || "index.html").toLowerCase();
   if (fileName === "index.html" || fileName === "login.html") return;
 
+  // 관리자 화면은 저장된 브라우저 값만으로 본문을 먼저 보여주지 않는다.
+  // admin.html이 Firebase Google 관리자 인증을 확인한 뒤에만 다시 표시한다.
+  if (fileName === "admin.html") document.documentElement.style.visibility = "hidden";
+
   // 출신 고교유형·지역 통계 화면은 대용량 데이터를 초기화한 뒤 auth.js가
   // 실제 권한을 확인한다. 여기서 세션만 보고 즉시 화면을 숨기면, 브라우저의
   // sessionStorage 복원보다 먼저 리디렉션이 실행되어 빈 화면으로 멈출 수 있다.
