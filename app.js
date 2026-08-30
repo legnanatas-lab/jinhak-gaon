@@ -1095,6 +1095,7 @@ function renderResultRow(record) {
         <div class="cell-main">
           <strong title="${escapeAttr(displayMajorName(record))}">${escapeHtml(displayMajorName(record))}</strong>
           <span title="${escapeAttr(record.program)}">${trackTag(record)} <b class="jeonhyeong">${escapeHtml(record.program)}</b></span>
+          ${record.isPlanOnly ? '<small class="program-change-hint plan-only">입결 미공개 · 2027 모집정보 제공</small>' : ''}
           ${renderProgramChangeHint(record)}
           <small class="plan-link-hint">2027 모집정보 ${findPlansForRecord(record).length}건</small>
         </div>
@@ -1129,9 +1130,10 @@ function renderDetail(record) {
           <h2>${escapeHtml(record.university)} ${escapeHtml(displayMajorName(record))}</h2>
           <p class="detail-jeonhyeong">${escapeHtml(record.program)}</p>
         </div>
+        ${record.isPlanOnly ? '<div class="program-change-banner plan-only"><b>2027 모집요강 등록</b><span>이 교육대학교는 2024~2026 수시 입결 원자료가 제공되지 않아 입결·경쟁 자료는 미공개로 표시합니다. 2027 모집인원·전형방법·수능최저·면접 일정은 확인할 수 있습니다.</span></div>' : ''}
         ${renderProgramChangeBanner(record)}
         <div class="section-title">
-          <h3>${record.isNewProgram ? '입결 컷 (신설 학과)' : '입결 컷 (3개년)'}</h3>
+          <h3>${record.isNewProgram ? '입결 컷 (신설 학과)' : record.isPlanOnly ? '입결 컷 (원자료 미공개)' : '입결 컷 (3개년)'}</h3>
           ${deltaText}
         </div>
         ${renderCutTable(record)}
@@ -1229,6 +1231,11 @@ let PLAN2027_INDEX_READY = false;
 let PLAN2027_SOURCE_READY = false;
 let PLAN2027_SOURCE_LOADING = null;
 let PROGRAM_CHANGE_RECORDS_ADDED = false;
+let EDUCATION_PLAN_RECORDS_ADDED = false;
+const EDUCATION_UNIVERSITY_KEYS = new Set([
+  '경인교대', '공주교대', '광주교대', '대구교대', '부산교대',
+  '서울교대', '전주교대', '진주교대', '청주교대', '춘천교대',
+]);
 
 function baseUniName(value) {
   return normalize(String(value || '')
@@ -1699,6 +1706,80 @@ function inferProgramTrack(plans) {
   return { track: '수시', trackType: 'other' };
 }
 
+// 입결 CSV는 일부 교육대학교를 수록하지 않아, 2027 모집요강이 있어도 왼쪽
+// 목록 자체가 비어 보일 수 있다. 이 경우 모집요강이 확인된 교육대 모집단위를
+// 별도 행으로 보완한다. 입결·경쟁률을 임의로 채우지 않고 '미공개'로 남긴다.
+function displayRegionForPlan(value) {
+  const region = String(value || '').trim();
+  if (['대구', '경북'].includes(region)) return '대구경북';
+  if (['부산', '울산', '경남'].includes(region)) return '부산울산경남';
+  if (['광주', '전남'].includes(region)) return '광주전남';
+  return region || '미분류';
+}
+
+function isEducationUniversity(value) {
+  return EDUCATION_UNIVERSITY_KEYS.has(baseUniName(value));
+}
+
+function samePlanMajor(recordMajor, planMajor) {
+  const clean = (value) => normalize(value)
+    .replace(/(학과|학부|전공|계열|과|부)$/g, '');
+  const recordKey = clean(recordMajor);
+  const planKey = clean(planMajor);
+  return !!recordKey && !!planKey && (recordKey === planKey || recordKey.includes(planKey) || planKey.includes(recordKey));
+}
+
+function addEducationPlanOnlyRecords() {
+  if (EDUCATION_PLAN_RECORDS_ADDED || !DATA.records?.length) return;
+  buildPlanIndex();
+  const groups = new Map();
+  for (const plan of PLAN2027) {
+    if (!isEducationUniversity(plan.u) || isUniversityWidePlan(plan)) continue;
+    const key = `${planUniversityKey(plan.u)}\u001f${majorKey(plan.m)}`;
+    if (!key.endsWith('\u001f')) {
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(plan);
+    }
+  }
+
+  let added = 0;
+  for (const [key, plans] of groups) {
+    const [universityKey] = key.split('\u001f');
+    const representative = plans[0];
+    const major = representative.m;
+    const exists = DATA.records.some((record) =>
+      planUniversityKey(record.university || record.universityCanon) === universityKey
+      && samePlanMajor(record.major, major)
+    );
+    if (exists) continue;
+    const track = inferProgramTrack(plans);
+    DATA.records.push({
+      id: `plan-only-education-${baseUniName(representative.u)}-${added += 1}`,
+      region: displayRegionForPlan(representative.rg),
+      university: representative.u,
+      universityCanon: representative.u,
+      track: track.track,
+      trackType: track.trackType,
+      program: '2027 모집요강 기준',
+      major,
+      field: '초등교육',
+      domain: '교육',
+      grade50: null,
+      grade70: null,
+      gradeQuality: 'not-published',
+      recruit2026: null,
+      competition2026: null,
+      waitlist2026: null,
+      realCompetition2026: null,
+      fillRate2026: null,
+      history: { trend: { deltaFrom2025: null, range: null, direction: '자료부족' }, years: {} },
+      searchText: normalize(`${representative.u} ${major} 교육대 입결 미공개 2027 모집정보 ${plans.map((plan) => `${plan.t} ${plan.p}`).join(' ')}`),
+      isPlanOnly: true,
+    });
+  }
+  EDUCATION_PLAN_RECORDS_ADDED = true;
+}
+
 function addNewProgramRecords() {
   if (PROGRAM_CHANGE_RECORDS_ADDED || !DATA.records?.length) return;
   buildPlanIndex();
@@ -2147,6 +2228,7 @@ async function init() {
     showBootError("데이터가 비어 있습니다.", "scripts/prepare_data.py를 실행해 data/admission-data.json을 생성하세요.");
     return;
   }
+  addEducationPlanOnlyRecords();
   mount();
   // 대학별 원자료까지 미리 읽어 두어 목록·상세의 2027 모집정보 누락을 보완한다.
   loadSourcePlans2027().then(() => renderDynamic()).catch(() => {

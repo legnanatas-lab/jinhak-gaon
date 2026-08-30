@@ -1817,6 +1817,9 @@ button.button.secondary * {
 .program-change-hint{display:block;margin-top:4px;font-size:11px;font-weight:900;letter-spacing:.01em;}
 .program-change-hint.changed{color:#f1ca6f;}
 .program-change-hint.new{color:#55e0c2;}
+.program-change-hint.plan-only{color:#83cff7;}
+.program-change-banner.plan-only{border-color:rgba(104,196,244,.52);background:rgba(21,82,120,.2);color:#d8efff;}
+.program-change-banner.plan-only b{color:#8ed7ff;}
 .program-change-banner{display:flex;align-items:flex-start;gap:8px;margin:0 0 12px;padding:10px 12px;border:1px solid;border-radius:12px;font-size:12px;line-height:1.55;}
 .program-change-banner b{flex:0 0 auto;padding:1px 7px;border-radius:999px;font-size:11px;}
 .program-change-banner.changed{border-color:rgba(232,190,86,.46);background:rgba(232,190,86,.08);color:#ffefc2;}
