@@ -1673,13 +1673,18 @@ function plansForChangedMajor(record) {
   const plans = [];
   for (const change of changes) {
     for (const newMajor of change.newNames || []) {
-      plans.push(...findSourcePlansForMajor(sourceKey, newMajor));
       const keys = programMajorKeys(newMajor);
-      for (const key of keys) plans.push(...(PLAN2027_INDEX.get(`${staticKey}|${key}`) || []));
+      const staticPlans = [];
+      for (const key of keys) staticPlans.push(...(PLAN2027_INDEX.get(`${staticKey}|${key}`) || []));
       if (!keys.length) continue;
-      plans.push(...(PLAN2027_UNI_INDEX.get(staticKey) || []).filter((plan) =>
+      staticPlans.push(...(PLAN2027_UNI_INDEX.get(staticKey) || []).filter((plan) =>
         programMajorKeys(plan.m).some((candidate) => keys.some((key) => candidate.includes(key) || key.includes(candidate)))
       ));
+      plans.push(...staticPlans);
+      // The workbook rows are the authoritative, per-major source.  The HTML
+      // extractor is retained only as a fallback for a future source that has
+      // not yet been imported, so its generic "모집요강 확인" text never wins.
+      if (!staticPlans.length) plans.push(...findSourcePlansForMajor(sourceKey, newMajor));
     }
   }
   return [...new Map(plans.map((plan) => [[plan.u, plan.m, plan.t, plan.p, plan.n].join('|'), plan])).values()];
@@ -2026,7 +2031,7 @@ function findExamsForRecord(record) {
   const recordMajorKeys = [...new Set(recordMajors.flatMap(programMajorKeys))];
   const recordDomain = record.domain || "";
 
-  return window.examSchedule2027.filter((exam) => {
+  const matched = window.examSchedule2027.filter((exam) => {
     if (exam.startDate === "시작일") return false;
     const examUniversityKey = baseUniName(exam.university);
     if (examUniversityKey !== universityKey && !examUniversityKey.includes(universityKey) && !universityKey.includes(examUniversityKey)) return false;
@@ -2058,6 +2063,34 @@ function findExamsForRecord(record) {
     }
     return matchesMajor;
   });
+  if (matched.length) return matched;
+
+  // Some schools publish an interview, essay, or practical-test date only in
+  // the 모집요강 row.  Use those exact row-level dates when the separate
+  // schedule feed has no matching entry rather than showing a false absence.
+  const seen = new Set();
+  const fromPlans = [];
+  for (const plan of findPlansForRecord(record)) {
+    for (const [field, type] of [["nonsul", "논술"], ["ivdate", "면접"], ["prac", "실기"]]) {
+      const date = String(plan[field] || "").trim();
+      if (!date) continue;
+      const key = [date, type, plan.t, plan.p, plan.m].join("|");
+      if (seen.has(key)) continue;
+      seen.add(key);
+      fromPlans.push({
+        startDate: date,
+        endDate: "",
+        day: "",
+        csatPhase: plan.examPhase || "모집요강 기준",
+        type,
+        step: plan.stage || "",
+        university: plan.u,
+        program: planShortText(plan),
+        majors: [plan.m],
+      });
+    }
+  }
+  return fromPlans;
 }
 
 function examDateLabel(exam) {
