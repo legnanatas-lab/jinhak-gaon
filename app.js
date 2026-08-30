@@ -1130,7 +1130,7 @@ function renderDetail(record) {
           <h2>${escapeHtml(record.university)} ${escapeHtml(displayMajorName(record))}</h2>
           <p class="detail-jeonhyeong">${escapeHtml(record.program)}</p>
         </div>
-        ${record.isPlanOnly ? '<div class="program-change-banner plan-only"><b>2027 모집요강 등록</b><span>이 교육대학교는 2024~2026 수시 입결 원자료가 제공되지 않아 입결·경쟁 자료는 미공개로 표시합니다. 2027 모집인원·전형방법·수능최저·면접 일정은 확인할 수 있습니다.</span></div>' : ''}
+        ${record.isPlanOnly ? '<div class="program-change-banner plan-only"><b>2027 모집요강 등록</b><span>이 모집단위는 2024~2026 수시 입결 원자료가 제공되지 않아 입결·경쟁 자료는 미공개로 표시합니다. 2027 모집인원·전형방법·수능최저·면접 일정은 확인할 수 있습니다.</span></div>' : ''}
         ${renderProgramChangeBanner(record)}
         <div class="section-title">
           <h3>${record.isNewProgram ? '입결 컷 (신설 학과)' : record.isPlanOnly ? '입결 컷 (원자료 미공개)' : '입결 컷 (3개년)'}</h3>
@@ -1231,11 +1231,7 @@ let PLAN2027_INDEX_READY = false;
 let PLAN2027_SOURCE_READY = false;
 let PLAN2027_SOURCE_LOADING = null;
 let PROGRAM_CHANGE_RECORDS_ADDED = false;
-let EDUCATION_PLAN_RECORDS_ADDED = false;
-const EDUCATION_UNIVERSITY_KEYS = new Set([
-  '경인교대', '공주교대', '광주교대', '대구교대', '부산교대',
-  '서울교대', '전주교대', '진주교대', '청주교대', '춘천교대',
-]);
+let PLAN_ONLY_RECORDS_ADDED = false;
 
 function baseUniName(value) {
   return normalize(String(value || '')
@@ -1706,9 +1702,9 @@ function inferProgramTrack(plans) {
   return { track: '수시', trackType: 'other' };
 }
 
-// 입결 CSV는 일부 교육대학교를 수록하지 않아, 2027 모집요강이 있어도 왼쪽
-// 목록 자체가 비어 보일 수 있다. 이 경우 모집요강이 확인된 교육대 모집단위를
-// 별도 행으로 보완한다. 입결·경쟁률을 임의로 채우지 않고 '미공개'로 남긴다.
+// 입결 CSV는 일부 대학·모집단위를 수록하지 않아, 2027 모집요강이 있어도 왼쪽
+// 목록 자체가 비어 보일 수 있다. 입결 원자료가 하나도 없는 대학·모집단위는
+// 모집요강 전용 행으로 보완하되, 입결·경쟁률을 임의로 채우지 않고 '미공개'로 남긴다.
 function displayRegionForPlan(value) {
   const region = String(value || '').trim();
   if (['대구', '경북'].includes(region)) return '대구경북';
@@ -1717,25 +1713,25 @@ function displayRegionForPlan(value) {
   return region || '미분류';
 }
 
-function isEducationUniversity(value) {
-  return EDUCATION_UNIVERSITY_KEYS.has(baseUniName(value));
-}
-
 function samePlanMajor(recordMajor, planMajor) {
-  const clean = (value) => normalize(value)
-    .replace(/(학과|학부|전공|계열|과|부)$/g, '');
-  const recordKey = clean(recordMajor);
-  const planKey = clean(planMajor);
-  return !!recordKey && !!planKey && (recordKey === planKey || recordKey.includes(planKey) || planKey.includes(recordKey));
+  const recordKeys = new Set(programMajorKeys(recordMajor));
+  const planKeys = programMajorKeys(planMajor);
+  return planKeys.some((key) => recordKeys.has(key));
 }
 
-function addEducationPlanOnlyRecords() {
-  if (EDUCATION_PLAN_RECORDS_ADDED || !DATA.records?.length) return;
+function addPlanOnlyRecords() {
+  if (PLAN_ONLY_RECORDS_ADDED || !DATA.records?.length) return;
   buildPlanIndex();
+  const recordsByUniversity = new Map();
+  for (const record of DATA.records) {
+    const key = planUniversityKey(record.university || record.universityCanon);
+    if (!recordsByUniversity.has(key)) recordsByUniversity.set(key, []);
+    recordsByUniversity.get(key).push(record);
+  }
   const groups = new Map();
   for (const plan of PLAN2027) {
-    if (!isEducationUniversity(plan.u) || isUniversityWidePlan(plan)) continue;
-    const key = `${planUniversityKey(plan.u)}\u001f${majorKey(plan.m)}`;
+    if (isUniversityWidePlan(plan)) continue;
+    const key = `${planUniversityKey(plan.u)}\u001f${majorIdentity(plan.m)}`;
     if (!key.endsWith('\u001f')) {
       if (!groups.has(key)) groups.set(key, []);
       groups.get(key).push(plan);
@@ -1747,14 +1743,12 @@ function addEducationPlanOnlyRecords() {
     const [universityKey] = key.split('\u001f');
     const representative = plans[0];
     const major = representative.m;
-    const exists = DATA.records.some((record) =>
-      planUniversityKey(record.university || record.universityCanon) === universityKey
-      && samePlanMajor(record.major, major)
-    );
+    const exists = (recordsByUniversity.get(universityKey) || [])
+      .some((record) => samePlanMajor(record.major, major));
     if (exists) continue;
     const track = inferProgramTrack(plans);
     DATA.records.push({
-      id: `plan-only-education-${baseUniName(representative.u)}-${added += 1}`,
+      id: `plan-only-${baseUniName(representative.u)}-${added += 1}`,
       region: displayRegionForPlan(representative.rg),
       university: representative.u,
       universityCanon: representative.u,
@@ -1762,8 +1756,8 @@ function addEducationPlanOnlyRecords() {
       trackType: track.trackType,
       program: '2027 모집요강 기준',
       major,
-      field: '초등교육',
-      domain: '교육',
+      field: '미분류',
+      domain: '미분류',
       grade50: null,
       grade70: null,
       gradeQuality: 'not-published',
@@ -1773,11 +1767,13 @@ function addEducationPlanOnlyRecords() {
       realCompetition2026: null,
       fillRate2026: null,
       history: { trend: { deltaFrom2025: null, range: null, direction: '자료부족' }, years: {} },
-      searchText: normalize(`${representative.u} ${major} 교육대 입결 미공개 2027 모집정보 ${plans.map((plan) => `${plan.t} ${plan.p}`).join(' ')}`),
+      searchText: normalize(`${representative.u} ${major} 입결 미공개 2027 모집정보 ${plans.map((plan) => `${plan.t} ${plan.p}`).join(' ')}`),
       isPlanOnly: true,
     });
+    if (!recordsByUniversity.has(universityKey)) recordsByUniversity.set(universityKey, []);
+    recordsByUniversity.get(universityKey).push(DATA.records[DATA.records.length - 1]);
   }
-  EDUCATION_PLAN_RECORDS_ADDED = true;
+  PLAN_ONLY_RECORDS_ADDED = true;
 }
 
 function addNewProgramRecords() {
@@ -1919,7 +1915,7 @@ function findPlansForRecord(record) {
     seen.add(key);
     unique.push(plan);
   }
-  return unique
+  return dedupePlansForDisplay(unique)
     .sort((a, b) => {
       const sa = (typeMatchesPlan(record, a) ? 20 : 0) + programSimilarity(record, a) + universityWideMajorMentionScore(record, a);
       const sb = (typeMatchesPlan(record, b) ? 20 : 0) + programSimilarity(record, b) + universityWideMajorMentionScore(record, b);
@@ -1930,6 +1926,42 @@ function findPlansForRecord(record) {
 
 function planShortText(plan) {
   return `${plan.t || '전형'} ${plan.p || ''}`.trim();
+}
+
+// 원자료 표와 정리된 모집요강이 동시에 연결되면 같은 전형이 반복될 수 있다.
+// 표에는 전형명 기준으로 한 번만 보여 주고, 상세 항목이 갖춰진 모집요강 행을
+// 우선한다. 원자료 보조 행은 정리된 모집요강이 없을 때만 남긴다.
+function planDisplayNameKey(plan) {
+  const detail = String(plan.p || '').trim();
+  const text = /2027\s*수시\s*원자료|수시모집\s*원자료/.test(detail)
+    ? String(plan.t || '')
+    : (detail || String(plan.t || ''));
+  return normalize(text
+    .replace(/학생부\s*교과|학생부\s*종합|실기\s*\/\s*실적|논술\s*위주/g, '')
+    .replace(/2027\s*수시\s*원자료|대학별\s*2027\s*수시모집\s*원자료|수시모집\s*원자료/gi, '')
+    .replace(/전형$/g, ''));
+}
+
+function planDisplayScore(plan) {
+  let score = plan.sourceRaw ? 0 : 100;
+  if (plan.method && !/원자료/.test(String(plan.method))) score += 10;
+  if (plan.min && !/모집요강 확인/.test(String(plan.min))) score += 10;
+  if (plan.subj || plan.doc || plan.iv || plan.ivdate || plan.nonsul || plan.prac) score += 5;
+  return score;
+}
+
+function dedupePlansForDisplay(plans) {
+  const grouped = new Map();
+  for (const plan of plans) {
+    const key = [
+      planUniversityKey(plan.u),
+      majorIdentity(plan.m),
+      planDisplayNameKey(plan),
+    ].join('|');
+    const previous = grouped.get(key);
+    if (!previous || planDisplayScore(plan) > planDisplayScore(previous)) grouped.set(key, plan);
+  }
+  return [...grouped.values()];
 }
 
 function compactText(value, fallback='–') {
@@ -2228,7 +2260,7 @@ async function init() {
     showBootError("데이터가 비어 있습니다.", "scripts/prepare_data.py를 실행해 data/admission-data.json을 생성하세요.");
     return;
   }
-  addEducationPlanOnlyRecords();
+  addPlanOnlyRecords();
   mount();
   // 대학별 원자료까지 미리 읽어 두어 목록·상세의 2027 모집정보 누락을 보완한다.
   loadSourcePlans2027().then(() => renderDynamic()).catch(() => {
