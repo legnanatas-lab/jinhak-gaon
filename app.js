@@ -1915,7 +1915,7 @@ function findPlansForRecord(record) {
     seen.add(key);
     unique.push(plan);
   }
-  return dedupePlansForDisplay(unique)
+  return dedupePlansForDisplay(unique, record)
     .sort((a, b) => {
       const sa = (typeMatchesPlan(record, a) ? 20 : 0) + programSimilarity(record, a) + universityWideMajorMentionScore(record, a);
       const sb = (typeMatchesPlan(record, b) ? 20 : 0) + programSimilarity(record, b) + universityWideMajorMentionScore(record, b);
@@ -1936,10 +1936,14 @@ function planDisplayNameKey(plan) {
   const text = /2027\s*수시\s*원자료|수시모집\s*원자료/.test(detail)
     ? String(plan.t || '')
     : (detail || String(plan.t || ''));
-  return normalize(text
+  let key = normalize(text
     .replace(/학생부\s*교과|학생부\s*종합|실기\s*\/\s*실적|논술\s*위주/g, '')
     .replace(/2027\s*수시\s*원자료|대학별\s*2027\s*수시모집\s*원자료|수시모집\s*원자료/gi, '')
     .replace(/전형$/g, ''));
+  // 원자료에는 "학생부교과(지역)"처럼 상위 분류를 포함한 약칭이 함께
+  // 들어온다. 이는 "지역인재전형"과 같은 전형이므로 한 전형으로 묶는다.
+  if (/^(지역|학생부교과지역)$/.test(key)) key = '지역인재';
+  return key;
 }
 
 function planDisplayScore(plan) {
@@ -1950,18 +1954,68 @@ function planDisplayScore(plan) {
   return score;
 }
 
-function dedupePlansForDisplay(plans) {
+function planDisplayTrackKey(plan) {
+  const text = normalize(String(plan.t || ''));
+  if (/학생부교과|교과/.test(text)) return '교과';
+  if (/학생부종합|종합|서류/.test(text)) return '종합';
+  if (/논술/.test(text)) return '논술';
+  if (/실기/.test(text)) return '실기';
+  return text;
+}
+
+function planRecruitmentCount(plan) {
+  const text = String(plan.n || '').replace(/[,명]/g, '').trim();
+  return /^\d+$/.test(text) ? Number(text) : null;
+}
+
+function planIsDirectMajorMatch(plan, record) {
+  if (!record) return true;
+  const changedMajors = findProgramChangesForRecord(record).flatMap((change) => [
+    ...(change.newNames || []),
+    ...(change.oldNames || []),
+  ]);
+  const matchesMajor = [record.major, ...changedMajors].filter(Boolean)
+    .some((major) => samePlanMajor(major, plan.m));
+  if (!matchesMajor) return false;
+  // 동일 학과를 인문/자연으로 나눈 모집단위는 소계가 서로 달라, 현재 계열과
+  // 다른 행까지 합쳐 보이지 않도록 한다.
+  const planDomain = String(plan.m || '').match(/\((인문|자연)\)/)?.[1] || '';
+  const recordDomain = String(record.domain || '');
+  return !planDomain || !/^(인문|자연)$/.test(recordDomain) || planDomain === recordDomain;
+}
+
+function dedupePlansForDisplay(plans, record) {
+  // 부분 문자열 검색으로 연결된 인접 학과·야간 과정·상위 학부 합계 행은 실제
+  // 모집단위가 일치하는 행이 하나라도 있으면 제외한다. 이 보정이 없으면 같은
+  // 전형이 다른 학과 모집인원으로 여러 번 나타날 수 있다.
+  // 직접 일치 행이 전혀 없는 경우에만 대학 전체/통합모집 보조 행을 유지한다.
+  const directPlans = plans.filter((plan) => planIsDirectMajorMatch(plan, record));
+  const scopedPlans = directPlans.length
+    ? directPlans
+    : plans;
   const grouped = new Map();
-  for (const plan of plans) {
+  for (const plan of scopedPlans) {
     const key = [
       planUniversityKey(plan.u),
-      majorIdentity(plan.m),
+      // 현재 상세 화면은 하나의 모집단위 기준이다. 학과(부) 통합/명칭 변경으로
+      // 여러 원문 행이 연결된 경우에도 같은 전형은 한 번만 보이게 묶는다.
+      record ? 'current-record' : majorIdentity(plan.m),
+      planDisplayTrackKey(plan),
       planDisplayNameKey(plan),
     ].join('|');
-    const previous = grouped.get(key);
-    if (!previous || planDisplayScore(plan) > planDisplayScore(previous)) grouped.set(key, plan);
+    const group = grouped.get(key) || [];
+    group.push(plan);
+    grouped.set(key, group);
   }
-  return [...grouped.values()];
+  return [...grouped.values()].map((group) => {
+    const best = group.reduce((previous, plan) =>
+      !previous || planDisplayScore(plan) > planDisplayScore(previous) ? plan : previous, null);
+    const counts = group.map(planRecruitmentCount).filter((count) => count !== null);
+    // 같은 대학·모집단위·전형으로 나뉜 행은 모집인원을 합산해 한 행으로 제시한다.
+    // 숫자 모집인원이 하나도 없으면 가장 상세한 원문 값을 그대로 둔다.
+    if (counts.length > 1) return { ...best, n: String(counts.reduce((sum, count) => sum + count, 0)) };
+    return best;
+  });
 }
 
 function compactText(value, fallback='–') {
@@ -2176,7 +2230,7 @@ function findExamsForRecord(record) {
     }
     return matchesMajor;
   });
-  if (matched.length) return matched;
+  if (matched.length) return dedupeExamsForDisplay(matched);
 
   // Some schools publish an interview, essay, or practical-test date only in
   // the 모집요강 row.  Use those exact row-level dates when the separate
@@ -2203,7 +2257,52 @@ function findExamsForRecord(record) {
       });
     }
   }
-  return fromPlans;
+  return dedupeExamsForDisplay(fromPlans);
+}
+
+function examProgramKey(value) {
+  let key = normalize(String(value || '')
+    .replace(/학생부\s*교과|학생부\s*종합|실기\s*\/\s*실적|논술\s*위주/g, '')
+    .replace(/전형$/g, ''));
+  if (/^(지역|학생부교과지역)$/.test(key)) key = '지역인재';
+  return key;
+}
+
+function dedupeExamsForDisplay(exams) {
+  const grouped = new Map();
+  for (const exam of exams) {
+    // 대학별고사 표는 전형별 명단이 아니라 일정표다. 같은 날짜·유형·단계는
+    // 전형명이 약칭/정식명으로 달라도 하나의 일정으로 합친다.
+    const key = [
+      baseUniName(exam.university),
+      exam.startDate || '',
+      exam.endDate || '',
+      exam.csatPhase || '',
+      normalize(exam.type || ''),
+      normalize(exam.step || ''),
+    ].join('|');
+    const group = grouped.get(key) || [];
+    group.push(exam);
+    grouped.set(key, group);
+  }
+  return [...grouped.values()].map((group) => {
+    const base = group[0];
+    const names = [];
+    const seen = new Set();
+    for (const exam of group) {
+      const name = String(exam.program || '').trim();
+      const key = examProgramKey(name);
+      if (!name || seen.has(key)) continue;
+      seen.add(key);
+      names.push(name);
+    }
+    return {
+      ...base,
+      // 서로 다른 실제 전형이 같은 고사 일정을 공유하는 경우에는 한 행에서
+      // 함께 안내한다. 동일 전형의 표기 차이는 위의 정규화로 제거된다.
+      program: names.length > 1 ? `${names.join(' · ')} (공통 일정)` : (names[0] || base.program),
+    };
+  });
 }
 
 function examDateLabel(exam) {
