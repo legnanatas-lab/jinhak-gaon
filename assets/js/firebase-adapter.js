@@ -236,6 +236,15 @@
     return snap.exists() ? snap.data() : null;
   }
 
+  async function subscribeSiteConfig(onChange, onError) {
+    await init();
+    return modules.firestore.onSnapshot(
+      siteDocRef(modules.firestore),
+      (snap) => onChange?.(snap.exists() ? snap.data() : null),
+      (error) => onError?.(error)
+    );
+  }
+
   async function saveSiteConfig(configPatch) {
     await init();
     const user = auth.currentUser || await authStateOnce();
@@ -307,6 +316,7 @@
     sendPasswordResetEmail,
     getCurrentSession,
     getSiteConfig,
+    subscribeSiteConfig,
     saveSiteConfig,
     listUsers,
     saveUserProfile,

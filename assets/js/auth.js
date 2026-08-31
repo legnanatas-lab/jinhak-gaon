@@ -9,6 +9,9 @@
 
 (function (global) {
   const USERS_KEY = "gaongil_users_v2";
+  // 정적 site-data.js와 공개 siteConfig에는 초기 사용자 목록이 남아 있을 수 있다.
+  // 삭제한 사용자가 다음 새로고침 때 다시 병합되지 않도록 삭제 목록을 별도로 보관한다.
+  const DELETED_USERS_KEY = "gaongil_deleted_users_v1";
   const SESSION_KEY = "gaongil_session_v1";
   const ACCESS_KEY = "gaongil_access_v1";
   const NOTICE_KEY = "gaongil_notice_settings_v1";
@@ -18,6 +21,17 @@
   let remoteSiteConfigCache = null;
   let remoteUsersCache = null;
   let remoteRefreshPromise = null;
+  let remoteConfigUnsubscribe = null;
+
+  function applyRemoteSiteConfig(site) {
+    if (!site || typeof site !== "object") return;
+    remoteSiteConfigCache = site;
+    global.GAONGIL_REMOTE_SITE_CONFIG = site;
+    if (Array.isArray(site.users)) remoteUsersCache = site.users;
+    if (typeof global.dispatchEvent === "function" && typeof CustomEvent !== "undefined") {
+      global.dispatchEvent(new CustomEvent("gaongil:remote-config", { detail: site }));
+    }
+  }
 
   function authScriptBaseUrl() {
     const currentScript = document.currentScript || Array.from(document.getElementsByTagName("script") || [])
@@ -74,11 +88,7 @@
         await adapter.init();
         const site = await adapter.getSiteConfig().catch(() => null);
         if (site && typeof site === "object") {
-          remoteSiteConfigCache = site;
-          global.GAONGIL_REMOTE_SITE_CONFIG = site;
-          if (Array.isArray(site.users) && site.users.length > 0) {
-            remoteUsersCache = site.users;
-          }
+          applyRemoteSiteConfig(site);
         }
         const fbSession = await adapter.getCurrentSession().catch(() => null);
         if (fbSession) {
@@ -105,6 +115,22 @@
     remoteSiteConfigCache = { ...(remoteSiteConfigCache || {}), ...configPatch };
     global.GAONGIL_REMOTE_SITE_CONFIG = remoteSiteConfigCache;
     return true;
+  }
+
+  async function startRealtimeSync() {
+    if (!firebaseEnabled() || !firebaseAdapter()?.subscribeSiteConfig) return false;
+    if (remoteConfigUnsubscribe) return true;
+    const adapter = firebaseAdapter();
+    try {
+      remoteConfigUnsubscribe = await adapter.subscribeSiteConfig(
+        (site) => applyRemoteSiteConfig(site),
+        (error) => console.warn("[GaongilFirebase] 실시간 설정 동기화 실패:", error)
+      );
+      return true;
+    } catch (error) {
+      console.warn("[GaongilFirebase] 실시간 설정 동기화를 시작하지 못했습니다.", error);
+      return false;
+    }
   }
 
   function simpleHash(text) {
@@ -148,8 +174,13 @@
     const remoteUsers = (remoteSiteConfigCache && Array.isArray(remoteSiteConfigCache.users))
       ? remoteSiteConfigCache.users
       : [];
-    // 머지 순서: seed → published → remote → localStorage
-    // 뒤쪽이 앞쪽을 덮어쓰되, pwHash는 앞쪽 값을 보호
+    // Firestore의 users 배열이 있으면 그것이 모든 브라우저의 공용 원본이다.
+    // 이때 배포 파일의 시드 계정을 다시 섞으면 삭제한 계정이 되살아난다.
+    const hasRemoteUsers = firebaseEnabled()
+      && remoteSiteConfigCache
+      && Array.isArray(remoteSiteConfigCache.users);
+    // 원격 설정이 도착하기 전에는 seed → published → remote → localStorage 순서로
+    // 호환성을 유지한다. 원격 설정이 있으면 원격 → 현재 브라우저의 미동기화 변경만 쓴다.
     const map = new Map();
     const mergeInto = (arr) => {
       arr.forEach((u) => {
@@ -159,15 +190,34 @@
         map.set(nid, { ...existing, ...u, pwHash: u.pwHash || existing?.pwHash || "" });
       });
     };
-    mergeInto(seedUsers);
-    mergeInto(configUsers);
+    if (!hasRemoteUsers) {
+      mergeInto(seedUsers);
+      mergeInto(configUsers);
+    }
     mergeInto(remoteUsers);
     if (Array.isArray(local)) mergeInto(local);
-    return Array.from(map.values());
+    return Array.from(map.values()).filter((user) => !getDeletedUserIds().has(normalizeId(user.id)));
   }
 
   function saveUsers(users) {
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  }
+
+  function getDeletedUserIds() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(DELETED_USERS_KEY) || "[]");
+      return new Set(Array.isArray(saved) ? saved.map(normalizeId).filter(Boolean) : []);
+    } catch (e) {
+      return new Set();
+    }
+  }
+
+  function setDeletedUser(id, deleted) {
+    const ids = getDeletedUserIds();
+    const normalizedId = normalizeId(id);
+    if (deleted) ids.add(normalizedId);
+    else ids.delete(normalizedId);
+    localStorage.setItem(DELETED_USERS_KEY, JSON.stringify(Array.from(ids)));
   }
 
   function normalizeId(id) {
@@ -639,6 +689,7 @@
     } else {
       await refreshFirebaseCaches();
     }
+    await startRealtimeSync();
     const users = loadUsers() || [];
     return Array.isArray(remoteUsersCache) ? remoteUsersCache : users;
   }
@@ -655,19 +706,27 @@
 
   async function syncUsersToFirebaseSiteConfig(users) {
     if (!firebaseEnabled() || !firebaseAdapter()?.saveSiteConfig) return;
-    try {
-      const list = (users || getUsers() || []).map((u) => ({
-        id: normalizeId(u.id),
-        name: u.name || u.id,
-        email: normalizeEmail(u.email),
-        role: u.role || "staff",
-        pwHash: u.pwHash || "",
-        createdAt: u.createdAt || Date.now(),
-      }));
-      await firebaseAdapter().saveSiteConfig({ users: list });
-    } catch (e) {
-      console.warn("[GaongilFirebase] Firestore siteConfig users sync warning:", e);
-    }
+    const list = (users || getUsers() || []).map((u) => ({
+      id: normalizeId(u.id),
+      name: u.name || u.id,
+      email: normalizeEmail(u.email),
+      role: u.role || "staff",
+      pwHash: u.pwHash || "",
+      createdAt: u.createdAt || Date.now(),
+    }));
+    // 이 문서가 다른 브라우저의 아이디/비밀번호 로그인 원본이다. 저장 실패를
+    // 숨기면 현재 브라우저에서만 로그인되는 계정이 생기므로 호출자에게 오류를 돌려준다.
+    await firebaseAdapter().saveSiteConfig({ users: list });
+    remoteSiteConfigCache = { ...(remoteSiteConfigCache || {}), users: list };
+    remoteUsersCache = list;
+    global.GAONGIL_REMOTE_SITE_CONFIG = remoteSiteConfigCache;
+    return true;
+  }
+
+  async function syncUsers() {
+    if (!firebaseEnabled()) throw new Error("공용 사용자 동기화를 사용하려면 Firebase 연결이 필요합니다.");
+    await syncUsersToFirebaseSiteConfig(getUsers());
+    return true;
   }
 
   async function addUser({ id, name, email, role, password }) {
@@ -678,12 +737,13 @@
     }
     const pwHash = await sha256(password);
     const newUser = { id, name: name || id, email: normalizeEmail(email), role: role || "staff", pwHash, createdAt: Date.now() };
+    setDeletedUser(id, false);
     users.push(newUser);
     saveUsers(users);
     if (firebaseEnabled()) {
       if (firebaseAdapter()?.saveUserProfile) {
-        await firebaseAdapter().saveUserProfile(newUser).catch(() => null);
-        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+        await firebaseAdapter().saveUserProfile(newUser);
+        remoteUsersCache = await firebaseAdapter().listUsers();
       }
       await syncUsersToFirebaseSiteConfig(users);
     }
@@ -707,10 +767,11 @@
     if (target?.role === "admin" && adminCount <= 1) throw new Error("마지막 관리자 계정은 삭제할 수 없습니다.");
     users = users.filter((u) => normalizeId(u.id) !== normalizedId);
     saveUsers(users);
+    setDeletedUser(normalizedId, true);
     if (firebaseEnabled()) {
       if (firebaseAdapter()?.removeUserProfile) {
-        await firebaseAdapter().removeUserProfile(id).catch(() => null);
-        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+        await firebaseAdapter().removeUserProfile(id);
+        remoteUsersCache = await firebaseAdapter().listUsers();
       }
       await syncUsersToFirebaseSiteConfig(users);
     }
@@ -724,8 +785,8 @@
     saveUsers(users);
     if (firebaseEnabled()) {
       if (firebaseAdapter()?.saveUserProfile) {
-        await firebaseAdapter().saveUserProfile({ ...u, role }).catch(() => null);
-        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+        await firebaseAdapter().saveUserProfile({ ...u, role });
+        remoteUsersCache = await firebaseAdapter().listUsers();
       }
       await syncUsersToFirebaseSiteConfig(users);
     }
@@ -739,8 +800,8 @@
     saveUsers(users);
     if (firebaseEnabled()) {
       if (firebaseAdapter()?.saveUserProfile) {
-        await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) }).catch(() => null);
-        remoteUsersCache = await firebaseAdapter().listUsers().catch(() => remoteUsersCache);
+        await firebaseAdapter().saveUserProfile({ ...u, email: normalizeEmail(email) });
+        remoteUsersCache = await firebaseAdapter().listUsers();
       }
       await syncUsersToFirebaseSiteConfig(users);
     }
@@ -1113,6 +1174,8 @@
     renderNotices,
     uploadNoticeImage,
     refreshFirebaseCaches,
+    startRealtimeSync,
+    syncUsers,
     isFirebaseEnabled: firebaseEnabled,
     getFirebaseStatus,
     normalizePageKey,
