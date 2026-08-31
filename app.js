@@ -1304,6 +1304,7 @@ function programChangeKey(university, major) {
 function addProgramChange(change) {
   const newNames = programMajorNames(change.newMajor);
   const oldNames = programMajorNames(change.oldMajor);
+  const newNotes = programMajorNotes(change.newMajor);
   if (!newNames.length) return;
   const status = /신설/.test(change.category || '') || !oldNames.length ? 'new' : 'changed';
   const normalized = {
@@ -1313,6 +1314,7 @@ function addProgramChange(change) {
     oldMajor: oldNames.join(' · '),
     newNames,
     oldNames,
+    newNotes,
   };
   PROGRAM_CHANGES.push(normalized);
   for (const name of newNames) {
@@ -1336,13 +1338,29 @@ function programMajorNames(value) {
     .replace(/<br\s*\/?>/gi, '\n')
     .split(/\n+/)
     .map((item) => sourceText(item))
-    .filter((item) => item && item !== '-' && item !== '–');
+    .filter((item) => item && item !== '-' && item !== '–')
+    // 모집단위 변경표의 다음 줄에는 협약·채용조건 같은 설명이 함께 적히기도
+    // 한다. 이 문구를 학과명으로 인식하면 별도의 가짜 모집단위가 생긴다.
+    .filter((item) => !isProgramMajorDescription(item));
   const joined = [];
   for (const line of lines) {
     if (/^\([^)]*\)$/.test(line) && joined.length) joined[joined.length - 1] += line;
     else joined.push(line);
   }
   return [...new Set(joined)];
+}
+
+function isProgramMajorDescription(value) {
+  const text = sourceText(value).replace(/^[☞※*·•\-]+\s*/, '');
+  return /(?:협약|채용조건|정원\s*외|계약학과|의한\s*채용|모집단위\s*설명)/.test(text);
+}
+
+function programMajorNotes(value) {
+  return [...new Set(String(value || '')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .split(/\n+/)
+    .map((item) => sourceText(item))
+    .filter((item) => isProgramMajorDescription(item)))];
 }
 
 function findProgramChangesForRecord(record) {
@@ -1371,7 +1389,10 @@ function displayMajorName(record) {
 function renderProgramChangeHint(record) {
   const change = primaryProgramChange(record);
   if (!change) return '';
-  if (change.status === 'new') return '<small class="program-change-hint new">신설 · 2027 모집정보</small>';
+  const note = change.newNotes?.length
+    ? `<small class="program-change-note">${escapeHtml(change.newNotes.join(' · '))}</small>`
+    : '';
+  if (change.status === 'new') return `<small class="program-change-hint new">신설 · 2027 모집정보</small>${note}`;
   return `<small class="program-change-hint changed">변경 · 기존 ${escapeHtml(change.oldMajor || record.major)}</small>`;
 }
 
@@ -1906,7 +1927,10 @@ function findPlansForRecord(record) {
   }
   // 2027 학과(부) 변경 표에 있는 경우에는 새 학과명으로 모집정보를 찾되,
   // 이 행의 3개년 입결·경쟁률은 기존 학과명으로 유지한다.
-  candidates = candidates.concat(plansForChangedMajor(record));
+  // 명칭 변경표는 과거 입결 행을 새 모집단위에 연결하기 위한 보조 자료다.
+  // 현재 모집단위의 2027 행이 이미 있으면 변경표의 인접 학과 행까지 덧붙이지
+  // 않는다. 이를 항상 합치면 같은 전형이 구·신 학과명으로 두 번 보일 수 있다.
+  if (!candidates.length) candidates = candidates.concat(plansForChangedMajor(record));
   const seen = new Set();
   const unique = [];
   for (const plan of candidates) {
@@ -1942,7 +1966,12 @@ function planDisplayNameKey(plan) {
     .replace(/전형$/g, ''));
   // 원자료에는 "학생부교과(지역)"처럼 상위 분류를 포함한 약칭이 함께
   // 들어온다. 이는 "지역인재전형"과 같은 전형이므로 한 전형으로 묶는다.
-  if (/^(지역|학생부교과지역)$/.test(key)) key = '지역인재';
+  if (/^(지역|학생부교과지역|지역인재)$/.test(key)) key = '지역인재';
+  // 원자료의 "학생부교과전형"은 해당 대학의 "학생부교과(일반)" 표기와,
+  // "논술(지역인재)"는 논술전형 표기와 같은 모집군을 가리키는 경우가 있다.
+  // 접두어·괄호 표기 차이로 중복 행이 생기지 않도록 화면용 키를 통일한다.
+  if (/^(?:학생부교과|교과|학생부교과일반|일반학생|일반)?$/.test(key)) key = '일반';
+  if (/^논술(?:지역인재)?$/.test(key)) key = '논술';
   return key;
 }
 
@@ -1970,12 +1999,10 @@ function planRecruitmentCount(plan) {
 
 function planIsDirectMajorMatch(plan, record) {
   if (!record) return true;
-  const changedMajors = findProgramChangesForRecord(record).flatMap((change) => [
-    ...(change.newNames || []),
-    ...(change.oldNames || []),
-  ]);
-  const matchesMajor = [record.major, ...changedMajors].filter(Boolean)
-    .some((major) => samePlanMajor(major, plan.m));
+  // 변경 전·후 학과명은 후보를 찾지 못했을 때만 보조적으로 사용한다.
+  // 여기까지 확장하면 한 변경표에 함께 적힌 다른 전공의 전형까지 현재 학과의
+  // 전형으로 판단되어 중복·합산되는 문제가 생긴다.
+  const matchesMajor = samePlanMajor(record.major, plan.m);
   if (!matchesMajor) return false;
   // 동일 학과를 인문/자연으로 나눈 모집단위는 소계가 서로 달라, 현재 계열과
   // 다른 행까지 합쳐 보이지 않도록 한다.
