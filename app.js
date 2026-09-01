@@ -806,9 +806,7 @@ function studentValue(key) {
 function reportGradeRows(record) {
   return YEARS.map((year) => {
     const data = yearData(record, year) || {};
-    const rawFill = data.fillRate;
-    const fillVal = rawFill == null ? null : (rawFill <= 1 ? rawFill * 100 : rawFill);
-    const fillRate = fillVal == null ? "–" : `${formatNumber(fillVal, 0)}%`;
+    const fillRate = formatFillRate(data.fillRate);
     return `
       <tr>
         <td>${year}</td>
@@ -1189,7 +1187,7 @@ function renderCutTable(record) {
 function renderCompTable(record) {
   const fmtCount = (v) => (v == null ? "–" : `${formatNumber(v, 0)}`);
   const fmtRatio = (v) => (v == null ? "–" : formatNumber(v, 2));
-  const fmtPct = (v) => (v == null ? "–" : `${Math.round(v * 100)}%`);
+  const fmtPct = formatFillRate;
   const rows = YEARS.map((year) => {
     const data = competitionYearData(record, year);
     const now = year === 2026 ? "now-row" : "";
@@ -1214,6 +1212,14 @@ function renderCompTable(record) {
       </table>
     </div>
   `;
+}
+
+// 원자료의 충원율은 1.75 = 175%처럼 비율값으로 저장된다. 화면과 PDF가 같은
+// 기준으로 표시하도록 한 곳에서만 퍼센트 표기로 바꾼다.
+function formatFillRate(value) {
+  if (value == null || value === '') return '–';
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? `${formatNumber(numeric * 100, 0)}%` : '–';
 }
 
 
@@ -1283,6 +1289,21 @@ function majorIdentity(value) {
     .replace(/<[^>]*>/g, '')
     .replace(/\[[^\]]*\]/g, '')
     .replace(/\s+/g, ''));
+}
+
+// 인덱스용 축약 키는 학과/학부 표기를 넓게 묶기 때문에, 실제 연결 전에는
+// 공학·교육 등 학과명 본문을 보존한 비교 키로 한 번 더 확인한다.
+function majorMatchIdentity(value) {
+  return normalize(String(value || '')
+    .replace(/&lt;[^&gt;]*&gt;/g, '')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\[[^\]]*\]/g, '')
+    .replace(/\([^)]*\)/g, '')
+    .replace(/학과|학부|전공|계열/g, '')
+    .replace(/의학/g, '의예')
+    .replace(/치의학/g, '치의예')
+    .replace(/한의학/g, '한의예')
+    .replace(/수의학/g, '수의예'));
 }
 
 function programMajorKeys(value) {
@@ -1676,17 +1697,11 @@ function findSourcePlansForMajor(universityKey, major) {
     for (const key of keys) plans = plans.concat(PLAN2027_SOURCE_INDEX.get(`${uk}|${key}`) || []);
     if (plans.length) break;
   }
-  if (!plans.length && keys.length) {
-    for (const uk of universityKeys) {
-      const partial = (PLAN2027_SOURCE_UNI_INDEX.get(uk) || []).filter((plan) => {
-        const candidateKeys = programMajorKeys(plan.m);
-        return candidateKeys.some((candidate) => keys.some((key) => candidate.includes(key) || key.includes(candidate)));
-      });
-      plans = plans.concat(partial);
-      if (plans.length) break;
-    }
-  }
-  return [...new Map(plans.map((plan) => [[plan.u, plan.m, plan.t, plan.p, plan.n].join('|'), plan])).values()];
+  // 원자료의 부분 문자열 보정은 서로 다른 학과의 전형 전체 인원을 현재 학과에
+  // 붙일 수 있다. 원자료는 학과 키가 정확히 일치할 때만 보조 자료로 사용한다.
+  return [...new Map(plans
+    .filter((plan) => samePlanMajor(major, plan.m))
+    .map((plan) => [[plan.u, plan.m, plan.t, plan.p, plan.n].join('|'), plan])).values()];
 }
 
 function plansForChangedMajor(record) {
@@ -1701,9 +1716,6 @@ function plansForChangedMajor(record) {
       const staticPlans = [];
       for (const key of keys) staticPlans.push(...(PLAN2027_INDEX.get(`${staticKey}|${key}`) || []));
       if (!keys.length) continue;
-      staticPlans.push(...(PLAN2027_UNI_INDEX.get(staticKey) || []).filter((plan) =>
-        programMajorKeys(plan.m).some((candidate) => keys.some((key) => candidate.includes(key) || key.includes(candidate)))
-      ));
       plans.push(...staticPlans);
       // The workbook rows are the authoritative, per-major source.  The HTML
       // extractor is retained only as a fallback for a future source that has
@@ -1735,9 +1747,19 @@ function displayRegionForPlan(value) {
 }
 
 function samePlanMajor(recordMajor, planMajor) {
-  const recordKeys = new Set(programMajorKeys(recordMajor));
-  const planKeys = programMajorKeys(planMajor);
-  return planKeys.some((key) => recordKeys.has(key));
+  // 자유전공학부(서울)처럼 괄호 안이 캠퍼스·단위 구분인 경우에는 본문 키가
+  // 같아도 다른 모집단위다. 이 구분을 무시하면 서울/글로벌 인원이 합쳐진다.
+  const unitQualifier = (value) => (String(value || '').match(/\(([^)]+)\)/g) || [])
+    .map((item) => normalize(item.slice(1, -1)))
+    .filter((item) => /서울|글로벌|erica|천안|죽전|국제|본교|분교|캠퍼스/.test(item));
+  const recordQualifiers = unitQualifier(recordMajor);
+  const planQualifiers = unitQualifier(planMajor);
+  if (recordQualifiers.length && planQualifiers.length && !recordQualifiers.some((item) => planQualifiers.includes(item))) return false;
+  const recordKey = majorMatchIdentity(recordMajor);
+  const planKey = majorMatchIdentity(planMajor);
+  if (!recordKey || !planKey) return false;
+  return recordKey === planKey ||
+    (Math.min(recordKey.length, planKey.length) >= 4 && (recordKey.includes(planKey) || planKey.includes(recordKey)));
 }
 
 function addPlanOnlyRecords() {
@@ -1876,6 +1898,17 @@ function universityWideMajorMentionScore(record, plan) {
   return detailKey.includes(mk) ? 4 : 0;
 }
 
+function sourcePlanCountIsPlausible(record, plan) {
+  if (!plan?.sourceRaw) return true;
+  const count = planRecruitmentCount(plan);
+  if (count === null) return true;
+  const history = Object.values(record?.history?.years || {}).map((year) => Number(year?.recruit)).filter(Number.isFinite);
+  const reference = Math.max(Number(record?.recruit2026) || 0, ...history, 0);
+  // 원자료 추출 중 전형별 총계를 학과별 인원으로 읽은 사례를 차단한다. 과거·현재
+  // 모집 인원의 3배를 크게 넘고 200명 이상이면 원문 확인 전에는 표시하지 않는다.
+  return count < 200 || !reference || count <= reference * 3 + 20;
+}
+
 function findPlansForRecord(record) {
   if (!record) return [];
   buildPlanIndex();
@@ -1893,37 +1926,24 @@ function findPlansForRecord(record) {
           const subCandidates = PLAN2027_INDEX.get(`${uk}|${subMk}`) || [];
           if (subCandidates.length) {
             candidates = candidates.concat(subCandidates);
-          } else {
-            const partial = (PLAN2027_UNI_INDEX.get(uk) || []).filter(plan => {
-              const pm = majorKey(plan.m);
-              return pm && (pm.includes(subMk) || subMk.includes(pm));
-            });
-            candidates = candidates.concat(partial);
           }
         }
       }
     }
   }
-  if (!candidates.length && uk && mk) {
-    // 부분 일치 보완: 의학과(의예과) vs 의예과, 학부/전공 표기 차이 등
-    candidates = (PLAN2027_UNI_INDEX.get(uk) || []).filter(plan => {
-      const pm = majorKey(plan.m);
-      return pm && (pm.includes(mk) || mk.includes(pm));
-    });
-  }
+  // 축약 인덱스 충돌(예: 경영학부 ↔ 경영공학과)을 여기서 제거한다.
+  candidates = candidates.filter((plan) => samePlanMajor(record.major, plan.m));
+  // 요약 모집요강이 있으면 그것을 기준으로 한다. 원자료는 같은 전형을 다시
+  // 적은 보조 표가 많아 함께 합치면 모집인원이 이중 집계될 수 있으므로,
+  // 요약 모집요강이 전혀 없을 때만 정확한 학과명 일치 행으로 보완한다.
+  const sourceCandidates = findSourcePlansForRecord(record)
+    .filter((plan) => sourcePlanCountIsPlausible(record, plan));
+  if (!candidates.length) candidates = candidates.concat(sourceCandidates);
   if (!candidates.length && uk) {
-    // 일부 대학은 2027 원자료가 학과별이 아니라 "전 모집단위"로만 정리되어 있다.
-    // 이 경우 대학 전체 전형자료를 해당 학과의 보조 정보로 연결하되,
-    // 아래 표에서 모집인원이 전형 전체 합계임을 명확히 표시한다.
+    // 학과별 요강과 정확히 맞는 원자료도 없는 경우에만 전 모집단위 합계를 보조
+    // 자료로 쓴다. 이를 먼저 사용하면 학과별 인원 대신 대학 전체 963명처럼
+    // 보이는 오류가 생긴다.
     candidates = (PLAN2027_UNI_INDEX.get(uk) || []).filter(isUniversityWidePlan);
-  }
-  // 요약 전형 데이터에 누락된 대학·캠퍼스는 대학별 2027 원자료 표에서 보완한다.
-  // 원자료 인덱스는 캠퍼스를 포함하므로 한양대 서울/ERICA처럼 다른 캠퍼스가 섞이지 않는다.
-  // 요약 데이터에 같은 학과의 다른 전형만 있는 경우에도, 해당 전형의 대학별
-  // 원자료를 함께 붙여 전형별 2027 모집정보가 빠지지 않게 한다.
-  const sourceCandidates = findSourcePlansForRecord(record);
-  if (!candidates.length || !candidates.some(plan => typeMatchesPlan(record, plan))) {
-    candidates = candidates.concat(sourceCandidates);
   }
   // 2027 학과(부) 변경 표에 있는 경우에는 새 학과명으로 모집정보를 찾되,
   // 이 행의 3개년 입결·경쟁률은 기존 학과명으로 유지한다.
@@ -1972,6 +1992,8 @@ function planDisplayNameKey(plan) {
   // 접두어·괄호 표기 차이로 중복 행이 생기지 않도록 화면용 키를 통일한다.
   if (/^(?:학생부교과|교과|학생부교과일반|일반학생|일반)?$/.test(key)) key = '일반';
   if (/^논술(?:지역인재)?$/.test(key)) key = '논술';
+  if (/^농어촌(?:학생|인재)?(?:정원외)?$/.test(key)) key = '농어촌';
+  if (/^사회(?:적)?배려(?:대상)?자?$/.test(key)) key = '사회배려';
   return key;
 }
 
@@ -2035,9 +2057,14 @@ function dedupePlansForDisplay(plans, record) {
     grouped.set(key, group);
   }
   return [...grouped.values()].map((group) => {
-    const best = group.reduce((previous, plan) =>
+    // 정리된 모집요강과 대학 원자료가 같은 전형을 중복 기록한 경우에는
+    // 정리된 모집요강만 남긴다. 원자료 인원을 더하면 13명이 26명처럼 보인다.
+    const authoritative = group.some((plan) => !plan.sourceRaw)
+      ? group.filter((plan) => !plan.sourceRaw)
+      : group;
+    const best = authoritative.reduce((previous, plan) =>
       !previous || planDisplayScore(plan) > planDisplayScore(previous) ? plan : previous, null);
-    const counts = group.map(planRecruitmentCount).filter((count) => count !== null);
+    const counts = authoritative.map(planRecruitmentCount).filter((count) => count !== null);
     // 같은 대학·모집단위·전형으로 나뉜 행은 모집인원을 합산해 한 행으로 제시한다.
     // 숫자 모집인원이 하나도 없으면 가장 상세한 원문 값을 그대로 둔다.
     if (counts.length > 1) return { ...best, n: String(counts.reduce((sum, count) => sum + count, 0)) };
