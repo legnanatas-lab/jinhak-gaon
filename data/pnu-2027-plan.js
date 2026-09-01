@@ -52,7 +52,7 @@ function min(m,t,p){
  return pack('2개 영역 등급 합 5 이내',top1);
 }
 function method(t,p){if(t==='학생부교과')return '학생부 교과 80% + 학업역량평가 20%';if(t==='학생부종합'&&['학생부종합전형','지역인재전형','지역의사선발전형'].includes(p))return '1단계 서류(학생부) 100%(3~4배수) → 2단계 1단계 성적 80% + 면접 20%';if(t==='학생부종합')return '서류(학생부) 평가 100%';return '논술 80% + 학생부 교과 20%'}
-function add(m,c,t,p,n){if(!n)return;const x={rg:'부산',u:'부산대',m,t,p,n,method:method(t,p),min:min(m,t,p),ann:'2026.12.18.(금) 16:00',note:c+'캠퍼스 · 부산대학교 2027 수시모집요강 기준'};if(t==='학생부교과')x.subj='학생부 교과성적 80% + 학업역량평가 20%; 세부 반영교과는 모집요강 p.59~61 참조';if(t==='학생부종합')x.doc='학생부 기반 정성적 종합평가; 세부 평가방법은 모집요강 p.62~63 참조';if(x.method.includes('면접'))Object.assign(x,{stage:'단계별',iv:'2단계 면접 20%',ivdate:'2026.12.5.(토)',ann1:'2026.12.1.(화) 16:00'});if(t==='논술')x.nonsul='2026.11.28.(토)';rows.push(x)}
+function add(m,c,t,p,n){if(!n)return;const x={rg:'부산',u:'부산대',m,t,p,n,sourcePnu:true,method:method(t,p),min:min(m,t,p),ann:'2026.12.18.(금) 16:00',note:c+'캠퍼스 · 부산대학교 2027 수시모집요강 기준'};if(t==='학생부교과')x.subj='학생부 교과성적 80% + 학업역량평가 20%; 세부 반영교과는 모집요강 p.59~61 참조';if(t==='학생부종합')x.doc='학생부 기반 정성적 종합평가; 세부 평가방법은 모집요강 p.62~63 참조';if(x.method.includes('면접'))Object.assign(x,{stage:'단계별',iv:'2단계 면접 20%',ivdate:'2026.12.5.(토)',ann1:'2026.12.1.(화) 16:00'});if(t==='논술')x.nonsul='2026.11.28.(토)';rows.push(x)}
 A.forEach(r=>P1.forEach((q,i)=>add(r[0],r[1],q[0],q[1],r[i+2])));
 const ALIAS={
 'X-모빌리티융합학부':['첨단모빌리티자율전공','첨단IT자율전공'],
@@ -66,6 +66,6 @@ const ALIAS={
 '한의학전문대학원 학·석사통합과정':['학·석사통합과정(한의학과)','학석사통합과정(한의학과)']};
 Object.entries(ALIAS).forEach(([src,names])=>{const found=rows.filter(x=>x.m===src);names.forEach(name=>found.forEach(x=>rows.push({...x,m:name,note:x.note+' · 2026 모집단위명 연결'}))) });
 B.forEach(r=>P2.forEach((q,i)=>add(r[0],r[1],q[0],q[1],r[i+2])));
-C.forEach(r=>E.forEach((p,i)=>{const n=r[i+2];if(!n)return;const m=r[0],g=r[1];let z;if(g==='체육교육과'||g==='디자인학과')z='1단계 학생부 교과 100%(5배수) → 2단계 실기 60% + 1단계 성적 40%';else if(/음악학과|한국음악학과|미술학과/.test(g))z='실기 80% + 학생부 교과 20%';else z='실기 60% + 학생부 교과 40%';rows.push({rg:'부산',u:'부산대',m,t:'실기/실적',p,n,method:z,min:'체육교육과·조형학과·디자인학과는 수능최저 적용, 그 외 미반영',prac:'2026.10.20.(화)~11.6.(금), 모집단위별 상이',ann:'2026.11.24.(화) 또는 12.18.(금) 16:00',note:'부산캠퍼스 · 부산대학교 2027 수시모집요강 기준'})}));
+C.forEach(r=>E.forEach((p,i)=>{const n=r[i+2];if(!n)return;const m=r[0],g=r[1];let z;if(g==='체육교육과'||g==='디자인학과')z='1단계 학생부 교과 100%(5배수) → 2단계 실기 60% + 1단계 성적 40%';else if(/음악학과|한국음악학과|미술학과/.test(g))z='실기 80% + 학생부 교과 20%';else z='실기 60% + 학생부 교과 40%';rows.push({rg:'부산',u:'부산대',m,t:'실기/실적',p,n,sourcePnu:true,method:z,min:'체육교육과·조형학과·디자인학과는 수능최저 적용, 그 외 미반영',prac:'2026.10.20.(화)~11.6.(금), 모집단위별 상이',ann:'2026.11.24.(화) 또는 12.18.(금) 16:00',note:'부산캠퍼스 · 부산대학교 2027 수시모집요강 기준'})}));
 if(!Array.isArray(window.__GAONGIL_SUSI_2027_PLAN__))window.__GAONGIL_SUSI_2027_PLAN__=[];window.__GAONGIL_SUSI_2027_PLAN__.push(...rows);
 })();

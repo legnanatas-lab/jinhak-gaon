@@ -1993,7 +1993,10 @@ function planDisplayNameKey(plan) {
   if (/^(?:학생부교과|교과|학생부교과일반|일반학생|일반)?$/.test(key)) key = '일반';
   if (/^논술(?:지역인재)?$/.test(key)) key = '논술';
   if (/^농어촌(?:학생|인재)?(?:정원외)?$/.test(key)) key = '농어촌';
-  if (/^사회(?:적)?배려(?:대상)?자?$/.test(key)) key = '사회배려';
+  // 모집요강마다 사회배려자/사회배려대상자, 저소득층학생/저소득층학생(정원외)
+  // 처럼 같은 전형의 명칭만 달리 쓰기도 한다. 이 경우는 모집군을 분리하지 않는다.
+  if (/^사회(?:적)?배려(?:대상)?자(?:전형)?$/.test(key)) key = '사회배려';
+  if (/^저소득층학생(?:정원외)?(?:전형)?$/.test(key)) key = '저소득층학생';
   return key;
 }
 
@@ -2059,9 +2062,15 @@ function dedupePlansForDisplay(plans, record) {
   return [...grouped.values()].map((group) => {
     // 정리된 모집요강과 대학 원자료가 같은 전형을 중복 기록한 경우에는
     // 정리된 모집요강만 남긴다. 원자료 인원을 더하면 13명이 26명처럼 보인다.
-    const authoritative = group.some((plan) => !plan.sourceRaw)
-      ? group.filter((plan) => !plan.sourceRaw)
-      : group;
+    // 부산대는 대학이 공개한 모집단위별 모집요강 보완표를 별도로 연결한다.
+    // 기존 통합 자료와 함께 합산하면 같은 전형의 정원이 두 배로 보이므로,
+    // 해당 보완표가 있는 모집단위에서는 그 행만 최우선으로 사용한다.
+    const pnuAuthoritative = group.filter((plan) => plan.sourcePnu);
+    const authoritative = pnuAuthoritative.length
+      ? pnuAuthoritative
+      : group.some((plan) => !plan.sourceRaw)
+        ? group.filter((plan) => !plan.sourceRaw)
+        : group;
     const best = authoritative.reduce((previous, plan) =>
       !previous || planDisplayScore(plan) > planDisplayScore(previous) ? plan : previous, null);
     const counts = authoritative.map(planRecruitmentCount).filter((count) => count !== null);
