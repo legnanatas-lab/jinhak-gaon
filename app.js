@@ -1318,6 +1318,32 @@ function programMajorKeys(value) {
   return [...new Set(values.flatMap((item) => [majorKey(item), majorIdentity(item)]).filter(Boolean))];
 }
 
+// 원자료 표에는 "스포츠과학부 취업연계RISE 스포츠재활학전공"처럼 상위 학부와
+// 세부 전공을 한 셀에 함께 적는 경우가 있다. 이때 각 명시적 모집단위를 따로
+// 식별하되, 단순 나열형 통합모집 문구(예: "A학과, B학과")는 이 함수만으로
+// 연결하지 않는다. 그래야 통합모집 전체 인원이 개별 학과에 붙지 않는다.
+function explicitMajorUnitKeys(value) {
+  const raw = String(value || '')
+    .replace(/&lt;[^&gt;]*&gt;/g, '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/[\[\]()]/g, ' ')
+    .replace(/[\n\r]+/g, ' ');
+  const matches = raw.match(/(?:[가-힣A-Za-z0-9]+(?:[·ㆍ・&][가-힣A-Za-z0-9]+)*)?(?:학과|학부|전공|계열)/g) || [];
+  return [...new Set(matches.map((item) => majorMatchIdentity(item)).filter(Boolean))];
+}
+
+function expandedMajorIdentity(value) {
+  return normalize(String(value || '')
+    .replace(/&lt;[^&gt;]*&gt;/g, '')
+    .replace(/<[^>]*>/g, '')
+    .replace(/[\[\]()]/g, '')
+    .replace(/학과|학부|전공|계열/g, '')
+    .replace(/의학/g, '의예')
+    .replace(/치의학/g, '치의예')
+    .replace(/한의학/g, '한의예')
+    .replace(/수의학/g, '수의예'));
+}
+
 function programChangeKey(university, major) {
   return `${planUniversityKey(university)}|${major}`;
 }
@@ -1502,8 +1528,24 @@ function extractSourcePlans(university) {
     );
     let currentMajor = '';
     for (const row of rows.slice(firstData)) {
-      const rawMajor = sourceText(row[majorColumn]);
-      const detail = sourceText(row[majorColumn + 1]);
+      let rawMajor = sourceText(row[majorColumn]);
+      let detail = sourceText(row[majorColumn + 1]);
+      // 인제대처럼 표 머리글의 "모집단위"가 0열에 걸쳐 있지만 실제 학과명은
+      // 1·2열에 나뉘어 있는 표가 있다. 이 경우 직전 행의 상위 계열명을 이어
+      // 붙이면 "의생명보건계열 스포츠헬스케어…"처럼 잘못된 모집단위가 된다.
+      // 첫 모집인원 앞의 명시적 학과/학부/전공 셀만 조합해 실제 모집단위를
+      // 복원한다. 대학·계열명만 있는 통합모집 행은 이 보정 대상에서 제외한다.
+      if (majorColumn === 0) {
+        const firstCountColumn = row.findIndex(sourceValueIsCount);
+        const leadingCells = row
+          .slice(majorColumn, firstCountColumn > majorColumn ? firstCountColumn : row.length)
+          .map(sourceText)
+          .filter((cell) => /(?:학과|학부|전공|계열)$/.test(cell));
+        if (leadingCells.length) {
+          rawMajor = leadingCells[0];
+          detail = leadingCells.slice(1).join(' ');
+        }
+      }
       if (rawMajor) currentMajor = rawMajor;
       if (!currentMajor) continue;
       const major = detail && !/학부\s*모집|계열\s*모집|모집\s*단위/.test(detail)
@@ -1511,12 +1553,18 @@ function extractSourcePlans(university) {
       row.forEach((cell, index) => {
         const count = sourceText(cell);
         const label = labels[index] || '';
+        const labelKey = normalize(label);
         if (!sourceValueIsCount(count)) return;
         // 단순 모집인원·수시계는 전형이 아니므로 제외한다.
-        if (!/교과|종합|논술|실기|추천|서류|면접|지역|균형|고른|기회|특성화|재능|학생부/.test(label)) return;
-        const type = label
+        if (!/교과|종합|논술|실기|추천|서류|면접|지역|균형|고른|기회|특성화|재능|학생부/.test(labelKey)) return;
+        let type = label
           .replace(/수시\s*모집인원|정원\s*내|정원\s*외|모집\s*인원|모집\s*단위/g, '')
           .replace(/\s+/g, ' ').trim();
+        // 원자료 PDF를 표로 옮길 때 "특 성 화 고 교"처럼 글자 사이가 벌어지는
+        // 열이 있다. 이 열은 학생부교과 하위 열이므로 화면의 전형 분류도 보완한다.
+        if (/특성화고교|농어촌학생|기초생활수급|사회배려/.test(labelKey) && !/교과|종합/.test(normalize(type))) {
+          type = `학생부교과 ${type}`;
+        }
         if (!type) return;
         addSourcePlan({
           u: university.name,
@@ -1697,10 +1745,48 @@ function findSourcePlansForMajor(universityKey, major) {
     for (const key of keys) plans = plans.concat(PLAN2027_SOURCE_INDEX.get(`${uk}|${key}`) || []);
     if (plans.length) break;
   }
+  // 원자료 표의 셀 병합으로 상위 학부명과 세부 전공명이 합쳐진 경우에는
+  // 인덱스 키가 달라진다. 완전 키 일치가 없을 때만, (1) 괄호 안 세부전공까지
+  // 포함한 모집단위가 정확히 같거나 (2) 원자료에 세부전공이 독립적으로 명시된
+  // 행을 보조로 찾는다. 단순 포함 비교는 통합모집 정원을 다른 학과에 붙일 수
+  // 있으므로 사용하지 않는다.
+  if (!plans.length) {
+    const requestedExpanded = expandedMajorIdentity(major);
+    const requestedUnit = majorMatchIdentity(major);
+    for (const uk of universityKeys) {
+      const universityPlans = PLAN2027_SOURCE_UNI_INDEX.get(uk) || [];
+      const matched = universityPlans.filter((plan) => {
+        const planExpanded = expandedMajorIdentity(plan.m);
+        if (requestedExpanded && planExpanded === requestedExpanded) return true;
+        const unitKeys = explicitMajorUnitKeys(plan.m);
+        return requestedUnit
+          && !/[,\[\]]/.test(String(plan.m || ''))
+          && unitKeys.length <= 2
+          && unitKeys.includes(requestedUnit);
+      });
+      if (matched.length) {
+        plans = matched;
+        break;
+      }
+    }
+  }
   // 원자료의 부분 문자열 보정은 서로 다른 학과의 전형 전체 인원을 현재 학과에
-  // 붙일 수 있다. 원자료는 학과 키가 정확히 일치할 때만 보조 자료로 사용한다.
+  // 붙일 수 있다. 위의 안전한 세부모집단위 일치 외에는 원자료를 보조 자료로
+  // 사용하지 않는다.
   return [...new Map(plans
-    .filter((plan) => samePlanMajor(major, plan.m))
+    .filter((plan) => {
+      const requestedExpanded = expandedMajorIdentity(major);
+      const requestedUnit = majorMatchIdentity(major);
+      return samePlanMajor(major, plan.m)
+        || (requestedExpanded && expandedMajorIdentity(plan.m) === requestedExpanded)
+        || (() => {
+          const unitKeys = explicitMajorUnitKeys(plan.m);
+          return requestedUnit
+            && !/[,\[\]]/.test(String(plan.m || ''))
+            && unitKeys.length <= 2
+            && unitKeys.includes(requestedUnit);
+        })();
+    })
     .map((plan) => [[plan.u, plan.m, plan.t, plan.p, plan.n].join('|'), plan])).values()];
 }
 
