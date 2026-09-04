@@ -497,6 +497,16 @@ function calcManualRules(u) {
       const period=s=>s.grade<3||(s.grade===3&&s.sem===1),normal=common.filter(s=>period(s)&&((s.grade===1&&['국어','수학','영어','사회','과학'].includes(s.area))||(s.grade>=2&&rule.generalAreas.includes(s.area)))),careerTop=career.filter(s=>period(s)&&rule.generalAreas.includes(s.area)).sort((a,b)=>rule.achievementPoints[b.achv]-rule.achievementPoints[a.achv]||(a.achv==='A'?credit(b)-credit(a):credit(a)-credit(b))).slice(0,3),selected=normal.concat(careerTop);if(!selected.length)return{label:rule.label,unavailable:true,reason:'계열별 반영교과 등급 또는 진로 성취도와 이수단위를 입력해 주세요.'};const units=selected.reduce((a,s)=>a+credit(s),0),score=selected.reduce((a,s)=>a+(s.type==='career'?rule.achievementPoints[s.achv]:rule.rankPoints[s.rank-1])*credit(s),0)/units;
       return{label:rule.label,score,maxScore:rule.maxScore,avgGrade:'공식점수',careerUsed:careerTop.length,desc:`1학년 공통 5개 교과 + 2~3학년 계열별 교과 전 과목, 진로 상위 ${careerTop.length}/3과목 이수단위 가중점수`};
     }
+    if(rule.formula==='shilla2027'){
+      const period=s=>s.grade<3||(s.grade===3&&s.sem===1);
+      const careerPool=career.filter(s=>period(s)&&(rule.careerAll||rule.areas.includes(s.area))).map(s=>({...s,point:rule.achievementPoints[s.achv],isCareer:true})).sort((a,b)=>b.point-a.point||credit(b)-credit(a));
+      const careerPicked=careerPool.slice(0,rule.careerMax);
+      const normal=rule.careerOnly?[]:common.filter(s=>period(s)&&rule.areas.includes(s.area)).map(s=>({...s,point:rule.rankPoints[s.rank-1],isCareer:false}));
+      const selected=(rule.careerOnly?careerPicked:normal.concat(careerPicked)).sort((a,b)=>b.point-a.point||credit(b)-credit(a)).slice(0,rule.totalTop);
+      if(!selected.length)return{label:rule.label,unavailable:true,reason:rule.careerOnly?'진로선택 성취도와 이수단위를 입력해 주세요.':'반영 교과의 석차등급 또는 진로선택 성취도와 이수단위를 입력해 주세요.'};
+      const score=selected.reduce((sum,s)=>sum+s.point,0);
+      return{label:rule.label,score,maxScore:rule.maxScore,avgGrade:'공식점수',careerUsed:selected.filter(s=>s.isCareer).length,desc:rule.careerOnly?`진로선택 전 교과 상위 ${selected.length}/${rule.totalTop}과목 성취도별 점수 합산`:`국어·수학·영어·한국사·사회·과학 전 교과 중 상위 ${selected.length}/${rule.totalTop}과목 합산 · 진로선택 ${selected.filter(s=>s.isCareer).length}/${rule.careerMax}과목 반영`};
+    }
     if(rule.formula==='shinhan2027'){
       const period=s=>s.grade<3||(s.grade===3&&s.sem===1),normal=common.filter(period).sort((a,b)=>a.rank-b.rank||credit(b)-credit(a)),selected=normal.slice(0,10).map(s=>({...s,points:[100,99,97.5,96,94.5,91.5,88.5,82,68][s.rank-1],isCareer:false}));if(normal.length<10){const need=Math.min(2,10-normal.length),careerTop=career.filter(period).sort((a,b)=>({A:99,B:96,C:82})[b.achv]-({A:99,B:96,C:82})[a.achv]).slice(0,need).map(s=>({...s,points:({A:99,B:96,C:82})[s.achv],isCareer:true}));selected.push(...careerTop);}if(selected.length<8)return{label:rule.label,unavailable:true,reason:'석차등급 과목 8~10개를 입력해 주세요(8~9개일 때 진로 최대 2과목 보충).'};const avg=selected.reduce((a,s)=>a+s.points,0)/selected.length;
       return{label:rule.label,score:avg*rule.factor,maxScore:rule.maxScore,avgGrade:'공식점수',careerUsed:selected.filter(s=>s.isCareer).length,desc:`우수 ${selected.length}과목 점수 단순평균 ${avg.toFixed(3)} × ${rule.factor} · 석차등급 8~9과목일 때만 진로 최대 2과목 보충`};

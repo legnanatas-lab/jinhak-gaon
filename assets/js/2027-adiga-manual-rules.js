@@ -3,16 +3,25 @@ const _silla = ADIGA_2027_UNIVERSITIES.find(u => u.code === '0000144');
 if (_silla) _silla.manualRules = {
   general: {
     label: '일반고교과 등 (면접우수자·지역인재 제외)',
-    commonTop: 10,
+    formula: 'shilla2027',
+    areas: ['국어','수학','영어','한국사','사회','과학'],
+    careerAll: true,
+    totalTop: 10,
     careerMax: 3,
     rankPoints: [100, 98, 96, 94, 92, 90, 88, 86, 84],
-    achievementPoints: { A: 100, B: 96, C: 92 }
+    achievementPoints: { A: 100, B: 96, C: 92 },
+    maxScore: 1000
   },
   interviewRegional: {
     label: '면접우수자·지역인재',
-    commonTop: 0,
+    formula: 'shilla2027',
+    areas: ['국어','수학','영어','한국사','사회','과학','예술','체육'],
+    careerAll: true,
+    careerOnly: true,
+    totalTop: 4,
     careerMax: 4,
-    achievementPoints: { A: 60, B: 54, C: 46 }
+    achievementPoints: { A: 60, B: 54, C: 46 },
+    maxScore: 240
   }
 };
 
