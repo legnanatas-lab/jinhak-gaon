@@ -645,7 +645,8 @@ for(const code of ['0000056','0000058']){
 for(const code of ['0000028','0003297','0003298']){
   const u=ADIGA_2027_UNIVERSITIES.find(x=>x.code===code);if(u)u.manualRules={
     humanities:{label:'인문·사회·예체능계열',formula:'changwon2027',generalAreas:['국어','수학','영어','사회'],rankPoints:[1000,990,980,970,950,930,900,870,830],achievementPoints:{A:1000,B:970,C:900},maxScore:1000},
-    natural:{label:'자연계열',formula:'changwon2027',generalAreas:['국어','수학','영어','과학'],rankPoints:[1000,990,980,970,950,930,900,870,830],achievementPoints:{A:1000,B:970,C:900},maxScore:1000}
+    natural:{label:'자연계열',formula:'changwon2027',generalAreas:['국어','수학','영어','과학'],rankPoints:[1000,990,980,970,950,930,900,870,830],achievementPoints:{A:1000,B:970,C:900},maxScore:1000},
+    sarimHonors:{label:'사림아너스학부',formula:'changwon2027',generalAreas:['국어','수학','영어','사회','과학'],rankPoints:[1000,990,980,970,950,930,900,870,830],achievementPoints:{A:1000,B:970,C:900},maxScore:1000}
   };
 }
 
