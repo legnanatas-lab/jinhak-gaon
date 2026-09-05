@@ -1244,12 +1244,12 @@ function baseUniName(value) {
     .replace(/^국립/,'')
     .replace(/\[[^\]]*\]/g, '')
     .replace(/\([^)]*\)/g, '')
-    .replace(/여자대학교?$/,'여대')
-    .replace(/교육대학교?$/,'교대')
-    .replace(/외국어대학교?$/,'외대')
-    .replace(/체육대학교?$/,'체대')
-    .replace(/과학기술대학교?$/,'과기대')
-    .replace(/공과대학교?$/,'공대')
+    .replace(/여자대(?:학교?)?$/,'여대')
+    .replace(/교육대(?:학교?)?$/,'교대')
+    .replace(/외국어대(?:학교?)?$/,'외대')
+    .replace(/체육대(?:학교?)?$/,'체대')
+    .replace(/과학기술대(?:학교?)?$/,'과기대')
+    .replace(/공과대(?:학교?)?$/,'공대')
     .replace(/대학교?$/,'대'));
 }
 
@@ -2001,6 +2001,20 @@ function findPlansForRecord(record) {
   const uk = baseUniName(record.university || record.universityCanon);
   const mk = majorKey(record.major);
   let candidates = PLAN2027_INDEX.get(`${uk}|${mk}`) || [];
+  // ADIGA 2027 서울과기대 '학과 명칭 변경' 및 모집표의 전공 표기.
+  // https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000036
+  const seoulTechNames = {
+    '스마트ICT융합공학과': 'ICT융합공학과',
+    '미래에너지융합학과': '미래에너지학과',
+    '산업공학과 ITM전공(자연)': '산업공학부(ITM전공) (ITM전공)',
+    '산업공학과 산업정보시스템전공(자연)': '산업공학부(산업정보시스템전공) (산업정보시스템전공)',
+    '건축학부건축학전공': '건축학부(건축학전공) (건축학전공)',
+    '건축학부건축공학전공': '건축학부(건축공학전공) (건축공학전공)',
+  };
+  const verifiedMajor = uk === '서울과기대' && seoulTechNames[record.major];
+  if (verifiedMajor) {
+    candidates = (PLAN2027_UNI_INDEX.get(uk) || []).filter(p => p.m === verifiedMajor);
+  }
   if (!candidates.length && record.major && record.major.includes('(')) {
     const pMatch = record.major.match(/\(([^)]+)\)/);
     if (pMatch && pMatch[1]) {
@@ -2018,7 +2032,18 @@ function findPlansForRecord(record) {
     }
   }
   // 축약 인덱스 충돌(예: 경영학부 ↔ 경영공학과)을 여기서 제거한다.
-  candidates = candidates.filter((plan) => samePlanMajor(record.major, plan.m));
+  candidates = candidates.filter((plan) => samePlanMajor(verifiedMajor || record.major, plan.m));
+  // 상위 학부를 붙인 입결명과 독립 전공으로 기록된 모집표를 연결한다.
+  // 마지막 전공명이 명시된 경우만 허용하고, 통합모집/전공 나열은 제외한다.
+  if (!candidates.length) {
+    const terminal = String(record.major || '').match(/(?:학부|학과)\s*([가-힣A-Za-z0-9]+전공)(?:\((?:자연|인문)\))?$/);
+    const expanded = expandedMajorIdentity(record.major);
+    candidates = (PLAN2027_UNI_INDEX.get(uk) || []).filter(plan => {
+      if (/[,\[\]]|자유전공|통합모집/.test(plan.m)) return false;
+      if (expanded && expanded === expandedMajorIdentity(plan.m)) return true;
+      return terminal && majorIdentity(plan.m) === majorIdentity(terminal[1]);
+    });
+  }
   // 요약 모집요강이 있으면 그것을 기준으로 한다. 원자료는 같은 전형을 다시
   // 적은 보조 표가 많아 함께 합치면 모집인원이 이중 집계될 수 있으므로,
   // 요약 모집요강이 전혀 없을 때만 정확한 학과명 일치 행으로 보완한다.
